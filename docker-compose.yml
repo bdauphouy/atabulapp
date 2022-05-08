@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  atabulapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atabulapp
+    restart: always
+    volumes:
+      - ./:/atabulapp
+      - /atabulapp/node_modules
+      - /atabulapp/.next
+    ports:
+      - 80:3000
