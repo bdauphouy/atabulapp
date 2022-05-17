@@ -1,3 +1,4 @@
 {
+  "import/no-anonymous-default-export": [2, { "allowObject": true }],
   "extends": "next/core-web-vitals"
 }
