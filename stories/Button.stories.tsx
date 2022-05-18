@@ -9,6 +9,11 @@ export default {
     children: 'Button',
     disabled: false,
   },
+  parameters: {
+    controls: {
+      exclude: ['className', 'onClick'],
+    },
+  },
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = args => <Button {...args} />
@@ -16,11 +21,17 @@ const Template: ComponentStory<typeof Button> = args => <Button {...args} />
 export const Primary = Template.bind({})
 
 Primary.args = {
-  action: 'primary',
+  variant: 'primary',
 }
 
 export const Secondary = Template.bind({})
 
 Secondary.args = {
-  action: 'secondary',
+  variant: 'secondary',
+}
+
+export const Tertiary = Template.bind({})
+
+Secondary.args = {
+  variant: 'tertiary',
 }

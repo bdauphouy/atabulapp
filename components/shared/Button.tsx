@@ -1,6 +1,6 @@
 type ButtonProps = {
   children: React.ReactNode
-  action: 'primary' | 'secondary'
+  variant: 'primary' | 'secondary' | 'tertiary'
   disabled?: boolean
   className?: string
   onClick?: () => void
@@ -8,32 +8,37 @@ type ButtonProps = {
 
 const Button = ({
   children,
-  action,
+  variant,
   disabled = false,
-  className,
+  className = '',
   onClick,
 }: ButtonProps) => {
-  if (action === 'primary') {
+  if (variant === 'tertiary') {
     return (
       <button
         disabled={disabled}
-        className={`${className} rounded-3xl bg-black-rose px-10 py-2.5 text-lg font-medium text-white-rock disabled:bg-black-rose/50`}
-        onClick={onClick}
-      >
-        {children}
-      </button>
-    )
-  } else {
-    return (
-      <button
-        disabled={disabled}
-        className={`${className} rounded-3xl bg-black-rose px-5 py-1.5 text-base font-medium text-white-rock disabled:bg-black-rose/50 disabled:bg-black-rose`}
+        className="text-base font-medium text-scarlet underline underline-offset-2 transition-colors duration-300 hover:text-scarlet/80 disabled:hidden"
         onClick={onClick}
       >
         {children}
       </button>
     )
   }
+
+  const buttonCommonClasses =
+    'rounded-3xl bg-black-rose font-medium text-white transition-colors duration-300 hover:bg-black-rose/80 disabled:cursor-not-allowed disabled:bg-black-rose/50'
+
+  return (
+    <button
+      disabled={disabled}
+      className={`${className} ${buttonCommonClasses} ${
+        variant === 'primary' ? 'px-10 py-2.5 text-lg' : 'px-5 py-1.5 text-base'
+      }`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
 }
 
 export default Button
