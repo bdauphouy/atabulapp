@@ -24,7 +24,7 @@ const Checkbox = ({
       />
       <label
         htmlFor={`checkbox-${name}`}
-        className="grid h-6 w-6 cursor-pointer place-items-center rounded-md border-2 border-solid border-alto duration-100 after:absolute after:h-4 after:w-4 after:rounded-sm after:transition-colors after:content-[''] label-checked:border-scarlet label-checked:after:bg-scarlet"
+        className="grid h-6 w-6 cursor-pointer place-items-center rounded-md border-2 border-solid border-alto duration-200 after:absolute after:h-4 after:w-4 after:rounded-sm after:transition-colors after:content-[''] label-checked:border-scarlet label-checked:after:bg-scarlet"
       ></label>
       {label && (
         <label
