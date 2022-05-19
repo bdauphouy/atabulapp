@@ -88,7 +88,10 @@ const Home = () => {
               )
             }}
           />
-          <Button variant="primary">Submit</Button>
+
+          <Button variant="tertiary" textColor="scarlet">
+            Submit
+          </Button>
         </form>
       </div>
     </>

@@ -4,7 +4,7 @@ type RadioProps = {
   checked: boolean
   className?: string
   label?: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: () => void
 }
 
 const Radio = ({

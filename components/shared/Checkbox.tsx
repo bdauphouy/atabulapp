@@ -1,11 +1,9 @@
-import { useState } from 'react'
-
 type CheckboxProps = {
   name: string
   checked: boolean
   className?: string
   label?: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: () => void
 }
 
 const Checkbox = ({

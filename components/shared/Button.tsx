@@ -3,6 +3,7 @@ type ButtonProps = {
   variant: 'primary' | 'secondary' | 'tertiary'
   disabled?: boolean
   className?: string
+  textColor?: 'white' | 'scarlet'
   onClick?: () => void
 }
 
@@ -11,13 +12,18 @@ const Button = ({
   variant,
   disabled = false,
   className = '',
+  textColor = 'scarlet',
   onClick,
 }: ButtonProps) => {
   if (variant === 'tertiary') {
     return (
       <button
         disabled={disabled}
-        className="text-base font-medium text-scarlet underline underline-offset-2 transition-colors duration-300 hover:text-scarlet/80 disabled:hidden"
+        className={`${
+          textColor === 'white'
+            ? 'text-white hover:text-white/80'
+            : 'text-scarlet hover:text-scarlet/80'
+        } text-base font-medium underline underline-offset-2 transition-colors duration-300 disabled:hidden`}
         onClick={onClick}
       >
         {children}
