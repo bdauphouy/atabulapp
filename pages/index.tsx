@@ -78,7 +78,14 @@ const Home = () => {
             control={control}
             name="switch"
             render={({ field: { onChange, name, value } }) => {
-              return <Switch name={name} on={value} onChange={onChange} />
+              return (
+                <Switch
+                  label="Mon super switch"
+                  name={name}
+                  on={value}
+                  onChange={onChange}
+                />
+              )
             }}
           />
           <Button variant="primary">Submit</Button>
