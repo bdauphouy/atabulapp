@@ -3,6 +3,7 @@ import Checkbox from '@/components/shared/Checkbox'
 import Button from '@/components/shared/Button'
 import Radio from '@/components/shared/Radio'
 import Switch from '@/components/shared/Switch'
+import Filter from '@/components/shared/Filter'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
 type FormValues = {
@@ -93,6 +94,7 @@ const Home = () => {
             Submit
           </Button>
         </form>
+        <Filter onToggle={({ isOpen }) => console.log(isOpen)}>Filtres</Filter>
       </div>
     </>
   )
