@@ -5,15 +5,15 @@ import { useDidUpdate } from 'rooks'
 type FilterTypes = {
   children: React.ReactNode
   open?: boolean
-  className?: ''
-  onToggle: (e: { isOpen: boolean }) => void
+  onToggle?: (e: { isOpen: boolean }) => void
+  className?: string
 }
 
-const Filter = ({
+const FilterDropdown = ({
   children,
   open = false,
   onToggle,
-  className,
+  className = '',
 }: FilterTypes) => {
   const [isOpen, setIsOpen] = useState(open)
 
@@ -36,4 +36,4 @@ const Filter = ({
   )
 }
 
-export default Filter
+export default FilterDropdown

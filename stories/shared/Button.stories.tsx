@@ -22,16 +22,19 @@ export const Primary = Template.bind({})
 
 Primary.args = {
   variant: 'primary',
+  name: 'primary',
 }
 
 export const Secondary = Template.bind({})
 
 Secondary.args = {
   variant: 'secondary',
+  name: 'secondary',
 }
 
 export const Tertiary = Template.bind({})
 
 Secondary.args = {
   variant: 'tertiary',
+  name: 'tertiary',
 }

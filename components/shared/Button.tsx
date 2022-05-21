@@ -31,13 +31,13 @@ const Button = ({
     )
   }
 
-  const buttonCommonClasses =
+  const commonClasses =
     'rounded-3xl bg-black-rose font-medium text-white transition-colors duration-300 hover:bg-black-rose/80 disabled:cursor-not-allowed disabled:bg-black-rose/50'
 
   return (
     <button
       disabled={disabled}
-      className={`${className} ${buttonCommonClasses} ${
+      className={`${className} ${commonClasses} ${
         variant === 'primary' ? 'px-10 py-2.5 text-lg' : 'px-5 py-1.5 text-base'
       }`}
       onClick={onClick}

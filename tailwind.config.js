@@ -22,13 +22,19 @@ module.exports = {
       addVariant('label-checked', ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {
           const eClassName = e(`label-checked${separator}${className}`)
-          return `input:where([type="checkbox"], [type="radio"]):checked + .${eClassName}`
+          return `input:checked + .${eClassName}`
         })
       })
       addVariant('label-disabled', ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {
           const eClassName = e(`label-disabled${separator}${className}`)
-          return `input:where([type="checkbox"], [type="radio"]):disabled + .${eClassName}`
+          return `input:disabled + .${eClassName}`
+        })
+      })
+      addVariant('label-focus', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          const eClassName = e(`label-focus${separator}${className}`)
+          return `input:focus + .${eClassName}`
         })
       })
     }),

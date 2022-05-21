@@ -3,13 +3,17 @@ import Checkbox from '@/components/shared/Checkbox'
 import Button from '@/components/shared/Button'
 import Radio from '@/components/shared/Radio'
 import Switch from '@/components/shared/Switch'
-import Filter from '@/components/shared/Filter'
+import FilterDropdown from '@/components/shared/filters/FilterDropdown'
+import FilterTag from '@/components/shared/filters/FilterTag'
+import Input from '@/components/shared/Input'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
 type FormValues = {
   checkbox: boolean
   radio: 'primary' | 'secondary'
   switch: boolean
+  filterTag: boolean
+  input: string
 }
 
 const Home = () => {
@@ -18,6 +22,8 @@ const Home = () => {
       checkbox: true,
       radio: 'secondary',
       switch: true,
+      filterTag: true,
+      input: '',
     },
   })
 
@@ -42,7 +48,7 @@ const Home = () => {
         <h1 className="text-3xl">Atabul&apos;app</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-10 flex flex-col items-center gap-4"
+          className="mt-10 flex w-[500px] flex-col items-center gap-4"
         >
           <Controller
             control={control}
@@ -93,8 +99,47 @@ const Home = () => {
           <Button variant="tertiary" textColor="scarlet">
             Submit
           </Button>
+          <FilterDropdown onToggle={({ isOpen }) => console.log(isOpen)}>
+            Filtres
+          </FilterDropdown>
+          <Controller
+            control={control}
+            name="filterTag"
+            render={({ field: { onChange, name, value } }) => {
+              return (
+                <FilterTag name={name} onChange={onChange} selected={value}>
+                  Last minute
+                </FilterTag>
+              )
+            }}
+          />
+          <Controller
+            control={control}
+            name="input"
+            render={({ field: { onChange, name, value } }) => {
+              return (
+                <Input
+                  options={[
+                    'option 1',
+                    'option 2',
+                    'option 3',
+                    'option 4',
+                    'option 5',
+                    'option 6',
+                    'option 7',
+                    'option 8',
+                    'option 9',
+                  ]}
+                  defaultValue={value}
+                  className="mt-4"
+                  name={name}
+                  placeholder="Nom"
+                  onChange={onChange}
+                />
+              )
+            }}
+          />
         </form>
-        <Filter onToggle={({ isOpen }) => console.log(isOpen)}>Filtres</Filter>
       </div>
     </>
   )
