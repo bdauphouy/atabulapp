@@ -8,6 +8,7 @@ import FilterTag from '@/components/shared/filters/FilterTag'
 import Input from '@/components/shared/Input'
 import Tag from '@/components/shared/Tag'
 import TabBar from '@/components/shared/TabBar'
+import RestaurantCard from '@/components/shared/RestaurantCard'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
 type FormValues = {
@@ -146,6 +147,15 @@ const Home = () => {
         <Tag type="etoile-verte" number={5} />
         <Tag type="gault-et-millau" number={3} />
         <Tag type="bib-gourmand" number={3} />
+        <RestaurantCard
+          thumbnail="/restaurant-card-thumbnail.png"
+          certified
+          tags={[{ name: 'michelin', level: 2 }, { name: 'etoile-verte' }]}
+          name="Le Meurice Alain Ducasse"
+          typesOfCooking={['créative', 'traditionnelle']}
+          location="PARIS (75001)"
+          promotion={50}
+        />
         <TabBar />
       </div>
     </>
