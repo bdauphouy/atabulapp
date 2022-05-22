@@ -7,6 +7,7 @@ import FilterDropdown from '@/components/shared/filters/FilterDropdown'
 import FilterTag from '@/components/shared/filters/FilterTag'
 import Input from '@/components/shared/Input'
 import Tag from '@/components/shared/Tag'
+import TabBar from '@/components/shared/TabBar'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
 type FormValues = {
@@ -145,6 +146,7 @@ const Home = () => {
         <Tag type="etoile-verte" number={5} />
         <Tag type="gault-et-millau" number={3} />
         <Tag type="bib-gourmand" number={3} />
+        <TabBar />
       </div>
     </>
   )

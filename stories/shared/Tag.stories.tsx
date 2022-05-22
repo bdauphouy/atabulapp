@@ -1,5 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import bibGourmant from '@/public/tag-icons/bib-gourmant.png'
 
 import Tag from '@/components/shared/Tag'
 

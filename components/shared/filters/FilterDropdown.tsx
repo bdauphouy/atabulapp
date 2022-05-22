@@ -28,9 +28,8 @@ const FilterDropdown = ({
     >
       {children}
       <RiArrowDownSLine
-        className={`text-2xl transition-transform ${
-          isOpen ? 'rotate-180' : ''
-        }`}
+        size={20}
+        className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
       />
     </div>
   )
