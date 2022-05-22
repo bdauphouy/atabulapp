@@ -28,7 +28,7 @@ const Radio = ({
       />
       <label
         htmlFor={`radio-${value}`}
-        className="grid h-6 w-6 cursor-pointer place-items-center rounded-full border-2 border-solid border-alto duration-200 after:absolute after:h-4 after:w-4 after:rounded-full after:transition-colors after:content-[''] label-checked:border-scarlet label-checked:after:bg-scarlet"
+        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 border-solid border-alto duration-200 after:absolute after:h-4 after:w-4 after:rounded-full after:transition-colors after:content-[''] label-checked:border-scarlet label-checked:after:bg-scarlet"
       ></label>
       {label && (
         <label
