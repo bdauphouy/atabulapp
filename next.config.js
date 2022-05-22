@@ -8,6 +8,9 @@ const nextConfig = {
     }
     return config
   },
+  experimental: {
+    newNextLinkBehavior: true,
+  },
 }
 
 module.exports = nextConfig

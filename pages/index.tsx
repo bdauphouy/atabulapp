@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Footer from '@/components/shared/Footer'
 
 const Home = () => {
   return (
@@ -14,7 +15,7 @@ const Home = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Atabul&apos;app</h1>
+      <Footer />
     </>
   )
 }
