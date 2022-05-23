@@ -30,18 +30,26 @@ const PersonalTwo = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ISignupForm> = async data => {}
+  const onSubmit: SubmitHandler<ISignupForm> = data => {
+    console.log(data)
+  }
 
   return (
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="-mt-4 flex flex-col gap-6 rounded-t-xl bg-white p-5 pb-32"
+        className="-mt-4 flex w-full flex-col gap-6 rounded-t-xl bg-white p-5 pb-32"
       >
         <h2 className="mb-2 text-2xl font-extrabold text-black">Inscription</h2>
         <Controller
           control={control}
-          rules={{ required: 'Veuillez renseigner votre email.' }}
+          rules={{
+            pattern: {
+              value:
+                /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+              message: 'Veuillez renseigner une adresse email valide.',
+            },
+          }}
           name="email"
           render={({ field: { onChange, name, value } }) => (
             <Input
@@ -84,23 +92,18 @@ const PersonalTwo = () => {
             pattern: {
               value:
                 /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
-              message: 'Veuillez renseigner une date valide.',
+              message: 'Veuillez renseigner une date de naissance valide.',
             },
           }}
           name="birthDate"
           render={({ field: { onChange, name, value } }) => (
-            <div className="flex flex-col gap-2">
-              <Input
-                placeholder="Date de naissance (jj/mm/aaaa)"
-                onChange={onChange}
-                name={name}
-                defaultValue={value}
-                isDateInput
-              />
-              {errors.birthDate && (
-                <Message type="error">{errors.birthDate.message}</Message>
-              )}
-            </div>
+            <Input
+              placeholder="Date de naissance (jj/mm/aaaa)"
+              onChange={onChange}
+              name={name}
+              defaultValue={value}
+              isDateInput
+            />
           )}
         />
 
@@ -122,7 +125,11 @@ const PersonalTwo = () => {
         <Controller
           control={control}
           rules={{
-            required: 'Veuillez renseigner un mot de passe.',
+            minLength: {
+              value: 6,
+              message:
+                'Votre mot de passe doit contenir au moins 6 caractères.',
+            },
           }}
           name="password"
           render={({ field: { onChange, name, value } }) => (
@@ -166,7 +173,15 @@ const PersonalTwo = () => {
           )}
         />
         {Object.keys(errors).length > 0 && (
-          <Message type="error">Veuillez remplir tous les champs.</Message>
+          <Message type="error">
+            {errors.birthDate
+              ? errors.birthDate.message
+              : errors.email
+              ? errors.email.message
+              : errors.password
+              ? errors.password.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
         )}
         <p className="text-sm text-black">
           En selectionnant Accepter et continuer, j'accepte les{' '}

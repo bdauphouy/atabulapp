@@ -79,6 +79,8 @@ const Input = ({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (options.length === 0) return
+
     switch (e.key) {
       case 'ArrowUp':
         setFocusedOption(
@@ -152,7 +154,7 @@ const Input = ({
         onInput={handleInput}
         onFocus={handleFocus}
         name={name}
-        maxLength={10}
+        maxLength={isDateInput ? 10 : null}
         defaultValue={defaultValue}
         id={`input-${name}`}
         type={isPasswordInput ? 'password' : 'text'}

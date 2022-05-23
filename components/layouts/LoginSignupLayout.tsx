@@ -7,7 +7,7 @@ type LoginSignupLayoutProps = {
 const LoginSignupLayout = ({ children }: LoginSignupLayoutProps) => {
   return (
     <div>
-      <header className="flex items-start justify-center bg-white-rock pt-4 pb-8">
+      <header className="flex w-full items-start justify-center bg-white-rock pt-3 pb-8">
         <Image src="/full-logo.svg" width={80} height={50} />
       </header>
       {children}
