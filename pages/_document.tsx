@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <title>
           Atabulapp - Offres et avantages pour les professionnels de la
-          restauration et de l&apos;hôtellerie
+          restauration et de l'hôtellerie
         </title>
         <meta
           name="description"

@@ -5,6 +5,7 @@ type ButtonProps = {
   className?: string
   textColor?: 'white' | 'scarlet'
   onClick?: () => void
+  submit?: boolean
 }
 
 const Button = ({
@@ -14,12 +15,14 @@ const Button = ({
   className = '',
   textColor = 'scarlet',
   onClick,
+  submit = false,
 }: ButtonProps) => {
   if (variant === 'tertiary') {
     return (
       <button
+        type={submit ? 'submit' : 'button'}
         disabled={disabled}
-        className={`${
+        className={`${className} ${
           textColor === 'white'
             ? 'text-white hover:text-white/80'
             : 'text-scarlet hover:text-scarlet/80'
@@ -36,6 +39,7 @@ const Button = ({
 
   return (
     <button
+      type={submit ? 'submit' : 'button'}
       disabled={disabled}
       className={`${className} ${commonClasses} ${
         variant === 'primary' ? 'px-10 py-2.5 text-lg' : 'px-5 py-1.5 text-base'

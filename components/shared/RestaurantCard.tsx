@@ -35,7 +35,7 @@ const RestaurantCard = ({
             <Image
               width={40}
               height={45}
-              src="/certified-restaurant-icon.svg"
+              src="/logo.svg"
               alt={`Badge de certification du restaurant ${name}`}
             />
           </div>

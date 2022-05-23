@@ -1,26 +1,31 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { useDidMount, useDidUpdate } from 'rooks'
+import { useDidUpdate } from 'rooks'
 
 type InputTextProps = {
   options?: string[]
   name: string
   placeholder: string
   className?: string
-  defaultValue: string
+  defaultValue?: string
   onChange: (e: string | React.ChangeEvent<HTMLInputElement>) => void
+  isDateInput?: boolean
+  isPasswordInput?: boolean
 }
 const Input = ({
-  options,
+  options = [],
   name,
   placeholder,
   defaultValue = '',
   className = '',
   onChange,
+  isDateInput = false,
+  isPasswordInput = false,
 }: InputTextProps) => {
   const [isEmpty, setIsEmpty] = useState(defaultValue === '')
-  const [filteredOptions, setFilteredOptions] = useState(options || [])
+  const [filteredOptions, setFilteredOptions] = useState(options)
   const [isOptionsShown, setIsOptionsShown] = useState(false)
   const [focusedOption, setFocusedOption] = useState<number>()
+  const [entryLength, setEntryLength] = useState(defaultValue.length)
 
   const inputRef = useRef<HTMLInputElement>()
   const optionListRef = useRef<HTMLUListElement>()
@@ -38,8 +43,15 @@ const Input = ({
   }
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value
+
+    if (isDateInput && entryLength > 9) {
+      inputValue = inputValue.slice(0, -1)
+    }
+
+    setEntryLength(inputValue.length)
     setIsOptionsShown(true)
-    setFilteredOptions(filter(options, e.target.value))
+    setFilteredOptions(filter(options, inputValue))
   }
 
   const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -108,7 +120,22 @@ const Input = ({
     }
   }, [focusedOption])
 
-  useDidMount(() => {
+  useDidUpdate(() => {
+    const inputValue = inputRef.current.value
+
+    if (isDateInput) {
+      if (entryLength === 2 || entryLength === 5) {
+        inputRef.current.value += '/'
+      } else if (
+        (entryLength === 3 && inputValue[2] === '/') ||
+        (entryLength === 6 && inputValue[5] === '/')
+      ) {
+        inputRef.current.value = inputValue.slice(0, -1)
+      }
+    }
+  }, [entryLength])
+
+  useDidUpdate(() => {
     if (defaultValue && options.length > 0) {
       setFilteredOptions(filter(options, defaultValue))
     }
@@ -125,9 +152,10 @@ const Input = ({
         onInput={handleInput}
         onFocus={handleFocus}
         name={name}
+        maxLength={10}
         defaultValue={defaultValue}
         id={`input-${name}`}
-        type="text"
+        type={isPasswordInput ? 'password' : 'text'}
         placeholder={placeholder}
         ref={inputRef}
         className="w-full py-3 text-base text-black outline-none placeholder:text-white/0"
