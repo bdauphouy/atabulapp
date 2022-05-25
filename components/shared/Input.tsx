@@ -41,11 +41,13 @@ const Input = ({
     return getValues()[name]
   }, [])
 
-  const [isEmpty, setIsEmpty] = useState(defaultValue?.length === 0)
+  const [isEmpty, setIsEmpty] = useState(
+    defaultValue?.length === 0 || defaultValue?.length === undefined,
+  )
   const [filteredOptions, setFilteredOptions] = useState(options)
   const [isOptionsShown, setIsOptionsShown] = useState(false)
   const [focusedOption, setFocusedOption] = useState<number>()
-  const [entryLength, setEntryLength] = useState(defaultValue?.length)
+  const [entryLength, setEntryLength] = useState(defaultValue?.length || 0)
 
   const inputRef = useRef<HTMLInputElement>()
   const optionListRef = useRef<HTMLUListElement>()

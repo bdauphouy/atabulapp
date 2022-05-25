@@ -13,6 +13,7 @@ type LaunchLayoutProps = {
     action?: 'go-back' | `go-to-[/${string}]`
   }
   footerRightButton?: { text: string; action?: string }
+  isLaunchScreen?: boolean
 }
 
 const LaunchLayout = ({
@@ -22,6 +23,7 @@ const LaunchLayout = ({
   formId,
   footerLeftButton,
   footerRightButton,
+  isLaunchScreen = false,
 }: LaunchLayoutProps) => {
   return (
     <div>
@@ -33,13 +35,17 @@ const LaunchLayout = ({
         </Link>
         <Image
           objectFit="cover"
-          src="/login-image.png"
+          src="/images/login-image.png"
           layout="fill"
           alt="Cuisinier en pleine action"
           className={`-z-10 ${imageFilter ? 'brightness-75' : ''}`}
         />
       </header>
-      <div className="mt-52 w-full rounded-t-xl bg-white p-5 pb-28">
+      <div
+        className={`${
+          isLaunchScreen ? 'mt-80' : 'mt-52'
+        } w-full rounded-t-xl bg-white p-5 pb-28`}
+      >
         {children}
       </div>
       {footer && (

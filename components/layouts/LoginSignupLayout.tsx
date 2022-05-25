@@ -21,8 +21,13 @@ const LoginSignupLayout = ({
 }: LoginSignupLayoutProps) => {
   return (
     <div>
-      <header className="fixed top-0 -z-10 flex w-full items-start justify-center bg-white-rock pt-3.5 pb-12">
-        <Image src="/full-logo.svg" width={80} height={50} />
+      <header className="fixed top-0 -z-10 flex h-full w-full items-start justify-center bg-white-rock pt-3.5">
+        <Image
+          src="/images/full-logo.svg"
+          width={80}
+          height={50}
+          alt="Logo d'Atabulapp"
+        />
       </header>
       <div className="mt-20 rounded-t-xl bg-white p-5 pb-28">{children}</div>
       {footer && (

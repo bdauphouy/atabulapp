@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+const withPWA = require('next-pwa')
+
+const nextConfig = withPWA({
   reactStrictMode: true,
   webpackDevMiddleware: config => {
     config.watchOptions = {
@@ -11,6 +14,9 @@ const nextConfig = {
   experimental: {
     newNextLinkBehavior: true,
   },
-}
+  pwa: {
+    dest: 'public',
+  },
+})
 
 module.exports = nextConfig
