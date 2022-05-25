@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
 import { ReactElement } from 'react'
 
-interface ISignupForm {
+interface IPersonalTwoForm {
   email: string
   lastName: string
   firstName: string
@@ -26,9 +26,9 @@ const PersonalTwo = () => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm<ISignupForm>()
+  } = useForm<IPersonalTwoForm>()
 
-  const onSubmit: SubmitHandler<ISignupForm> = data => {
+  const onSubmit: SubmitHandler<IPersonalTwoForm> = data => {
     console.log(data)
   }
 

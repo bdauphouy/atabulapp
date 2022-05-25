@@ -9,7 +9,7 @@ import Checkbox from '@/components/shared/Checkbox'
 import { ReactElement } from 'react'
 import LaunchLayout from '@/components/layouts/LaunchLayout'
 
-interface ISignupForm {
+interface ILoginForm {
   email: string
   password: string
   stayLoggedIn: boolean
@@ -22,7 +22,7 @@ const Login = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<ISignupForm>({
+  } = useForm<ILoginForm>({
     defaultValues: {
       email: '',
       password: '',
@@ -32,7 +32,7 @@ const Login = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ISignupForm> = data => {
+  const onSubmit: SubmitHandler<ILoginForm> = data => {
     console.log(data)
   }
 
