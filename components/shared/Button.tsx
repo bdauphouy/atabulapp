@@ -6,6 +6,7 @@ type ButtonProps = {
   textColor?: 'white' | 'scarlet'
   onClick?: () => void
   submit?: boolean
+  form?: string
 }
 
 const Button = ({
@@ -16,10 +17,12 @@ const Button = ({
   textColor = 'scarlet',
   onClick,
   submit = false,
+  form,
 }: ButtonProps) => {
   if (variant === 'tertiary') {
     return (
       <button
+        form={form ? form : ''}
         type={submit ? 'submit' : 'button'}
         disabled={disabled}
         className={`${className} ${
@@ -39,6 +42,7 @@ const Button = ({
 
   return (
     <button
+      form={form ? form : ''}
       type={submit ? 'submit' : 'button'}
       disabled={disabled}
       className={`${className} ${commonClasses} ${
