@@ -1,5 +1,5 @@
 import Button from '@/components/shared/Button'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, UseFormSetValue } from 'react-hook-form'
 import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
 import { ReactElement } from 'react'
 import { useRef, useState, useEffect } from 'react'
@@ -15,7 +15,7 @@ interface IPersonalThreeForm {
 type SupportingDocumentProps = {
   title: string
   name: 'schoolCertificate' | 'proofOfIdentity' | 'workCertificate'
-  setValue: any
+  setValue: UseFormSetValue<IPersonalThreeForm>
 }
 
 const SupportingDocument = ({
