@@ -1,12 +1,63 @@
 import Button from '@/components/shared/Button'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
 import { ReactElement } from 'react'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useDidUpdate, useWillUnmount } from 'rooks'
+import { useRouter } from 'next/router'
 
 interface IPersonalThreeForm {
-  file: File
+  schoolCertificate?: File
+  proofOfIdentity?: File
+  workCertificate?: File
+}
+
+type SupportingDocumentProps = {
+  title: string
+  name: 'schoolCertificate' | 'proofOfIdentity' | 'workCertificate'
+  setValue: any
+}
+
+const SupportingDocument = ({
+  title,
+  name,
+  setValue,
+}: SupportingDocumentProps) => {
+  const inputRef = useRef<HTMLInputElement>()
+
+  useDidUpdate(() => {
+    inputRef.current.addEventListener('input', handleInput)
+  }, [inputRef])
+
+  const handleClick = () => {
+    inputRef.current.click()
+  }
+
+  const handleInput = () => {
+    console.log('file uploaded !')
+    setValue(name, inputRef.current.files[0])
+  }
+
+  return (
+    <li className="flex items-end justify-between border-b-[1px] border-solid border-alto pb-3">
+      <div>
+        <h3 className="text-lg font-bold text-black">{title}</h3>
+        <p className="mt-1 text-base text-gray">
+          Importer un fichier .pdf ou .jpg
+        </p>
+      </div>
+      <Button variant="tertiary" onClick={handleClick}>
+        Importer
+      </Button>
+      <input
+        accept="image/jpg,application/pdf"
+        name={name}
+        type="file"
+        className="hidden"
+        ref={inputRef}
+      />
+    </li>
+  )
 }
 
 const PersonalThree = () => {
@@ -16,27 +67,23 @@ const PersonalThree = () => {
     formState: { errors },
   } = useForm<IPersonalThreeForm>()
 
-  const inputRef = useRef<HTMLInputElement>()
+  const router = useRouter()
+
+  const [workStatus, setWorkStatus] = useState<'student' | 'employee'>()
 
   useDidUpdate(() => {
-    inputRef.current.addEventListener('input', handleInput)
-  }, [inputRef])
+    const { workStatus } = router.query
 
-  useWillUnmount(() => {
-    inputRef.current.removeEventListener('input', handleInput)
+    if (workStatus === 'employee') {
+      setWorkStatus('employee')
+    } else {
+      setWorkStatus('student')
+    }
   })
 
   const onSubmit: SubmitHandler<IPersonalThreeForm> = data => {
     console.log(data)
-  }
-
-  const handleClick = () => {
-    inputRef.current.click()
-  }
-
-  const handleInput = () => {
-    console.log('file uploaded !')
-    setValue('file', inputRef.current.files[0])
+    router.push('/mobile/inscription/personnelle/4')
   }
 
   return (
@@ -47,23 +94,27 @@ const PersonalThree = () => {
     >
       <h2 className="mb-2 text-2xl font-extrabold text-black">Justificatifs</h2>
 
-      <ul>
-        <li>
-          <div>
-            <h3>Certificat de scolarité</h3>
-            <p>Importer un fichier .pdf ou .jpg</p>
-          </div>
-          <Button variant="tertiary" onClick={handleClick}>
-            Importer
-          </Button>
-          <input
-            accept="image/jpg,application/pdf"
-            name="file"
-            type="file"
-            className="hidden"
-            ref={inputRef}
+      <ul className="flex flex-col gap-10">
+        {workStatus === 'student' ? (
+          <SupportingDocument
+            title="Certificat de scolarité"
+            name="schoolCertificate"
+            setValue={setValue}
           />
-        </li>
+        ) : (
+          <>
+            <SupportingDocument
+              title="Justificatif d'identité"
+              name="proofOfIdentity"
+              setValue={setValue}
+            />
+            <SupportingDocument
+              title="Justificatif de travail"
+              name="workCertificate"
+              setValue={setValue}
+            />
+          </>
+        )}
       </ul>
     </form>
   )

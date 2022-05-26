@@ -28,8 +28,14 @@ const PersonalTwo = () => {
     formState: { errors },
   } = useForm<IPersonalTwoForm>()
 
+  const router = useRouter()
+
   const onSubmit: SubmitHandler<IPersonalTwoForm> = data => {
-    console.log(data)
+    if (data.workStatus === 'student') {
+      router.push('/mobile/inscription/personnelle/3?workStatus=student')
+    } else {
+      router.push('/mobile/inscription/personnelle/3?workStatus=employee')
+    }
   }
 
   return (
@@ -75,7 +81,7 @@ const PersonalTwo = () => {
         name="firstName"
       />
       <Input
-        placeholder="Date de naissance"
+        placeholder="Date de naissance (jj/mm/aaaa)"
         control={control}
         setValue={setValue}
         getValues={getValues}

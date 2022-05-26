@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Footer from '@/components/mobile/Footer'
 
 type LoginSignupLayoutProps = {
-  formId: string
+  formId?: string
   footerLeftButton?: {
     text: string
     action?: 'go-back' | `go-to-[/${string}]`
@@ -21,7 +21,7 @@ const LoginSignupLayout = ({
 }: LoginSignupLayoutProps) => {
   return (
     <div>
-      <header className="fixed top-0 -z-10 flex h-full w-full items-start justify-center bg-white-rock pt-3.5">
+      <header className="fixed top-0 -z-10 flex w-full items-start justify-center bg-white-rock pt-3.5 pb-6">
         <Image
           src="/images/full-logo.svg"
           width={80}
