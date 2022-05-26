@@ -1,3 +1,5 @@
+import Spin from '@/components/shared/Spin'
+
 type ButtonProps = {
   children: React.ReactNode
   variant: 'primary' | 'secondary' | 'tertiary'
@@ -7,6 +9,7 @@ type ButtonProps = {
   onClick?: () => void
   submit?: boolean
   form?: string
+  loading?: boolean
 }
 
 const Button = ({
@@ -18,6 +21,7 @@ const Button = ({
   onClick,
   submit = false,
   form,
+  loading = false,
 }: ButtonProps) => {
   if (variant === 'tertiary') {
     return (
@@ -45,11 +49,14 @@ const Button = ({
       form={form ? form : ''}
       type={submit ? 'submit' : 'button'}
       disabled={disabled}
-      className={`${className} ${commonClasses} ${
-        variant === 'primary' ? 'px-10 py-2.5 text-lg' : 'px-5 py-1.5 text-base'
+      className={`flex items-center ${className} ${commonClasses} ${
+        variant === 'primary'
+          ? 'gap-3 px-10 py-2.5 text-lg'
+          : 'gap-2 px-5 py-1.5 text-base'
       }`}
       onClick={onClick}
     >
+      {loading && <Spin size={variant === 'primary' ? 18 : 12} />}
       {children}
     </button>
   )
