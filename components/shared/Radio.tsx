@@ -1,4 +1,5 @@
 import { Controller, Control } from 'react-hook-form'
+import { useId } from 'react'
 
 type RadioProps = {
   control: Control<any>
@@ -17,6 +18,8 @@ const Radio = ({
   className = '',
   label = '',
 }: RadioProps) => {
+  const id = useId()
+
   return (
     <Controller
       control={control}
@@ -25,7 +28,7 @@ const Radio = ({
       render={({ field: { onChange, name, value: formValue } }) => (
         <div className={`flex gap-4 ${className}`}>
           <input
-            id={`radio-${value}`}
+            id={id}
             type="radio"
             name={name}
             value={value}
@@ -34,14 +37,11 @@ const Radio = ({
             onChange={onChange}
           />
           <label
-            htmlFor={`radio-${value}`}
+            htmlFor={id}
             className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 border-solid border-alto duration-200 after:absolute after:h-4 after:w-4 after:rounded-full after:transition-colors after:content-[''] label-checked:border-scarlet label-checked:after:bg-scarlet"
           ></label>
           {label && (
-            <label
-              htmlFor={`radio-${value}`}
-              className="flex-1 text-base text-black"
-            >
+            <label htmlFor={id} className="flex-1 text-base text-black">
               {label}
             </label>
           )}

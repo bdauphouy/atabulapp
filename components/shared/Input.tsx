@@ -1,13 +1,11 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef, useId, useEffect } from 'react'
 import { useDidUpdate } from 'rooks'
 import {
   Controller,
   Control,
+  RegisterOptions,
   UseFormSetValue,
-  UseFormGetValues,
 } from 'react-hook-form'
-import { useMemo } from 'react'
-import { RegisterOptions } from 'react-hook-form'
 
 type InputTextProps = {
   control: Control<any>
@@ -16,7 +14,6 @@ type InputTextProps = {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs'
   >
   setValue: UseFormSetValue<any>
-  getValues: UseFormGetValues<any>
   options?: string[]
   name: string
   placeholder: string
@@ -29,7 +26,6 @@ const Input = ({
   control,
   rules,
   setValue,
-  getValues,
   options = [],
   name,
   placeholder,
@@ -37,9 +33,9 @@ const Input = ({
   isDateInput = false,
   isPasswordInput = false,
 }: InputTextProps) => {
-  const defaultValue = useMemo(() => {
-    return getValues()[name]
-  }, [])
+  const defaultValue = control._defaultValues[name]
+
+  const id = useId()
 
   const [isEmpty, setIsEmpty] = useState(
     defaultValue?.length === 0 || defaultValue?.length === undefined,
@@ -180,14 +176,14 @@ const Input = ({
             name={name}
             maxLength={isDateInput ? 10 : null}
             defaultValue={value}
-            id={`input-${name}`}
+            id={id}
             type={isPasswordInput ? 'password' : 'text'}
             placeholder={placeholder}
             ref={inputRef}
             className="w-full py-3 text-base text-black outline-none placeholder:text-white/0"
           />
           <label
-            htmlFor={`input-${name}`}
+            htmlFor={id}
             className={`${
               isEmpty
                 ? 'top-1/2 -translate-y-1/2 text-base text-gray'

@@ -2,7 +2,7 @@ type SpinProps = {
   size: number
 }
 
-const Spin = ({ size = 24 }) => {
+const Spin = ({ size = 24 }: SpinProps) => {
   return (
     <svg
       role="status"

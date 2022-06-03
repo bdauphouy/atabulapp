@@ -1,13 +1,11 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import Button from '@/components/shared/Button'
 import Radio from '@/components/shared/Radio'
 import Message from '@/components/shared/Message'
 import Input from '@/components/shared/Input'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
-import { ReactElement } from 'react'
+import { ReactElement, useId } from 'react'
 
 interface IPersonalTwoForm {
   email: string
@@ -23,7 +21,6 @@ const PersonalTwo = () => {
   const {
     control,
     handleSubmit,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm<IPersonalTwoForm>()
@@ -49,7 +46,6 @@ const PersonalTwo = () => {
         placeholder="Email"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
           pattern: {
@@ -64,7 +60,6 @@ const PersonalTwo = () => {
         placeholder="Nom"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
         }}
@@ -74,7 +69,6 @@ const PersonalTwo = () => {
         placeholder="Prénom"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
         }}
@@ -84,7 +78,6 @@ const PersonalTwo = () => {
         placeholder="Date de naissance (jj/mm/aaaa)"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
           pattern: {
@@ -100,7 +93,6 @@ const PersonalTwo = () => {
         placeholder="Commune de résidence"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
         }}
@@ -110,7 +102,6 @@ const PersonalTwo = () => {
         placeholder="Mot de passe"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
           minLength: {

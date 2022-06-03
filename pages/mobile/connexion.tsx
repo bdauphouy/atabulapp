@@ -20,7 +20,6 @@ const Login = () => {
     control,
     setValue,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<ILoginForm>({
     defaultValues: {
@@ -47,7 +46,6 @@ const Login = () => {
         placeholder="Email"
         control={control}
         setValue={setValue}
-        getValues={getValues}
         rules={{
           required: true,
           pattern: {
@@ -61,7 +59,6 @@ const Login = () => {
       <Input
         control={control}
         setValue={setValue}
-        getValues={getValues}
         placeholder="Mot de passe"
         name="password"
         rules={{

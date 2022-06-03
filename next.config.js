@@ -15,6 +15,7 @@ const nextConfig = withPWA({
     newNextLinkBehavior: true,
   },
   pwa: {
+    disable: process.env.NODE_ENV !== 'production',
     dest: 'public',
   },
 })

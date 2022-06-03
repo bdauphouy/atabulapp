@@ -6,7 +6,12 @@ const Footer = () => {
   return (
     <footer className="flex flex-wrap justify-between gap-12 bg-white-rock px-10 pb-16 pt-9 md:gap-20 md:px-16 lg:px-28">
       <div className="flex min-w-max flex-1 flex-col items-start gap-8 md:flex-row md:gap-16">
-        <Image width={140} height={80} src="/full-logo.svg" />
+        <Image
+          width={140}
+          height={80}
+          src="/full-logo.svg"
+          alt="Logo d'Atabulapp"
+        />
         <div className="flex flex-1 flex-col gap-2">
           <h3 className="text-base font-medium text-scarlet">
             Recevoir la newsletter
