@@ -1,10 +1,16 @@
 import Button from '@/components/shared/Button'
-import { useForm, SubmitHandler, UseFormSetValue } from 'react-hook-form'
+import {
+  useForm,
+  SubmitHandler,
+  UseFormSetValue,
+  Controller,
+  Control,
+} from 'react-hook-form'
 import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
-import { ReactElement } from 'react'
-import { useRef, useState, useEffect } from 'react'
-import { useDidUpdate, useWillUnmount } from 'rooks'
+import { useRef, useState, ReactElement } from 'react'
+import { useDidUpdate } from 'rooks'
 import { useRouter } from 'next/router'
+import Message from '@/components/shared/Message'
 
 interface IPersonalThreeForm {
   schoolCertificate?: File
@@ -15,14 +21,16 @@ interface IPersonalThreeForm {
 type SupportingDocumentProps = {
   title: string
   name: 'schoolCertificate' | 'proofOfIdentity' | 'workCertificate'
-  setValue: UseFormSetValue<IPersonalThreeForm>
+  control: Control<any>
 }
 
 const SupportingDocument = ({
   title,
   name,
-  setValue,
+  control,
 }: SupportingDocumentProps) => {
+  const [file, setFile] = useState<File>()
+
   const inputRef = useRef<HTMLInputElement>()
 
   useDidUpdate(() => {
@@ -34,36 +42,46 @@ const SupportingDocument = ({
   }
 
   const handleInput = () => {
-    console.log('file uploaded !')
-    setValue(name, inputRef.current.files[0])
+    setFile(inputRef.current.files[0])
   }
 
   return (
-    <li className="flex items-end justify-between border-b-[1px] border-solid border-alto pb-3">
-      <div>
-        <h3 className="text-lg font-bold text-black">{title}</h3>
-        <p className="mt-1 text-base text-gray">
-          Importer un fichier .pdf ou .jpg
-        </p>
-      </div>
-      <Button variant="tertiary" onClick={handleClick}>
-        Importer
-      </Button>
-      <input
-        accept="image/jpg,application/pdf"
-        name={name}
-        type="file"
-        className="hidden"
-        ref={inputRef}
-      />
-    </li>
+    <Controller
+      control={control}
+      name={name}
+      rules={{
+        required: true,
+      }}
+      render={({ field: { name, onChange } }) => (
+        <li className="flex items-end justify-between border-b-[1px] border-solid border-alto pb-3">
+          <div>
+            <h3 className="text-lg font-bold text-black">{title}</h3>
+            {file && <h4 className="mt-1 text-base text-black">{file.name}</h4>}
+            <p className="mt-1 text-base text-gray">
+              Importer un fichier .pdf ou .jpg
+            </p>
+          </div>
+          <Button variant="tertiary" onClick={handleClick}>
+            Importer
+          </Button>
+          <input
+            accept="image/jpg,application/pdf"
+            name={name}
+            type="file"
+            className="hidden"
+            ref={inputRef}
+            onChange={onChange}
+          />
+        </li>
+      )}
+    />
   )
 }
 
 const PersonalThree = () => {
   const {
     handleSubmit,
-    setValue,
+    control,
     formState: { errors },
   } = useForm<IPersonalThreeForm>()
 
@@ -82,7 +100,6 @@ const PersonalThree = () => {
   })
 
   const onSubmit: SubmitHandler<IPersonalThreeForm> = data => {
-    console.log(data)
     router.push('/mobile/inscription/personnelle/4')
   }
 
@@ -99,23 +116,26 @@ const PersonalThree = () => {
           <SupportingDocument
             title="Certificat de scolarité"
             name="schoolCertificate"
-            setValue={setValue}
+            control={control}
           />
         ) : (
           <>
             <SupportingDocument
               title="Justificatif d'identité"
               name="proofOfIdentity"
-              setValue={setValue}
+              control={control}
             />
             <SupportingDocument
               title="Justificatif de travail"
               name="workCertificate"
-              setValue={setValue}
+              control={control}
             />
           </>
         )}
       </ul>
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">Veuillez importer tous les documents.</Message>
+      )}
     </form>
   )
 }
