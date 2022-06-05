@@ -1,10 +1,13 @@
-import { Controller, Control } from 'react-hook-form'
+import { Controller, Control, RegisterOptions } from 'react-hook-form'
 import { useId } from 'react'
 
 type RadioProps = {
   control: Control<any>
   value: string
-  rules?: any
+  rules?: Exclude<
+    RegisterOptions,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs'
+  >
   name: string
   className?: string
   label?: string

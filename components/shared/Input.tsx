@@ -1,4 +1,4 @@
-import { useState, useRef, useId, useEffect } from 'react'
+import { useState, useRef, useId } from 'react'
 import { useDidUpdate } from 'rooks'
 import {
   Controller,
