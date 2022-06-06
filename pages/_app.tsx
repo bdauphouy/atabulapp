@@ -6,6 +6,8 @@ import { AppProps } from 'next/app'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import Head from 'next/head'
 
+import { TypesOfCuisineContextProvider } from '@/contexts/TypesOfCuisineContext'
+
 const queryClient = new QueryClient()
 
 type NextPageWithLayout = NextPage & {
@@ -21,18 +23,20 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-        />
+      <TypesOfCuisineContextProvider>
+        <Head>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+          />
 
-        <title>
-          Atabulapp - Offres et avantages pour les professionnels de la
-          restauration et de l'hôtellerie
-        </title>
-      </Head>
-      {getLayout(<Component {...pageProps} />)}
+          <title>
+            Atabulapp - Offres et avantages pour les professionnels de la
+            restauration et de l'hôtellerie
+          </title>
+        </Head>
+        {getLayout(<Component {...pageProps} />)}
+      </TypesOfCuisineContextProvider>
     </QueryClientProvider>
   )
 }

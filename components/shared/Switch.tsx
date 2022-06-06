@@ -8,7 +8,7 @@ type SwitchProps = {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs'
   >
   name: string
-  disabled?: boolean
+  isDisabled?: boolean
   className?: string
   label?: string
 }
@@ -17,7 +17,7 @@ const Switch = ({
   control,
   rules,
   name,
-  disabled = false,
+  isDisabled = false,
   className = '',
   label = '',
 }: SwitchProps) => {
@@ -35,7 +35,7 @@ const Switch = ({
             type="checkbox"
             name={name}
             checked={value}
-            disabled={disabled}
+            disabled={isDisabled}
             className="hidden"
             onChange={onChange}
           />

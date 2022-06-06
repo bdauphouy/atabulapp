@@ -18,8 +18,12 @@ type InputTextProps = {
   name: string
   placeholder: string
   className?: string
+  isDisabled?: boolean
+  isMandatory?: boolean
   isDateInput?: boolean
   isPasswordInput?: boolean
+  onFocus?: () => void
+  onBlur?: () => void
 }
 
 const Input = ({
@@ -30,8 +34,12 @@ const Input = ({
   name,
   placeholder,
   className = '',
+  isDisabled = false,
+  isMandatory = false,
   isDateInput = false,
   isPasswordInput = false,
+  onFocus,
+  onBlur,
 }: InputTextProps) => {
   const defaultValue = control._defaultValues[name]
 
@@ -56,6 +64,8 @@ const Input = ({
   }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (onBlur) onBlur()
+
     setIsEmpty(e.target.value.length === 0)
     setIsOptionsShown(false)
   }
@@ -83,6 +93,8 @@ const Input = ({
   }
 
   const handleFocus = () => {
+    if (onFocus) onFocus()
+
     setIsOptionsShown(options.length > 0)
   }
 
@@ -177,10 +189,11 @@ const Input = ({
             maxLength={isDateInput ? 10 : null}
             defaultValue={value}
             id={id}
+            disabled={isDisabled}
             type={isPasswordInput ? 'password' : 'text'}
             placeholder={placeholder}
             ref={inputRef}
-            className="w-full py-3 text-base text-black outline-none placeholder:text-white/0"
+            className="w-full py-3 text-base text-black outline-none placeholder:text-white/0 disabled:bg-white"
           />
           <label
             htmlFor={id}
@@ -190,7 +203,8 @@ const Input = ({
                 : 'top-0 -translate-y-2/3 text-sm text-black'
             } absolute left-0 cursor-text transition-[top,color,font-size,transform] duration-200 label-focus:top-0 label-focus:-translate-y-2/3 label-focus:cursor-default label-focus:text-sm label-focus:text-black`}
           >
-            {placeholder}
+            {placeholder}{' '}
+            {isMandatory ? <span className="text-scarlet">*</span> : ''}
           </label>
 
           {isOptionsShown && (

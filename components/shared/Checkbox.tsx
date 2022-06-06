@@ -10,6 +10,7 @@ type CheckboxProps = {
   name: string
   className?: string
   label?: string
+  value?: string
 }
 
 const Checkbox = ({
@@ -18,6 +19,7 @@ const Checkbox = ({
   name,
   className = '',
   label = '',
+  value,
 }: CheckboxProps) => {
   const id = useId()
 
@@ -26,15 +28,15 @@ const Checkbox = ({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { onChange, name, value } }) => (
+      render={({ field: { onChange, name } }) => (
         <div className={`flex gap-4 ${className}`}>
           <input
             id={id}
             type="checkbox"
             name={name}
-            checked={value}
             className="hidden"
-            onChange={onChange}
+            onChange={e => onChange(e.target.checked ? e.target.value : false)}
+            value={value}
           />
           <label
             htmlFor={id}
