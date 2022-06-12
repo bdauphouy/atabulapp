@@ -22,6 +22,7 @@ type InputTextProps = {
   isMandatory?: boolean
   isDateInput?: boolean
   isPasswordInput?: boolean
+  isFocusedLike?: boolean
   onFocus?: () => void
   onBlur?: () => void
 }
@@ -38,6 +39,7 @@ const Input = ({
   isMandatory = false,
   isDateInput = false,
   isPasswordInput = false,
+  isFocusedLike = false,
   onFocus,
   onBlur,
 }: InputTextProps) => {
@@ -165,10 +167,12 @@ const Input = ({
   }, [entryLength])
 
   useDidUpdate(() => {
+    if (inputRef.current.value) setIsEmpty(false)
+
     if (defaultValue && options.length > 0) {
       setFilteredOptions(filter(options, defaultValue))
     }
-  }, [0])
+  })
 
   return (
     <Controller
@@ -198,7 +202,7 @@ const Input = ({
           <label
             htmlFor={id}
             className={`${
-              isEmpty
+              isEmpty && !isFocusedLike
                 ? 'top-1/2 -translate-y-1/2 text-base text-gray'
                 : 'top-0 -translate-y-2/3 text-sm text-black'
             } absolute left-0 cursor-text transition-[top,color,font-size,transform] duration-200 label-focus:top-0 label-focus:-translate-y-2/3 label-focus:cursor-default label-focus:text-sm label-focus:text-black`}
@@ -206,7 +210,6 @@ const Input = ({
             {placeholder}{' '}
             {isMandatory ? <span className="text-scarlet">*</span> : ''}
           </label>
-
           {isOptionsShown && (
             <ul
               ref={optionListRef}

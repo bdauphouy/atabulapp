@@ -5,6 +5,7 @@
       2,
       { "allowObject": true, "allowArrowFunction": true }
     ],
-    "react/no-unescaped-entities": 0
+    "react/no-unescaped-entities": 0,
+    "react/display-name": 0
   }
 }
