@@ -4,7 +4,7 @@ import Message from '@/components/shared/Message'
 import Input from '@/components/shared/Input'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
+import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import { ReactElement, useId } from 'react'
 
 interface IPersonalTwoForm {

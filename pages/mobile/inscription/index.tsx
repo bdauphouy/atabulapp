@@ -3,7 +3,7 @@ import Message from '@/components/shared/Message'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import LaunchLayout from '@/components/layouts/LaunchLayout'
+import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 
 interface ISignupForm {
   person: 'personal' | 'corporate'

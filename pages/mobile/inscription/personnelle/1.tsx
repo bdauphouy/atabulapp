@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import LaunchLayout from '@/components/layouts/LaunchLayout'
+import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 
 const PersonalOne = () => {
   return (

@@ -1,4 +1,4 @@
-import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
+import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { useRouter } from 'next/router'

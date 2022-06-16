@@ -4,12 +4,12 @@ import { RiFacebookFill, RiInstagramLine, RiLinkedinFill } from 'react-icons/ri'
 
 const Footer = () => {
   return (
-    <footer className="flex flex-wrap justify-between gap-12 bg-white-rock px-10 pb-16 pt-9 md:gap-20 md:px-16 lg:px-28">
+    <footer className="flex flex-wrap justify-between gap-12 bg-white-rock px-6 pb-16 pt-9 md:gap-20 md:px-16 lg:px-28">
       <div className="flex min-w-max flex-1 flex-col items-start gap-8 md:flex-row md:gap-16">
         <Image
           width={140}
           height={80}
-          src="/full-logo.svg"
+          src="/images/full-logo.svg"
           alt="Logo d'Atabulapp"
         />
         <div className="flex flex-1 flex-col gap-2">
@@ -28,7 +28,6 @@ const Footer = () => {
           </form>
         </div>
       </div>
-
       <nav className="flex flex-wrap gap-10 font-medium text-black-rose md:gap-20">
         <ul className="flex flex-col gap-2">
           <li>

@@ -7,7 +7,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import Checkbox from '@/components/shared/Checkbox'
 import { ReactElement } from 'react'
-import LaunchLayout from '@/components/layouts/LaunchLayout'
+import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 
 interface ILoginForm {
   email: string

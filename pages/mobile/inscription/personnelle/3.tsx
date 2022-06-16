@@ -6,7 +6,7 @@ import {
   Controller,
   Control,
 } from 'react-hook-form'
-import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
+import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import { useRef, useState, ReactElement } from 'react'
 import { useDidUpdate } from 'rooks'
 import { useRouter } from 'next/router'

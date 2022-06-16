@@ -1,5 +1,5 @@
 import Button from '@/components/shared/Button'
-import LoginSignupLayout from '@/components/layouts/LoginSignupLayout'
+import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import { ReactElement } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
