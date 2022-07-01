@@ -9,8 +9,9 @@ type CheckboxProps = {
   >
   name: string
   className?: string
-  label?: string
+  label?: string | React.ReactNode
   value?: string
+  isDisabled?: boolean
 }
 
 const Checkbox = ({
@@ -20,6 +21,7 @@ const Checkbox = ({
   className = '',
   label = '',
   value,
+  isDisabled,
 }: CheckboxProps) => {
   const id = useId()
 
@@ -37,6 +39,12 @@ const Checkbox = ({
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
             value={value}
+            defaultChecked={
+              control._formValues[name.split('.')[0]][
+                parseInt(name.split('.')[1])
+              ] === value
+            }
+            disabled={isDisabled}
           />
           <label
             htmlFor={id}

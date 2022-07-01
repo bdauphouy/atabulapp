@@ -26,6 +26,7 @@ const CorporateOne = () => {
 
   const onSubmit: SubmitHandler<ICorporateOneForm> = data => {
     console.log(data)
+    router.push('/mobile/inscription/entreprise/2')
   }
 
   return (

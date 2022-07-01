@@ -1,27 +1,20 @@
-// import Switch from '@/components/shared/Switch'
-// import { useForm, SubmitHandler } from 'react-hook-form'
-
-// const Home = () => {
-
-//   return (
-//     <div className="flex h-screen flex-col items-center justify-center gap-4">
-//       <h1 className="text-2xl font-medium">Atabulapp</h1>
-//       <h2 className="text-gray">En cours de développement...</h2>
-//     </div>
-//   )
-// }
-
-// export default Home
-
 import Image from 'next/image'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import Section from '@/components/homepage/Section'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
+import SignupModal from '@/components/desktop/modals/SignupModal'
+import Button from '@/components/shared/Button'
 
 const Homepage = () => {
+  const [signupModalOpen, setSignupModalOpen] = useState(false)
+
   return (
     <div>
+      <SignupModal
+        isOpen={signupModalOpen}
+        onClose={() => setSignupModalOpen(false)}
+      />
       <header className="flex h-28 lg:h-[450px]">
         <div className="flex flex-[2] items-center justify-center bg-white-rock px-16 py-8 lg:py-40">
           <div className="relative h-full w-full">
@@ -32,7 +25,14 @@ const Homepage = () => {
             />
           </div>
         </div>
-        <div className="relative hidden flex-[5] lg:block">
+        <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex lg:pr-32">
+          <Button
+            className="z-50"
+            onClick={() => setSignupModalOpen(true)}
+            variant="primary"
+          >
+            Se connecter
+          </Button>
           <Image
             layout="fill"
             src="/images/homepage-header.png"

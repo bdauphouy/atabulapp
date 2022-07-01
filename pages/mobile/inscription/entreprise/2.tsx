@@ -12,7 +12,7 @@ interface ICorporateTwoForm {
   phoneNumber: string
 }
 
-const CorporateOne = () => {
+const CorporateTwo = () => {
   const {
     control,
     handleSubmit,
@@ -24,6 +24,7 @@ const CorporateOne = () => {
 
   const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
     console.log(data)
+    router.push('/mobile/inscription/entreprise/3')
   }
 
   return (
@@ -99,7 +100,7 @@ const CorporateOne = () => {
   )
 }
 
-CorporateOne.getLayout = (page: ReactElement) => (
+CorporateTwo.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="privileged-contact-form"
     footerLeftButton={{
@@ -114,4 +115,4 @@ CorporateOne.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateOne
+export default CorporateTwo

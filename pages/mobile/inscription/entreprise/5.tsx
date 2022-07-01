@@ -2,10 +2,9 @@ import Button from '@/components/shared/Button'
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import { ReactElement } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const PersonalFour = () => {
+const CorporateFive = () => {
   const router = useRouter()
 
   return (
@@ -24,7 +23,9 @@ const PersonalFour = () => {
       </h2>
 
       <p className="mt-1 text-center text-base text-black">
-        Vous recevrez un mail pour finaliser l'inscription
+        Votre restaurant a été correctement enregistré. L'équipe d'Atabulapp va
+        étudier votre demande et vous recevrez une réponse dans les meilleurs
+        délais.
       </p>
       <Button
         variant="primary"
@@ -37,8 +38,8 @@ const PersonalFour = () => {
   )
 }
 
-PersonalFour.getLayout = (page: ReactElement) => (
+CorporateFive.getLayout = (page: ReactElement) => (
   <LoginSignupLayout footer={false}>{page}</LoginSignupLayout>
 )
 
-export default PersonalFour
+export default CorporateFive

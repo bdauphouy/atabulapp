@@ -9,7 +9,7 @@
   "start_url": "/mobile/",
   "icons": [
     {
-      "src": "/pwa-icons/icon-72x72.png",
+      "src": "/images/pwa-icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
     },

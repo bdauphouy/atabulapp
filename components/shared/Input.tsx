@@ -19,7 +19,7 @@ type InputTextProps = {
   placeholder: string
   className?: string
   isDisabled?: boolean
-  isMandatory?: boolean
+  isRequired?: boolean
   isDateInput?: boolean
   isPasswordInput?: boolean
   isFocusedLike?: boolean
@@ -36,7 +36,7 @@ const Input = ({
   placeholder,
   className = '',
   isDisabled = false,
-  isMandatory = false,
+  isRequired = false,
   isDateInput = false,
   isPasswordInput = false,
   isFocusedLike = false,
@@ -208,7 +208,7 @@ const Input = ({
             } absolute left-0 cursor-text transition-[top,color,font-size,transform] duration-200 label-focus:top-0 label-focus:-translate-y-2/3 label-focus:cursor-default label-focus:text-sm label-focus:text-black`}
           >
             {placeholder}{' '}
-            {isMandatory ? <span className="text-scarlet">*</span> : ''}
+            {isRequired ? <span className="text-scarlet">*</span> : ''}
           </label>
           {isOptionsShown && (
             <ul

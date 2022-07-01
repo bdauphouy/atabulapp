@@ -1,12 +1,11 @@
 import Image from 'next/image'
+import { Tag as T } from '@/lib/types'
 
-type TagsProps = {
+interface TagProps extends T {
   className?: string
-  type: 'michelin' | 'etoile-verte' | 'gault-et-millau' | 'bib-gourmand'
-  number: number
 }
 
-const Tags = ({ className = '', type, number }: TagsProps) => {
+const Tag = ({ className = '', type, number }: TagProps) => {
   const iconSize = 13
 
   const TagIcon = () => {
@@ -71,4 +70,4 @@ const Tags = ({ className = '', type, number }: TagsProps) => {
   )
 }
 
-export default Tags
+export default Tag

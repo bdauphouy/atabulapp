@@ -2,55 +2,52 @@ import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useState, useContext, useRef } from 'react'
+import React, { ReactElement, useState, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import TypeOfCuisineBottomPopup from '@/components/mobile/additional-information/TypeOfCuisineBottomPopup'
+import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
+import HonorsBottomSheet from '@/components/mobile/additional-information/HonorsBottomSheet'
 
-import { TypesOfCuisineContext } from '@/contexts/TypesOfCuisineContext'
-import { useDidMount, useDidUpdate } from 'rooks'
+import { useDidUpdate } from 'rooks'
 
 interface ICorporateThreeForm {
   typesOfCuisineString: string
-  typesOfCuisine: boolean[]
-  honors: string[]
+  typesOfCuisine: (boolean | string)[]
+  honorsString: string
+  honors: (boolean | string)[]
   chefFullName: string
   pastryChefFullName: string
   sommelierFullName: string
   roomManagerFullName: string
 }
 
-const CorporateOne = () => {
-  const typesOfCuisine = useContext(TypesOfCuisineContext)
-
+const CorporateThree = () => {
   const {
     control,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<ICorporateThreeForm>({
-    defaultValues: {
-      typesOfCuisine: new Array(typesOfCuisine.length).fill(false),
-    },
-  })
+  } = useForm<ICorporateThreeForm>()
 
   const watchTypesOfCuisine = watch(['typesOfCuisine'])
+  const watchHonors = watch(['honors'])
 
-  const [isTypeOfCookingPopupOpen, setIsTypeOfCookingPopupOpen] =
+  const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
     useState(false)
 
-  const [isHonorsPopupOpen, setIsHonorsPopupOpen] = useState(false)
+  const [typesOfCuisineCheckedCount, setTypesOfCuisineCheckedCount] =
+    useState(0)
 
-  const router = useRouter()
-
-  const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
-    console.log(data)
-  }
+  const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
 
   useDidUpdate(() => {
+    if (!watchTypesOfCuisine[0]) return
+
     const filteredFields = watchTypesOfCuisine[0].filter(
       field => typeof field === 'string',
     )
+
+    setTypesOfCuisineCheckedCount(filteredFields.length)
 
     const formatedFields = filteredFields.slice(0, 2).join(', ')
 
@@ -63,12 +60,29 @@ const CorporateOne = () => {
   }, [watchTypesOfCuisine])
 
   useDidUpdate(() => {
-    const handleClick = (e: MouseEvent) => {
-      console.log(e.target)
-    }
+    if (!watchHonors[0]) return
 
-    document.addEventListener('click', handleClick)
-  })
+    const filteredFields = watchHonors[0].filter(
+      field => typeof field === 'string',
+    )
+
+    const formatedFields = filteredFields.slice(0, 2).join(', ')
+
+    setValue(
+      'honorsString',
+      filteredFields.length > 2
+        ? formatedFields + ` +${filteredFields.length - 2}`
+        : formatedFields,
+    )
+  }, [watchHonors])
+
+  const router = useRouter()
+
+  const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
+    console.log(data)
+
+    router.push('/mobile/inscription/entreprise/4')
+  }
 
   return (
     <form
@@ -88,33 +102,44 @@ const CorporateOne = () => {
           <p className="text-sm text-scarlet">* Champs obligatoires</p>
         </div>
       </header>
-      <div onClick={() => setIsTypeOfCookingPopupOpen(true)}>
+      <div onClick={() => setIsTypeOfCuisineSheetOpen(true)}>
         <Input
           placeholder="Types de cuisine"
           control={control}
           setValue={setValue}
           rules={{
-            required: false,
+            required: true,
           }}
           name="typesOfCuisineString"
-          isMandatory
+          isRequired
           isDisabled
-          isFocusedLike={isTypeOfCookingPopupOpen}
+          isFocusedLike={isTypeOfCuisineSheetOpen}
         />
       </div>
-      <TypeOfCuisineBottomPopup
+      <TypeOfCuisineBottomSheet
         control={control}
-        isOpen={isTypeOfCookingPopupOpen}
+        isOpen={isTypeOfCuisineSheetOpen}
+        setIsOpen={setIsTypeOfCuisineSheetOpen}
+        isDisabled={typesOfCuisineCheckedCount >= 3}
       />
-      <Input
-        placeholder="Distinctions"
+      <div onClick={() => setIsHonorsSheetOpen(true)}>
+        <Input
+          placeholder="Distinctions"
+          control={control}
+          setValue={setValue}
+          rules={{
+            required: true,
+          }}
+          name="honorsString"
+          isRequired
+          isDisabled
+          isFocusedLike={isHonorsSheetOpen}
+        />
+      </div>
+      <HonorsBottomSheet
         control={control}
-        setValue={setValue}
-        rules={{
-          required: false,
-        }}
-        name="honors"
-        isMandatory
+        isOpen={isHonorsSheetOpen}
+        setIsOpen={setIsHonorsSheetOpen}
       />
       <Input
         placeholder="Prénom et nom de chef de cuisine"
@@ -152,12 +177,14 @@ const CorporateOne = () => {
         }}
         name="roomManagerFullName"
       />
-      {Object.keys(errors).length > 0 && <Message type="error">error</Message>}
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">Veuillez renseigner les champs requis.</Message>
+      )}
     </form>
   )
 }
 
-CorporateOne.getLayout = (page: ReactElement) => (
+CorporateThree.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="additional-information-form"
     footerLeftButton={{
@@ -172,4 +199,4 @@ CorporateOne.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateOne
+export default CorporateThree

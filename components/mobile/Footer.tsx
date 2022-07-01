@@ -43,7 +43,7 @@ const Footer = ({
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6">
+    <footer className="bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6">
       <Button onClick={buttonLeftHandler} variant="tertiary">
         {footerLeftButton.text}
       </Button>
