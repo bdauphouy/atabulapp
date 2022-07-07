@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import FilterDropdown from '@/components/shared/filters/FilterDropdown'
+import FilterDropdown from '@/components/shared/FilterDropdown'
 
 export default {
   title: 'Shared/Filters/FilterDropdown',

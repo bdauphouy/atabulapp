@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { RiArrowDownSLine } from 'react-icons/ri'
-import { useDidUpdate } from 'rooks'
 
 type FilterTypes = {
-  children: React.ReactNode
+  children: ReactNode
   open?: boolean
   onToggle?: (e: { isOpen: boolean }) => void
   className?: string
@@ -17,9 +16,9 @@ const FilterDropdown = ({
 }: FilterTypes) => {
   const [isOpen, setIsOpen] = useState(open)
 
-  useDidUpdate(() => {
+  useEffect(() => {
     onToggle({ isOpen })
-  }, [isOpen])
+  }, [onToggle, isOpen])
 
   return (
     <div

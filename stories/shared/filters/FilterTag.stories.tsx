@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import FilterTag from '@/components/shared/filters/FilterTag'
+import FilterTag from '@/components/shared/FilterTag'
 
 export default {
   title: 'Shared/Filters/FilterTag',

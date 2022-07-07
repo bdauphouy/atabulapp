@@ -1,13 +1,13 @@
+import { Tag as T } from '@/lib/types'
 import Image from 'next/image'
+import { useMemo } from 'react'
 
-type TagsProps = {
+interface TagProps extends T {
   className?: string
-  type: 'michelin' | 'etoile-verte' | 'gault-et-millau' | 'bib-gourmand'
-  number: number
 }
 
-const Tags = ({ className = '', type, number }: TagsProps) => {
-  const iconSize = 13
+const Tag = ({ className = '', type, number }: TagProps) => {
+  const iconSize = useMemo(() => 13, [])
 
   const TagIcon = () => {
     switch (type) {
@@ -71,4 +71,4 @@ const Tags = ({ className = '', type, number }: TagsProps) => {
   )
 }
 
-export default Tags
+export default Tag

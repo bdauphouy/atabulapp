@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Tag from '@/components/shared/Tag'
+import Image from 'next/image'
 
 type RestaurantCardProps = {
   className?: string
@@ -13,10 +13,11 @@ type RestaurantCardProps = {
   typesOfCooking: string[]
   location: string
   promotion?: number
+  size?: 'small' | 'large'
 }
 
 const RestaurantCard = ({
-  className,
+  className = '',
   thumbnail,
   certified,
   tags,
@@ -24,18 +25,21 @@ const RestaurantCard = ({
   typesOfCooking,
   location,
   promotion,
+  size = 'small',
 }: RestaurantCardProps) => {
-  tags.map(tag => console.log(tag))
-
   return (
-    <article className={`${className} flex w-96 flex-col gap-2`}>
-      <header className="relative h-60">
+    <article
+      className={`${className} ${
+        size === 'small' ? 'min-w-[384px]' : 'lg:min-w-[384px]'
+      } flex w-full flex-col gap-2 overflow-hidden rounded-lg`}
+    >
+      <header className={`relative ${size === 'small' ? 'h-60' : 'h-72'}`}>
         {certified && (
           <div className="absolute left-2 z-10 flex h-16 w-14 items-center justify-center rounded-b-lg bg-scarlet">
             <Image
               width={40}
               height={45}
-              src="/certified-restaurant-icon.svg"
+              src="/images/logo.svg"
               alt={`Badge de certification du restaurant ${name}`}
             />
           </div>
@@ -64,9 +68,11 @@ const RestaurantCard = ({
             </h4>
             <h4 className="text=base text-gray">{location}</h4>
           </div>
-          <div className="rounded-[4px] bg-white-rock px-2 py-0.5 text-lg text-black">
-            Jusqu'à <span className="text-scarlet">-{promotion}%</span>
-          </div>
+          {promotion && (
+            <div className="rounded-[4px] bg-white-rock px-2 py-0.5 text-lg text-black">
+              Jusqu'à <span className="text-scarlet">-{promotion}%</span>
+            </div>
+          )}
         </div>
       </div>
     </article>

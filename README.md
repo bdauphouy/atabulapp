@@ -1,4 +1,4 @@
-![atabul'app banner](public/readme-banner.png)
+![atabul'app banner](public/images/readme-banner.png)
 
 <div align="center">
   <h3>Atabul'app</h3>
