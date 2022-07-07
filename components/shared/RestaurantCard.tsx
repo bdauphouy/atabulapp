@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Tag from '@/components/shared/Tag'
+import Image from 'next/image'
 
 type RestaurantCardProps = {
   className?: string
@@ -17,7 +17,7 @@ type RestaurantCardProps = {
 }
 
 const RestaurantCard = ({
-  className,
+  className = '',
   thumbnail,
   certified,
   tags,

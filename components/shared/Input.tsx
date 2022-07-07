@@ -1,8 +1,16 @@
-import { useState, useRef, useId } from 'react'
-import { useDidUpdate } from 'rooks'
 import {
-  Controller,
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react'
+import {
   Control,
+  Controller,
   RegisterOptions,
   UseFormSetValue,
 } from 'react-hook-form'
@@ -65,14 +73,14 @@ const Input = ({
     )
   }
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     if (onBlur) onBlur()
 
     setIsEmpty(e.target.value.length === 0)
     setIsOptionsShown(false)
   }
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value
 
     if (isDateInput && entryLength > 9) {
@@ -84,7 +92,7 @@ const Input = ({
     setFilteredOptions(filter(options, inputValue))
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
     const option = (e.target as HTMLLIElement).innerText
 
     setIsOptionsShown(false)
@@ -100,17 +108,17 @@ const Input = ({
     setIsOptionsShown(options.length > 0)
   }
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleMouseDown = (e: MouseEvent<HTMLLIElement>) => {
     e.preventDefault()
   }
 
-  const handleMouseOver = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleMouseOver = (e: MouseEvent<HTMLLIElement>) => {
     const option = (e.target as HTMLLIElement).innerText
 
     setFocusedOption(filteredOptions.indexOf(option))
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (options.length === 0) return
 
     switch (e.key) {
@@ -146,7 +154,7 @@ const Input = ({
     }
   }
 
-  useDidUpdate(() => {
+  useEffect(() => {
     if (focusedOptionRef.current) {
       if (!focusedOptionRef.current.matches(':hover')) {
         focusedOptionRef.current.scrollIntoView()
@@ -154,7 +162,7 @@ const Input = ({
     }
   }, [focusedOption])
 
-  useDidUpdate(() => {
+  useEffect(() => {
     const inputValue = inputRef.current.value
 
     if (isDateInput) {
@@ -164,15 +172,15 @@ const Input = ({
         inputRef.current.value = inputValue.slice(0, -1)
       }
     }
-  }, [entryLength])
+  }, [isDateInput, entryLength])
 
-  useDidUpdate(() => {
+  useEffect(() => {
     if (inputRef.current.value) setIsEmpty(false)
 
     if (defaultValue && options.length > 0) {
       setFilteredOptions(filter(options, defaultValue))
     }
-  })
+  }, [defaultValue, options])
 
   return (
     <Controller

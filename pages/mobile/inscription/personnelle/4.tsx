@@ -1,9 +1,8 @@
-import Button from '@/components/shared/Button'
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import { ReactElement } from 'react'
+import Button from '@/components/shared/Button'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 const PersonalFour = () => {
   const router = useRouter()

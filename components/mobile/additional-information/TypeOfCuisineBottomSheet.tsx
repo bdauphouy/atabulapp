@@ -1,23 +1,15 @@
+import BottomSheet from '@/components/mobile/BottomSheet'
 import Checkbox from '@/components/shared/Checkbox'
-import BottomSheet from '@/components/shared/BottomSheet'
-import { Control } from 'react-hook-form'
-import { SetStateAction, useContext, useState } from 'react'
-
 import { TypesOfCuisineContext } from '@/contexts/TypesOfCuisineContext'
-
-type TypeOfCuisineBottomPopupProps = {
-  control: Control<any>
-  isOpen: boolean
-  setIsOpen: SetStateAction<any>
-  isDisabled: boolean
-}
+import { TypeOfCuisineBottomSheetProps } from '@/lib/types'
+import { useContext } from 'react'
 
 const TypeOfCuisineBottomSheet = ({
   control,
   isOpen,
   setIsOpen,
   isDisabled,
-}: TypeOfCuisineBottomPopupProps) => {
+}: TypeOfCuisineBottomSheetProps) => {
   const typesOfCuisine = useContext(TypesOfCuisineContext)
 
   return (

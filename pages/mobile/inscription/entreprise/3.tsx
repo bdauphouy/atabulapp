@@ -1,24 +1,12 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
+import HonorsBottomSheet from '@/components/mobile/additional-information/HonorsBottomSheet'
+import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { ICorporateThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useState, useContext } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
-import HonorsBottomSheet from '@/components/mobile/additional-information/HonorsBottomSheet'
-
-import { useDidUpdate } from 'rooks'
-
-interface ICorporateThreeForm {
-  typesOfCuisineString: string
-  typesOfCuisine: (boolean | string)[]
-  honorsString: string
-  honors: (boolean | string)[]
-  chefFullName: string
-  pastryChefFullName: string
-  sommelierFullName: string
-  roomManagerFullName: string
-}
 
 const CorporateThree = () => {
   const {
@@ -40,7 +28,7 @@ const CorporateThree = () => {
 
   const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
 
-  useDidUpdate(() => {
+  useEffect(() => {
     if (!watchTypesOfCuisine[0]) return
 
     const filteredFields = watchTypesOfCuisine[0].filter(
@@ -57,9 +45,9 @@ const CorporateThree = () => {
         ? formatedFields + ` +${filteredFields.length - 2}`
         : formatedFields,
     )
-  }, [watchTypesOfCuisine])
+  }, [watchTypesOfCuisine, setValue])
 
-  useDidUpdate(() => {
+  useEffect(() => {
     if (!watchHonors[0]) return
 
     const filteredFields = watchHonors[0].filter(
@@ -74,7 +62,7 @@ const CorporateThree = () => {
         ? formatedFields + ` +${filteredFields.length - 2}`
         : formatedFields,
     )
-  }, [watchHonors])
+  }, [watchHonors, setValue])
 
   const router = useRouter()
 

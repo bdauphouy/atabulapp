@@ -1,4 +1,4 @@
-import { SetStateAction } from 'react'
+import { ReactNode, SetStateAction } from 'react'
 import Sheet from 'react-modal-sheet'
 
 type BottomSheetProps = {
@@ -6,7 +6,7 @@ type BottomSheetProps = {
   setIsOpen: SetStateAction<any>
   onClose?: () => void
   hasHeader?: boolean
-  children: React.ReactNode
+  children: ReactNode
   snapPoints?: number[]
   initialSnap?: number
 }

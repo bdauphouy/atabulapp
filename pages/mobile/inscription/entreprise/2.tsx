@@ -1,16 +1,10 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { ICorporateTwoForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-
-interface ICorporateTwoForm {
-  fullName: string
-  position: string
-  email: string
-  phoneNumber: string
-}
 
 const CorporateTwo = () => {
   const {

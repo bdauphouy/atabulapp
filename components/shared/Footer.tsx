@@ -58,7 +58,7 @@ const Footer = () => {
           <li>
             <Link href="/atabula">Atabula</Link>
           </li>
-          <li className="flex items-center gap-4">
+          <li className="flex items-center gap-4 text-black">
             <Link href="https://facebook.com">
               <RiFacebookFill size={20} />
             </Link>

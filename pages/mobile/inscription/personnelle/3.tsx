@@ -1,82 +1,10 @@
-import Button from '@/components/shared/Button'
-import {
-  useForm,
-  SubmitHandler,
-  UseFormSetValue,
-  Controller,
-  Control,
-} from 'react-hook-form'
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import { useRef, useState, ReactElement } from 'react'
-import { useDidUpdate } from 'rooks'
-import { useRouter } from 'next/router'
 import Message from '@/components/shared/Message'
-
-interface IPersonalThreeForm {
-  schoolCertificate?: File
-  proofOfIdentity?: File
-  workCertificate?: File
-}
-
-type SupportingDocumentProps = {
-  title: string
-  name: 'schoolCertificate' | 'proofOfIdentity' | 'workCertificate'
-  control: Control<any>
-}
-
-const SupportingDocument = ({
-  title,
-  name,
-  control,
-}: SupportingDocumentProps) => {
-  const [file, setFile] = useState<File>()
-
-  const inputRef = useRef<HTMLInputElement>()
-
-  useDidUpdate(() => {
-    inputRef.current.addEventListener('input', handleInput)
-  }, [inputRef])
-
-  const handleClick = () => {
-    inputRef.current.click()
-  }
-
-  const handleInput = () => {
-    setFile(inputRef.current.files[0])
-  }
-
-  return (
-    <Controller
-      control={control}
-      name={name}
-      rules={{
-        required: true,
-      }}
-      render={({ field: { name, onChange } }) => (
-        <li className="flex items-end justify-between border-b-[1px] border-solid border-alto pb-3">
-          <div>
-            <h3 className="text-lg font-bold text-black">{title}</h3>
-            {file && <h4 className="mt-1 text-base text-black">{file.name}</h4>}
-            <p className="mt-1 text-base text-gray">
-              Importer un fichier .pdf ou .jpg
-            </p>
-          </div>
-          <Button variant="tertiary" onClick={handleClick}>
-            Importer
-          </Button>
-          <input
-            accept="image/jpg,application/pdf"
-            name={name}
-            type="file"
-            className="hidden"
-            ref={inputRef}
-            onChange={onChange}
-          />
-        </li>
-      )}
-    />
-  )
-}
+import SupportingDocument from '@/components/shared/SupportingDocument'
+import { IPersonalThreeForm } from '@/lib/interfaces'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 const PersonalThree = () => {
   const {
@@ -89,7 +17,7 @@ const PersonalThree = () => {
 
   const [workStatus, setWorkStatus] = useState<'student' | 'employee'>()
 
-  useDidUpdate(() => {
+  useEffect(() => {
     const { workStatus } = router.query
 
     if (workStatus === 'employee') {
@@ -97,9 +25,10 @@ const PersonalThree = () => {
     } else {
       setWorkStatus('student')
     }
-  })
+  }, [router])
 
   const onSubmit: SubmitHandler<IPersonalThreeForm> = data => {
+    console.log(data)
     router.push('/mobile/inscription/personnelle/4')
   }
 

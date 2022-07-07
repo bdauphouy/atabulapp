@@ -1,12 +1,13 @@
-import Image from 'next/image'
 import { Tag as T } from '@/lib/types'
+import Image from 'next/image'
+import { useMemo } from 'react'
 
 interface TagProps extends T {
   className?: string
 }
 
 const Tag = ({ className = '', type, number }: TagProps) => {
-  const iconSize = 13
+  const iconSize = useMemo(() => 13, [])
 
   const TagIcon = () => {
     switch (type) {

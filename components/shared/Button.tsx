@@ -1,7 +1,8 @@
 import Spin from '@/components/shared/Spin'
+import { ReactNode } from 'react'
 
 type ButtonProps = {
-  children: React.ReactNode
+  children: ReactNode
   variant: 'primary' | 'secondary' | 'tertiary'
   disabled?: boolean
   className?: string

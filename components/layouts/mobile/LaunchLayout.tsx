@@ -1,10 +1,11 @@
+import Footer from '@/components/mobile/Footer'
+import Button from '@/components/shared/Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import Button from '@/components/shared/Button'
-import Footer from '@/components/mobile/Footer'
+import { ReactNode } from 'react'
 
 type LaunchLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
   imageFilter?: boolean
   formId?: string
   footer?: boolean

@@ -1,8 +1,8 @@
-import { FieldError } from 'react-hook-form'
+import { ReactNode } from 'react'
 
 type MessageProps = {
   className?: string
-  children: React.ReactNode
+  children: ReactNode
   type: 'error'
 }
 

@@ -1,21 +1,12 @@
-import Link from 'next/link'
-import Radio from '@/components/shared/Radio'
-import Message from '@/components/shared/Message'
-import Input from '@/components/shared/Input'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import { ReactElement, useId } from 'react'
-
-interface IPersonalTwoForm {
-  email: string
-  lastName: string
-  firstName: string
-  birthDate: string
-  city: string
-  password: string
-  workStatus: 'student' | 'employee'
-}
+import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
+import Radio from '@/components/shared/Radio'
+import { IPersonalTwoForm } from '@/lib/interfaces'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 const PersonalTwo = () => {
   const {

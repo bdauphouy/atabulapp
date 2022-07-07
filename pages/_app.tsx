@@ -1,12 +1,11 @@
+import { TypesOfCuisineContextProvider } from '@/contexts/TypesOfCuisineContext'
 import '@/styles/globals.css'
-
-import { ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
-import { QueryClientProvider, QueryClient } from 'react-query'
 import Head from 'next/head'
-
-import { TypesOfCuisineContextProvider } from '@/contexts/TypesOfCuisineContext'
+import { ReactElement, ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import 'swiper/css'
 
 const queryClient = new QueryClient()
 

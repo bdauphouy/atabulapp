@@ -1,5 +1,5 @@
-import { Controller, Control, RegisterOptions } from 'react-hook-form'
-import { useId } from 'react'
+import { ReactNode, useId } from 'react'
+import { Control, Controller, RegisterOptions } from 'react-hook-form'
 
 type CheckboxProps = {
   control: Control<any>
@@ -9,7 +9,7 @@ type CheckboxProps = {
   >
   name: string
   className?: string
-  label?: string | React.ReactNode
+  label?: string | ReactNode
   value?: string
   isDisabled?: boolean
 }
@@ -20,7 +20,7 @@ const Checkbox = ({
   name,
   className = '',
   label = '',
-  value,
+  value = 'true',
   isDisabled,
 }: CheckboxProps) => {
   const id = useId()
@@ -40,9 +40,11 @@ const Checkbox = ({
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
             value={value}
             defaultChecked={
-              control._formValues[name.split('.')[0]][
-                parseInt(name.split('.')[1])
-              ] === value
+              name.includes('.')
+                ? control._formValues[name.split('.')[0]][
+                    parseInt(name.split('.')[1])
+                  ] === value
+                : control._defaultValues.stayLoggedIn
             }
             disabled={isDisabled}
           />

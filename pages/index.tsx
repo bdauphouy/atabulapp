@@ -1,10 +1,11 @@
-import Image from 'next/image'
-import RestaurantCard from '@/components/shared/RestaurantCard'
-import Section from '@/components/homepage/Section'
-import { ReactElement, useState } from 'react'
-import DesktopLayout from '@/components/layouts/DesktopLayout'
 import SignupModal from '@/components/desktop/modals/SignupModal'
+import Section from '@/components/homepage/Section'
+import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
+import RestaurantCard from '@/components/shared/RestaurantCard'
+import Image from 'next/image'
+import { ReactElement, useState } from 'react'
+import { SwiperSlide } from 'swiper/react'
 
 const Homepage = () => {
   const [signupModalOpen, setSignupModalOpen] = useState(false)
@@ -42,41 +43,44 @@ const Homepage = () => {
         </div>
       </header>
       <main className="flex flex-col gap-11 py-10">
-        <Section title="A proximité">
+        <Section title="A proximité" isSwiper>
           {[...Array(5)].map((_, i) => {
             return (
-              <RestaurantCard
-                key={i}
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
-                typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
-                tags={[
-                  { name: 'michelin', level: 2 },
-                  { name: 'etoile-verte', level: 1 },
-                ]}
-                certified
-                promotion={30}
-              />
+              <SwiperSlide key={i}>
+                <RestaurantCard
+                  key={i}
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  certified
+                  promotion={30}
+                />
+              </SwiperSlide>
             )
           })}
         </Section>
-        <Section title="Last minute">
+        <Section title="Last minute" isSwiper>
           {[...Array(5)].map((_, i) => {
             return (
-              <RestaurantCard
-                key={i}
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
-                typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
-                tags={[
-                  { name: 'michelin', level: 2 },
-                  { name: 'etoile-verte', level: 1 },
-                ]}
-                certified
-                promotion={50}
-              />
+              <SwiperSlide key={i}>
+                <RestaurantCard
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  certified
+                  promotion={50}
+                />
+              </SwiperSlide>
             )
           })}
         </Section>
@@ -85,22 +89,23 @@ const Homepage = () => {
             PUB
           </div>
         </div>
-        <Section title="Sélection Atabulapp">
+        <Section title="Sélection Atabulapp" isSwiper>
           {[...Array(5)].map((_, i) => {
             return (
-              <RestaurantCard
-                key={i}
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
-                typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
-                tags={[
-                  { name: 'michelin', level: 2 },
-                  { name: 'etoile-verte', level: 1 },
-                ]}
-                certified
-                promotion={60}
-              />
+              <SwiperSlide key={i}>
+                <RestaurantCard
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  certified
+                  promotion={50}
+                />
+              </SwiperSlide>
             )
           })}
         </Section>
@@ -118,8 +123,8 @@ const Homepage = () => {
                   { name: 'etoile-verte', level: 1 },
                 ]}
                 certified
-                promotion={10}
                 size="large"
+                promotion={50}
               />
             )
           })}

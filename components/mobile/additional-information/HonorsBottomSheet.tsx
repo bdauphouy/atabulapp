@@ -1,16 +1,9 @@
+import BottomSheet from '@/components/mobile/BottomSheet'
 import Checkbox from '@/components/shared/Checkbox'
-import BottomSheet from '@/components/shared/BottomSheet'
 import Tag from '@/components/shared/Tag'
-import { Control } from 'react-hook-form'
-import { SetStateAction, useContext } from 'react'
-
 import { HonorsContext } from '@/contexts/HonorsContext'
-
-type HonorsBottomSheetProps = {
-  control: Control<any>
-  isOpen: boolean
-  setIsOpen: SetStateAction<any>
-}
+import { HonorsBottomSheetProps } from '@/lib/types'
+import { useContext } from 'react'
 
 const HonorsBottomSheet = ({
   control,

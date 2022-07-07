@@ -1,7 +1,8 @@
 import Footer from '@/components/shared/Footer'
+import { ReactNode } from 'react'
 
 type DesktopLayoutProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const DesktopLayout = ({ children }: DesktopLayoutProps) => {

@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import { RiArrowDownSLine } from 'react-icons/ri'
-import { useDidUpdate } from 'rooks'
+import { ReactNode } from 'react'
 
 type FilterTypes = {
-  children: React.ReactNode
+  children: ReactNode
   name: string
   selected?: boolean
   className?: string

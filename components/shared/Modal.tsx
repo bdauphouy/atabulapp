@@ -1,9 +1,10 @@
-import { RiCloseLine } from 'react-icons/ri'
 import Footer from '@/components/mobile/Footer'
+import { ReactNode } from 'react'
+import { RiCloseLine } from 'react-icons/ri'
 
 type ModalProps = {
   title: string
-  children: React.ReactNode
+  children: ReactNode
   isOpen: boolean
   formId?: string
   footerLeftButton?: {

@@ -1,19 +1,12 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import Button from '@/components/shared/Button'
-import Message from '@/components/shared/Message'
-import Input from '@/components/shared/Input'
-import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import { useRouter } from 'next/router'
-import Checkbox from '@/components/shared/Checkbox'
-import { ReactElement } from 'react'
 import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
-
-interface ILoginForm {
-  email: string
-  password: string
-  stayLoggedIn: boolean
-}
+import Button from '@/components/shared/Button'
+import Checkbox from '@/components/shared/Checkbox'
+import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
+import { ILoginForm } from '@/lib/interfaces'
+import Link from 'next/link'
+import { ReactElement } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 const Login = () => {
   const {
@@ -28,8 +21,6 @@ const Login = () => {
       stayLoggedIn: false,
     },
   })
-
-  const router = useRouter()
 
   const onSubmit: SubmitHandler<ILoginForm> = data => {
     console.log(data)

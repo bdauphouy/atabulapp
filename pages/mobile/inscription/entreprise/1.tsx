@@ -1,18 +1,11 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { ICorporateOneForm } from '@/lib/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-
-interface ICorporateOneForm {
-  name: string
-  address: string
-  zipCode: string
-  city: string
-  phoneNumber: string
-}
 
 const CorporateOne = () => {
   const {

@@ -1,7 +1,7 @@
+import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
+import Button from '@/components/shared/Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import Button from '@/components/shared/Button'
-import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 import { ReactElement } from 'react'
 
 const Index = () => {

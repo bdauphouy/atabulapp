@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { RiHome5Line, RiHeart3Line, RiUserLine } from 'react-icons/ri'
+import { RiHeart3Line, RiHome5Line, RiUserLine } from 'react-icons/ri'
 
 const TabBar = () => {
   const router = useRouter()

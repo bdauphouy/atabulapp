@@ -1,5 +1,6 @@
-import Image from 'next/image'
 import Footer from '@/components/mobile/Footer'
+import Image from 'next/image'
+import { ReactNode } from 'react'
 
 type LoginSignupLayoutProps = {
   formId?: string
@@ -9,7 +10,7 @@ type LoginSignupLayoutProps = {
   }
   footerRightButton?: { text: string; action?: string }
   footer?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const LoginSignupLayout = ({
