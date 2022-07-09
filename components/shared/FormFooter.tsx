@@ -1,24 +1,23 @@
 import Button from '@/components/shared/Button'
+import { FormFooterActionsProps } from '@/lib/types'
 import { useRouter } from 'next/router'
 
-type FooterProps = {
-  formId: string
-  footerLeftButton: {
-    text: string
-    action?: 'go-back' | `go-to-[/${string}]`
-  }
-  footerRightButton: { text: string; action?: string }
-}
+type FormFooterProps = {
+  fixed?: boolean
+} & FormFooterActionsProps
 
-const Footer = ({
+const FormFooter = ({
   formId,
   footerLeftButton,
   footerRightButton,
-}: FooterProps) => {
+  fixed = false,
+}: FormFooterProps) => {
   const router = useRouter()
 
   const buttonLeftHandler = () => {
-    if (!footerLeftButton.action) return
+    if (!footerLeftButton.action && !footerLeftButton.customAction) return
+
+    if (footerLeftButton.customAction) return footerLeftButton.customAction()
 
     switch (footerLeftButton.action) {
       case 'go-back':
@@ -43,10 +42,18 @@ const Footer = ({
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6">
-      <Button onClick={buttonLeftHandler} variant="tertiary">
-        {footerLeftButton.text}
-      </Button>
+    <footer
+      className={`${
+        fixed ? 'fixed' : ''
+      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6`}
+    >
+      {footerLeftButton ? (
+        <Button onClick={buttonLeftHandler} variant="tertiary">
+          {footerLeftButton.text}
+        </Button>
+      ) : (
+        <div />
+      )}
       <Button
         onClick={buttonRightHandler}
         form={formId}
@@ -59,4 +66,4 @@ const Footer = ({
   )
 }
 
-export default Footer
+export default FormFooter

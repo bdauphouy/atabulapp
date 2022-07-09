@@ -1,5 +1,6 @@
-import Footer from '@/components/mobile/Footer'
 import Button from '@/components/shared/Button'
+import FormFooter from '@/components/shared/FormFooter'
+import { FormFooterActionsProps } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -7,15 +8,9 @@ import { ReactNode } from 'react'
 type LaunchLayoutProps = {
   children: ReactNode
   imageFilter?: boolean
-  formId?: string
   footer?: boolean
-  footerLeftButton?: {
-    text: string
-    action?: 'go-back' | `go-to-[/${string}]`
-  }
-  footerRightButton?: { text: string; action?: string }
   isLaunchScreen?: boolean
-}
+} & FormFooterActionsProps
 
 const LaunchLayout = ({
   children,
@@ -50,10 +45,11 @@ const LaunchLayout = ({
         {children}
       </div>
       {footer && (
-        <Footer
+        <FormFooter
           formId={formId}
           footerLeftButton={footerLeftButton}
           footerRightButton={footerRightButton}
+          fixed
         />
       )}
     </div>

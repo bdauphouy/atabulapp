@@ -1,21 +1,30 @@
-import SignupModal from '@/components/desktop/modals/SignupModal'
 import Section from '@/components/homepage/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import { SwiperSlide } from 'swiper/react'
 
 const Homepage = () => {
-  const [signupModalOpen, setSignupModalOpen] = useState(false)
+  const [loginModalOpen, setLoginModalOpen] = useState(false)
+
+  const { Modal, changeModal } = useModal('LoginModal')
+
+  const handleClick = () => {
+    setLoginModalOpen(true)
+    changeModal('LoginModal')
+  }
 
   return (
     <div>
-      <SignupModal
-        isOpen={signupModalOpen}
-        onClose={() => setSignupModalOpen(false)}
+      <Modal
+        isOpen={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        changeModal={changeModal}
       />
+
       <header className="flex h-28 lg:h-[450px]">
         <div className="flex flex-[2] items-center justify-center bg-white-rock px-16 py-8 lg:py-40">
           <div className="relative h-full w-full">
@@ -27,11 +36,7 @@ const Homepage = () => {
           </div>
         </div>
         <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex lg:pr-32">
-          <Button
-            className="z-50"
-            onClick={() => setSignupModalOpen(true)}
-            variant="primary"
-          >
+          <Button className="z-50" onClick={handleClick} variant="primary">
             Se connecter
           </Button>
           <Image

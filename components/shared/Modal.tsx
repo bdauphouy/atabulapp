@@ -1,4 +1,5 @@
-import Footer from '@/components/mobile/Footer'
+import FormFooter from '@/components/shared/FormFooter'
+import { FormFooterActionsProps } from '@/lib/types'
 import { ReactNode } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
@@ -6,15 +7,9 @@ type ModalProps = {
   title: string
   children: ReactNode
   isOpen: boolean
-  formId?: string
-  footerLeftButton?: {
-    text: string
-    action?: 'go-back' | `go-to-[/${string}]`
-  }
-  footerRightButton?: { text: string; action?: string }
   footer?: boolean
   onClose?: () => void
-}
+} & FormFooterActionsProps
 
 const Modal = ({
   title,
@@ -41,7 +36,7 @@ const Modal = ({
           </header>
           <div className="p-8">{children}</div>
           {footer && (
-            <Footer
+            <FormFooter
               formId={formId}
               footerLeftButton={footerLeftButton}
               footerRightButton={footerRightButton}
