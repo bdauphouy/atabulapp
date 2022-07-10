@@ -43,7 +43,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
       <form
         id="login-form"
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-96 flex-col gap-6"
+        className="flex flex-col gap-6"
       >
         <Input
           placeholder="Email"
