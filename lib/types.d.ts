@@ -5,7 +5,14 @@ export type Tag = {
   number: number
 }
 
-export type Modal = 'LoginModal' | 'SignupFirstModal'
+export type Modal =
+  | 'LoginModal'
+  | 'SignupFirstModal'
+  | 'SignupPersonalFirstModal'
+  | 'SignupPersonalSecondModal'
+  | 'SignupPersonalThirdModal'
+  | 'SignupPersonalFourthModal'
+  | 'SignupPersonalFifthModal'
 
 export type ModalProps = {
   isOpen: boolean
@@ -13,14 +20,16 @@ export type ModalProps = {
   changeModal?: (modal: Modal) => SetStateAction<ReactComponentElement>
 }
 
+type FooterButton = {
+  text: string
+  action?: 'go-back' | `go-to-[/${string}]`
+  customAction?: () => void
+}
+
 export type FormFooterActionsProps = {
   formId?: string
-  footerLeftButton?: {
-    text: string
-    action?: 'go-back' | `go-to-[/${string}]`
-    customAction?: () => void
-  }
-  footerRightButton?: { text: string; action?: string }
+  footerLeftButton?: FooterButton
+  footerRightButton?: FooterButton
 }
 
 export type TypeOfCuisineBottomSheetProps = {

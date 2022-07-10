@@ -14,28 +14,21 @@ const FormFooter = ({
 }: FormFooterProps) => {
   const router = useRouter()
 
-  const buttonLeftHandler = () => {
-    if (!footerLeftButton.action && !footerLeftButton.customAction) return
+  const handleClick = (buttonPosition: 'left' | 'right') => {
+    const button =
+      buttonPosition === 'left' ? footerLeftButton : footerRightButton
 
-    if (footerLeftButton.customAction) return footerLeftButton.customAction()
+    if (!button.action && !button.customAction) return
 
-    switch (footerLeftButton.action) {
+    if (button.customAction) return button.customAction()
+
+    switch (button.action) {
       case 'go-back':
         return router.back()
     }
 
-    if (footerLeftButton.action.match(/go-to-\[\/[a-z|0-9\/]+\]/)) {
-      const url = footerLeftButton.action.split('[')[1].split(']')[0]
-
-      return router.push(url)
-    }
-  }
-
-  const buttonRightHandler = () => {
-    if (!footerRightButton.action) return
-
-    if (footerRightButton.action.match(/go-to-\[\/[a-z|0-9\/]+\]/)) {
-      const url = footerRightButton.action.split('[')[1].split(']')[0]
+    if (button.action.match(/go-to-\[\/[a-z|0-9\/]+\]/)) {
+      const url = button.action.split('[')[1].split(']')[0]
 
       return router.push(url)
     }
@@ -48,14 +41,14 @@ const FormFooter = ({
       } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6`}
     >
       {footerLeftButton ? (
-        <Button onClick={buttonLeftHandler} variant="tertiary">
+        <Button onClick={() => handleClick('left')} variant="tertiary">
           {footerLeftButton.text}
         </Button>
       ) : (
         <div />
       )}
       <Button
-        onClick={buttonRightHandler}
+        onClick={() => handleClick('right')}
         form={formId}
         submit
         variant="secondary"

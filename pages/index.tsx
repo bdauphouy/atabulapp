@@ -14,7 +14,7 @@ const Homepage = () => {
 
   const handleClick = () => {
     setLoginModalOpen(true)
-    changeModal('LoginModal')
+    // changeModal('LoginModal')
   }
 
   return (

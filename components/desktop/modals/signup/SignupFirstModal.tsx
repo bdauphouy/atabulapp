@@ -3,7 +3,6 @@ import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
 import { ISignupForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
@@ -13,15 +12,20 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     formState: { errors },
   } = useForm<ISignupForm>()
 
-  const router = useRouter()
-
-  const onSubmit: SubmitHandler<ISignupForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ISignupForm> = ({ person }) => {
+    if (person === 'personal') {
+      changeModal('SignupPersonalFirstModal')
+    } else {
+    }
   }
   return (
     <Modal
       title="Inscription"
       formId="signup-type-form"
+      footerLeftButton={{
+        text: 'Se connecter',
+        customAction: () => changeModal('SignupPersonalFirstModal'),
+      }}
       footerRightButton={{ text: 'Continuer' }}
       isOpen={isOpen}
       onClose={onClose}
