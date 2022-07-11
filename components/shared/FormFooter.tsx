@@ -3,14 +3,14 @@ import { FormFooterActionsProps } from '@/lib/types'
 import { useRouter } from 'next/router'
 
 type FormFooterProps = {
-  fixed?: boolean
+  isFixed?: boolean
 } & FormFooterActionsProps
 
 const FormFooter = ({
   formId,
   footerLeftButton,
   footerRightButton,
-  fixed = false,
+  isFixed = false,
 }: FormFooterProps) => {
   const router = useRouter()
 
@@ -37,8 +37,8 @@ const FormFooter = ({
   return (
     <footer
       className={`${
-        fixed ? 'fixed' : ''
-      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto bg-white p-6`}
+        isFixed ? 'fixed' : ''
+      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >
       {footerLeftButton ? (
         <Button onClick={() => handleClick('left')} variant="tertiary">

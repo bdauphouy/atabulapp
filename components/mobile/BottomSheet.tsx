@@ -1,9 +1,9 @@
-import { ReactNode, SetStateAction } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 import Sheet from 'react-modal-sheet'
 
 type BottomSheetProps = {
   isOpen: boolean
-  setIsOpen: SetStateAction<any>
+  setIsOpen: Dispatch<SetStateAction<any>>
   onClose?: () => void
   hasHeader?: boolean
   children: ReactNode

@@ -54,3 +54,9 @@ export interface ICorporateFourForm {
   coverPicture?: File
   additionalPictures?: File[]
 }
+
+export interface ISearchForm {
+  location?: string
+  period?: string
+  numberOfPersons?: string
+}

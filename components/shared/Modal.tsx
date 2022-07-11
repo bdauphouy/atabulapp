@@ -6,8 +6,8 @@ import { RiArrowLeftSLine, RiCloseLine } from 'react-icons/ri'
 type ModalProps = {
   title: string
   children: ReactNode
-  footer?: boolean
-  header?: boolean
+  hasFooter?: boolean
+  hasHeader?: boolean
   hasGoBackArrow?: boolean
 } & MP &
   FormFooterActionsProps
@@ -19,8 +19,8 @@ const Modal = ({
   formId,
   footerLeftButton,
   footerRightButton,
-  header = true,
-  footer = true,
+  hasHeader = true,
+  hasFooter = true,
   onClose,
   hasGoBackArrow = false,
 }: ModalProps) => {
@@ -28,7 +28,7 @@ const Modal = ({
     isOpen && (
       <>
         <div className="fixed left-1/2 top-1/2 z-50 w-[415px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white">
-          {header && (
+          {hasHeader && (
             <header className="flex items-center justify-between p-8 pb-0">
               {hasGoBackArrow && (
                 <div
@@ -48,7 +48,7 @@ const Modal = ({
             </header>
           )}
           <div className="p-8">{children}</div>
-          {footer && (
+          {hasFooter && (
             <FormFooter
               formId={formId}
               footerLeftButton={footerLeftButton}

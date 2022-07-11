@@ -24,7 +24,6 @@ const Homepage = () => {
         onClose={() => setLoginModalOpen(false)}
         changeModal={changeModal}
       />
-
       <header className="flex h-28 lg:h-[450px]">
         <div className="flex flex-[2] items-center justify-center bg-white-rock px-16 py-8 lg:py-40">
           <div className="relative h-full w-full">
@@ -142,5 +141,5 @@ const Homepage = () => {
 export default Homepage
 
 Homepage.getLayout = (page: ReactElement) => (
-  <DesktopLayout>{page}</DesktopLayout>
+  <DesktopLayout hasHeader={false}>{page}</DesktopLayout>
 )

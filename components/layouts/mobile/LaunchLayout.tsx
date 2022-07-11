@@ -8,14 +8,14 @@ import { ReactNode } from 'react'
 type LaunchLayoutProps = {
   children: ReactNode
   imageFilter?: boolean
-  footer?: boolean
+  hasFooter?: boolean
   isLaunchScreen?: boolean
 } & FormFooterActionsProps
 
 const LaunchLayout = ({
   children,
   imageFilter = true,
-  footer = true,
+  hasFooter = true,
   formId,
   footerLeftButton,
   footerRightButton,
@@ -44,12 +44,12 @@ const LaunchLayout = ({
       >
         {children}
       </div>
-      {footer && (
+      {hasFooter && (
         <FormFooter
           formId={formId}
           footerLeftButton={footerLeftButton}
           footerRightButton={footerRightButton}
-          fixed
+          isFixed
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import { ReactComponentElement, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 export type Tag = {
   type: 'michelin' | 'etoile-verte' | 'gault-et-millau' | 'bib-gourmand'
@@ -17,7 +17,7 @@ export type Modal =
 export type ModalProps = {
   isOpen: boolean
   onClose: () => void
-  changeModal?: (modal: Modal) => SetStateAction<ReactComponentElement>
+  changeModal?: (modal: Modal) => any
 }
 
 type FooterButton = {
@@ -35,12 +35,12 @@ export type FormFooterActionsProps = {
 export type TypeOfCuisineBottomSheetProps = {
   control: Control<any>
   isOpen: boolean
-  setIsOpen: SetStateAction<boolean>
+  setIsOpen: Dispatch<SetStateAction<boolean>>
   isDisabled: boolean
 }
 
 export type HonorsBottomSheetProps = {
   control: Control<any>
   isOpen: boolean
-  setIsOpen: SetStateAction<boolean>
+  setIsOpen: Dispatch<SetStateAction<boolean>>
 }

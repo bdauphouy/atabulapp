@@ -23,7 +23,7 @@ const FilterDropdown = ({
   return (
     <div
       onClick={() => setIsOpen(!isOpen)}
-      className={`${className} flex w-max cursor-pointer select-none items-center gap-6 rounded-3xl border-[1px] border-solid border-alto px-4 py-1.5 text-base font-medium text-black transition-colors duration-200 hover:border-scarlet hover:text-scarlet`}
+      className={`${className} flex w-max cursor-pointer select-none items-center gap-6 rounded-3xl border-[1px] border-solid border-alto/60 px-4 py-1.5 text-base font-medium text-black transition-colors duration-200 hover:border-scarlet hover:text-scarlet`}
     >
       {children}
       <RiArrowDownSLine
