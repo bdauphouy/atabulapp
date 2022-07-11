@@ -33,7 +33,7 @@ const Index = () => {
 }
 
 Index.getLayout = (page: ReactElement) => (
-  <LaunchLayout isLaunchScreen imageFilter={false} footer={false}>
+  <LaunchLayout isLaunchScreen imageFilter={false} hasFooter={false}>
     {page}
   </LaunchLayout>
 )

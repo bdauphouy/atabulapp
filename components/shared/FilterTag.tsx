@@ -26,7 +26,7 @@ const FilterDropdown = ({
       />
       <label
         htmlFor={`filter-tag-${name}`}
-        className={`${className} transiton-colors flex w-max cursor-pointer select-none items-center gap-6 rounded-3xl border-[1px] border-solid border-alto px-4 py-1.5 text-base font-medium text-black transition-colors duration-200 hover:border-scarlet hover:text-scarlet label-checked:border-scarlet label-checked:bg-scarlet label-checked:text-white`}
+        className={`${className} transiton-colors flex w-max cursor-pointer select-none items-center gap-6 rounded-3xl border-[1px] border-solid border-alto/60 px-4 py-1.5 text-base font-medium text-black transition-colors duration-200 hover:border-scarlet hover:text-scarlet label-checked:border-scarlet label-checked:bg-scarlet label-checked:text-white`}
       >
         {children}
       </label>

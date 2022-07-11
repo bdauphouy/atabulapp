@@ -16,8 +16,8 @@ const SignupPersonalFifthModal = ({
   return (
     <Modal
       title="Inscription"
-      header={false}
-      footer={false}
+      hasHeader={false}
+      hasFooter={false}
       isOpen={isOpen}
       onClose={onClose}
     >

@@ -37,7 +37,7 @@ const SupportingDocument = ({
         required: true,
       }}
       render={({ field: { name, onChange } }) => (
-        <li className="flex items-end justify-between border-b-[1px] border-solid border-alto pb-3">
+        <li className="flex items-end justify-between border-b-[1px] border-solid border-alto/60 pb-3">
           <div>
             <h3 className="text-lg font-bold text-black">{title}</h3>
             {file && <h4 className="mt-1 text-base text-black">{file.name}</h4>}

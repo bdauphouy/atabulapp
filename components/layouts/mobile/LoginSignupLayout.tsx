@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { ReactNode } from 'react'
 
 type LoginSignupLayoutProps = {
-  footer?: boolean
+  hasFooter?: boolean
   children: ReactNode
 } & FormFooterActionsProps
 
@@ -12,7 +12,7 @@ const LoginSignupLayout = ({
   formId,
   footerLeftButton,
   footerRightButton,
-  footer = true,
+  hasFooter = true,
   children,
 }: LoginSignupLayoutProps) => {
   return (
@@ -26,12 +26,12 @@ const LoginSignupLayout = ({
         />
       </header>
       <div className="mt-20 rounded-t-xl bg-white p-5 pb-28">{children}</div>
-      {footer && (
+      {hasFooter && (
         <FormFooter
           formId={formId}
           footerLeftButton={footerLeftButton}
           footerRightButton={footerRightButton}
-          fixed
+          isFixed
         />
       )}
     </div>

@@ -37,7 +37,7 @@ const PersonalFour = () => {
 }
 
 PersonalFour.getLayout = (page: ReactElement) => (
-  <LoginSignupLayout footer={false}>{page}</LoginSignupLayout>
+  <LoginSignupLayout hasFooter={false}>{page}</LoginSignupLayout>
 )
 
 export default PersonalFour

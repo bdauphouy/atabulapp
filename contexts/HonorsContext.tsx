@@ -1,10 +1,6 @@
 import { createContext } from 'react'
-import { Tag } from '@/lib/types'
 
-const honors: {
-  title: string
-  tag: Tag
-}[] = [
+const honors = [
   {
     title: 'Cité au Michelin',
     tag: {
