@@ -2,7 +2,6 @@ import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { ICorporateOneForm } from '@/lib/interfaces'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -24,7 +23,7 @@ const CorporateOne = () => {
 
   return (
     <form
-      id="establishment-signup-form"
+      id="corporate-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -32,85 +31,48 @@ const CorporateOne = () => {
         Inscription établissement
       </h2>
       <Input
-        placeholder="Nom du restaurant"
-        control={control}
-        setValue={setValue}
-        rules={{
-          required: true,
-        }}
-        name="name"
-      />
-      <Input
-        placeholder="Nº de rue et nom de rue"
-        control={control}
-        setValue={setValue}
-        rules={{
-          required: true,
-        }}
-        name="address"
-      />
-      <Input
-        placeholder="Code postal"
+        placeholder="Email"
         control={control}
         setValue={setValue}
         rules={{
           required: true,
           pattern: {
-            value: /^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/,
-            message: 'Veuillez renseigner un code postal valide.',
+            value:
+              /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+            message: 'Veuillez renseigner une adresse email valide.',
           },
         }}
-        name="zipCode"
+        name="email"
       />
       <Input
-        placeholder="Ville ou localité"
+        placeholder="Mot de passe"
         control={control}
         setValue={setValue}
         rules={{
           required: true,
-        }}
-        name="city"
-      />
-      <Input
-        placeholder="Numéro de téléphone"
-        control={control}
-        setValue={setValue}
-        rules={{
-          required: true,
-          pattern: {
-            value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
-            message: 'Veuillez renseigner un numéro de téléphone valide.',
+          minLength: {
+            value: 6,
+            message: 'Votre mot de passe doit contenir au moins 6 caractères.',
           },
         }}
-        name="phoneNumber"
+        name="password"
       />
       {Object.keys(errors).length > 0 && (
         <Message type="error">
-          {errors.phoneNumber?.type === 'pattern'
-            ? errors.phoneNumber.message
-            : errors.zipCode?.type === 'pattern'
-            ? errors.zipCode.message
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : errors.password?.type === 'minLength'
+            ? errors.password.message
             : 'Veuillez remplir tous les champs.'}
         </Message>
       )}
-      <p className="text-sm text-black">
-        En selectionnant Accepter et continuer, j'accepte les{' '}
-        <Link href="/conditions-generales" className="text-scarlet">
-          Conditions générales
-        </Link>{' '}
-        et la{' '}
-        <Link href="/politique-de-confidentialite" className="text-scarlet">
-          Politique de confidentialité
-        </Link>{' '}
-        d'Atabul'app
-      </p>
     </form>
   )
 }
 
 CorporateOne.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="establishment-signup-form"
+    formId="corporate-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

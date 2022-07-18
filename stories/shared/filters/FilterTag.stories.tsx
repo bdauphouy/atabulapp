@@ -1,6 +1,5 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-
 import FilterTag from '@/components/shared/FilterTag'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 export default {
   title: 'Shared/Filters/FilterTag',
@@ -22,11 +21,11 @@ const Template: ComponentStory<typeof FilterTag> = args => (
 export const Base = Template.bind({})
 
 Base.args = {
-  open: false,
+  selected: false,
 }
 
-export const Open = Template.bind({})
+export const Selected = Template.bind({})
 
-Open.args = {
-  open: true,
+Selected.args = {
+  selected: true,
 }

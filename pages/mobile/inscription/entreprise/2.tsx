@@ -2,6 +2,7 @@ import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { ICorporateTwoForm } from '@/lib/interfaces'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -23,50 +24,52 @@ const CorporateTwo = () => {
 
   return (
     <form
-      id="privileged-contact-form"
+      id="establishment-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
-      <header className="flex flex-col gap-1">
-        <h2 className="text-2xl font-extrabold text-black">
-          Contact privilégié
-        </h2>
-        <p className="mb-2 text-sm text-gray">
-          La personne enregistrée sera la personne à contacter en cas de besoin
-          et la référente du dossier de l'établissement
-        </p>
-      </header>
+      <h2 className="mb-2 text-2xl font-extrabold text-black">
+        Inscription établissement
+      </h2>
       <Input
-        placeholder="Nom et prénom"
+        placeholder="Nom du restaurant"
         control={control}
         setValue={setValue}
         rules={{
           required: true,
         }}
-        name="fullName"
+        name="name"
       />
       <Input
-        placeholder="Fonction"
+        placeholder="Nº de rue et nom de rue"
         control={control}
         setValue={setValue}
         rules={{
           required: true,
         }}
-        name="position"
+        name="address"
       />
       <Input
-        placeholder="Email"
+        placeholder="Code postal"
         control={control}
         setValue={setValue}
         rules={{
           required: true,
           pattern: {
-            value:
-              /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
-            message: 'Veuillez renseigner une adresse email valide.',
+            value: /^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/,
+            message: 'Veuillez renseigner un code postal valide.',
           },
         }}
-        name="email"
+        name="zipCode"
+      />
+      <Input
+        placeholder="Ville ou localité"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+        }}
+        name="city"
       />
       <Input
         placeholder="Numéro de téléphone"
@@ -85,24 +88,35 @@ const CorporateTwo = () => {
         <Message type="error">
           {errors.phoneNumber?.type === 'pattern'
             ? errors.phoneNumber.message
-            : errors.email?.type === 'pattern'
-            ? errors.email.message
+            : errors.zipCode?.type === 'pattern'
+            ? errors.zipCode.message
             : 'Veuillez remplir tous les champs.'}
         </Message>
       )}
+      <p className="text-sm text-black">
+        En selectionnant Accepter et continuer, j'accepte les{' '}
+        <Link href="/conditions-generales" className="text-scarlet">
+          Conditions générales
+        </Link>{' '}
+        et la{' '}
+        <Link href="/politique-de-confidentialite" className="text-scarlet">
+          Politique de confidentialité
+        </Link>{' '}
+        d'Atabul'app
+      </p>
     </form>
   )
 }
 
 CorporateTwo.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="privileged-contact-form"
+    formId="establishment-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',
     }}
     footerRightButton={{
-      text: 'Continuer',
+      text: 'Accepter et continuer',
     }}
   >
     {page}

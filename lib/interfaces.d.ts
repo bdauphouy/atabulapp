@@ -25,6 +25,11 @@ export interface IPersonalThreeForm {
 }
 
 export interface ICorporateOneForm {
+  email: string
+  password: string
+}
+
+export interface ICorporateTwoForm {
   name: string
   address: string
   zipCode: string
@@ -32,14 +37,14 @@ export interface ICorporateOneForm {
   phoneNumber: string
 }
 
-export interface ICorporateTwoForm {
+export interface ICorporateThreeForm {
   fullName: string
   position: string
   email: string
   phoneNumber: string
 }
 
-export interface ICorporateThreeForm {
+export interface ICorporateFourForm {
   typesOfCuisineString: string
   typesOfCuisine: (boolean | string)[]
   honorsString: string
@@ -50,7 +55,7 @@ export interface ICorporateThreeForm {
   roomManagerFullName: string
 }
 
-export interface ICorporateFourForm {
+export interface ICorporateFiveForm {
   coverPicture?: File
   additionalPictures?: File[]
 }

@@ -1,11 +1,9 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import HonorsBottomSheet from '@/components/mobile/additional-information/HonorsBottomSheet'
-import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { ICorporateThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateThree = () => {
@@ -13,160 +11,84 @@ const CorporateThree = () => {
     control,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<ICorporateThreeForm>()
-
-  const watchTypesOfCuisine = watch(['typesOfCuisine'])
-  const watchHonors = watch(['honors'])
-
-  const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
-    useState(false)
-
-  const [typesOfCuisineCheckedCount, setTypesOfCuisineCheckedCount] =
-    useState(0)
-
-  const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
-
-  useEffect(() => {
-    if (!watchTypesOfCuisine[0]) return
-
-    const filteredFields = watchTypesOfCuisine[0].filter(
-      field => typeof field === 'string',
-    )
-
-    setTypesOfCuisineCheckedCount(filteredFields.length)
-
-    const formatedFields = filteredFields.slice(0, 2).join(', ')
-
-    setValue(
-      'typesOfCuisineString',
-      filteredFields.length > 2
-        ? formatedFields + ` +${filteredFields.length - 2}`
-        : formatedFields,
-    )
-  }, [watchTypesOfCuisine, setValue])
-
-  useEffect(() => {
-    if (!watchHonors[0]) return
-
-    const filteredFields = watchHonors[0].filter(
-      field => typeof field === 'string',
-    )
-
-    const formatedFields = filteredFields.slice(0, 2).join(', ')
-
-    setValue(
-      'honorsString',
-      filteredFields.length > 2
-        ? formatedFields + ` +${filteredFields.length - 2}`
-        : formatedFields,
-    )
-  }, [watchHonors, setValue])
 
   const router = useRouter()
 
   const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
     console.log(data)
-
     router.push('/mobile/inscription/entreprise/4')
   }
 
   return (
     <form
-      id="additional-information-form"
+      id="privileged-contact-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
       <header className="flex flex-col gap-1">
-        <div className="mb-2 flex flex-col gap-1">
-          <h2 className="text-2xl font-extrabold text-black">
-            Informations supplémentaires
-          </h2>
-          <p className="text-sm text-gray">
-            Les informations pourront être complétées ultérieurement et seront
-            utilisées pour la fiche de l'établissement.
-          </p>
-          <p className="text-sm text-scarlet">* Champs obligatoires</p>
-        </div>
+        <h2 className="text-2xl font-extrabold text-black">
+          Contact privilégié
+        </h2>
+        <p className="mb-2 text-sm text-gray">
+          La personne enregistrée sera la personne à contacter en cas de besoin
+          et la référente du dossier de l'établissement
+        </p>
       </header>
-      <div onClick={() => setIsTypeOfCuisineSheetOpen(true)}>
-        <Input
-          placeholder="Types de cuisine"
-          control={control}
-          setValue={setValue}
-          rules={{
-            required: true,
-          }}
-          name="typesOfCuisineString"
-          isRequired
-          isDisabled
-          isFocusedLike={isTypeOfCuisineSheetOpen}
-        />
-      </div>
-      <TypeOfCuisineBottomSheet
-        control={control}
-        isOpen={isTypeOfCuisineSheetOpen}
-        setIsOpen={setIsTypeOfCuisineSheetOpen}
-        isDisabled={typesOfCuisineCheckedCount >= 3}
-      />
-      <div onClick={() => setIsHonorsSheetOpen(true)}>
-        <Input
-          placeholder="Distinctions"
-          control={control}
-          setValue={setValue}
-          rules={{
-            required: true,
-          }}
-          name="honorsString"
-          isRequired
-          isDisabled
-          isFocusedLike={isHonorsSheetOpen}
-        />
-      </div>
-      <HonorsBottomSheet
-        control={control}
-        isOpen={isHonorsSheetOpen}
-        setIsOpen={setIsHonorsSheetOpen}
-      />
       <Input
-        placeholder="Prénom et nom de chef de cuisine"
+        placeholder="Nom et prénom"
         control={control}
         setValue={setValue}
         rules={{
-          required: false,
+          required: true,
         }}
-        name="chefFullName"
+        name="fullName"
       />
       <Input
-        placeholder="Prénom et nom patisser(ère)"
+        placeholder="Fonction"
         control={control}
         setValue={setValue}
         rules={{
-          required: false,
+          required: true,
         }}
-        name="pastryChefFullName"
+        name="position"
       />
       <Input
-        placeholder="Prénom et nom sommelier(ère)"
+        placeholder="Email"
         control={control}
         setValue={setValue}
         rules={{
-          required: false,
+          required: true,
+          pattern: {
+            value:
+              /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+            message: 'Veuillez renseigner une adresse email valide.',
+          },
         }}
-        name="sommelierFullName"
+        name="email"
       />
       <Input
-        placeholder="Prénom et nom directeur(rice) de salle"
+        placeholder="Numéro de téléphone"
         control={control}
         setValue={setValue}
         rules={{
-          required: false,
+          required: true,
+          pattern: {
+            value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
+            message: 'Veuillez renseigner un numéro de téléphone valide.',
+          },
         }}
-        name="roomManagerFullName"
+        name="phoneNumber"
       />
       {Object.keys(errors).length > 0 && (
-        <Message type="error">Veuillez renseigner les champs requis.</Message>
+        <Message type="error">
+          {errors.phoneNumber?.type === 'pattern'
+            ? errors.phoneNumber.message
+            : errors.email?.type === 'pattern'
+            ? errors.email.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
       )}
     </form>
   )
@@ -174,7 +96,7 @@ const CorporateThree = () => {
 
 CorporateThree.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="additional-information-form"
+    formId="privileged-contact-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

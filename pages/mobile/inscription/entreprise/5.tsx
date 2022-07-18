@@ -1,45 +1,95 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import Button from '@/components/shared/Button'
-import Image from 'next/image'
+import ImportImageArea from '@/components/shared/ImportImageArea'
+import { ICorporateFiveForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateFive = () => {
+  const { handleSubmit, control } = useForm<ICorporateFiveForm>()
+
   const router = useRouter()
 
+  const onSubmit: SubmitHandler<ICorporateFiveForm> = data => {
+    console.log(data)
+
+    router.push('/mobile/inscription/entreprise/6')
+  }
+
   return (
-    <div className="relative mt-24 flex flex-col items-center p-6">
-      <h2 className="relative mb-2 text-center text-2xl font-extrabold text-black">
-        <div className="absolute inline -translate-y-3 -translate-x-5">
-          <Image
-            src="/images/success-icon.svg"
-            width={25}
-            height={25}
-            alt="Icône de succès"
-            className="inline-block"
+    <form
+      id="additional-information-form"
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6"
+    >
+      <header className="flex flex-col gap-1">
+        <div className="mb-2 flex flex-col gap-1">
+          <h2 className="text-2xl font-extrabold text-black">Photos</h2>
+          <p className="text-sm text-gray">
+            Les photos sont obligatoires pour inscrire votre établissement. Vous
+            pourrez en ajouter plus tard sur la gestion de votre profil.
+          </p>
+        </div>
+      </header>
+      <div>
+        <h3 className="mb-3 text-sm text-black">Photo de couverture</h3>
+        <ImportImageArea
+          title="Photo de couverture"
+          name="coverPicture"
+          control={control}
+          variant="full"
+        />
+      </div>
+      <div>
+        <h3 className="text-sm text-black">Photos supplémentaires</h3>
+        <p className="mt-2 mb-3 text-sm text-gray">
+          Il vous faut importer au minimum 4 photos supplémentaires pour valider
+          votre profil.
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          <ImportImageArea
+            title="Photo supplémentaire 1"
+            name="additionalPictures.0"
+            control={control}
+            variant="normal"
+          />
+          <ImportImageArea
+            title="Photo supplémentaire 2"
+            name="additionalPictures.1"
+            control={control}
+            variant="normal"
+          />
+          <ImportImageArea
+            title="Photo supplémentaire 2"
+            name="additionalPictures.2"
+            control={control}
+            variant="normal"
+          />
+          <ImportImageArea
+            title="Photo supplémentaire 3"
+            name="additionalPictures.3"
+            control={control}
+            variant="normal"
           />
         </div>
-        Inscription en cours de validation
-      </h2>
-
-      <p className="mt-1 text-center text-base text-black">
-        Votre restaurant a été correctement enregistré. L'équipe d'Atabulapp va
-        étudier votre demande et vous recevrez une réponse dans les meilleurs
-        délais.
-      </p>
-      <Button
-        variant="primary"
-        className="mt-20"
-        onClick={() => router.push('/')}
-      >
-        Accéder à l'application
-      </Button>
-    </div>
+      </div>
+    </form>
   )
 }
 
 CorporateFive.getLayout = (page: ReactElement) => (
-  <LoginSignupLayout hasFooter={false}>{page}</LoginSignupLayout>
+  <LoginSignupLayout
+    formId="additional-information-form"
+    footerLeftButton={{
+      text: 'Retour',
+      action: 'go-back',
+    }}
+    footerRightButton={{
+      text: "Finaliser l'inscription",
+    }}
+  >
+    {page}
+  </LoginSignupLayout>
 )
 
 export default CorporateFive
