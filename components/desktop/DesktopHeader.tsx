@@ -42,7 +42,7 @@ const DesktopHeader = () => {
         id="search-form"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex rounded-full bg-alto/40 p-2">
+        <div className="flex rounded-full bg-alto/30 p-2">
           <input
             type="text"
             className="border-r-2 border-solid border-white bg-[transparent] px-2 text-base text-black outline-none"

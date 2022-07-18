@@ -1,27 +1,40 @@
 import Section from '@/components/homepage/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
+import FilterDropdown from '@/components/shared/FilterDropdown'
+import FilterTag from '@/components/shared/FilterTag'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import { GeolocationContext } from '@/contexts/GeolocationContext'
 import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useContext, useState } from 'react'
+import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
 const Homepage = () => {
-  const [loginModalOpen, setLoginModalOpen] = useState(false)
+  const coords = useContext(GeolocationContext)
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false)
 
   const { Modal, changeModal } = useModal('LoginModal')
 
-  const handleClick = () => {
-    setLoginModalOpen(true)
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(true)
     // changeModal('LoginModal')
   }
+
+  const handleFilterToggle = () => {
+    setIsFilterDropdownOpen(isFilterDropdownOpen => !isFilterDropdownOpen)
+  }
+
+  console.log(coords)
 
   return (
     <div>
       <Modal
-        isOpen={loginModalOpen}
-        onClose={() => setLoginModalOpen(false)}
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
         changeModal={changeModal}
       />
       <header className="flex h-28 lg:h-[450px]">
@@ -35,7 +48,7 @@ const Homepage = () => {
           </div>
         </div>
         <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex lg:pr-32">
-          <Button className="z-50" onClick={handleClick} variant="primary">
+          <Button className="z-50" onClick={handleLoginClick} variant="primary">
             Se connecter
           </Button>
           <Image
@@ -46,6 +59,27 @@ const Homepage = () => {
           />
         </div>
       </header>
+      <div className="flex gap-6 px-6 pt-6 lg:px-32">
+        <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
+          <RiSearchLine className="text-gray" size={20} />
+          <input
+            type="text"
+            placeholder="Recherche"
+            className="h-full w-full bg-[transparent] pr-6 text-lg text-black outline-none"
+          />
+        </label>
+        <FilterDropdown
+          size="lg"
+          isOpen={isFilterDropdownOpen}
+          onToggle={handleFilterToggle}
+        >
+          Filtres
+        </FilterDropdown>
+        <FilterTag size="lg" name="search-filters">
+          Filtres
+        </FilterTag>
+        <Button variant="primary">Localisation</Button>
+      </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
           {[...Array(5)].map((_, i) => {
