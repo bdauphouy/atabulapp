@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { RiArrowDownSLine } from 'react-icons/ri'
 
-type FilterDropdownProps = {
+type FiltersDropdownProps = {
   children: ReactNode
   isOpen: boolean
   onToggle: () => void
@@ -9,13 +9,13 @@ type FilterDropdownProps = {
   size: 'md' | 'lg'
 }
 
-const FilterDropdown = ({
+const FiltersDropdown = ({
   children,
   isOpen,
   onToggle,
   className = '',
   size,
-}: FilterDropdownProps) => {
+}: FiltersDropdownProps) => {
   return (
     <div
       onClick={onToggle}
@@ -32,4 +32,4 @@ const FilterDropdown = ({
   )
 }
 
-export default FilterDropdown
+export default FiltersDropdown
