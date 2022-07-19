@@ -1,15 +1,66 @@
 import Section from '@/components/homepage/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
+import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
-import { ReactElement, useContext } from 'react'
+import { ReactElement, useContext, useState } from 'react'
 
 const Homepage = () => {
   const searchData = useContext(SearchContext)
 
+  const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
+    useState(false)
+  const [isMealFiltersDropdownOpen, setIsMealFiltersDropdownOpen] =
+    useState(false)
+  const [
+    isTypeOfCuisineFiltersDropdownOpen,
+    setIsTypeOfCuisineFiltersDropdownOpen,
+  ] = useState(false)
+
+  const handleHonorsFiltersToggle = () => {
+    setIsHonorsFiltersDropdownOpen(
+      isHonorsFiltersDropdownOpen => !isHonorsFiltersDropdownOpen,
+    )
+  }
+
+  const handleMealFiltersToggle = () => {
+    setIsMealFiltersDropdownOpen(
+      isMealFiltersDropdownOpen => !isMealFiltersDropdownOpen,
+    )
+  }
+
+  const handleTypeOfCuisineFiltersToggle = () => {
+    setIsTypeOfCuisineFiltersDropdownOpen(
+      isTypeOfCuisineFiltersDropdownOpen => !isTypeOfCuisineFiltersDropdownOpen,
+    )
+  }
+
   return (
     <div>
       <pre>{JSON.stringify(searchData)}</pre>
+      <div className="flex gap-6 px-6 pt-6 lg:px-32">
+        <FiltersDropdown
+          size="lg"
+          isOpen={isHonorsFiltersDropdownOpen}
+          onToggle={handleHonorsFiltersToggle}
+        >
+          Distinctions
+        </FiltersDropdown>
+        <FiltersDropdown
+          size="lg"
+          isOpen={isMealFiltersDropdownOpen}
+          onToggle={handleMealFiltersToggle}
+        >
+          Repas
+        </FiltersDropdown>
+        <FiltersDropdown
+          size="lg"
+          isOpen={isTypeOfCuisineFiltersDropdownOpen}
+          onToggle={handleTypeOfCuisineFiltersToggle}
+        >
+          Type de cuisine
+        </FiltersDropdown>
+      </div>
       <main className="flex flex-col gap-11 py-10">
         <div className="px-6 lg:px-32">
           <h3 className="text-2xl font-bold text-black">Localisation</h3>

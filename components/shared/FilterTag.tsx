@@ -22,7 +22,7 @@ const FilterTag = ({
       <input
         id={`filter-tag-${name}`}
         type="checkbox"
-        defaultChecked={isSelected}
+        checked={isSelected}
         className="hidden"
         onChange={onChange}
       />

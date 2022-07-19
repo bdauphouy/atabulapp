@@ -21,11 +21,11 @@ const Template: ComponentStory<typeof FilterTag> = args => (
 export const Base = Template.bind({})
 
 Base.args = {
-  selected: false,
+  isSelected: false,
 }
 
 export const Selected = Template.bind({})
 
 Selected.args = {
-  selected: true,
+  isSelected: true,
 }

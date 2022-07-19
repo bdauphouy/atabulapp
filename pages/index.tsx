@@ -1,13 +1,19 @@
 import Section from '@/components/homepage/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
-import FilterDropdown from '@/components/shared/FilterDropdown'
+import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
 import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
-import { ReactElement, useContext, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
@@ -15,20 +21,34 @@ const Homepage = () => {
   const coords = useContext(GeolocationContext)
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false)
+  const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
+  const [isLastMinute, setIsLastMinute] = useState(false)
+  const [searchInputValue, setSearchInputValue] = useState('')
 
   const { Modal, changeModal } = useModal('LoginModal')
 
   const handleLoginClick = () => {
     setIsLoginModalOpen(true)
-    // changeModal('LoginModal')
   }
 
-  const handleFilterToggle = () => {
-    setIsFilterDropdownOpen(isFilterDropdownOpen => !isFilterDropdownOpen)
+  const handleFiltersToggle = () => {
+    setIsFiltersDropdownOpen(isFiltersDropdownOpen => !isFiltersDropdownOpen)
   }
 
-  console.log(coords)
+  const handleLastMinuteChange = () => {
+    setIsLastMinute(isLastMinute => !isLastMinute)
+  }
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(e.target.value)
+  }
+
+  useEffect(() => {
+    console.log({
+      isLastMinute,
+      searchInputValue,
+    })
+  }, [isLastMinute, searchInputValue])
 
   return (
     <div>
@@ -66,17 +86,23 @@ const Homepage = () => {
             type="text"
             placeholder="Recherche"
             className="h-full w-full bg-[transparent] pr-6 text-lg text-black outline-none"
+            onChange={handleSearchInputChange}
           />
         </label>
-        <FilterDropdown
+        <FiltersDropdown
           size="lg"
-          isOpen={isFilterDropdownOpen}
-          onToggle={handleFilterToggle}
+          isOpen={isFiltersDropdownOpen}
+          onToggle={handleFiltersToggle}
         >
           Filtres
-        </FilterDropdown>
-        <FilterTag size="lg" name="search-filters">
-          Filtres
+        </FiltersDropdown>
+        <FilterTag
+          isSelected={isLastMinute}
+          onChange={handleLastMinuteChange}
+          size="lg"
+          name="search-filters"
+        >
+          Last minute
         </FilterTag>
         <Button variant="primary">Localisation</Button>
       </div>
