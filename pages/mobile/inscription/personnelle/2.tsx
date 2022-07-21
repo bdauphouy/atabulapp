@@ -28,7 +28,7 @@ const PersonalTwo = () => {
 
   return (
     <form
-      id="signup-form"
+      id="personal-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -149,7 +149,7 @@ const PersonalTwo = () => {
 
 PersonalTwo.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="signup-form"
+    formId="personal-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

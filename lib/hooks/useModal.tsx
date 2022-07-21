@@ -1,0 +1,34 @@
+import LoginModal from '@/components/desktop/modals/LoginModal'
+import SignupPersonalFifthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFifthModal'
+import SignupPersonalFirstModal from '@/components/desktop/modals/signup/personal/SignupPersonalFirstModal'
+import SignupPersonalFourthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFourthModal'
+import SignupPersonalSecondModal from '@/components/desktop/modals/signup/personal/SignupPersonalSecondModal'
+import SignupPersonalThirdModal from '@/components/desktop/modals/signup/personal/SignupPersonalThirdModal'
+import SignupFirstModal from '@/components/desktop/modals/signup/SignupFirstModal'
+import { useCallback, useMemo, useState } from 'react'
+import { Modal } from '../types'
+
+const useModal = (defaultActiveModal: Modal) => {
+  const modals = useMemo(() => {
+    return {
+      LoginModal,
+      SignupFirstModal,
+      SignupPersonalFirstModal,
+      SignupPersonalSecondModal,
+      SignupPersonalThirdModal,
+      SignupPersonalFourthModal,
+      SignupPersonalFifthModal,
+    }
+  }, [])
+
+  const [activeModal, setActiveModal] = useState([modals[defaultActiveModal]])
+
+  const changeModal = useCallback(
+    (modal: Modal) => setActiveModal([modals[modal]]),
+    [modals],
+  )
+
+  return { Modal: activeModal[0], changeModal }
+}
+
+export default useModal

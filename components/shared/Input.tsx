@@ -190,7 +190,7 @@ const Input = ({
       render={({ field: { onChange, name, value } }) => (
         <div
           onKeyDown={handleKeyDown}
-          className={`${className} min-w-60 relative w-full border-b-[1px] border-solid border-alto/60`}
+          className={`${className} min-w-60 relative w-full border-b-[1px] border-solid border-alto/60 `}
         >
           <input
             onChange={onChange}

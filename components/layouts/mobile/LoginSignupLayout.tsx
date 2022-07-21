@@ -1,23 +1,18 @@
-import Footer from '@/components/mobile/Footer'
+import FormFooter from '@/components/shared/FormFooter'
+import { FormFooterActionsProps } from '@/lib/types'
 import Image from 'next/image'
 import { ReactNode } from 'react'
 
 type LoginSignupLayoutProps = {
-  formId?: string
-  footerLeftButton?: {
-    text: string
-    action?: 'go-back' | `go-to-[/${string}]`
-  }
-  footerRightButton?: { text: string; action?: string }
-  footer?: boolean
+  hasFooter?: boolean
   children: ReactNode
-}
+} & FormFooterActionsProps
 
 const LoginSignupLayout = ({
   formId,
   footerLeftButton,
   footerRightButton,
-  footer = true,
+  hasFooter = true,
   children,
 }: LoginSignupLayoutProps) => {
   return (
@@ -31,11 +26,12 @@ const LoginSignupLayout = ({
         />
       </header>
       <div className="mt-20 rounded-t-xl bg-white p-5 pb-28">{children}</div>
-      {footer && (
-        <Footer
+      {hasFooter && (
+        <FormFooter
           formId={formId}
           footerLeftButton={footerLeftButton}
           footerRightButton={footerRightButton}
+          isFixed
         />
       )}
     </div>

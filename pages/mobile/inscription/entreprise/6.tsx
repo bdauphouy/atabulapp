@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
-const PersonalFour = () => {
+const CorporateSix = () => {
   const router = useRouter()
 
   return (
@@ -23,7 +23,9 @@ const PersonalFour = () => {
       </h2>
 
       <p className="mt-1 text-center text-base text-black">
-        Vous recevrez un mail pour finaliser l'inscription
+        Votre restaurant a été correctement enregistré. L'équipe d'Atabulapp va
+        étudier votre demande et vous recevrez une réponse dans les meilleurs
+        délais.
       </p>
       <Button
         variant="primary"
@@ -36,8 +38,8 @@ const PersonalFour = () => {
   )
 }
 
-PersonalFour.getLayout = (page: ReactElement) => (
+CorporateSix.getLayout = (page: ReactElement) => (
   <LoginSignupLayout hasFooter={false}>{page}</LoginSignupLayout>
 )
 
-export default PersonalFour
+export default CorporateSix

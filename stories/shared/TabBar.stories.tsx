@@ -1,6 +1,5 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-
-import TabBar from '@/components/shared/TabBar'
+import TabBar from '@/components/mobile/TabBar'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 export default {
   title: 'Shared/TabBar',

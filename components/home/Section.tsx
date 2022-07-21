@@ -14,8 +14,6 @@ const Section = ({
   isGrid,
   isSwiper = false,
 }: SectionProps) => {
-  console.log(children)
-
   return (
     <div>
       <h3 className="px-6 text-2xl font-bold text-black lg:px-32">{title}</h3>

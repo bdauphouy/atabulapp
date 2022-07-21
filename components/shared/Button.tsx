@@ -52,7 +52,7 @@ const Button = ({
       disabled={disabled}
       className={`flex items-center ${className} ${commonClasses} ${
         variant === 'primary'
-          ? 'gap-3 px-10 py-2.5 text-lg'
+          ? 'gap-3 px-6 py-2.5 text-lg'
           : 'gap-2 px-5 py-1.5 text-base'
       }`}
       onClick={onClick}

@@ -3,22 +3,13 @@ import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { ILoginForm } from '@/lib/interfaces'
+import { ModalProps } from '@/lib/types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-interface ILoginForm {
-  email: string
-  password: string
-  stayLoggedIn: boolean
-}
-
-type SignupModalProps = {
-  isOpen: boolean
-  onClose: () => void
-}
-
-const SignupModal = ({ isOpen, onClose }: SignupModalProps) => {
+const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   const {
     control,
     setValue,
@@ -28,7 +19,7 @@ const SignupModal = ({ isOpen, onClose }: SignupModalProps) => {
     defaultValues: {
       email: '',
       password: '',
-      stayLoggedIn: true,
+      stayLoggedIn: false,
     },
   })
 
@@ -41,7 +32,10 @@ const SignupModal = ({ isOpen, onClose }: SignupModalProps) => {
     <Modal
       title="Connexion"
       formId="login-form"
-      footerLeftButton={{ text: "S'inscrire" }}
+      footerLeftButton={{
+        text: "S'inscrire",
+        customAction: () => changeModal('SignupFirstModal'),
+      }}
       footerRightButton={{ text: 'Se connecter' }}
       isOpen={isOpen}
       onClose={onClose}
@@ -49,7 +43,7 @@ const SignupModal = ({ isOpen, onClose }: SignupModalProps) => {
       <form
         id="login-form"
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-96 flex-col gap-6"
+        className="flex flex-col gap-6"
       >
         <Input
           placeholder="Email"
@@ -102,4 +96,4 @@ const SignupModal = ({ isOpen, onClose }: SignupModalProps) => {
   )
 }
 
-export default SignupModal
+export default LoginModal

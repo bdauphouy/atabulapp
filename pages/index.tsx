@@ -1,20 +1,61 @@
-import SignupModal from '@/components/desktop/modals/SignupModal'
-import Section from '@/components/homepage/Section'
+import Section from '@/components/home/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
+import FiltersDropdown from '@/components/shared/FiltersDropdown'
+import FilterTag from '@/components/shared/FilterTag'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import { GeolocationContext } from '@/contexts/GeolocationContext'
+import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
-import { ReactElement, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
-const Homepage = () => {
-  const [signupModalOpen, setSignupModalOpen] = useState(false)
+const Home = () => {
+  const coords = useContext(GeolocationContext)
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
+  const [isLastMinute, setIsLastMinute] = useState(false)
+  const [searchInputValue, setSearchInputValue] = useState('')
+
+  const { Modal, changeModal } = useModal('LoginModal')
+
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(true)
+  }
+
+  const handleFiltersToggle = () => {
+    setIsFiltersDropdownOpen(isFiltersDropdownOpen => !isFiltersDropdownOpen)
+  }
+
+  const handleLastMinuteChange = () => {
+    setIsLastMinute(isLastMinute => !isLastMinute)
+  }
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(e.target.value)
+  }
+
+  useEffect(() => {
+    console.log({
+      isLastMinute,
+      searchInputValue,
+    })
+  }, [isLastMinute, searchInputValue])
 
   return (
     <div>
-      <SignupModal
-        isOpen={signupModalOpen}
-        onClose={() => setSignupModalOpen(false)}
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        changeModal={changeModal}
       />
       <header className="flex h-28 lg:h-[450px]">
         <div className="flex flex-[2] items-center justify-center bg-white-rock px-16 py-8 lg:py-40">
@@ -27,11 +68,7 @@ const Homepage = () => {
           </div>
         </div>
         <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex lg:pr-32">
-          <Button
-            className="z-50"
-            onClick={() => setSignupModalOpen(true)}
-            variant="primary"
-          >
+          <Button className="z-50" onClick={handleLoginClick} variant="primary">
             Se connecter
           </Button>
           <Image
@@ -42,6 +79,33 @@ const Homepage = () => {
           />
         </div>
       </header>
+      <div className="flex gap-6 px-6 pt-6 lg:px-32">
+        <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
+          <RiSearchLine className="text-gray" size={20} />
+          <input
+            type="text"
+            placeholder="Recherche"
+            className="h-full w-full bg-[transparent] pr-6 text-lg text-black outline-none"
+            onChange={handleSearchInputChange}
+          />
+        </label>
+        <FiltersDropdown
+          size="lg"
+          isOpen={isFiltersDropdownOpen}
+          onToggle={handleFiltersToggle}
+        >
+          Filtres
+        </FiltersDropdown>
+        <FilterTag
+          isSelected={isLastMinute}
+          onChange={handleLastMinuteChange}
+          size="lg"
+          name="search-filters"
+        >
+          Last minute
+        </FilterTag>
+        <Button variant="primary">Localisation</Button>
+      </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
           {[...Array(5)].map((_, i) => {
@@ -134,8 +198,8 @@ const Homepage = () => {
   )
 }
 
-export default Homepage
+export default Home
 
-Homepage.getLayout = (page: ReactElement) => (
-  <DesktopLayout>{page}</DesktopLayout>
+Home.getLayout = (page: ReactElement) => (
+  <DesktopLayout hasHeader={false}>{page}</DesktopLayout>
 )

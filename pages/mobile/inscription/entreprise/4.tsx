@@ -1,12 +1,68 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
-import ImportImageArea from '@/components/shared/ImportImageArea'
+import HonorsBottomSheet from '@/components/mobile/additional-information/HonorsBottomSheet'
+import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
+import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
 import { ICorporateFourForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateFour = () => {
-  const { handleSubmit, control } = useForm<ICorporateFourForm>()
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<ICorporateFourForm>()
+
+  const watchTypesOfCuisine = watch(['typesOfCuisine'])
+  const watchHonors = watch(['honors'])
+
+  const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
+    useState(false)
+
+  const [typesOfCuisineCheckedCount, setTypesOfCuisineCheckedCount] =
+    useState(0)
+
+  const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
+
+  useEffect(() => {
+    if (!watchTypesOfCuisine[0]) return
+
+    const filteredFields = watchTypesOfCuisine[0].filter(
+      field => typeof field === 'string',
+    )
+
+    setTypesOfCuisineCheckedCount(filteredFields.length)
+
+    const formatedFields = filteredFields.slice(0, 2).join(', ')
+
+    setValue(
+      'typesOfCuisineString',
+      filteredFields.length > 2
+        ? formatedFields + ` +${filteredFields.length - 2}`
+        : formatedFields,
+    )
+  }, [watchTypesOfCuisine, setValue])
+
+  useEffect(() => {
+    if (!watchHonors[0]) return
+
+    const filteredFields = watchHonors[0].filter(
+      field => typeof field === 'string',
+    )
+
+    const formatedFields = filteredFields.slice(0, 2).join(', ')
+
+    setValue(
+      'honorsString',
+      filteredFields.length > 2
+        ? formatedFields + ` +${filteredFields.length - 2}`
+        : formatedFields,
+    )
+  }, [watchHonors, setValue])
 
   const router = useRouter()
 
@@ -24,55 +80,94 @@ const CorporateFour = () => {
     >
       <header className="flex flex-col gap-1">
         <div className="mb-2 flex flex-col gap-1">
-          <h2 className="text-2xl font-extrabold text-black">Photos</h2>
+          <h2 className="text-2xl font-extrabold text-black">
+            Informations supplémentaires
+          </h2>
           <p className="text-sm text-gray">
-            Les photos sont obligatoires pour inscrire votre établissement. Vous
-            pourrez en ajouter plus tard sur la gestion de votre profil.
+            Les informations pourront être complétées ultérieurement et seront
+            utilisées pour la fiche de l'établissement.
           </p>
+          <p className="text-sm text-scarlet">* Champs obligatoires</p>
         </div>
       </header>
-      <div>
-        <h3 className="mb-3 text-sm text-black">Photo de couverture</h3>
-        <ImportImageArea
-          title="Photo de couverture"
-          name="coverPicture"
+      <div onClick={() => setIsTypeOfCuisineSheetOpen(true)}>
+        <Input
+          placeholder="Types de cuisine"
           control={control}
-          variant="full"
+          setValue={setValue}
+          rules={{
+            required: true,
+          }}
+          name="typesOfCuisineString"
+          isRequired
+          isDisabled
+          isFocusedLike={isTypeOfCuisineSheetOpen}
         />
       </div>
-      <div>
-        <h3 className="text-sm text-black">Photos supplémentaires</h3>
-        <p className="mt-2 mb-3 text-sm text-gray">
-          Il vous faut importer au minimum 4 photos supplémentaires pour valider
-          votre profil.
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          <ImportImageArea
-            title="Photo supplémentaire 1"
-            name="additionalPictures.0"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 2"
-            name="additionalPictures.1"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 2"
-            name="additionalPictures.2"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 3"
-            name="additionalPictures.3"
-            control={control}
-            variant="normal"
-          />
-        </div>
+      <TypeOfCuisineBottomSheet
+        control={control}
+        isOpen={isTypeOfCuisineSheetOpen}
+        setIsOpen={setIsTypeOfCuisineSheetOpen}
+        isDisabled={typesOfCuisineCheckedCount >= 3}
+      />
+      <div onClick={() => setIsHonorsSheetOpen(true)}>
+        <Input
+          placeholder="Distinctions"
+          control={control}
+          setValue={setValue}
+          rules={{
+            required: true,
+          }}
+          name="honorsString"
+          isRequired
+          isDisabled
+          isFocusedLike={isHonorsSheetOpen}
+        />
       </div>
+      <HonorsBottomSheet
+        control={control}
+        isOpen={isHonorsSheetOpen}
+        setIsOpen={setIsHonorsSheetOpen}
+      />
+      <Input
+        placeholder="Prénom et nom de chef de cuisine"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: false,
+        }}
+        name="chefFullName"
+      />
+      <Input
+        placeholder="Prénom et nom patisser(ère)"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: false,
+        }}
+        name="pastryChefFullName"
+      />
+      <Input
+        placeholder="Prénom et nom sommelier(ère)"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: false,
+        }}
+        name="sommelierFullName"
+      />
+      <Input
+        placeholder="Prénom et nom directeur(rice) de salle"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: false,
+        }}
+        name="roomManagerFullName"
+      />
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">Veuillez renseigner les champs requis.</Message>
+      )}
     </form>
   )
 }
@@ -85,7 +180,7 @@ CorporateFour.getLayout = (page: ReactElement) => (
       action: 'go-back',
     }}
     footerRightButton={{
-      text: "Finaliser l'inscription",
+      text: 'Continuer',
     }}
   >
     {page}

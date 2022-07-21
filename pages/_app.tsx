@@ -1,3 +1,6 @@
+import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
+import { HonorsContextProvider } from '@/contexts/HonorsContext'
+import { SearchContextProvider } from '@/contexts/SearchContext'
 import { TypesOfCuisineContextProvider } from '@/contexts/TypesOfCuisineContext'
 import '@/styles/globals.css'
 import { NextPage } from 'next'
@@ -22,20 +25,26 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TypesOfCuisineContextProvider>
-        <Head>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-          />
+      <HonorsContextProvider>
+        <SearchContextProvider>
+          <TypesOfCuisineContextProvider>
+            <GeolocationContextProvider>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                />
 
-          <title>
-            Atabulapp - Offres et avantages pour les professionnels de la
-            restauration et de l'hôtellerie
-          </title>
-        </Head>
-        {getLayout(<Component {...pageProps} />)}
-      </TypesOfCuisineContextProvider>
+                <title>
+                  Atabulapp - Offres et avantages pour les professionnels de la
+                  restauration et de l'hôtellerie
+                </title>
+              </Head>
+              {getLayout(<Component {...pageProps} />)}
+            </GeolocationContextProvider>
+          </TypesOfCuisineContextProvider>
+        </SearchContextProvider>
+      </HonorsContextProvider>
     </QueryClientProvider>
   )
 }

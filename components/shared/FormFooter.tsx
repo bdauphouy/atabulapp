@@ -1,0 +1,62 @@
+import Button from '@/components/shared/Button'
+import { FormFooterActionsProps } from '@/lib/types'
+import { useRouter } from 'next/router'
+
+type FormFooterProps = {
+  isFixed?: boolean
+} & FormFooterActionsProps
+
+const FormFooter = ({
+  formId,
+  footerLeftButton,
+  footerRightButton,
+  isFixed = false,
+}: FormFooterProps) => {
+  const router = useRouter()
+
+  const handleClick = (buttonPosition: 'left' | 'right') => {
+    const button =
+      buttonPosition === 'left' ? footerLeftButton : footerRightButton
+
+    if (!button.action && !button.customAction) return
+
+    if (button.customAction) return button.customAction()
+
+    switch (button.action) {
+      case 'go-back':
+        return router.back()
+    }
+
+    if (button.action.match(/go-to-\[\/[a-z|0-9\/]+\]/)) {
+      const url = button.action.split('[')[1].split(']')[0]
+
+      return router.push(url)
+    }
+  }
+
+  return (
+    <footer
+      className={`${
+        isFixed ? 'fixed' : ''
+      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
+    >
+      {footerLeftButton ? (
+        <Button onClick={() => handleClick('left')} variant="tertiary">
+          {footerLeftButton.text}
+        </Button>
+      ) : (
+        <div />
+      )}
+      <Button
+        onClick={() => handleClick('right')}
+        form={formId}
+        submit
+        variant="secondary"
+      >
+        {footerRightButton.text}
+      </Button>
+    </footer>
+  )
+}
+
+export default FormFooter

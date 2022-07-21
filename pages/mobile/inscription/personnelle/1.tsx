@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 const PersonalOne = () => {
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-4 border-b-[1px] border-solid border-alto pb-6">
+      <header className="flex flex-col gap-4 border-b-[1px] border-solid border-alto/60 pb-6">
         <h2 className="text-2xl font-extrabold text-black">Inscription</h2>
         <p className="text-base text-black">
           Le coût annuel de l'inscription pour profiter des offres et avantages

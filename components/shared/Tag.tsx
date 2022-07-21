@@ -4,9 +4,10 @@ import { useMemo } from 'react'
 
 interface TagProps extends T {
   className?: string
+  withText?: boolean
 }
 
-const Tag = ({ className = '', type, number }: TagProps) => {
+const Tag = ({ className = '', type, number, withText = false }: TagProps) => {
   const iconSize = useMemo(() => 13, [])
 
   const TagIcon = () => {
@@ -54,11 +55,11 @@ const Tag = ({ className = '', type, number }: TagProps) => {
     <ul
       className={`${className} ${
         type === 'michelin' || type === 'bib-gourmand'
-          ? 'bg-[#FBE6EA]'
+          ? 'bg-[#FBE6EA] text-[#D3072B]'
           : type === 'etoile-verte'
-          ? 'bg-[#CCEAD7]'
-          : 'bg-[#FFF5CE]'
-      } flex w-max items-center gap-1 rounded-[4px] px-1.5 py-1`}
+          ? 'bg-[#CCEAD7] text-[#009739]'
+          : 'bg-[#FFF5CE] text-[#BB980E]'
+      } flex w-max items-center gap-1 rounded-[4px] px-1.5 py-1 leading-5`}
     >
       {[...Array(number)].map((_, i) => {
         return (
@@ -67,6 +68,11 @@ const Tag = ({ className = '', type, number }: TagProps) => {
           </li>
         )
       })}
+      {withText && (
+        <li className="ml-1 mt-0.5">
+          {type.replaceAll('-', ' ').toUpperCase()}
+        </li>
+      )}
     </ul>
   )
 }
