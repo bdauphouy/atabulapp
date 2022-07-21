@@ -5,7 +5,7 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import { ReactElement, useContext, useState } from 'react'
 
-const Homepage = () => {
+const Home = () => {
   const searchData = useContext(SearchContext)
 
   const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
@@ -118,8 +118,6 @@ const Homepage = () => {
   )
 }
 
-export default Homepage
+export default Home
 
-Homepage.getLayout = (page: ReactElement) => (
-  <DesktopLayout>{page}</DesktopLayout>
-)
+Home.getLayout = (page: ReactElement) => <DesktopLayout>{page}</DesktopLayout>

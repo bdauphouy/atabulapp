@@ -1,10 +1,9 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-
-import FilterDropdown from '@/components/shared/FilterDropdown'
+import FiltersDropdown from '@/components/shared/FiltersDropdown'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 export default {
-  title: 'Shared/Filters/FilterDropdown',
-  component: FilterDropdown,
+  title: 'Shared/Filters/FiltersDropdown',
+  component: FiltersDropdown,
   args: {
     children: 'Filtres',
   },
@@ -13,10 +12,10 @@ export default {
       exclude: ['className', 'onChange'],
     },
   },
-} as ComponentMeta<typeof FilterDropdown>
+} as ComponentMeta<typeof FiltersDropdown>
 
-const Template: ComponentStory<typeof FilterDropdown> = args => (
-  <FilterDropdown {...args} />
+const Template: ComponentStory<typeof FiltersDropdown> = args => (
+  <FiltersDropdown {...args} />
 )
 
 export const Base = Template.bind({})
