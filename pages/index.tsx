@@ -1,4 +1,4 @@
-import Section from '@/components/homepage/Section'
+import Section from '@/components/home/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import Button from '@/components/shared/Button'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
@@ -17,7 +17,7 @@ import {
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
-const Homepage = () => {
+const Home = () => {
   const coords = useContext(GeolocationContext)
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -198,8 +198,8 @@ const Homepage = () => {
   )
 }
 
-export default Homepage
+export default Home
 
-Homepage.getLayout = (page: ReactElement) => (
+Home.getLayout = (page: ReactElement) => (
   <DesktopLayout hasHeader={false}>{page}</DesktopLayout>
 )

@@ -29,7 +29,7 @@ const DesktopHeader = () => {
   }
 
   return (
-    <header className="flex items-center justify-between border-b-[1px] border-solid border-alto/60  p-6 pb-3 lg:px-32">
+    <header className="flex items-center justify-between border-b-[1px] border-solid border-alto/60 p-6 pb-3 lg:px-32">
       <div className="bg relative h-14 w-24">
         <Image
           src="/images/full-logo.svg"
