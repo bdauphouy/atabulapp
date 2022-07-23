@@ -16,6 +16,7 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     if (person === 'personal') {
       changeModal('SignupPersonalFirstModal')
     } else {
+      changeModal('SignupCorporateFirstModal')
     }
   }
   return (

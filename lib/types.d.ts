@@ -5,14 +5,16 @@ export type Tag = {
   number: number
 }
 
+type SignupType = 'Corporate' | 'Personal'
 export type Modal =
   | 'LoginModal'
   | 'SignupFirstModal'
-  | 'SignupPersonalFirstModal'
-  | 'SignupPersonalSecondModal'
-  | 'SignupPersonalThirdModal'
-  | 'SignupPersonalFourthModal'
-  | 'SignupPersonalFifthModal'
+  | `Signup${SignupType}FirstModal`
+  | `Signup${SignupType}SecondModal`
+  | `Signup${SignupType}ThirdModal`
+  | `Signup${SignupType}FourthModal`
+  | `Signup${SignupType}FifthModal`
+  | 'SignupCorporateSixthModal'
 
 export type ModalProps = {
   isOpen: boolean

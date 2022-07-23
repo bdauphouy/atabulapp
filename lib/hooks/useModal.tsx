@@ -1,4 +1,10 @@
 import LoginModal from '@/components/desktop/modals/LoginModal'
+import SignupCorporateFifthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFifthModal'
+import SignupCorporateFirstModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFirstModal'
+import SignupCorporateFourthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFourthModal'
+import SignupCorporateSecondModal from '@/components/desktop/modals/signup/corporate/SignupCorporateSecondModal'
+import SignupCorporateSixthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateSixthModal'
+import SignupCorporateThirdModal from '@/components/desktop/modals/signup/corporate/SignupCorporateThirdModal'
 import SignupPersonalFifthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFifthModal'
 import SignupPersonalFirstModal from '@/components/desktop/modals/signup/personal/SignupPersonalFirstModal'
 import SignupPersonalFourthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFourthModal'
@@ -18,6 +24,12 @@ const useModal = (defaultActiveModal: Modal) => {
       SignupPersonalThirdModal,
       SignupPersonalFourthModal,
       SignupPersonalFifthModal,
+      SignupCorporateFirstModal,
+      SignupCorporateSecondModal,
+      SignupCorporateThirdModal,
+      SignupCorporateFourthModal,
+      SignupCorporateFifthModal,
+      SignupCorporateSixthModal,
     }
   }, [])
 

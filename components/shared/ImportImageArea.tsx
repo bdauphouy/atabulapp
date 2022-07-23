@@ -34,7 +34,9 @@ const ImportImageArea = ({
         <div>
           <label
             htmlFor={uuid}
-            className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-alto/50"
+            className={`${
+              variant === 'full' ? 'h-40' : 'h-32'
+            } relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-alto/50`}
           >
             {file ? (
               <Image

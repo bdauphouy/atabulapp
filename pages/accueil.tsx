@@ -1,4 +1,4 @@
-import Section from '@/components/homepage/Section'
+import Section from '@/components/home/Section'
 import DesktopLayout from '@/components/layouts/DesktopLayout'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import RestaurantCard from '@/components/shared/RestaurantCard'
