@@ -9,5 +9,5 @@
 }
 
 body .swiper-section {
-  @apply cursor-grab px-6 active:cursor-grabbing lg:px-32;
+  @apply cursor-grab px-6 active:cursor-grabbing xl:px-32;
 }
