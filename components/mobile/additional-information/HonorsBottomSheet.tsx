@@ -2,7 +2,7 @@ import BottomSheet from '@/components/mobile/BottomSheet'
 import Checkbox from '@/components/shared/Checkbox'
 import Tag from '@/components/shared/Tag'
 import { HonorsContext } from '@/contexts/HonorsContext'
-import { HonorsBottomSheetProps } from '@/lib/types'
+import { Honor, HonorsBottomSheetProps } from '@/lib/types'
 import { useContext } from 'react'
 
 const HonorsBottomSheet = ({
@@ -25,7 +25,7 @@ const HonorsBottomSheet = ({
       </header>
       <div className="mt-6 w-full">
         <ul className="flex flex-col">
-          {honors.map((honor, i) => (
+          {honors.map((honor: Honor, i) => (
             <li
               key={i}
               className="border-b-[1px] border-solid border-alto/30 py-4"

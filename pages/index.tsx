@@ -67,7 +67,7 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex lg:pr-32">
+        <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex xl:pr-32">
           <Button className="z-50" onClick={handleLoginClick} variant="primary">
             Se connecter
           </Button>
@@ -79,7 +79,7 @@ const Home = () => {
           />
         </div>
       </header>
-      <div className="flex gap-6 px-6 pt-6 lg:px-32">
+      <div className="flex gap-6 px-6 pt-6 xl:px-32">
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
           <input

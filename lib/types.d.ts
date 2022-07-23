@@ -5,6 +5,11 @@ export type Tag = {
   number: number
 }
 
+export type Honor = {
+  title: string
+  tag: Tag
+}
+
 type SignupType = 'Corporate' | 'Personal'
 export type Modal =
   | 'LoginModal'
