@@ -17,16 +17,25 @@ export const GeolocationContextProvider = ({ children }) => {
   })
 
   useEffect(() => {
-    navigator.permissions.query({ name: 'geolocation' }).then(result => {
-      if (result.state === 'prompt' || result.state === 'granted') {
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
-          setCoords({
-            lat: coords.latitude,
-            lon: coords.longitude,
+    if ('permissions' in navigator) {
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
+        if (result.state === 'prompt' || result.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(({ coords }) => {
+            setCoords({
+              lat: coords.latitude,
+              lon: coords.longitude,
+            })
           })
+        }
+      })
+    } else {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        setCoords({
+          lat: coords.latitude,
+          lon: coords.longitude,
         })
-      }
-    })
+      })
+    }
   }, [])
 
   return (
