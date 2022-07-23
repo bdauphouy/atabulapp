@@ -18,7 +18,7 @@ const CorporateFive = () => {
 
   return (
     <form
-      id="additional-information-form"
+      id="pictures-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -79,7 +79,7 @@ const CorporateFive = () => {
 
 CorporateFive.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="additional-information-form"
+    formId="pictures-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

@@ -3,7 +3,7 @@ import Modal from '@/components/shared/Modal'
 import { ModalProps } from '@/lib/types'
 import Image from 'next/image'
 
-const SignupPersonalFifthModal = ({
+const SignupCorporateSixthModal = ({
   isOpen,
   onClose,
   changeModal,
@@ -36,7 +36,9 @@ const SignupPersonalFifthModal = ({
         </h2>
 
         <p className="mt-1 text-center text-base text-black">
-          Vous recevrez un mail pour finaliser l'inscription
+          Votre restaurant a été correctement enregistré. L'équipe d'Atabulapp
+          va étudier votre demande et vous recevrez une réponse dans les
+          meilleures délais.
         </p>
         <Button variant="primary" className="mt-20" onClick={handleClick}>
           Accéder au site
@@ -46,4 +48,4 @@ const SignupPersonalFifthModal = ({
   )
 }
 
-export default SignupPersonalFifthModal
+export default SignupCorporateSixthModal

@@ -39,7 +39,6 @@ const PersonalThree = () => {
       className="flex flex-col gap-6"
     >
       <h2 className="mb-2 text-2xl font-extrabold text-black">Justificatifs</h2>
-
       <ul className="flex flex-col gap-10">
         {workStatus === 'student' ? (
           <SupportingDocument

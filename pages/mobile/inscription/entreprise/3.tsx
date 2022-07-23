@@ -23,7 +23,7 @@ const CorporateThree = () => {
 
   return (
     <form
-      id="privileged-contact-form"
+      id="privileged-contact-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -96,7 +96,7 @@ const CorporateThree = () => {
 
 CorporateThree.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="privileged-contact-form"
+    formId="privileged-contact-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

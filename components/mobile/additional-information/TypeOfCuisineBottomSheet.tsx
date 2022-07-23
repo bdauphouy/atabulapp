@@ -21,7 +21,7 @@ const TypeOfCuisineBottomSheet = ({
       initialSnap={0}
     >
       <header className="flex flex-col items-center gap-1 bg-white text-center">
-        <h3 className="text-xl font-bold text-black">Test</h3>
+        <h3 className="text-xl font-bold text-black">Types de cuisine</h3>
         <h4 className="text-sm text-gray">Maximum 3</h4>
       </header>
       <div className="mt-6 w-full">
