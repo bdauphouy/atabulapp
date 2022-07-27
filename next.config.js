@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+console.warn = () => {}
+
 const withPWA = require('next-pwa')
 
 const nextConfig = withPWA({
