@@ -74,7 +74,7 @@ const CorporateFour = () => {
 
   return (
     <form
-      id="additional-information-form"
+      id="additional-information-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -174,7 +174,7 @@ const CorporateFour = () => {
 
 CorporateFour.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="additional-information-form"
+    formId="additional-information-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',

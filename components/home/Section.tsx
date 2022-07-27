@@ -1,3 +1,4 @@
+import useMediaMatch from '@rooks/use-media-match'
 import { ReactNode } from 'react'
 import { Swiper } from 'swiper/react'
 
@@ -14,13 +15,18 @@ const Section = ({
   isGrid,
   isSwiper = false,
 }: SectionProps) => {
+  const swiperFirstBreakpoint = useMediaMatch('(max-width: 1600px)')
+  const swiperSecondBreakpoint = useMediaMatch('(max-width: 1024px)')
+
   return (
     <div>
       <h3 className="px-6 text-2xl font-bold text-black xl:px-32">{title}</h3>
       {isSwiper ? (
         <Swiper
           spaceBetween={24}
-          slidesPerView={3.5}
+          slidesPerView={
+            swiperSecondBreakpoint ? 1 : swiperFirstBreakpoint ? 2 : 3.5
+          }
           className="swiper-section mt-4"
         >
           {children}

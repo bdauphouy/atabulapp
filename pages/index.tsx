@@ -79,32 +79,34 @@ const Home = () => {
           />
         </div>
       </header>
-      <div className="flex gap-6 px-6 pt-6 xl:px-32">
+      <div className="flex flex-col gap-6 px-6 pt-6 md:flex-row xl:px-32">
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
           <input
             type="text"
             placeholder="Recherche"
-            className="h-full w-full bg-[transparent] pr-6 text-lg text-black outline-none"
+            className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
             onChange={handleSearchInputChange}
           />
         </label>
-        <FiltersDropdown
-          size="lg"
-          isOpen={isFiltersDropdownOpen}
-          onToggle={handleFiltersToggle}
-        >
-          Filtres
-        </FiltersDropdown>
-        <FilterTag
-          isSelected={isLastMinute}
-          onChange={handleLastMinuteChange}
-          size="lg"
-          name="search-filters"
-        >
-          Last minute
-        </FilterTag>
-        <Button variant="primary">Localisation</Button>
+        <div className="flex flex-wrap gap-6">
+          <FiltersDropdown
+            size="lg"
+            isOpen={isFiltersDropdownOpen}
+            onToggle={handleFiltersToggle}
+          >
+            Filtres
+          </FiltersDropdown>
+          <FilterTag
+            isSelected={isLastMinute}
+            onChange={handleLastMinuteChange}
+            size="lg"
+            name="search-filters"
+          >
+            Last minute
+          </FilterTag>
+          <Button variant="primary">Localisation</Button>
+        </div>
       </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>

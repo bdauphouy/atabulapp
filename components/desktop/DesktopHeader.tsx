@@ -29,7 +29,7 @@ const DesktopHeader = () => {
   }
 
   return (
-    <header className="flex items-center justify-between border-b-[1px] border-solid border-alto/60 p-6 pb-3 lg:px-32">
+    <header className="flex flex-col flex-wrap items-start justify-between gap-6 border-b-[1px] border-solid border-alto/60 p-6 pb-3 md:flex-row md:items-center xl:px-32">
       <div className="bg relative h-14 w-24">
         <Image
           src="/images/full-logo.svg"
@@ -38,28 +38,28 @@ const DesktopHeader = () => {
         />
       </div>
       <form
-        className="flex gap-4"
+        className="flex w-full flex-col items-start gap-4 md:w-auto md:flex-row"
         id="search-form"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex rounded-full bg-alto/30 p-2">
+        <div className="flex w-full flex-col rounded-md bg-alto/30 p-2 md:flex-row md:rounded-full">
           <input
             type="text"
-            className="border-r-2 border-solid border-white bg-[transparent] px-2 text-base text-black outline-none"
+            className="border-solid border-white bg-[transparent] py-1 px-2 text-base text-black outline-none md:border-r-2"
             name="location"
             {...register('location')}
             placeholder="Localisation"
           />
           <input
             type="text"
-            className="border-r-2 border-solid border-white bg-[transparent] px-2 text-base text-black outline-none"
+            className="border-solid border-white bg-[transparent] py-1 px-2 text-base text-black outline-none md:border-r-2"
             name="months"
             {...register('period')}
             placeholder="Période"
           />
           <input
             type="text"
-            className="bg-[transparent] px-2 text-base text-black outline-none"
+            className="bg-[transparent] px-2 py-1 text-base text-black outline-none"
             name="numberOfPersons"
             {...register('numberOfPersons')}
             placeholder="Nombre de personnes"
