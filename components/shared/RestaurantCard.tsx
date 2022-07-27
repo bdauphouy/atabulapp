@@ -30,7 +30,7 @@ const RestaurantCard = ({
   return (
     <article
       className={`${className} ${
-        size === 'small' ? 'min-w-[384px]' : 'lg:min-w-[384px]'
+        size === 'small' ? 'min-w-[320px]' : 'lg:min-w-[384px]'
       } flex w-full flex-col gap-2 overflow-hidden rounded-lg`}
     >
       <header className={`relative ${size === 'small' ? 'h-60' : 'h-72'}`}>
