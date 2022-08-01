@@ -5,6 +5,7 @@ import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { ILoginForm } from '@/lib/interfaces'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -22,8 +23,11 @@ const Login = () => {
     },
   })
 
+  const router = useRouter()
+
   const onSubmit: SubmitHandler<ILoginForm> = data => {
     console.log(data)
+    router.push('/mobile/explorer')
   }
 
   return (

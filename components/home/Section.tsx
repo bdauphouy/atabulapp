@@ -7,6 +7,7 @@ type SectionProps = {
   children: ReactNode
   isGrid?: boolean
   isSwiper?: boolean
+  isMobile?: boolean
 }
 
 const Section = ({
@@ -14,6 +15,7 @@ const Section = ({
   children,
   isGrid,
   isSwiper = false,
+  isMobile = false,
 }: SectionProps) => {
   const swiperFirstBreakpoint = useMediaMatch('(max-width: 1600px)')
   const swiperSecondBreakpoint = useMediaMatch('(max-width: 1024px)')
@@ -23,9 +25,13 @@ const Section = ({
       <h3 className="px-6 text-2xl font-bold text-black xl:px-32">{title}</h3>
       {isSwiper ? (
         <Swiper
-          spaceBetween={24}
+          spaceBetween={isMobile ? 16 : 24}
           slidesPerView={
-            swiperSecondBreakpoint ? 1 : swiperFirstBreakpoint ? 2 : 3.5
+            swiperSecondBreakpoint
+              ? 1 * (isMobile ? 1.2 : 1)
+              : swiperFirstBreakpoint
+              ? 2
+              : 3.5
           }
           className="swiper-section mt-4"
         >
