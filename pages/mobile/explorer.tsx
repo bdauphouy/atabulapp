@@ -42,7 +42,7 @@ const Explore = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-3 px-6 pt-6 md:flex-row xl:px-32">
+      <div className="flex flex-col gap-3 px-6 pt-6 md:flex-row">
         <h2 className="mb-2 text-3xl font-bold text-black">Explorer</h2>
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />

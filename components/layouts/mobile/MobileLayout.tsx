@@ -5,12 +5,12 @@ import { RiArrowLeftSLine } from 'react-icons/ri'
 
 type MobileLayoutProps = {
   children: ReactNode
-  hasArrowBack?: boolean
+  withArrowBack?: boolean
 }
 
 const MobileLayout = ({
   children,
-  hasArrowBack = false,
+  withArrowBack = false,
 }: MobileLayoutProps) => {
   const router = useRouter()
 
@@ -20,8 +20,8 @@ const MobileLayout = ({
 
   return (
     <>
-      {hasArrowBack && (
-        <header className="absolute top-0 left-0 z-50 p-2">
+      {withArrowBack && (
+        <header className="absolute top-0 left-0 z-50 py-2 px-3">
           <RiArrowLeftSLine
             size={30}
             onClick={handleGoBackClick}

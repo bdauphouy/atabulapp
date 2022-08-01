@@ -23,7 +23,7 @@ const Restaurant = () => {
   const handleGetDirectionsClick = () => {}
 
   return (
-    <div className="px-6 py-10 lg:px-32">
+    <main className="px-6 py-10">
       <Toaster />
       <div className="grid h-[458px] grid-cols-[5fr,2fr,2fr] gap-1 overflow-hidden rounded-2xl">
         <div className="relative col-span-1 row-span-2">
@@ -131,7 +131,7 @@ const Restaurant = () => {
         </div>
         <div className="h-[660px] bg-scarlet/10"></div>
       </div>
-    </div>
+    </main>
   )
 }
 

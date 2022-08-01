@@ -65,7 +65,11 @@ const RestaurantCard = ({
       <div>
         <h3 className="text-lg font-medium text-black">{name}</h3>
 
-        <div className={`flex flex-wrap items-end justify-between gap-2`}>
+        <div
+          className={`${
+            size === 'sm' ? 'flex-col items-start' : 'flex-row items-end'
+          } flex flex-wrap justify-between gap-2`}
+        >
           <div>
             <h4 className="text-base text-gray">
               Cuisine{' '}

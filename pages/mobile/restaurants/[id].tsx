@@ -67,7 +67,7 @@ const Restaurant = () => {
           />
         </SwiperSlide>
       </Swiper>
-      <div className="mt-6 gap-6 px-6 pb-10 lg:px-32">
+      <main className="mt-6 gap-6 px-6 pb-10 lg:px-32">
         <div>
           <div className="flex gap-2">
             <Tag type="michelin" number={2} />
@@ -125,7 +125,7 @@ const Restaurant = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   )
 }
@@ -133,5 +133,5 @@ const Restaurant = () => {
 export default Restaurant
 
 Restaurant.getLayout = (page: ReactElement) => (
-  <MobileLayout hasArrowBack>{page}</MobileLayout>
+  <MobileLayout withArrowBack>{page}</MobileLayout>
 )

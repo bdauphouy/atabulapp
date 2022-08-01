@@ -75,8 +75,8 @@ const Home = () => {
                   { name: 'michelin', level: 2 },
                   { name: 'etoile-verte', level: 1 },
                 ]}
-                certified
-                size="small"
+                isCertified
+                size="sm"
                 promotion={50}
               />
             </div>
@@ -105,8 +105,8 @@ const Home = () => {
                     { name: 'michelin', level: 2 },
                     { name: 'etoile-verte', level: 1 },
                   ]}
-                  certified
-                  size="large"
+                  isCertified
+                  size="lg"
                   promotion={50}
                 />
               )
