@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
+export type ToastType = 'success' | 'error'
+
 export type Tag = {
   type: 'michelin' | 'etoile-verte' | 'gault-et-millau' | 'bib-gourmand'
   number: number

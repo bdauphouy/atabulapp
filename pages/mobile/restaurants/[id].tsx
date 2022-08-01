@@ -2,8 +2,10 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import LocationCTA from '@/components/restaurant/LocationCTA'
 import Role from '@/components/restaurant/Role'
 import Tag from '@/components/shared/Tag'
+import Toaster from '@/components/shared/Toaster'
 import Image from 'next/image'
 import { ReactElement } from 'react'
+import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 import { Pagination } from 'swiper'
 import 'swiper/css/pagination'
@@ -11,10 +13,13 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 const Restaurant = () => {
   const handleCopyAddressClick = () => {
-    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+      toast.success("L'adresse a bien été copiée.")
       return navigator.clipboard.writeText(
         'Le Meurice, 228 rue de Rivoli, Paris, 75001',
       )
+    }
+    toast.error("Votre navigateur ne peut pas copier l'adresse.")
     return Promise.reject('The Clipboard API is not available.')
   }
 
@@ -22,6 +27,7 @@ const Restaurant = () => {
 
   return (
     <>
+      <Toaster />
       <Swiper
         modules={[Pagination]}
         spaceBetween={0}

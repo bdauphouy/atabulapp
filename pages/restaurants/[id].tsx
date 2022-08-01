@@ -2,16 +2,21 @@ import DesktopLayout from '@/components/layouts/DesktopLayout'
 import LocationCTA from '@/components/restaurant/LocationCTA'
 import Role from '@/components/restaurant/Role'
 import Tag from '@/components/shared/Tag'
+import Toaster from '@/components/shared/Toaster'
 import Image from 'next/image'
 import { ReactElement } from 'react'
+import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 
 const Restaurant = () => {
   const handleCopyAddressClick = () => {
-    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+      toast.success("L'adresse a bien été copiée.")
       return navigator.clipboard.writeText(
         'Le Meurice, 228 rue de Rivoli, Paris, 75001',
       )
+    }
+    toast.error("Votre navigateur ne peut pas copier l'adresse.")
     return Promise.reject('The Clipboard API is not available.')
   }
 
@@ -19,6 +24,7 @@ const Restaurant = () => {
 
   return (
     <div className="px-6 py-10 lg:px-32">
+      <Toaster />
       <div className="grid h-[458px] grid-cols-[5fr,2fr,2fr] gap-1 overflow-hidden rounded-2xl">
         <div className="relative col-span-1 row-span-2">
           <Image
