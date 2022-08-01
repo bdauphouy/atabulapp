@@ -1,5 +1,4 @@
 import { createContext } from 'react'
-
 const typesOfCuisine = [
   'Cuisine moderne',
   'Cuisine traditionnelle',

@@ -6,9 +6,9 @@ const TabBar = () => {
   const router = useRouter()
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full px-16 py-5">
+    <footer className="fixed bottom-0 left-0 z-50 w-full bg-white px-16 py-5">
       <nav className="bg flex justify-between">
-        <Link href="/">
+        <Link href="/explorer">
           <RiHome5Line size={30} className="text-scarlet" />
         </Link>
         <Link href="/j-aime">

@@ -1,0 +1,131 @@
+import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import LocationCTA from '@/components/restaurant/LocationCTA'
+import Role from '@/components/restaurant/Role'
+import Tag from '@/components/shared/Tag'
+import Image from 'next/image'
+import { ReactElement } from 'react'
+import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
+import { Pagination } from 'swiper'
+import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+const Restaurant = () => {
+  const handleCopyAddressClick = () => {
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+      return navigator.clipboard.writeText(
+        'Le Meurice, 228 rue de Rivoli, Paris, 75001',
+      )
+    return Promise.reject('The Clipboard API is not available.')
+  }
+
+  const handleGetDirectionsClick = () => {}
+
+  return (
+    <>
+      <Swiper
+        modules={[Pagination]}
+        spaceBetween={0}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+      >
+        <SwiperSlide style={{ height: 318 }}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src="/images/restaurant-card-thumbnail.png"
+            alt={`Image du restaurant 1`}
+          />
+        </SwiperSlide>
+        <SwiperSlide style={{ height: 318 }}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src="/images/restaurant-card-thumbnail.png"
+            alt={`Image du restaurant 1`}
+          />
+        </SwiperSlide>
+        <SwiperSlide style={{ height: 318 }}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src="/images/restaurant-card-thumbnail.png"
+            alt={`Image du restaurant 1`}
+          />
+        </SwiperSlide>
+        <SwiperSlide style={{ height: 318 }}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src="/images/restaurant-card-thumbnail.png"
+            alt={`Image du restaurant 1`}
+          />
+        </SwiperSlide>
+      </Swiper>
+      <div className="mt-6 gap-6 px-6 pb-10 lg:px-32">
+        <div>
+          <div className="flex gap-2">
+            <Tag type="michelin" number={2} />
+            <Tag type="etoile-verte" number={1} />
+          </div>
+          <h2 className="mt-2 text-2xl text-black">
+            Le Meurice - Alain Ducasse
+          </h2>
+          <h3 className="text-lg text-gray">Cuisine créative</h3>
+          <address className="mt-2 text-base not-italic text-gray/80">
+            Le Meurice, 228 rue de Rivoli,
+            <br />
+            Paris, 75001
+          </address>
+          <div className="mt-8">
+            <h3 className="text-lg font-bold text-black">Réservation</h3>
+            <div className="mt-4 h-96 bg-scarlet/10"></div>
+          </div>
+          <div className="mt-10 border-b-[1px] border-solid border-alto/60 pb-6">
+            <h3 className="text-lg font-bold text-black">Equipe</h3>
+            <ul className="mt-4 grid grid-cols-2 gap-y-6 gap-x-2">
+              <Role title="Chef(fe) cuisinier" subtitle="Maria Brenault" />
+              <Role title="Chef(fe) Patissier(ière)" subtitle="Arnaud Meriod" />
+              <Role title="Somelier(ière)" subtitle="Hélène Serres" />
+              <Role
+                title="Directeur(rice) de salle"
+                subtitle="Jean-Marie Guérin"
+              />
+            </ul>
+          </div>
+          <div className="mt-6 border-b-[1px] border-solid border-alto/60 pb-6">
+            <h3 className="text-lg font-bold text-black">Prix moyen</h3>
+            <ul className="mt-4 grid grid-cols-2 gap-6">
+              <Role title="Menu sans vin" subtitle="90€" />
+              <Role title="Menu découverte" subtitle="120€" />
+            </ul>
+          </div>
+          <div className="mt-10">
+            <h3 className="text-lg font-bold text-black">
+              Comment s'y rendre ?
+            </h3>
+            <div className="mt-4">
+              <div className="h-44 rounded-lg bg-scarlet/10"></div>
+              <div className="mt-4">
+                <LocationCTA onClick={handleCopyAddressClick}>
+                  <RiFileCopyLine size={30} />
+                  Copier l'adresse
+                </LocationCTA>
+                <hr className="border-t-[1px] border-solid border-alto/60" />
+                <LocationCTA onClick={handleGetDirectionsClick}>
+                  <RiNavigationLine size={30} />
+                  Obtenir l'itinéraire
+                </LocationCTA>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Restaurant
+
+Restaurant.getLayout = (page: ReactElement) => (
+  <MobileLayout hasArrowBack>{page}</MobileLayout>
+)

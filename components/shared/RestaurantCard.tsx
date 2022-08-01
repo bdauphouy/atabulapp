@@ -4,7 +4,7 @@ import Image from 'next/image'
 type RestaurantCardProps = {
   className?: string
   thumbnail: string
-  certified?: boolean
+  isCertified?: boolean
   tags?: {
     name: 'michelin' | 'etoile-verte' | 'gault-et-millau' | 'bib-gourmand'
     level?: number
@@ -13,28 +13,32 @@ type RestaurantCardProps = {
   typesOfCooking: string[]
   location: string
   promotion?: number
-  size?: 'small' | 'large'
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const RestaurantCard = ({
   className = '',
   thumbnail,
-  certified,
+  isCertified,
   tags,
   name,
   typesOfCooking,
   location,
   promotion,
-  size = 'small',
+  size = 'md',
 }: RestaurantCardProps) => {
   return (
     <article
       className={`${className} ${
-        size === 'small' ? 'min-w-[320px]' : 'lg:min-w-[384px]'
-      } flex w-full flex-col gap-2 overflow-hidden rounded-lg`}
+        size === 'sm' || size === 'md' ? 'min-w-0' : 'lg:min-w-[384px]'
+      } flex w-full flex-col gap-2`}
     >
-      <header className={`relative ${size === 'small' ? 'h-60' : 'h-72'}`}>
-        {certified && (
+      <header
+        className={`relative overflow-hidden rounded-lg ${
+          size === 'sm' ? 'h-44' : size === 'md' ? 'h-60' : 'h-72'
+        }`}
+      >
+        {isCertified && (
           <div className="absolute left-2 z-10 flex h-16 w-14 items-center justify-center rounded-b-lg bg-scarlet">
             <Image
               width={40}
@@ -61,10 +65,13 @@ const RestaurantCard = ({
       <div>
         <h3 className="text-lg font-medium text-black">{name}</h3>
 
-        <div className="flex items-end justify-between">
+        <div className={`flex flex-wrap items-end justify-between gap-2`}>
           <div>
             <h4 className="text-base text-gray">
-              Cuisine {typesOfCooking.join(', ')}
+              Cuisine{' '}
+              {typesOfCooking
+                .map(typeOfCooking => typeOfCooking.replace('Cuisine', ''))
+                .join(', ')}
             </h4>
             <h4 className="text=base text-gray">{location}</h4>
           </div>
