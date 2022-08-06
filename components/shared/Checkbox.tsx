@@ -12,6 +12,7 @@ type CheckboxProps = {
   label?: string | ReactNode
   value?: string
   isDisabled?: boolean
+  checked?: boolean
 }
 
 const Checkbox = ({
@@ -22,6 +23,7 @@ const Checkbox = ({
   label = '',
   value = 'true',
   isDisabled,
+  checked,
 }: CheckboxProps) => {
   const id = useId()
 
@@ -38,14 +40,8 @@ const Checkbox = ({
             name={name}
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
+            checked={checked}
             value={value}
-            defaultChecked={
-              name.includes('.')
-                ? control._formValues[name.split('.')[0]][
-                    parseInt(name.split('.')[1])
-                  ] === value
-                : control._defaultValues.stayLoggedIn
-            }
             disabled={isDisabled}
           />
           <label

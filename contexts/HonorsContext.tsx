@@ -9,21 +9,21 @@ const honors = [
     },
   },
   {
-    title: 'Michelin',
+    title: 'Michelin 1',
     tag: {
       type: 'michelin',
       number: 1,
     },
   },
   {
-    title: 'Michelin',
+    title: 'Michelin 2',
     tag: {
       type: 'michelin',
       number: 2,
     },
   },
   {
-    title: 'Michelin',
+    title: 'Michelin 3',
     tag: {
       type: 'michelin',
       number: 3,

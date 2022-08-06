@@ -29,7 +29,7 @@ const BottomSheet = ({
     >
       <Sheet.Container>
         {hasHeader && <Sheet.Header />}
-        <Sheet.Content>
+        <Sheet.Content disableDrag={true}>
           <div className="px-5">{children}</div>
         </Sheet.Content>
       </Sheet.Container>

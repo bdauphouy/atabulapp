@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
-
 export type ToastType = 'success' | 'error'
 
 export type Tag = {
@@ -41,15 +39,13 @@ export type FormFooterActionsProps = {
   footerRightButton?: FooterButton
 }
 
-export type TypeOfCuisineBottomSheetProps = {
-  control: Control<any>
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
-  isDisabled: boolean
-}
+export type FilterCategory =
+  | 'Filtres'
+  | 'Distinctions'
+  | 'Repas'
+  | 'Type de cuisine'
+  | 'Date'
 
-export type HonorsBottomSheetProps = {
-  control: Control<any>
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+export type SelectedFilters = {
+  honorsString: string
 }

@@ -3,9 +3,10 @@ import HonorsBottomSheet from '@/components/mobile/additional-information/Honors
 import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import useStringify from '@/lib/hooks/useStringify'
 import { ICorporateFourForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateFour = () => {
@@ -15,10 +16,25 @@ const CorporateFour = () => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<ICorporateFourForm>()
+  } = useForm<ICorporateFourForm>({
+    defaultValues: {
+      typesOfCuisine: [],
+      honors: [],
+    },
+  })
 
   const watchTypesOfCuisine = watch(['typesOfCuisine'])
   const watchHonors = watch(['honors'])
+
+  useStringify(
+    'typesOfCuisineString',
+    watchTypesOfCuisine,
+    setValue,
+    length => {
+      setTypesOfCuisineCheckedCount(length)
+    },
+  )
+  useStringify('honorsString', watchHonors, setValue)
 
   const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
     useState(false)
@@ -27,42 +43,6 @@ const CorporateFour = () => {
     useState(0)
 
   const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
-
-  useEffect(() => {
-    if (!watchTypesOfCuisine[0]) return
-
-    const filteredFields = watchTypesOfCuisine[0].filter(
-      field => typeof field === 'string',
-    )
-
-    setTypesOfCuisineCheckedCount(filteredFields.length)
-
-    const formatedFields = filteredFields.slice(0, 2).join(', ')
-
-    setValue(
-      'typesOfCuisineString',
-      filteredFields.length > 2
-        ? formatedFields + ` +${filteredFields.length - 2}`
-        : formatedFields,
-    )
-  }, [watchTypesOfCuisine, setValue])
-
-  useEffect(() => {
-    if (!watchHonors[0]) return
-
-    const filteredFields = watchHonors[0].filter(
-      field => typeof field === 'string',
-    )
-
-    const formatedFields = filteredFields.slice(0, 2).join(', ')
-
-    setValue(
-      'honorsString',
-      filteredFields.length > 2
-        ? formatedFields + ` +${filteredFields.length - 2}`
-        : formatedFields,
-    )
-  }, [watchHonors, setValue])
 
   const router = useRouter()
 
@@ -116,10 +96,9 @@ const CorporateFour = () => {
           control={control}
           setValue={setValue}
           rules={{
-            required: true,
+            required: false,
           }}
           name="honorsString"
-          isRequired
           isDisabled
           isFocusedLike={isHonorsSheetOpen}
         />

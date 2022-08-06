@@ -1,6 +1,6 @@
 import DesktopLayout from '@/components/layouts/DesktopLayout'
-import LocationCTA from '@/components/restaurant/LocationCTA'
 import Role from '@/components/restaurant/Role'
+import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
 import Toaster from '@/components/shared/Toaster'
 import Image from 'next/image'
@@ -114,15 +114,18 @@ const Restaurant = () => {
                   />
                 </ul>
                 <div className="mt-10">
-                  <LocationCTA onClick={handleCopyAddressClick}>
+                  <ArrowCta onClick={handleCopyAddressClick} variant="md">
                     <RiFileCopyLine size={30} />
                     Copier l'adresse
-                  </LocationCTA>
-                  <hr className="border-t-[1px] border-solid border-alto/60" />
-                  <LocationCTA onClick={handleGetDirectionsClick}>
+                  </ArrowCta>
+                  <ArrowCta
+                    onClick={handleGetDirectionsClick}
+                    withUnderline={false}
+                    variant="md"
+                  >
                     <RiNavigationLine size={30} />
                     Obtenir l'itinéraire
-                  </LocationCTA>
+                  </ArrowCta>
                 </div>
               </div>
               <div className="rounded-lg bg-scarlet/10"></div>

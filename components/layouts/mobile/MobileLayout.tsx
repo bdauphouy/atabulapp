@@ -25,7 +25,7 @@ const MobileLayout = ({
           <RiArrowLeftSLine
             size={30}
             onClick={handleGoBackClick}
-            className="cursor-pointer"
+            className="cursor-pointer text-scarlet"
           />
         </header>
       )}

@@ -13,5 +13,5 @@ body .swiper-section {
 }
 
 body .swiper-pagination-bullet {
-  @apply bg-black;
+  @apply bg-scarlet;
 }

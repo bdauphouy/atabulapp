@@ -67,7 +67,7 @@ const RestaurantCard = ({
 
         <div
           className={`${
-            size === 'sm' ? 'flex-col items-start' : 'flex-row items-end'
+            size === 'sm' ? 'flex-col items-start' : 'citems-end flex-row'
           } flex flex-wrap justify-between gap-2`}
         >
           <div>
