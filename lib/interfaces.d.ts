@@ -65,3 +65,8 @@ export interface ISearchForm {
   period?: string
   numberOfPersons?: string
 }
+
+export interface IExploreFiltersForm {
+  honors: (boolean | string)[]
+  honorsString: string
+}

@@ -4,12 +4,14 @@ import { useRouter } from 'next/router'
 
 type FormFooterProps = {
   isFixed?: boolean
+  isInTheForeground?: boolean
 } & FormFooterActionsProps
 
 const FormFooter = ({
   formId,
   footerLeftButton,
   footerRightButton,
+  isInTheForeground = false,
   isFixed = false,
 }: FormFooterProps) => {
   const router = useRouter()
@@ -36,9 +38,9 @@ const FormFooter = ({
 
   return (
     <footer
-      className={`${
-        isFixed ? 'fixed' : ''
-      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
+      className={`${isFixed ? 'fixed' : ''} ${
+        isInTheForeground ? 'z-[99999999]' : ''
+      } bottom-0 left-0  flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >
       {footerLeftButton ? (
         <Button onClick={() => handleClick('left')} variant="tertiary">
@@ -47,14 +49,18 @@ const FormFooter = ({
       ) : (
         <div />
       )}
-      <Button
-        onClick={() => handleClick('right')}
-        form={formId}
-        submit
-        variant="secondary"
-      >
-        {footerRightButton.text}
-      </Button>
+      {footerRightButton ? (
+        <Button
+          onClick={() => handleClick('right')}
+          form={formId}
+          submit
+          variant="secondary"
+        >
+          {footerRightButton.text}
+        </Button>
+      ) : (
+        <div />
+      )}
     </footer>
   )
 }

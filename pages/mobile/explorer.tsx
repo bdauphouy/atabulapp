@@ -1,25 +1,35 @@
 import Section from '@/components/home/Section'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import FiltersBottomSheet from '@/components/mobile/explore/FiltersBottomSheet'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
+import FormFooter from '@/components/shared/FormFooter'
 import RestaurantCard from '@/components/shared/RestaurantCard'
-import { GeolocationContext } from '@/contexts/GeolocationContext'
-import {
-  ChangeEvent,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import useStringify from '@/lib/hooks/useStringify'
+import { IExploreFiltersForm } from '@/lib/interfaces'
+import Link from 'next/link'
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
 const Explore = () => {
-  const coords = useContext(GeolocationContext)
+  const { control, handleSubmit, watch, setValue } =
+    useForm<IExploreFiltersForm>({
+      defaultValues: {
+        honors: [],
+      },
+    })
+
+  // const coords = useContext(GeolocationContext)
 
   const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
+
+  const watchHonors = watch(['honors'])
+
+  const honorsString = useStringify('honorsString', watchHonors)
 
   const handleFiltersToggle = () => {
     setIsFiltersDropdownOpen(isFiltersDropdownOpen => !isFiltersDropdownOpen)
@@ -40,9 +50,17 @@ const Explore = () => {
     })
   }, [isLastMinute, searchInputValue])
 
+  const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {
+    console.log(data)
+  }
+
   return (
     <div>
-      <div className="flex flex-col gap-3 px-6 pt-6 md:flex-row">
+      <form
+        id="explore-filters-form"
+        className="flex flex-col gap-3 px-6 pt-6"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <h2 className="mb-2 text-3xl font-bold text-black">Explorer</h2>
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
@@ -61,6 +79,26 @@ const Explore = () => {
           >
             Filtres
           </FiltersDropdown>
+          <FiltersBottomSheet
+            control={control}
+            isOpen={isFiltersDropdownOpen}
+            setIsOpen={setIsFiltersDropdownOpen}
+            selectedFilters={{ honorsString }}
+          />
+          {isFiltersDropdownOpen && (
+            <FormFooter
+              formId="explore-filters-form"
+              footerLeftButton={{
+                text: 'Tout effacer',
+                customAction: () => setValue('honors', []),
+              }}
+              footerRightButton={{
+                text: 'Voir les 10 offres',
+              }}
+              isFixed
+              isInTheForeground
+            />
+          )}
           <FilterTag
             isSelected={isLastMinute}
             onChange={handleLastMinuteChange}
@@ -70,26 +108,28 @@ const Explore = () => {
             Last minute
           </FilterTag>
         </div>
-      </div>
+      </form>
       <main className="flex flex-col gap-8 py-8">
         <Section title="A proximité" isSwiper isMobile>
           {[...Array(5)].map((_, i) => {
             return (
               <SwiperSlide key={i}>
-                <RestaurantCard
-                  key={i}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={30}
-                  size="sm"
-                />
+                <Link href="/mobile/restaurants/1">
+                  <RestaurantCard
+                    key={i}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name="La Meurice Alain Ducasse"
+                    typesOfCooking={['Cuisine créative']}
+                    location="PARIS (75001)"
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    promotion={30}
+                    size="sm"
+                  />
+                </Link>
               </SwiperSlide>
             )
           })}

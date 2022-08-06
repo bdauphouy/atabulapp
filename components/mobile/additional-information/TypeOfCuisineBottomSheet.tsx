@@ -1,8 +1,15 @@
 import BottomSheet from '@/components/mobile/BottomSheet'
 import Checkbox from '@/components/shared/Checkbox'
 import { TypesOfCuisineContext } from '@/contexts/TypesOfCuisineContext'
-import { TypeOfCuisineBottomSheetProps } from '@/lib/types'
-import { useContext } from 'react'
+import { Dispatch, SetStateAction, useContext } from 'react'
+import { Control } from 'react-hook-form'
+
+export type TypeOfCuisineBottomSheetProps = {
+  control: Control<any>
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+  isDisabled: boolean
+}
 
 const TypeOfCuisineBottomSheet = ({
   control,
@@ -36,6 +43,9 @@ const TypeOfCuisineBottomSheet = ({
                 label={typeOfCuisine}
                 control={control}
                 name={`typesOfCuisine.${i}`}
+                checked={control._formValues.typesOfCuisine?.includes(
+                  typeOfCuisine,
+                )}
                 isDisabled={
                   isDisabled && !control._formValues.typesOfCuisine[i]
                 }

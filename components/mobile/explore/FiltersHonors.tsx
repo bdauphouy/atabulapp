@@ -1,36 +1,20 @@
-import BottomSheet from '@/components/mobile/BottomSheet'
 import Checkbox from '@/components/shared/Checkbox'
 import Tag from '@/components/shared/Tag'
 import { HonorsContext } from '@/contexts/HonorsContext'
 import { Honor } from '@/lib/types'
-import { Dispatch, SetStateAction, useContext } from 'react'
+import { useContext } from 'react'
 import { Control } from 'react-hook-form'
 
-export type HonorsBottomSheetProps = {
-  control: Control<any>
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+type FiltersMenuProps = {
+  control: Control
 }
 
-const HonorsBottomSheet = ({
-  control,
-  isOpen,
-  setIsOpen,
-}: HonorsBottomSheetProps) => {
+const FiltersHonors = ({ control }: FiltersMenuProps) => {
   const honors = useContext(HonorsContext)
 
   return (
-    <BottomSheet
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      setIsOpen={setIsOpen}
-      snapPoints={[600, 200, 0]}
-      initialSnap={0}
-    >
-      <header className="flex flex-col items-center gap-1 bg-white text-center">
-        <h3 className="text-xl font-bold text-black">Distinctions</h3>
-      </header>
-      <div className="mt-6 w-full">
+    <div className="mt-6 w-full">
+      <div className="flex flex-col">
         <ul className="flex flex-col">
           {honors.map((honor: Honor, i) => (
             <li
@@ -53,8 +37,8 @@ const HonorsBottomSheet = ({
           ))}
         </ul>
       </div>
-    </BottomSheet>
+    </div>
   )
 }
 
-export default HonorsBottomSheet
+export default FiltersHonors
