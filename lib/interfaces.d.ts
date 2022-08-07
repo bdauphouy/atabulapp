@@ -67,6 +67,6 @@ export interface ISearchForm {
 }
 
 export interface IExploreFiltersForm {
+  search: string
   honors: (boolean | string)[]
-  honorsString: string
 }

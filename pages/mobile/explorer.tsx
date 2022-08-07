@@ -1,6 +1,7 @@
 import Section from '@/components/home/Section'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import FiltersBottomSheet from '@/components/mobile/explore/FiltersBottomSheet'
+import SearchPage from '@/components/mobile/explore/SearchPage'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
 import FormFooter from '@/components/shared/FormFooter'
@@ -8,13 +9,13 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import useStringify from '@/lib/hooks/useStringify'
 import { IExploreFiltersForm } from '@/lib/interfaces'
 import Link from 'next/link'
-import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
+import { ChangeEvent, ReactElement, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
 const Explore = () => {
-  const { control, handleSubmit, watch, setValue } =
+  const { control, handleSubmit, trigger, watch, setValue } =
     useForm<IExploreFiltersForm>({
       defaultValues: {
         honors: [],
@@ -24,6 +25,7 @@ const Explore = () => {
   // const coords = useContext(GeolocationContext)
 
   const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
+  const [isSearchPageOpen, setIsSearchPageOpen] = useState(false)
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
 
@@ -31,34 +33,26 @@ const Explore = () => {
 
   const honorsString = useStringify('honorsString', watchHonors)
 
-  const handleFiltersToggle = () => {
-    setIsFiltersDropdownOpen(isFiltersDropdownOpen => !isFiltersDropdownOpen)
+  const handleInputFocus = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.blur()
+    setIsSearchPageOpen(true)
   }
-
-  const handleLastMinuteChange = () => {
-    setIsLastMinute(isLastMinute => !isLastMinute)
-  }
-
-  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchInputValue(e.target.value)
-  }
-
-  useEffect(() => {
-    console.log({
-      isLastMinute,
-      searchInputValue,
-    })
-  }, [isLastMinute, searchInputValue])
 
   const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {
     console.log(data)
   }
 
   return (
-    <div>
+    <>
+      {isSearchPageOpen && (
+        <SearchPage
+          setSearchPageOpen={setIsSearchPageOpen}
+          setSearchInputValue={setSearchInputValue}
+        />
+      )}
       <form
         id="explore-filters-form"
-        className="flex flex-col gap-3 px-6 pt-6"
+        className="flex flex-col gap-3 px-5 pt-5"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="mb-2 text-3xl font-bold text-black">Explorer</h2>
@@ -66,16 +60,21 @@ const Explore = () => {
           <RiSearchLine className="text-gray" size={20} />
           <input
             type="text"
+            name="search"
             placeholder="Recherche"
             className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
-            onChange={handleSearchInputChange}
+            onFocus={handleInputFocus}
           />
         </label>
         <div className="flex flex-wrap gap-3">
           <FiltersDropdown
             size="md"
             isOpen={isFiltersDropdownOpen}
-            onToggle={handleFiltersToggle}
+            onToggle={() =>
+              setIsFiltersDropdownOpen(
+                isFiltersDropdownOpen => !isFiltersDropdownOpen,
+              )
+            }
           >
             Filtres
           </FiltersDropdown>
@@ -101,7 +100,7 @@ const Explore = () => {
           )}
           <FilterTag
             isSelected={isLastMinute}
-            onChange={handleLastMinuteChange}
+            onChange={() => setIsLastMinute(isLastMinute => !isLastMinute)}
             size="md"
             name="search-filters"
           >
@@ -155,7 +154,7 @@ const Explore = () => {
             )
           })}
         </Section>
-        <div className="px-6 lg:px-32">
+        <div className="px-5">
           <div className="flex h-48 w-full items-center justify-center rounded-lg bg-alto text-lg font-bold text-white">
             PUB
           </div>
@@ -202,7 +201,7 @@ const Explore = () => {
           })}
         </Section>
       </main>
-    </div>
+    </>
   )
 }
 

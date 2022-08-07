@@ -14,10 +14,8 @@ const TabBar = () => {
     }
   }, [])
 
-  console.log(router.asPath)
-
   return (
-    <footer className="fixed bottom-0 left-0 z-50 w-full bg-white px-16 py-5">
+    <footer className="fixed bottom-0 left-0 z-40 w-full bg-white px-16 py-5">
       <nav className="bg flex justify-between">
         <Link href={href.explore}>
           <RiHome5Line
