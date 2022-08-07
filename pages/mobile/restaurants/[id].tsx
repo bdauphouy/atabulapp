@@ -67,7 +67,7 @@ const Restaurant = () => {
           />
         </SwiperSlide>
       </Swiper>
-      <main className="mt-6 gap-6 px-6 pb-10 lg:px-32">
+      <main className="mt-6 gap-6 px-5 pb-10">
         <div>
           <div className="flex gap-2">
             <Tag type="michelin" number={2} />
@@ -98,7 +98,7 @@ const Restaurant = () => {
               />
             </ul>
           </div>
-          <div className="mt-6 border-b-[1px] border-solid border-alto/60 pb-6">
+          <div className="mt-6 border-b-[1px] border-solid border-alto/60 pb-5">
             <h3 className="text-lg font-bold text-black">Prix moyen</h3>
             <ul className="mt-4 grid grid-cols-2 gap-6">
               <Role title="Menu sans vin" subtitle="90€" />

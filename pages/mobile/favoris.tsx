@@ -18,7 +18,7 @@ const Favorites = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-3 px-6 pt-6">
+      <div className="flex flex-col gap-3 px-5 pt-5">
         <h2 className="mb-2 text-3xl font-bold text-black">Favoris</h2>
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
@@ -30,7 +30,7 @@ const Favorites = () => {
           />
         </label>
       </div>
-      <main className="flex flex-col gap-8 py-8 px-6">
+      <main className="flex flex-col gap-8 py-8 px-5">
         <div>
           <header className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-black">Offres actuelles</h3>
