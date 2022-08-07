@@ -1,8 +1,9 @@
 import Button from '@/components/shared/Button'
+import SearchTag from '@/components/shared/SearchTag'
 import { SearchContext } from '@/contexts/SearchContext'
 import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction, useContext, useEffect, useRef } from 'react'
-import { RiNavigationLine, RiSearchLine } from 'react-icons/ri'
+import { RiSearchLine } from 'react-icons/ri'
 import Result from './Result'
 
 type SearchPage = {
@@ -28,7 +29,7 @@ const SearchPage = ({ setSearchPageOpen }) => {
 
   return (
     <div className="fixed z-50 h-screen w-full bg-white px-5 pt-5">
-      <header className="flex gap-3">
+      <header className="mb-6 flex gap-3">
         <form className="w-full" action="" onSubmit={handleSubmit}>
           <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
             <RiSearchLine className="text-gray" size={20} />
@@ -45,12 +46,7 @@ const SearchPage = ({ setSearchPageOpen }) => {
           Annuler
         </Button>
       </header>
-      <div className="mt-6 flex cursor-pointer items-center gap-4 text-lg font-medium text-black">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-solid border-scarlet pt-0.5 pr-0.5">
-          <RiNavigationLine size={30} className="rotate-90 text-scarlet" />
-        </div>
-        A proximité
-      </div>
+      <SearchTag type="near">A proximité</SearchTag>
       <div className="mt-6">
         <h3 className="text-lg font-bold text-black">Résultats</h3>
         <Result withUnderline>Paris, 11eme</Result>
