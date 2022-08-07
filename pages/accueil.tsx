@@ -3,11 +3,13 @@ import DesktopLayout from '@/components/layouts/DesktopLayout'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
+import useModal from '@/lib/hooks/useModal'
 import { ReactElement, useContext, useState } from 'react'
 
 const Home = () => {
   const searchData = useContext(SearchContext)
 
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(true)
   const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
     useState(false)
   const [isMealFiltersDropdownOpen, setIsMealFiltersDropdownOpen] =
@@ -16,6 +18,8 @@ const Home = () => {
     isTypeOfCuisineFiltersDropdownOpen,
     setIsTypeOfCuisineFiltersDropdownOpen,
   ] = useState(false)
+
+  const { Modal } = useModal('SettingsModal')
 
   const handleHonorsFiltersToggle = () => {
     setIsHonorsFiltersDropdownOpen(
@@ -36,7 +40,13 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <>
+      <div className="fixed top-0 z-50">
+        <Modal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+        />
+      </div>
       <pre>{JSON.stringify(searchData)}</pre>
       <div className="flex flex-wrap gap-6 px-6 pt-6 xl:px-32">
         <FiltersDropdown
@@ -114,7 +124,7 @@ const Home = () => {
           </Section>
         )}
       </main>
-    </div>
+    </>
   )
 }
 
