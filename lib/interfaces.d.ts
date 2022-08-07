@@ -70,3 +70,9 @@ export interface IExploreFiltersForm {
   search: string
   honors: (boolean | string)[]
 }
+
+export interface ISettingsForm {
+  authorizeNewsletters: boolean
+  authorizeLocation: boolean
+  authorizeAll: boolean
+}

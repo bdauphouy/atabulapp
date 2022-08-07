@@ -20,6 +20,7 @@ export type Modal =
   | `Signup${SignupType}FourthModal`
   | `Signup${SignupType}FifthModal`
   | 'SignupCorporateSixthModal'
+  | 'SettingsModal'
 
 export type ModalProps = {
   isOpen: boolean

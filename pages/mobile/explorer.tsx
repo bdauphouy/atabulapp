@@ -45,10 +45,7 @@ const Explore = () => {
   return (
     <>
       {isSearchPageOpen && (
-        <SearchPage
-          setSearchPageOpen={setIsSearchPageOpen}
-          setSearchInputValue={setSearchInputValue}
-        />
+        <SearchPage setSearchPageOpen={setIsSearchPageOpen} />
       )}
       <form
         id="explore-filters-form"

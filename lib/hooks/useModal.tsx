@@ -1,4 +1,5 @@
 import LoginModal from '@/components/desktop/modals/LoginModal'
+import SettingsModal from '@/components/desktop/modals/SettingsModal'
 import SignupCorporateFifthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFifthModal'
 import SignupCorporateFirstModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFirstModal'
 import SignupCorporateFourthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFourthModal'
@@ -30,6 +31,7 @@ const useModal = (defaultActiveModal: Modal) => {
       SignupCorporateFourthModal,
       SignupCorporateFifthModal,
       SignupCorporateSixthModal,
+      SettingsModal,
     }
   }, [])
 
