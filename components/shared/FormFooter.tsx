@@ -53,7 +53,7 @@ const FormFooter = ({
         <Button
           onClick={() => handleClick('right')}
           form={formId}
-          submit
+          isSubmit
           variant="secondary"
         >
           {footerRightButton.text}

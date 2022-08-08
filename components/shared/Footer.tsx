@@ -4,7 +4,7 @@ import { RiFacebookFill, RiInstagramLine, RiLinkedinFill } from 'react-icons/ri'
 
 const Footer = () => {
   return (
-    <footer className="flex flex-wrap justify-between gap-12 bg-white-rock px-6 pb-16 pt-9 md:gap-20 xl:px-32">
+    <footer className="flex flex-wrap justify-between gap-12 bg-white-rock px-5 pb-16 pt-9 md:gap-20 xl:px-32">
       <div className="flex min-w-max flex-1 flex-col items-start gap-8 md:flex-row md:gap-16">
         <Image
           width={140}

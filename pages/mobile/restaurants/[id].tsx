@@ -86,7 +86,7 @@ const Restaurant = () => {
             <h3 className="text-lg font-bold text-black">Réservation</h3>
             <div className="mt-4 h-96 bg-scarlet/10"></div>
           </div>
-          <div className="mt-10 border-b-[1px] border-solid border-alto/60 pb-6">
+          <div className="mt-10 border-b-[1px] border-solid border-alto/60 pb-5">
             <h3 className="text-lg font-bold text-black">Equipe</h3>
             <ul className="mt-4 grid grid-cols-2 gap-y-6 gap-x-2">
               <Role title="Chef(fe) cuisinier" subtitle="Maria Brenault" />

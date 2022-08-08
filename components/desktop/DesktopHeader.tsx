@@ -1,6 +1,7 @@
 import { SearchContext } from '@/contexts/SearchContext'
 import { ISearchForm } from '@/lib/interfaces'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiUser6Line } from 'react-icons/ri'
@@ -34,19 +35,21 @@ const DesktopHeader = () => {
   return (
     <>
       <header className="flex flex-col flex-wrap items-start justify-between gap-6 border-b-[1px] border-solid border-alto/60 p-6 pb-3 md:flex-row md:items-center xl:px-32">
-        <div className="bg relative h-14 w-24">
-          <Image
-            src="/images/full-logo.svg"
-            alt="Logo d'Atabulapp"
-            layout="fill"
-          />
-        </div>
+        <Link href="/">
+          <div className="bg relative h-14 w-24">
+            <Image
+              src="/images/full-logo.svg"
+              alt="Logo d'Atabulapp"
+              layout="fill"
+            />
+          </div>
+        </Link>
         <form
           className="flex w-full flex-col items-start gap-4 md:w-auto md:flex-row"
           id="search-form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex w-full flex-col rounded-md bg-alto/30 p-2 md:flex-row md:rounded-full">
+          <div className="flex w-full flex-col gap-4 rounded-md bg-alto/30 p-2 md:flex-row md:gap-0 md:rounded-full">
             <input
               type="text"
               className="border-solid border-white bg-[transparent] py-1 px-2 text-base text-black outline-none md:border-r-2"
@@ -71,7 +74,7 @@ const DesktopHeader = () => {
               placeholder="Nombre de personnes"
             />
           </div>
-          <Button variant="primary" submit form="search-form">
+          <Button variant="primary" isSubmit form="search-form">
             Chercher
           </Button>
         </form>

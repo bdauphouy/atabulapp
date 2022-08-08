@@ -4,32 +4,32 @@ import { ReactNode } from 'react'
 type ButtonProps = {
   children: ReactNode
   variant: 'primary' | 'secondary' | 'tertiary'
-  disabled?: boolean
+  isDisabled?: boolean
   className?: string
   textColor?: 'white' | 'scarlet'
   onClick?: () => void
-  submit?: boolean
+  isSubmit?: boolean
   form?: string
-  loading?: boolean
+  isLoading?: boolean
 }
 
 const Button = ({
   children,
   variant,
-  disabled = false,
+  isDisabled = false,
   className = '',
   textColor = 'scarlet',
   onClick,
-  submit = false,
+  isSubmit = false,
   form,
-  loading = false,
+  isLoading = false,
 }: ButtonProps) => {
   if (variant === 'tertiary') {
     return (
       <button
         form={form ? form : ''}
-        type={submit ? 'submit' : 'button'}
-        disabled={disabled}
+        type={isSubmit ? 'submit' : 'button'}
+        disabled={isDisabled}
         className={`${className} ${
           textColor === 'white'
             ? 'text-white hover:text-white/80'
@@ -48,8 +48,8 @@ const Button = ({
   return (
     <button
       form={form ? form : ''}
-      type={submit ? 'submit' : 'button'}
-      disabled={disabled}
+      type={isSubmit ? 'submit' : 'button'}
+      disabled={isDisabled}
       className={`flex items-center ${className} ${commonClasses} ${
         variant === 'primary'
           ? 'gap-3 px-6 py-2.5 text-lg'
@@ -57,7 +57,7 @@ const Button = ({
       }`}
       onClick={onClick}
     >
-      {loading && <Spin size={variant === 'primary' ? 18 : 12} />}
+      {isLoading && <Spin size={variant === 'primary' ? 18 : 12} />}
       {children}
     </button>
   )
