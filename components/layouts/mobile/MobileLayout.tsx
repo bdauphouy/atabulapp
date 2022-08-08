@@ -21,12 +21,14 @@ const MobileLayout = ({
   return (
     <>
       {withArrowBack && (
-        <header className="absolute top-0 left-0 z-50 py-2 px-3">
-          <RiArrowLeftSLine
-            size={30}
-            onClick={handleGoBackClick}
-            className="cursor-pointer text-scarlet"
-          />
+        <header className="absolute top-0 left-0 z-50 p-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white">
+            <RiArrowLeftSLine
+              size={30}
+              onClick={handleGoBackClick}
+              className="cursor-pointer text-scarlet"
+            />
+          </div>
         </header>
       )}
       {children}

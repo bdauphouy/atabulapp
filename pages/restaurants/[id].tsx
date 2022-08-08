@@ -4,7 +4,7 @@ import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
 import Toaster from '@/components/shared/Toaster'
 import Image from 'next/image'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 
@@ -20,13 +20,35 @@ const Restaurant = () => {
     return Promise.reject('The Clipboard API is not available.')
   }
 
+  const [image, setImage] = useState('')
+
   const handleGetDirectionsClick = () => {}
 
   return (
     <main className="px-5 py-10 lg:px-32">
       <Toaster />
+      {image && (
+        <div
+          className="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center bg-[#33333380] p-5 xl:p-64"
+          onClick={e =>
+            (e.target as HTMLDivElement).tagName === 'DIV' && setImage('')
+          }
+        >
+          <div className="relative aspect-video w-full">
+            <Image
+              layout="fill"
+              objectFit="contain"
+              src="/images/restaurant-card-thumbnail.png"
+              alt={`Image du restaurant 1`}
+            />
+          </div>
+        </div>
+      )}
       <div className="grid h-[458px] grid-cols-[5fr,2fr,2fr] gap-1 overflow-hidden rounded-2xl">
-        <div className="relative col-span-1 row-span-2">
+        <div
+          className="relative col-span-1 row-span-2 cursor-pointer"
+          onClick={() => setImage('/images/restaurant-card-thumbnail.png')}
+        >
           <Image
             layout="fill"
             objectFit="cover"
@@ -34,7 +56,10 @@ const Restaurant = () => {
             alt={`Image du restaurant 1`}
           />
         </div>
-        <div className="relative">
+        <div
+          className="relative cursor-pointer"
+          onClick={() => setImage('/images/restaurant-card-thumbnail.png')}
+        >
           <Image
             layout="fill"
             objectFit="cover"
@@ -42,7 +67,10 @@ const Restaurant = () => {
             alt={`Image du restaurant 2`}
           />
         </div>
-        <div className="relative">
+        <div
+          className="relative cursor-pointer"
+          onClick={() => setImage('/images/restaurant-card-thumbnail.png')}
+        >
           <Image
             layout="fill"
             objectFit="cover"
@@ -50,7 +78,10 @@ const Restaurant = () => {
             alt={`Image du restaurant 3`}
           />
         </div>
-        <div className="relative">
+        <div
+          className="relative cursor-pointer"
+          onClick={() => setImage('/images/restaurant-card-thumbnail.png')}
+        >
           <Image
             layout="fill"
             objectFit="cover"
@@ -58,7 +89,10 @@ const Restaurant = () => {
             alt={`Image du restaurant 4`}
           />
         </div>
-        <div className="relative">
+        <div
+          className="relative cursor-pointer"
+          onClick={() => setImage('/images/restaurant-card-thumbnail.png')}
+        >
           <Image
             layout="fill"
             objectFit="cover"
