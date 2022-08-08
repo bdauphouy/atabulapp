@@ -21,24 +21,6 @@ const Home = () => {
 
   const { Modal } = useModal('SettingsModal')
 
-  const handleHonorsFiltersToggle = () => {
-    setIsHonorsFiltersDropdownOpen(
-      isHonorsFiltersDropdownOpen => !isHonorsFiltersDropdownOpen,
-    )
-  }
-
-  const handleMealFiltersToggle = () => {
-    setIsMealFiltersDropdownOpen(
-      isMealFiltersDropdownOpen => !isMealFiltersDropdownOpen,
-    )
-  }
-
-  const handleTypeOfCuisineFiltersToggle = () => {
-    setIsTypeOfCuisineFiltersDropdownOpen(
-      isTypeOfCuisineFiltersDropdownOpen => !isTypeOfCuisineFiltersDropdownOpen,
-    )
-  }
-
   return (
     <>
       <div className="fixed top-0 z-50">
@@ -48,31 +30,44 @@ const Home = () => {
         />
       </div>
       <pre>{JSON.stringify(searchData)}</pre>
-      <div className="flex flex-wrap gap-6 px-6 pt-6 xl:px-32">
+      <div className="flex flex-wrap gap-6 px-5 pt-5 xl:px-32">
         <FiltersDropdown
           size="lg"
           isOpen={isHonorsFiltersDropdownOpen}
-          onToggle={handleHonorsFiltersToggle}
+          onToggle={() =>
+            setIsHonorsFiltersDropdownOpen(
+              isHonorsFiltersDropdownOpen => !isHonorsFiltersDropdownOpen,
+            )
+          }
         >
           Distinctions
         </FiltersDropdown>
         <FiltersDropdown
           size="lg"
           isOpen={isMealFiltersDropdownOpen}
-          onToggle={handleMealFiltersToggle}
+          onToggle={() => {
+            setIsMealFiltersDropdownOpen(
+              isMealFiltersDropdownOpen => !isMealFiltersDropdownOpen,
+            )
+          }}
         >
           Repas
         </FiltersDropdown>
         <FiltersDropdown
           size="lg"
           isOpen={isTypeOfCuisineFiltersDropdownOpen}
-          onToggle={handleTypeOfCuisineFiltersToggle}
+          onToggle={() => {
+            setIsTypeOfCuisineFiltersDropdownOpen(
+              isTypeOfCuisineFiltersDropdownOpen =>
+                !isTypeOfCuisineFiltersDropdownOpen,
+            )
+          }}
         >
           Type de cuisine
         </FiltersDropdown>
       </div>
       <main className="flex flex-col gap-11 py-10">
-        <div className="px-6 xl:px-32">
+        <div className="px-5 xl:px-32">
           <h3 className="text-2xl font-bold text-black">Localisation</h3>
           <div className="mt-4 flex flex-col-reverse gap-2 rounded-lg border-[1px] border-solid border-alto/60 p-2 md:flex-row">
             <div className="md:flex-[1]">

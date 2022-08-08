@@ -9,7 +9,7 @@
 }
 
 body .swiper-section {
-  @apply cursor-grab px-6 active:cursor-grabbing xl:px-32;
+  @apply cursor-grab px-5 active:cursor-grabbing xl:px-32;
 }
 
 body .swiper-pagination-bullet {

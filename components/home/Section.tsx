@@ -22,7 +22,7 @@ const Section = ({
 
   return (
     <div>
-      <h3 className="px-6 text-2xl font-bold text-black xl:px-32">{title}</h3>
+      <h3 className="px-5 text-2xl font-bold text-black xl:px-32">{title}</h3>
       {isSwiper ? (
         <Swiper
           spaceBetween={isMobile ? 16 : 24}
@@ -39,7 +39,7 @@ const Section = ({
         </Swiper>
       ) : (
         <div
-          className={`mt-4 gap-6 px-6 xl:px-32 ${
+          className={`mt-4 gap-6 px-5 xl:px-32 ${
             isGrid ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex overflow-auto'
           }`}
         >

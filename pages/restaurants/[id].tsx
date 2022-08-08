@@ -23,7 +23,7 @@ const Restaurant = () => {
   const handleGetDirectionsClick = () => {}
 
   return (
-    <main className="px-6 py-10">
+    <main className="px-5 py-10 lg:px-32">
       <Toaster />
       <div className="grid h-[458px] grid-cols-[5fr,2fr,2fr] gap-1 overflow-hidden rounded-2xl">
         <div className="relative col-span-1 row-span-2">
@@ -67,7 +67,7 @@ const Restaurant = () => {
           />
         </div>
       </div>
-      <div className="mt-4 grid grid-cols-[3fr,2fr] gap-6">
+      <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[3fr,2fr]">
         <div>
           <div className="flex gap-2">
             <Tag withText type="michelin" number={2} />

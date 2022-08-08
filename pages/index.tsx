@@ -7,13 +7,7 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
 import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
-import {
-  ChangeEvent,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { ReactElement, useContext, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
@@ -26,29 +20,6 @@ const Home = () => {
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const { Modal, changeModal } = useModal('LoginModal')
-
-  const handleLoginClick = () => {
-    setIsLoginModalOpen(true)
-  }
-
-  const handleFiltersToggle = () => {
-    setIsFiltersDropdownOpen(isFiltersDropdownOpen => !isFiltersDropdownOpen)
-  }
-
-  const handleLastMinuteChange = () => {
-    setIsLastMinute(isLastMinute => !isLastMinute)
-  }
-
-  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchInputValue(e.target.value)
-  }
-
-  useEffect(() => {
-    console.log({
-      isLastMinute,
-      searchInputValue,
-    })
-  }, [isLastMinute, searchInputValue])
 
   return (
     <div>
@@ -68,7 +39,11 @@ const Home = () => {
           </div>
         </div>
         <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex xl:pr-32">
-          <Button className="z-50" onClick={handleLoginClick} variant="primary">
+          <Button
+            className="z-50"
+            onClick={() => setIsLoginModalOpen(true)}
+            variant="primary"
+          >
             Se connecter
           </Button>
           <Image
@@ -79,27 +54,31 @@ const Home = () => {
           />
         </div>
       </header>
-      <div className="flex flex-col gap-6 px-6 pt-6 md:flex-row xl:px-32">
+      <div className="flex flex-col gap-6 px-5 pt-5 md:flex-row xl:px-32">
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
           <input
             type="text"
             placeholder="Recherche"
             className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
-            onChange={handleSearchInputChange}
+            onChange={e => setSearchInputValue(e.target.value)}
           />
         </label>
         <div className="flex flex-wrap gap-6">
           <FiltersDropdown
             size="lg"
             isOpen={isFiltersDropdownOpen}
-            onToggle={handleFiltersToggle}
+            onToggle={() =>
+              setIsFiltersDropdownOpen(
+                isFiltersDropdownOpen => !isFiltersDropdownOpen,
+              )
+            }
           >
             Filtres
           </FiltersDropdown>
           <FilterTag
             isSelected={isLastMinute}
-            onChange={handleLastMinuteChange}
+            onChange={() => setIsLastMinute(isLastMinute => !isLastMinute)}
             size="lg"
             name="search-filters"
           >
@@ -150,7 +129,7 @@ const Home = () => {
             )
           })}
         </Section>
-        <div className="px-6 lg:px-32">
+        <div className="px-5 xl:px-32">
           <div className="flex h-48 w-full items-center justify-center rounded-lg bg-alto text-lg font-bold text-white">
             PUB
           </div>
