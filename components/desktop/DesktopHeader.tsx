@@ -53,7 +53,6 @@ const DesktopHeader = () => {
             <input
               type="text"
               className="border-solid border-white bg-[transparent] py-1 px-2 text-base text-black outline-none md:border-r-2"
-              name="location"
               {...register('location')}
               placeholder="Localisation"
               onFocus={() => setIsRecentSearchesOpen(true)}
@@ -62,14 +61,12 @@ const DesktopHeader = () => {
             <input
               type="text"
               className="border-solid border-white bg-[transparent] py-1 px-2 text-base text-black outline-none md:border-r-2"
-              name="months"
               {...register('period')}
               placeholder="Période"
             />
             <input
               type="text"
               className="bg-[transparent] px-2 py-1 text-base text-black outline-none"
-              name="numberOfPersons"
               {...register('numberOfPersons')}
               placeholder="Nombre de personnes"
             />
