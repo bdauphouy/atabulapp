@@ -1,6 +1,6 @@
 import Footer from '@/components/shared/Footer'
 import { ReactNode } from 'react'
-import DesktopHeader from '../desktop/DesktopHeader'
+import DesktopHeader from '../../desktop/DesktopHeader'
 
 type DesktopLayoutProps = {
   children: ReactNode

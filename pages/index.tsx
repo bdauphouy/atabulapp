@@ -1,5 +1,5 @@
 import Section from '@/components/home/Section'
-import DesktopLayout from '@/components/layouts/DesktopLayout'
+import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import Button from '@/components/shared/Button'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'

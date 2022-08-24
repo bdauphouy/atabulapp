@@ -1,4 +1,4 @@
-import DesktopLayout from '@/components/layouts/DesktopLayout'
+import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
