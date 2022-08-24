@@ -14,6 +14,7 @@ type RestaurantCardProps = {
   location: string
   promotion?: number
   size?: 'sm' | 'md' | 'lg'
+  isResult?: boolean
 }
 
 const RestaurantCard = ({
@@ -26,12 +27,13 @@ const RestaurantCard = ({
   location,
   promotion,
   size = 'md',
+  isResult = false,
 }: RestaurantCardProps) => {
   return (
     <article
       className={`${className} ${
         size === 'sm' || size === 'md' ? 'min-w-0' : 'lg:min-w-[384px]'
-      } flex w-full flex-col gap-2`}
+      } ${isResult ? 'rounded-b-lg' : ''} flex w-full flex-col gap-2 bg-white`}
     >
       <header
         className={`relative overflow-hidden rounded-lg ${
@@ -56,18 +58,21 @@ const RestaurantCard = ({
         />
       </header>
       {tags && (
-        <div className="flex gap-2">
+        <div className={`flex gap-2 ${isResult ? 'px-2' : ''}`}>
           {tags.map((tag, i) => (
             <Tag key={i} type={tag.name} number={tag.level ?? 1} />
           ))}
         </div>
       )}
-      <div>
+      <div className={isResult ? 'px-2 pb-2' : ''}>
         <h3 className="text-lg font-medium text-black">{name}</h3>
-
         <div
           className={`${
-            size === 'sm' ? 'flex-col items-start' : 'flex-row items-end'
+            size === 'sm'
+              ? isResult
+                ? 'flex-row'
+                : 'flex-col items-start'
+              : 'flex-row items-end'
           } flex flex-wrap justify-between gap-2`}
         >
           <div>
@@ -77,7 +82,7 @@ const RestaurantCard = ({
                 .map(typeOfCooking => typeOfCooking.replace('Cuisine', ''))
                 .join(', ')}
             </h4>
-            <h4 className="text=base text-gray">{location}</h4>
+            {!isResult && <h4 className="text=base text-gray">{location}</h4>}
           </div>
           {promotion && (
             <div className="rounded-[4px] bg-white-rock px-2 py-0.5 text-lg text-black">
