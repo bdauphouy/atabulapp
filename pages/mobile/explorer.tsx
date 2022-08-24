@@ -9,10 +9,18 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import useStringify from '@/lib/hooks/useStringify'
 import { IExploreFiltersForm } from '@/lib/interfaces'
 import Link from 'next/link'
-import { ChangeEvent, ReactElement, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
+import { useRouter } from 'next/router'
+import { SearchContext } from '@/contexts/SearchContext'
 
 const Explore = () => {
   const { control, handleSubmit, trigger, watch, setValue } =
@@ -29,6 +37,8 @@ const Explore = () => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
 
+  const router = useRouter()
+
   const watchHonors = watch(['honors'])
 
   const honorsString = useStringify('honorsString', watchHonors)
@@ -37,6 +47,12 @@ const Explore = () => {
     e.target.blur()
     setIsSearchPageOpen(true)
   }
+
+  useEffect(() => {
+    if (router.query.search) {
+      setIsSearchPageOpen(true)
+    }
+  }, [router])
 
   const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {
     console.log(data)

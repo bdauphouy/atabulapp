@@ -32,7 +32,6 @@ const MobileLayout = ({
         </header>
       )}
       {children}
-      <div className="h-20" />
       <TabBar />
     </>
   )

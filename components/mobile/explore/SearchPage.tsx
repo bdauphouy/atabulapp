@@ -2,7 +2,14 @@ import Button from '@/components/shared/Button'
 import SearchTag from '@/components/shared/SearchTag'
 import { SearchContext } from '@/contexts/SearchContext'
 import { useRouter } from 'next/router'
-import { Dispatch, SetStateAction, useContext, useEffect, useRef } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  FormEvent,
+} from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import Result from './Result'
 
@@ -13,7 +20,7 @@ type SearchPage = {
 const SearchPage = ({ setSearchPageOpen }) => {
   const inputRef = useRef<HTMLInputElement>()
 
-  const { setLocation } = useContext(SearchContext)
+  const { setLocation, location } = useContext(SearchContext)
 
   const router = useRouter()
 
@@ -21,10 +28,15 @@ const SearchPage = ({ setSearchPageOpen }) => {
     inputRef.current.focus()
   }, [])
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
     router.push('/mobile/resultats')
     setLocation(inputRef.current.value)
+  }
+
+  const handleCancel = () => {
     setSearchPageOpen(false)
+    setLocation('')
   }
 
   return (
@@ -38,11 +50,12 @@ const SearchPage = ({ setSearchPageOpen }) => {
               type="text"
               title="Search"
               placeholder="Recherche"
+              defaultValue={location}
               className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
             />
           </label>
         </form>
-        <Button variant="tertiary" onClick={() => setSearchPageOpen(false)}>
+        <Button variant="tertiary" onClick={handleCancel}>
           Annuler
         </Button>
       </header>
