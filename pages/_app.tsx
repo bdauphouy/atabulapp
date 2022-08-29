@@ -1,3 +1,4 @@
+import Toaster from '@/components/shared/Toaster'
 import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
 import { HonorsContextProvider } from '@/contexts/HonorsContext'
 import { SearchContextProvider } from '@/contexts/SearchContext'
@@ -40,6 +41,7 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
                   restauration et de l'hôtellerie
                 </title>
               </Head>
+              <Toaster />
               {getLayout(<Component {...pageProps} />)}
             </GeolocationContextProvider>
           </TypesOfCuisineContextProvider>

@@ -76,3 +76,11 @@ export interface ISettingsForm {
   authorizeLocation: boolean
   authorizeAll: boolean
 }
+
+export interface IPersonalSettingsForm {
+  lastName: string
+  firstName: string
+  location: string
+  email: string
+  phoneNumber: string
+}

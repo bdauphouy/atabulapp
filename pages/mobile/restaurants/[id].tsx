@@ -2,7 +2,6 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
-import Toaster from '@/components/shared/Toaster'
 import Image from 'next/image'
 import { ReactElement, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -29,7 +28,6 @@ const Restaurant = () => {
 
   return (
     <>
-      <Toaster />
       {image && (
         <div
           className="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center bg-[#33333380] p-5 xl:p-64"

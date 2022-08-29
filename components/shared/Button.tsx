@@ -27,7 +27,7 @@ const Button = ({
   if (variant === 'tertiary') {
     return (
       <button
-        form={form ? form : ''}
+        form={form && form}
         type={isSubmit ? 'submit' : 'button'}
         disabled={isDisabled}
         className={`${className} ${

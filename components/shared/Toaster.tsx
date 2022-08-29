@@ -7,6 +7,7 @@ const Toaster = () => {
         style: {
           boxShadow: 'none',
           borderRadius: 6,
+          border: '1px solid #e0e0e0',
         },
       }}
     />
