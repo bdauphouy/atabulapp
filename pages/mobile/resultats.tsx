@@ -1,91 +1,99 @@
-import { SearchContext } from '@/contexts/SearchContext'
-import { ISearchForm } from '@/lib/interfaces'
-import Link from 'next/link'
-import { ReactElement, useContext, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { RiArrowLeftSLine, RiMenu2Fill } from 'react-icons/ri'
 import Section from '@/components/home/Section'
-import { useRouter } from 'next/router'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import SearchPage from '@/components/mobile/explore/SearchPage'
+import SearchHeader from '@/components/mobile/search/SearchHeader'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import { SearchContext } from '@/contexts/SearchContext'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import {
+  FocusEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { RiArrowLeftSLine, RiMenu2Fill } from 'react-icons/ri'
 
 const Results = () => {
-  const { setLocation, setPeriod, setNumberOfPersons, ...searchData } =
-    useContext(SearchContext)
+  const {
+    setLocation,
+    setPeriod,
+    setNumberOfPersons,
+    setIsLastMinute,
+    ...searchData
+  } = useContext(SearchContext)
 
   const [isSearchPageOpen, setIsSearchPageOpen] = useState(false)
   const [isOnTheMap, setIsOnTheMap] = useState(true)
-
-  const { register, handleSubmit } = useForm<ISearchForm>({
-    defaultValues: {
-      location: searchData.location,
-      period: searchData.period,
-      numberOfPersons: searchData.numberOfPersons,
-    },
-  })
+  const [focusedInput, setFocusedInput] = useState<HTMLInputElement>()
 
   const router = useRouter()
-
-  const onSubmit: SubmitHandler<ISearchForm> = ({
-    location,
-    period,
-    numberOfPersons,
-  }) => {
-    setLocation(location)
-    setPeriod(period)
-    setNumberOfPersons(numberOfPersons)
-  }
 
   const handleListButton = () => {
     setIsOnTheMap(false)
   }
 
   const handleGoBackButton = () => {
+    if (isSearchPageOpen) {
+      setIsSearchPageOpen(false)
+    }
     if (isOnTheMap) {
-      router.push('/mobile/explorer?search=true')
+      !isSearchPageOpen && router.push('/mobile/explorer')
     } else {
-      setIsOnTheMap(true)
+      !isSearchPageOpen && setIsOnTheMap(true)
     }
   }
+  const handleInputFocus = async (e: FocusEvent<HTMLInputElement>) => {
+    setIsSearchPageOpen(true)
+    setFocusedInput(e.target)
+  }
+
+  useEffect(() => {
+    isSearchPageOpen && focusedInput.focus()
+  }, [isSearchPageOpen, focusedInput])
 
   return (
     <>
-      {/* {isSearchPageOpen && (
+      {isSearchPageOpen && (
         <SearchPage setSearchPageOpen={setIsSearchPageOpen} />
-      )} */}
+      )}
       <header
         className={`${
           isOnTheMap ? 'fixed' : 'sticky'
-        } top-0 z-50 w-full bg-white p-5`}
+        } top-0 z-[50] w-full bg-white pb-5`}
       >
-        <form
-          className="flex w-full items-center gap-4"
-          id="search-form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <RiArrowLeftSLine
-            onClick={handleGoBackButton}
-            className="min-w-[30px] cursor-pointer text-black"
-            size={30}
-          />
-          <div className="flex w-full rounded-full bg-alto/30 p-2">
-            <input
-              type="text"
-              className="w-32 flex-1 border-r-2 border-solid border-white bg-[transparent] py-1 px-2 text-lg text-black outline-none"
-              {...register('location')}
-              placeholder="Localisation"
-              onFocus={() => setIsSearchPageOpen(true)}
+        <SearchHeader>
+          <div className="flex w-full items-center gap-4">
+            <RiArrowLeftSLine
+              onClick={handleGoBackButton}
+              className="min-w-[30px] cursor-pointer text-black"
+              size={30}
             />
-            <input
-              type="text"
-              className="w-32 flex-1 bg-[transparent] py-1 px-2 text-lg text-black outline-none"
-              {...register('period')}
-              placeholder="Période"
-            />
+            <div className="flex w-full rounded-full bg-alto/30 p-2">
+              <input
+                type="text"
+                key="location-input"
+                className="w-32 flex-1 border-r-2 border-solid border-white bg-[transparent] py-1 px-2 text-lg text-black outline-none"
+                placeholder="Localisation"
+                defaultValue={searchData.location}
+                onInput={e => setLocation((e.target as HTMLInputElement).value)}
+                onFocus={handleInputFocus}
+              />
+              <input
+                type="text"
+                className="w-32 flex-1 bg-[transparent] py-1 px-2 text-lg text-black outline-none"
+                placeholder="Période"
+                defaultValue={searchData.period}
+                onInput={e => setPeriod((e.target as HTMLInputElement).value)}
+                onFocus={handleInputFocus}
+              />
+              <button hidden />
+            </div>
           </div>
-        </form>
+        </SearchHeader>
       </header>
-      <main className={isOnTheMap ? '' : 'pb-5'}>
+      <main className={isOnTheMap ? '' : 'pb-40'}>
         {isOnTheMap ? (
           <div className="flex h-screen flex-col items-center justify-end gap-5 bg-alto/30 p-5 pb-24">
             <Link href="/mobile/restaurants/1" className="w-full">
