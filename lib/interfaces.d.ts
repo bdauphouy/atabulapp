@@ -63,7 +63,9 @@ export interface ICorporateFiveForm {
 export interface ISearchForm {
   location?: string
   period?: string
-  numberOfPersons?: string
+  numberOfPersons?: number
+  honors?: string[]
+  isLastMinute?: boolean
 }
 
 export interface IExploreFiltersForm {

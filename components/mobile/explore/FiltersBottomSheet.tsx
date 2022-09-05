@@ -1,6 +1,6 @@
 import BottomSheet from '@/components/mobile/BottomSheet'
 import { FilterCategory, SelectedFilters } from '@/lib/types'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { Control } from 'react-hook-form'
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import FiltersHonors from './FiltersHonors'
@@ -11,6 +11,7 @@ export type FiltersBottomSheetProps = {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
   selectedFilters: SelectedFilters
+  children: ReactNode
 }
 
 const FiltersBottomSheet = ({
@@ -18,6 +19,7 @@ const FiltersBottomSheet = ({
   isOpen,
   setIsOpen,
   selectedFilters,
+  children,
 }: FiltersBottomSheetProps) => {
   const [currentCategory, setCurrentCategory] =
     useState<FilterCategory>('Filtres')
@@ -51,6 +53,7 @@ const FiltersBottomSheet = ({
       ) : (
         <FiltersHonors control={control} />
       )}
+      {children}
     </BottomSheet>
   )
 }
