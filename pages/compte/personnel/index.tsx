@@ -5,7 +5,7 @@ const Compte = () => {
   const router = useRouter()
 
   useEffect(() => {
-    router.push('/compte/informations-personnelles')
+    router.push('/compte/personnel/informations-personnelles')
   }, [router])
 
   return <></>

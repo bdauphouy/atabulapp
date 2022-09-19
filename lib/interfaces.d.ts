@@ -84,3 +84,36 @@ export interface IPersonalSettingsForm {
   email: string
   phoneNumber: string
 }
+
+export interface ICorporateSettingsForm {
+  name: string
+  address: string
+  zipCode: string
+  city: string
+  typeOfCuisine: string
+  honors: string
+  chefFullName: string
+  pastryChefFullName: string
+  sommelierFullName: string
+  roomManagerFullName: string
+}
+
+export interface ICorporatePicturesForm {
+  coverPicture?: File
+}
+
+export interface IAddRegularOfferFirstForm {
+  offerDays: (Day | undefined)[]
+}
+
+export interface IAddRegularOfferSecondForm {
+  concernedMeal: 'lunch' | 'dinner'
+  withDrinks: 'withDrinks' | 'withoutDrinks'
+  numberOfBeneficiaries: string
+}
+
+export interface IAddRegularOfferThirdForm {
+  discount: string
+}
+
+export interface IAddRegularOfferFourthForm {}

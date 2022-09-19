@@ -43,7 +43,7 @@ const TypeOfCuisineBottomSheet = ({
                 label={typeOfCuisine}
                 control={control}
                 name={`typesOfCuisine.${i}`}
-                checked={control._formValues.typesOfCuisine?.includes(
+                isChecked={control._formValues.typesOfCuisine?.includes(
                   typeOfCuisine,
                 )}
                 isDisabled={

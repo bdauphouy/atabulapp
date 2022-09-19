@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/layouts/desktop/AccountLayout'
+import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
@@ -21,8 +21,6 @@ const PersonalInformation = () => {
       phoneNumber: '0601020304',
     },
   })
-
-  console.log(errors)
 
   const onSubmit: SubmitHandler<IPersonalSettingsForm> = data => {
     console.log(data)
@@ -117,5 +115,5 @@ const PersonalInformation = () => {
 export default PersonalInformation
 
 PersonalInformation.getLayout = (page: ReactElement) => (
-  <AccountLayout>{page}</AccountLayout>
+  <PersonalAccountLayout>{page}</PersonalAccountLayout>
 )

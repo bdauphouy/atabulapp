@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/layouts/desktop/AccountLayout'
+import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import { ReactElement } from 'react'
 
 const PrivacyPolicy = () => {
@@ -62,5 +62,5 @@ const PrivacyPolicy = () => {
 export default PrivacyPolicy
 
 PrivacyPolicy.getLayout = (page: ReactElement) => (
-  <AccountLayout>{page}</AccountLayout>
+  <PersonalAccountLayout>{page}</PersonalAccountLayout>
 )

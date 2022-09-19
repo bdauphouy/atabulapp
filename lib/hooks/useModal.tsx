@@ -1,3 +1,7 @@
+import AddRegularOfferFirstModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferFirstModal'
+import AddRegularOfferFourthModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferFourthModal'
+import AddRegularOfferSecondModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferSecondModal'
+import AddRegularOfferThirdModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferThirdModal'
 import LoginModal from '@/components/desktop/modals/LoginModal'
 import SettingsModal from '@/components/desktop/modals/SettingsModal'
 import SignupCorporateFifthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFifthModal'
@@ -32,6 +36,10 @@ const useModal = (defaultActiveModal: Modal) => {
       SignupCorporateFifthModal,
       SignupCorporateSixthModal,
       SettingsModal,
+      AddRegularOfferFirstModal,
+      AddRegularOfferSecondModal,
+      AddRegularOfferThirdModal,
+      AddRegularOfferFourthModal,
     }
   }, [])
 

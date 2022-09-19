@@ -47,7 +47,7 @@ const HonorsBottomSheet = ({
                 }
                 control={control}
                 name={`honors.${i}`}
-                checked={control._formValues.honors?.includes(honor.title)}
+                isChecked={control._formValues.honors?.includes(honor.title)}
               />
             </li>
           ))}

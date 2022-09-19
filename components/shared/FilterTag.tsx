@@ -5,23 +5,25 @@ type FilterTagProps = {
   name: string
   isSelected?: boolean
   className?: string
-  onChange?: () => void
+  onChange?: (e) => void
   size: 'md' | 'lg'
+  type?: 'radio' | 'checkbox'
 }
 
 const FilterTag = ({
   children,
   name,
   isSelected = false,
-  className,
+  className = '',
   onChange,
   size,
+  type = 'checkbox',
 }: FilterTagProps) => {
   return (
     <div>
       <input
         id={`filter-tag-${name}`}
-        type="checkbox"
+        type={type}
         checked={isSelected}
         className="hidden"
         onChange={onChange}

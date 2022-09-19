@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/layouts/desktop/AccountLayout'
+import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import { ReactElement } from 'react'
 
 const TermsOfService = () => {
@@ -8,5 +8,5 @@ const TermsOfService = () => {
 export default TermsOfService
 
 TermsOfService.getLayout = (page: ReactElement) => (
-  <AccountLayout>{page}</AccountLayout>
+  <PersonalAccountLayout>{page}</PersonalAccountLayout>
 )

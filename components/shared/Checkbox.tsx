@@ -12,7 +12,8 @@ type CheckboxProps = {
   label?: string | ReactNode
   value?: string
   isDisabled?: boolean
-  checked?: boolean
+  isChecked?: boolean
+  withUnderline?: boolean
 }
 
 const Checkbox = ({
@@ -23,7 +24,8 @@ const Checkbox = ({
   label = '',
   value = 'true',
   isDisabled,
-  checked,
+  isChecked,
+  withUnderline,
 }: CheckboxProps) => {
   const id = useId()
 
@@ -33,14 +35,20 @@ const Checkbox = ({
       name={name}
       rules={rules}
       render={({ field: { onChange, name } }) => (
-        <div className={`flex gap-4 ${className}`}>
+        <div
+          className={`flex gap-4 ${className} ${
+            withUnderline
+              ? 'border-b-[1px] border-solid border-alto/30 pb-4'
+              : ''
+          }`}
+        >
           <input
             id={id}
             type="checkbox"
             name={name}
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
-            checked={checked}
+            checked={isChecked}
             value={value}
             disabled={isDisabled}
           />

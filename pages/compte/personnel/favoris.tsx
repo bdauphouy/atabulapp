@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/layouts/desktop/AccountLayout'
+import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { ReactElement } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
@@ -45,5 +45,5 @@ const Favorites = () => {
 export default Favorites
 
 Favorites.getLayout = (page: ReactElement) => (
-  <AccountLayout>{page}</AccountLayout>
+  <PersonalAccountLayout>{page}</PersonalAccountLayout>
 )

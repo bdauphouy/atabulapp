@@ -1,9 +1,9 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { Control, Controller, RegisterOptions } from 'react-hook-form'
 
 type RadioProps = {
   control: Control<any>
-  value: string
+  value?: string
   rules?: Exclude<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs'
@@ -11,6 +11,10 @@ type RadioProps = {
   name: string
   className?: string
   label?: string
+  withUnderline?: boolean
+  isEditable?: boolean
+  onInput?: (value: number) => void
+  onFocus?: () => void
 }
 
 const Radio = ({
@@ -20,8 +24,14 @@ const Radio = ({
   name,
   className = '',
   label = '',
+  withUnderline = false,
+  isEditable = false,
+  onInput,
+  onFocus,
 }: RadioProps) => {
   const id = useId()
+
+  const [editableValue, setEditableValue] = useState(value)
 
   return (
     <Controller
@@ -29,13 +39,19 @@ const Radio = ({
       rules={rules}
       name={name}
       render={({ field: { onChange, name, value: formValue } }) => (
-        <div className={`flex gap-4 ${className}`}>
+        <div
+          className={`flex gap-4 ${className} ${
+            withUnderline
+              ? 'border-b-[1px] border-solid border-alto/30 pb-4'
+              : ''
+          }`}
+        >
           <input
             id={id}
             type="radio"
             name={name}
-            value={value}
-            checked={value === formValue}
+            value={isEditable ? editableValue : value}
+            checked={value === formValue || editableValue === formValue}
             className="hidden"
             onChange={onChange}
           />
@@ -48,7 +64,19 @@ const Radio = ({
               htmlFor={id}
               className="flex-1 cursor-pointer text-base text-black"
             >
-              {label}
+              {isEditable ? (
+                <input
+                  type="number"
+                  placeholder={label}
+                  className="outline-none"
+                  onInput={e =>
+                    onInput?.(parseInt((e.target as HTMLInputElement).value))
+                  }
+                  onFocus={onFocus}
+                />
+              ) : (
+                label
+              )}
             </label>
           )}
         </div>

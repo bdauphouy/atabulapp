@@ -58,7 +58,7 @@ const Modal = ({
         </div>
         <div
           onClick={onClose}
-          className="fixed z-40 h-screen w-full bg-black/40"
+          className="fixed left-0 top-0 z-40 h-screen w-full bg-black/40"
         ></div>
       </>
     )

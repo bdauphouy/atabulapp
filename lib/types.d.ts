@@ -21,6 +21,11 @@ export type Modal =
   | `Signup${SignupType}FifthModal`
   | 'SignupCorporateSixthModal'
   | 'SettingsModal'
+  | 'AddRegularOfferFirstModal'
+  | 'AddRegularOfferSecondModal'
+  | 'AddRegularOfferThirdModal'
+  | 'AddRegularOfferFourthModal'
+  | 'AddRegularOfferFifthModal'
 
 export type ModalProps = {
   isOpen: boolean
@@ -50,3 +55,12 @@ export type FilterCategory =
 export type SelectedFilters = {
   honorsString: string
 }
+
+export type Day =
+  | 'Lundi'
+  | 'Mardi'
+  | 'Mercredi'
+  | 'Jeudi'
+  | 'Vendredi'
+  | 'Samedi'
+  | 'Dimanche'

@@ -1,10 +1,11 @@
 import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
+import Footer from '@/components/shared/Footer'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const AccountLayout = ({ children, withSideMenu = true }) => {
+const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
 
   return (
@@ -32,26 +33,30 @@ const AccountLayout = ({ children, withSideMenu = true }) => {
           <aside className="border-right h-full w-96 border-r-[1px] border-solid border-alto/60 py-10 pr-6">
             <ArrowCta
               variant="lg"
-              onClick={() => router.push('/compte/informations-personnelles')}
+              onClick={() =>
+                router.push('/compte/personnel/informations-personnelles')
+              }
             >
               Informations personnelles
             </ArrowCta>
             <ArrowCta
               variant="lg"
-              onClick={() => router.push('/compte/favoris')}
+              onClick={() => router.push('/compte/personnel/favoris')}
             >
               Favoris
             </ArrowCta>
             <ArrowCta
               variant="lg"
-              onClick={() => router.push('/compte/conditions-de-service')}
+              onClick={() =>
+                router.push('/compte/personnel/conditions-de-service')
+              }
             >
               Conditions de service
             </ArrowCta>
             <ArrowCta
               variant="lg"
               onClick={() =>
-                router.push('/compte/politique-de-confidentialite')
+                router.push('/compte/personnel/politique-de-confidentialite')
               }
               withUnderline={false}
             >
@@ -64,8 +69,9 @@ const AccountLayout = ({ children, withSideMenu = true }) => {
         )}
         <div className="ml-24 flex-1">{children}</div>
       </div>
+      <Footer />
     </>
   )
 }
 
-export default AccountLayout
+export default PersonalAccountLayout
