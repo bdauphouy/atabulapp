@@ -109,7 +109,7 @@ export interface IAddRegularOfferFirstForm {
 export interface IAddRegularOfferSecondForm {
   concernedMeal: 'lunch' | 'dinner'
   withDrinks: 'withDrinks' | 'withoutDrinks'
-  numberOfBeneficiaries: string
+  numberOfBeneficiaries: string[]
 }
 
 export interface IAddRegularOfferThirdForm {
@@ -117,3 +117,19 @@ export interface IAddRegularOfferThirdForm {
 }
 
 export interface IAddRegularOfferFourthForm {}
+
+export interface IAddRegularOfferFormContext
+  extends IAddRegularOfferFirstForm,
+    IAddRegularOfferSecondForm,
+    IAddRegularOfferThirdForm,
+    IAddRegularOfferFourthForm {
+  setOfferDays: React.Dispatch<React.SetStateAction<(Day | undefined)[]>>
+  setConcernedMeal: React.Dispatch<React.SetStateAction<'lunch' | 'dinner'>>
+  setWithDrinks: React.Dispatch<
+    React.SetStateAction<'withDrinks' | 'withoutDrinks'>
+  >
+  setNumberOfBeneficiaries: React.Dispatch<React.SetStateAction<string[]>>
+  setDiscount: React.Dispatch<React.SetStateAction<string>>
+  hasReachedConfirmation: boolean
+  setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
+}

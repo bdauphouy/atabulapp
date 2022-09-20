@@ -1,8 +1,9 @@
 import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
+import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import { IAddRegularOfferThirdForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const AddRegularOfferThirdModal = ({
@@ -10,19 +11,27 @@ const AddRegularOfferThirdModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const { setDiscount, discount, hasReachedConfirmation } = useContext(
+    AddRegularOfferFormContext,
+  )
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<IAddRegularOfferThirdForm>()
+  } = useForm<IAddRegularOfferThirdForm>({
+    defaultValues: {
+      discount,
+    },
+  })
 
-  const onSubmit: SubmitHandler<IAddRegularOfferThirdForm> = data => {
+  const [discountValue, setDiscountValue] = useState<string>()
+
+  const onSubmit: SubmitHandler<IAddRegularOfferThirdForm> = ({ discount }) => {
+    setDiscount(discount === 'other' ? discountValue : discount)
     changeModal('AddRegularOfferFourthModal')
-    console.log(data, discountValue)
   }
-
-  const [discountValue, setDiscountValue] = useState<number>()
 
   return (
     <Modal
@@ -32,7 +41,11 @@ const AddRegularOfferThirdModal = ({
         text: 'Retour',
         customAction: () => changeModal('AddRegularOfferSecondModal'),
       }}
-      footerRightButton={{ text: 'Continuer' }}
+      footerRightButton={{
+        text: hasReachedConfirmation
+          ? 'Confirmer les modifications'
+          : 'Continuer',
+      }}
       isOpen={isOpen}
       onClose={onClose}
     >

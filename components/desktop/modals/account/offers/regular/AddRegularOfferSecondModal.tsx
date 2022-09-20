@@ -1,8 +1,10 @@
 import Checkbox from '@/components/shared/Checkbox'
 import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
+import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import { IAddRegularOfferSecondForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const AddRegularOfferSecondModal = ({
@@ -11,13 +13,42 @@ const AddRegularOfferSecondModal = ({
   changeModal,
 }: ModalProps) => {
   const {
+    setConcernedMeal,
+    setNumberOfBeneficiaries,
+    setWithDrinks,
+    concernedMeal,
+    numberOfBeneficiaries,
+    withDrinks,
+    hasReachedConfirmation,
+  } = useContext(AddRegularOfferFormContext)
+
+  const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddRegularOfferSecondForm>()
+  } = useForm<IAddRegularOfferSecondForm>({
+    defaultValues: {
+      concernedMeal,
+      numberOfBeneficiaries,
+      withDrinks,
+    },
+  })
 
-  const onSubmit: SubmitHandler<IAddRegularOfferSecondForm> = data => {
-    changeModal('AddRegularOfferThirdModal')
+  const onSubmit: SubmitHandler<IAddRegularOfferSecondForm> = ({
+    concernedMeal,
+    numberOfBeneficiaries,
+    withDrinks,
+  }) => {
+    console.log(numberOfBeneficiaries)
+    setConcernedMeal(concernedMeal)
+    setNumberOfBeneficiaries(numberOfBeneficiaries)
+    setWithDrinks(withDrinks)
+
+    changeModal(
+      hasReachedConfirmation
+        ? 'AddRegularOfferFourthModal'
+        : 'AddRegularOfferThirdModal',
+    )
   }
 
   return (
@@ -28,7 +59,11 @@ const AddRegularOfferSecondModal = ({
         text: 'Retour',
         customAction: () => changeModal('AddRegularOfferFirstModal'),
       }}
-      footerRightButton={{ text: 'Continuer' }}
+      footerRightButton={{
+        text: hasReachedConfirmation
+          ? 'Confirmer les modifications'
+          : 'Continuer',
+      }}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -84,7 +119,7 @@ const AddRegularOfferSecondModal = ({
               <Checkbox
                 key={i + 1}
                 control={control}
-                value={i.toString()}
+                value={(i + 1).toString()}
                 name={`numberOfBeneficiaries.${i}`}
                 label={`${i + 1} personne${i + 1 > 1 ? 's' : ''}`}
                 withUnderline={i !== 4}

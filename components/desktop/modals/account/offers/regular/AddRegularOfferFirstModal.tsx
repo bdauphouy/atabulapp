@@ -1,8 +1,9 @@
 import Checkbox from '@/components/shared/Checkbox'
 import Modal from '@/components/shared/Modal'
+import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import { IAddRegularOfferFirstForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const AddRegularOfferFirstModal = ({
@@ -10,11 +11,19 @@ const AddRegularOfferFirstModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const { setOfferDays, offerDays, hasReachedConfirmation } = useContext(
+    AddRegularOfferFormContext,
+  )
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddRegularOfferFirstForm>()
+  } = useForm<IAddRegularOfferFirstForm>({
+    defaultValues: {
+      offerDays,
+    },
+  })
 
   const days = useMemo(
     () => [
@@ -29,9 +38,16 @@ const AddRegularOfferFirstModal = ({
     [],
   )
 
-  const onSubmit: SubmitHandler<IAddRegularOfferFirstForm> = data => {
-    console.log(data)
-    changeModal('AddRegularOfferSecondModal')
+  const onSubmit: SubmitHandler<IAddRegularOfferFirstForm> = ({
+    offerDays,
+  }) => {
+    setOfferDays(offerDays)
+
+    changeModal(
+      hasReachedConfirmation
+        ? 'AddRegularOfferFourthModal'
+        : 'AddRegularOfferSecondModal',
+    )
   }
 
   return (
@@ -42,7 +58,11 @@ const AddRegularOfferFirstModal = ({
         text: 'Retour',
         customAction: () => onClose(),
       }}
-      footerRightButton={{ text: 'Continuer' }}
+      footerRightButton={{
+        text: hasReachedConfirmation
+          ? 'Confirmer les modifications'
+          : 'Continuer',
+      }}
       isOpen={isOpen}
       onClose={onClose}
     >

@@ -49,6 +49,9 @@ const Checkbox = ({
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
             checked={isChecked}
+            defaultChecked={control._defaultValues[
+              name.split('.')[0]
+            ]?.includes(value)}
             value={value}
             disabled={isDisabled}
           />

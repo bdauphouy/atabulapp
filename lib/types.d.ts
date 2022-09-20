@@ -25,7 +25,6 @@ export type Modal =
   | 'AddRegularOfferSecondModal'
   | 'AddRegularOfferThirdModal'
   | 'AddRegularOfferFourthModal'
-  | 'AddRegularOfferFifthModal'
 
 export type ModalProps = {
   isOpen: boolean

@@ -1,9 +1,8 @@
 import Button from '@/components/shared/Button'
 import Modal from '@/components/shared/Modal'
-import { IAddRegularOfferFirstForm } from '@/lib/interfaces'
+import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import { ModalProps } from '@/lib/types'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+import { useContext, useEffect, useMemo } from 'react'
 
 const AddRegularOfferFourthModal = ({
   isOpen,
@@ -11,64 +10,119 @@ const AddRegularOfferFourthModal = ({
   changeModal,
 }: ModalProps) => {
   const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IAddRegularOfferFirstForm>()
+    concernedMeal,
+    discount,
+    offerDays,
+    numberOfBeneficiaries,
+    withDrinks,
+    setHasReachedConfirmation,
+  } = useContext(AddRegularOfferFormContext)
 
-  const onSubmit: SubmitHandler<IAddRegularOfferFirstForm> = data => {
-    // changeModal('AddRegularOfferSecondModal')
-    console.log(data)
-    onClose()
-    toast.success('Offre régulière ajoutée avec succès !')
+  const onSubmit = () => {
+    console.log({
+      concernedMeal,
+      discount,
+      offerDays,
+      numberOfBeneficiaries,
+      withDrinks,
+    })
   }
+
+  const formattedOfferDays = useMemo(() => {
+    const filteredOfferDays = offerDays.filter(Boolean)
+
+    return filteredOfferDays
+      .map((day, i) => (i > 0 ? day.toLowerCase() : day))
+      .join(', ')
+  }, [offerDays])
+
+  const formattedNumberOfBeneficiaries = useMemo(() => {
+    const filterdNumberOfBeneficiaries = numberOfBeneficiaries.filter(Boolean)
+
+    return (
+      filterdNumberOfBeneficiaries
+        .map(
+          (number, i) =>
+            number +
+            (i === filterdNumberOfBeneficiaries.length - 2 ? ' ou ' : ', '),
+        )
+        .join('')
+        .slice(0, -2) +
+      ` personne${
+        filterdNumberOfBeneficiaries.length === 1 &&
+        filterdNumberOfBeneficiaries[0] === '1'
+          ? ''
+          : 's'
+      }`
+    )
+  }, [numberOfBeneficiaries])
+
+  useEffect(() => {
+    setHasReachedConfirmation(true)
+  }, [setHasReachedConfirmation])
 
   return (
     <Modal
       title="Offres régulières"
-      formId="add-offer-fourth-form"
       footerLeftButton={{
         text: 'Retour',
         customAction: () => changeModal('AddRegularOfferThirdModal'),
       }}
-      footerRightButton={{ text: 'Valider' }}
+      footerRightButton={{ text: 'Valider', customAction: () => onSubmit() }}
       isOpen={isOpen}
       onClose={onClose}
     >
       <h3 className="mb-4 text-lg font-bold">Confirmation de l'offre</h3>
-      <form
-        id="add-offer-fourth-form"
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-8"
-      >
-        <ul className="flex flex-col gap-4">
-          <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-            <span>Lundi, jeudi</span>
-            <Button
-              variant="tertiary"
-              onClick={() => changeModal('AddRegularOfferFirstModal')}
-            >
-              Modifier
-            </Button>
-          </li>
-          <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-            <span>Déjeuner</span>
-            <Button variant="tertiary">Modifier</Button>
-          </li>
-          <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-            <span>Réduction sur l'addition avec boissons</span>
-            <Button variant="tertiary">Modifier</Button>
-          </li>
-          <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-            <span>34%</span>
-            <Button variant="tertiary">Modifier</Button>
-          </li>
-          <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-            <span>1 ou 2 personnes</span>
-            <Button variant="tertiary">Modifier</Button>
-          </li>
-        </ul>
-      </form>
+      <ul className="flex flex-col gap-4">
+        <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
+          <span>{formattedOfferDays}</span>
+          <Button
+            variant="tertiary"
+            onClick={() => changeModal('AddRegularOfferFirstModal')}
+          >
+            Modifier
+          </Button>
+        </li>
+        <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
+          <span>{concernedMeal === 'lunch' ? 'Déjeuner' : 'Dîner'}</span>
+          <Button
+            variant="tertiary"
+            onClick={() => changeModal('AddRegularOfferSecondModal')}
+          >
+            Modifier
+          </Button>
+        </li>
+        <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
+          <span>
+            Réduction sur l'addition{' '}
+            {withDrinks === 'withDrinks' ? 'avec' : 'sans'} boissons
+          </span>
+          <Button
+            variant="tertiary"
+            onClick={() => changeModal('AddRegularOfferSecondModal')}
+          >
+            Modifier
+          </Button>
+        </li>
+        <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
+          <span>{discount}%</span>
+          <Button
+            variant="tertiary"
+            onClick={() => changeModal('AddRegularOfferThirdModal')}
+          >
+            Modifier
+          </Button>
+        </li>
+        <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
+          <span>{formattedNumberOfBeneficiaries}</span>
+          <Button
+            variant="tertiary"
+            onClick={() => changeModal('AddRegularOfferSecondModal')}
+          >
+            Modifier
+          </Button>
+        </li>
+      </ul>
     </Modal>
   )
 }

@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId } from 'react'
 import { Control, Controller, RegisterOptions } from 'react-hook-form'
 
 type RadioProps = {
@@ -13,7 +13,7 @@ type RadioProps = {
   label?: string
   withUnderline?: boolean
   isEditable?: boolean
-  onInput?: (value: number) => void
+  onInput?: (value: string) => void
   onFocus?: () => void
 }
 
@@ -30,8 +30,6 @@ const Radio = ({
   onFocus,
 }: RadioProps) => {
   const id = useId()
-
-  const [editableValue, setEditableValue] = useState(value)
 
   return (
     <Controller
@@ -50,8 +48,8 @@ const Radio = ({
             id={id}
             type="radio"
             name={name}
-            value={isEditable ? editableValue : value}
-            checked={value === formValue || editableValue === formValue}
+            value={value}
+            checked={value === formValue}
             className="hidden"
             onChange={onChange}
           />
@@ -69,9 +67,7 @@ const Radio = ({
                   type="number"
                   placeholder={label}
                   className="outline-none"
-                  onInput={e =>
-                    onInput?.(parseInt((e.target as HTMLInputElement).value))
-                  }
+                  onInput={e => onInput?.((e.target as HTMLInputElement).value)}
                   onFocus={onFocus}
                 />
               ) : (
