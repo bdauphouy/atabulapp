@@ -1,13 +1,13 @@
+import Section from '@/components/home/Section'
+import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import { ISearchForm } from '@/lib/interfaces'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ReactElement, useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiArrowLeftSLine, RiMenu2Fill } from 'react-icons/ri'
-import Section from '@/components/home/Section'
-import { useRouter } from 'next/router'
-import MobileLayout from '@/components/layouts/mobile/MobileLayout'
-import RestaurantCard from '@/components/shared/RestaurantCard'
 
 const Results = () => {
   const { setLocation, setPeriod, setNumberOfPersons, ...searchData } =

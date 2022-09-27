@@ -9,18 +9,11 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import useStringify from '@/lib/hooks/useStringify'
 import { IExploreFiltersForm } from '@/lib/interfaces'
 import Link from 'next/link'
-import {
-  ChangeEvent,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { useRouter } from 'next/router'
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
-import { useRouter } from 'next/router'
-import { SearchContext } from '@/contexts/SearchContext'
 
 const Explore = () => {
   const { control, handleSubmit, trigger, watch, setValue } =
