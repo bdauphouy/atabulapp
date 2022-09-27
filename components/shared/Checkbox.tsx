@@ -1,4 +1,4 @@
-import { ReactNode, useId } from 'react'
+import { ReactNode, useId, useMemo } from 'react'
 import { Control, Controller, RegisterOptions } from 'react-hook-form'
 
 type CheckboxProps = {
@@ -29,6 +29,11 @@ const Checkbox = ({
 }: CheckboxProps) => {
   const id = useId()
 
+  const defaultValue = useMemo(
+    () => control._defaultValues[name.split('.')[0]],
+    [name, control._defaultValues],
+  )
+
   return (
     <Controller
       control={control}
@@ -48,10 +53,7 @@ const Checkbox = ({
             name={name}
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
-            checked={isChecked}
-            defaultChecked={control._defaultValues[
-              name.split('.')[0]
-            ]?.includes(value)}
+            defaultChecked={isChecked || defaultValue === true}
             value={value}
             disabled={isDisabled}
           />

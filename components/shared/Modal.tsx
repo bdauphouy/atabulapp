@@ -27,7 +27,7 @@ const Modal = ({
   return (
     isOpen && (
       <>
-        <div className="fixed left-1/2 top-1/2 z-50 w-[415px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white">
+        <div className="fixed left-1/2 top-1/2 z-50 w-[415px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white pb-20">
           {hasHeader && (
             <header className="flex items-start justify-between p-8 pb-0">
               {hasGoBackArrow && (

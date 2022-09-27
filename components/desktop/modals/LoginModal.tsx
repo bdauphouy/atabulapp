@@ -19,7 +19,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     defaultValues: {
       email: '',
       password: '',
-      stayLoggedIn: false,
+      stayLoggedIn: true,
     },
   })
 
