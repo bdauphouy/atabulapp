@@ -2,13 +2,12 @@ import Button from '@/components/shared/Button'
 import SearchTag from '@/components/shared/SearchTag'
 import { SearchContext } from '@/contexts/SearchContext'
 import { useRouter } from 'next/router'
-import
-  {
+import {
     Dispatch, FormEvent, SetStateAction,
     useContext,
     useEffect,
     useRef
-  } from 'react'
+} from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import Result from './Result'
 

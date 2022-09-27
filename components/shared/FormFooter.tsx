@@ -38,9 +38,9 @@ const FormFooter = ({
 
   return (
     <footer
-      className={`${isFixed ? 'fixed' : ''} ${
+      className={`absolute ${
         isInTheForeground ? 'z-[99999999]' : ''
-      } bottom-0 left-0  flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
+      } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >
       {footerLeftButton ? (
         <Button onClick={() => handleClick('left')} variant="tertiary">

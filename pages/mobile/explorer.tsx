@@ -1,12 +1,9 @@
 import Section from '@/components/home/Section'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
-import FiltersBottomSheet from '@/components/mobile/explore/FiltersBottomSheet'
 import SearchPage from '@/components/mobile/explore/SearchPage'
-import FiltersDropdown from '@/components/shared/FiltersDropdown'
-import FilterTag from '@/components/shared/FilterTag'
-import FormFooter from '@/components/shared/FormFooter'
+import SearchHeader from '@/components/mobile/search/SearchHeader'
 import RestaurantCard from '@/components/shared/RestaurantCard'
-import useStringify from '@/lib/hooks/useStringify'
+import { SearchContext } from '@/contexts/SearchContext'
 import { IExploreFiltersForm } from '@/lib/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -16,16 +13,14 @@ import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
 const Explore = () => {
-  const { control, handleSubmit, trigger, watch, setValue } =
-    useForm<IExploreFiltersForm>({
-      defaultValues: {
-        honors: [],
-      },
-    })
+  const {
+    setLocation,
+    setPeriod,
+    setNumberOfPersons,
+    setHonors,
+    ...searchData
+  } = useContext(SearchContext)
 
-  // const coords = useContext(GeolocationContext)
-
-  const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
   const [isSearchPageOpen, setIsSearchPageOpen] = useState(false)
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
@@ -34,7 +29,7 @@ const Explore = () => {
 
   const watchHonors = watch(['honors'])
 
-  const honorsString = useStringify('honorsString', watchHonors)
+  const { location } = useContext(SearchContext)
 
   const handleInputFocus = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.blur()
@@ -48,7 +43,7 @@ const Explore = () => {
   }, [router])
 
   const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {
-    console.log(data)
+    setHonors(data.honors)
   }
 
   return (
@@ -56,11 +51,7 @@ const Explore = () => {
       {isSearchPageOpen && (
         <SearchPage setSearchPageOpen={setIsSearchPageOpen} />
       )}
-      <form
-        id="explore-filters-form"
-        className="flex flex-col gap-3 px-5 pt-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <SearchHeader>
         <h2 className="mb-2 text-3xl font-bold text-black">Explorer</h2>
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
           <RiSearchLine className="text-gray" size={20} />
@@ -70,50 +61,11 @@ const Explore = () => {
             placeholder="Recherche"
             className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
             onFocus={handleInputFocus}
+            key={location}
+            defaultValue={location}
           />
         </label>
-        <div className="flex flex-wrap gap-3">
-          <FiltersDropdown
-            size="md"
-            isOpen={isFiltersDropdownOpen}
-            onToggle={() =>
-              setIsFiltersDropdownOpen(
-                isFiltersDropdownOpen => !isFiltersDropdownOpen,
-              )
-            }
-          >
-            Filtres
-          </FiltersDropdown>
-          <FiltersBottomSheet
-            control={control}
-            isOpen={isFiltersDropdownOpen}
-            setIsOpen={setIsFiltersDropdownOpen}
-            selectedFilters={{ honorsString }}
-          />
-          {isFiltersDropdownOpen && (
-            <FormFooter
-              formId="explore-filters-form"
-              footerLeftButton={{
-                text: 'Tout effacer',
-                customAction: () => setValue('honors', []),
-              }}
-              footerRightButton={{
-                text: 'Voir les 10 offres',
-              }}
-              isFixed
-              isInTheForeground
-            />
-          )}
-          <FilterTag
-            isSelected={isLastMinute}
-            onChange={() => setIsLastMinute(isLastMinute => !isLastMinute)}
-            size="md"
-            name="search-filters"
-          >
-            Last minute
-          </FilterTag>
-        </div>
-      </form>
+      </SearchHeader>
       <main className="flex flex-col gap-8 py-8">
         <Section title="A proximité" isSwiper isMobile>
           {[...Array(5)].map((_, i) => {
