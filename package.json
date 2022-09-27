@@ -12,6 +12,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@rooks/use-localstorage": "^4.11.2",
     "@rooks/use-media-match": "^4.11.2",
     "framer-motion": "^6.5.1",
     "next": "12.1.6",

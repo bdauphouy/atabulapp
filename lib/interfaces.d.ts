@@ -133,3 +133,11 @@ export interface IAddRegularOfferFormContext
   hasReachedConfirmation: boolean
   setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {}
+
+export interface IUserContext {
+  user: string
+  setUser: (user: string) => void
+  removeUser: (user: string) => void
+}

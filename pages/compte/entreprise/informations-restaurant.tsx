@@ -8,16 +8,19 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 const RestaurantInformation = () => {
+  
+
   const {
     control,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<ICorporateSettingsForm>({
-    defaultValues: {},
+    defaultValues: {
+      name: 'test'
+    },
   })
 
-  console.log(errors)
 
   const onSubmit: SubmitHandler<ICorporateSettingsForm> = data => {
     console.log(data)
