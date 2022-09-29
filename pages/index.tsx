@@ -5,11 +5,21 @@ import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
+import { UserContext } from '@/contexts/UserContext'
 import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
-import { ReactElement, useContext, useState } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useContext, useEffect, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
+
+export const getServerSideProps = async ({ req }) => {
+  console.log(req.headers)
+
+  return {
+    props: {},
+  }
+}
 
 const Home = () => {
   const coords = useContext(GeolocationContext)
@@ -20,6 +30,16 @@ const Home = () => {
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const { Modal, changeModal } = useModal('LoginModal')
+
+  const { user } = useContext(UserContext)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user?.id) {
+      router.push('/accueil')
+    }
+  }, [router, user])
 
   return (
     <div>

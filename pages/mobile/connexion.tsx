@@ -3,10 +3,12 @@ import Button from '@/components/shared/Button'
 import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { UserContext } from '@/contexts/UserContext'
+import login from '@/lib/actions/login'
 import { ILoginForm } from '@/lib/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const Login = () => {
@@ -14,6 +16,7 @@ const Login = () => {
     control,
     setValue,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<ILoginForm>({
     defaultValues: {
@@ -25,9 +28,20 @@ const Login = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ILoginForm> = data => {
-    console.log(data)
-    router.push('/mobile/explorer')
+  const { setUser } = useContext(UserContext)
+
+  const onSubmit: SubmitHandler<ILoginForm> = async data => {
+    const res = await login(data.email, data.password)
+
+    if (res.error) {
+      setError('password', {
+        type: 'server',
+        message: res.error,
+      })
+    } else {
+      setUser(res.user)
+      router.push('/mobile/explorer')
+    }
   }
 
   return (
@@ -58,10 +72,6 @@ const Login = () => {
         name="password"
         rules={{
           required: true,
-          minLength: {
-            value: 6,
-            message: 'Votre mot de passe doit faire un minimum 6 charactères.',
-          },
         }}
         isPasswordInput
       />
@@ -69,7 +79,7 @@ const Login = () => {
         <Message type="error">
           {errors.email?.type === 'pattern'
             ? errors.email.message
-            : errors.password?.type === 'minLength'
+            : errors.password?.type === 'server'
             ? errors.password.message
             : 'Veuillez remplir tous les champs.'}
         </Message>

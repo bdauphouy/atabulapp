@@ -3,31 +3,45 @@ import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { UserContext } from '@/contexts/UserContext'
 import { ILoginForm } from '@/lib/interfaces'
+import post from '@/lib/post'
 import { ModalProps } from '@/lib/types'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import login from '@/lib/actions/login'
 
 const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   const {
     control,
     setValue,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<ILoginForm>({
     defaultValues: {
       email: '',
       password: '',
-      stayLoggedIn: true,
+      stayLoggedIn: false,
     },
   })
 
-  const router = useRouter()
+  const { setUser } = useContext(UserContext)
 
-  const onSubmit: SubmitHandler<ILoginForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ILoginForm> = async data => {
+    const res = await login(data.email, data.password)
+
+    if (res.error) {
+      setError('password', {
+        type: 'server',
+        message: res.error,
+      })
+    } else {
+      setUser(res.user)
+    }
   }
+
   return (
     <Modal
       title="Connexion"
@@ -66,11 +80,6 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
           name="password"
           rules={{
             required: true,
-            minLength: {
-              value: 6,
-              message:
-                'Votre mot de passe doit faire un minimum 6 charactères.',
-            },
           }}
           isPasswordInput
         />
@@ -78,7 +87,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
           <Message type="error">
             {errors.email?.type === 'pattern'
               ? errors.email.message
-              : errors.password?.type === 'minLength'
+              : errors.password?.type === 'server'
               ? errors.password.message
               : 'Veuillez remplir tous les champs.'}
           </Message>

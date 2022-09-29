@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 80",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -12,7 +12,6 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@rooks/use-localstorage": "^4.11.2",
     "@rooks/use-media-match": "^4.11.2",
     "framer-motion": "^6.5.1",
     "next": "12.1.6",
@@ -24,7 +23,6 @@
     "react-hot-toast": "^2.3.0",
     "react-icons": "^4.3.1",
     "react-modal-sheet": "^1.5.2",
-    "react-query": "^3.39.0",
     "react-spring-bottom-sheet": "^3.4.0",
     "swiper": "^8.3.0",
     "uuid": "^3.4.0"
