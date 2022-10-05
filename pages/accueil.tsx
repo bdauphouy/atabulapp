@@ -3,9 +3,26 @@ import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
-import useModal from '@/lib/hooks/useModal'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
+import useModal from '@/lib/hooks/useModal'
 import { ReactElement, useContext, useState } from 'react'
+
+// export const getServerSideProps = async ({ req }) => {
+//   const { token, token_expires } = req.cookies
+
+//   if (!isLoggedIn(token, token_expires)) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     }
+//   }
+
+//   return {
+//     props: {},
+//   }
+// }
 
 const Home = () => {
   const searchData = useContext(SearchContext)

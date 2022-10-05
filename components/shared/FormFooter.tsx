@@ -43,7 +43,11 @@ const FormFooter = ({
       } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >
       {footerLeftButton ? (
-        <Button onClick={() => handleClick('left')} variant="tertiary">
+        <Button
+          onClick={() => handleClick('left')}
+          variant="tertiary"
+          isLoading={footerLeftButton.isLoading}
+        >
           {footerLeftButton.text}
         </Button>
       ) : (
@@ -55,6 +59,7 @@ const FormFooter = ({
           form={formId}
           isSubmit
           variant="secondary"
+          isLoading={footerRightButton.isLoading}
         >
           {footerRightButton.text}
         </Button>

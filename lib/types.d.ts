@@ -36,6 +36,7 @@ type FooterButton = {
   text: string
   action?: 'go-back' | `go-to-[/${string}]`
   customAction?: () => void
+  isLoading?: boolean
 }
 
 export type FormFooterActionsProps = {
@@ -63,3 +64,5 @@ export type Day =
   | 'Vendredi'
   | 'Samedi'
   | 'Dimanche'
+
+export type WorkStatus = 'student' | 'employee'

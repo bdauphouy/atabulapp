@@ -1,5 +1,6 @@
 import Toaster from '@/components/shared/Toaster'
 import { AddRegularOfferFormContextProvider } from '@/contexts/forms/AddRegularOfferFormContext'
+import { SignupPersonalFormContextProvider } from '@/contexts/forms/SignupPersonalFormContext'
 import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
 import { HonorsContextProvider } from '@/contexts/HonorsContext'
 import { SearchContextProvider } from '@/contexts/SearchContext'
@@ -29,21 +30,23 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <UserContextProvider>
           <TypesOfCuisineContextProvider>
             <GeolocationContextProvider>
-              <AddRegularOfferFormContextProvider>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                  />
+              <SignupPersonalFormContextProvider>
+                <AddRegularOfferFormContextProvider>
+                  <Head>
+                    <meta
+                      name="viewport"
+                      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                    />
 
-                  <title>
-                    Atabulapp - Offres et avantages pour les professionnels de
-                    la restauration et de l'hôtellerie
-                  </title>
-                </Head>
-                <Toaster />
-                {getLayout(<Component {...pageProps} />)}
-              </AddRegularOfferFormContextProvider>
+                    <title>
+                      Atabulapp - Offres et avantages pour les professionnels de
+                      la restauration et de l'hôtellerie
+                    </title>
+                  </Head>
+                  <Toaster />
+                  {getLayout(<Component {...pageProps} />)}
+                </AddRegularOfferFormContextProvider>
+              </SignupPersonalFormContextProvider>
             </GeolocationContextProvider>
           </TypesOfCuisineContextProvider>
         </UserContextProvider>

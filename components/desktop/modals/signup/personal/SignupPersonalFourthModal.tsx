@@ -1,10 +1,12 @@
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
 import SupportingDocument from '@/components/shared/SupportingDocument'
+import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
+import signup from '@/lib/actions/signup'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupPersonalFourthModal = ({
@@ -12,28 +14,47 @@ const SignupPersonalFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const { email, password, firstName, lastName, workStatus, birthDate, city } =
+    useContext(SignupPersonalFormContext)
+
   const {
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm<IPersonalThreeForm>()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const router = useRouter()
 
-  const [workStatus, setWorkStatus] = useState<'student' | 'employee'>()
+  const onSubmit: SubmitHandler<IPersonalThreeForm> = async ({
+    proofOfIdentity,
+    schoolCertificate,
+    workCertificate,
+  }) => {
+    setIsLoading(true)
 
-  useEffect(() => {
-    const { workStatus } = router.query
+    const res = await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    )
 
-    if (workStatus === 'employee') {
-      setWorkStatus('employee')
+    setIsLoading(false)
+
+    if (res.error) {
+      setError('workCertificate', {
+        type: 'server',
+        message: res.error,
+      })
     } else {
-      setWorkStatus('student')
+      changeModal('SignupPersonalFifthModal')
     }
-  }, [router])
-
-  const onSubmit: SubmitHandler<IPersonalThreeForm> = data => {
-    console.log(data)
   }
 
   return (
@@ -46,7 +67,7 @@ const SignupPersonalFourthModal = ({
       }}
       footerRightButton={{
         text: 'Continuer',
-        customAction: () => changeModal('SignupPersonalFifthModal'),
+        isLoading,
       }}
       isOpen={isOpen}
       onClose={onClose}
@@ -84,7 +105,9 @@ const SignupPersonalFourthModal = ({
           </ul>
           {Object.keys(errors).length > 0 && (
             <Message type="error">
-              Veuillez importer tous les documents.
+              {errors.workCertificate?.type === 'server'
+                ? errors.workCertificate?.message
+                : 'Veuillez importer tous les documents.'}
             </Message>
           )}
         </form>

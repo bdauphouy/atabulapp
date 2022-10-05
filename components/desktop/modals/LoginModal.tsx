@@ -3,14 +3,14 @@ import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import { UserContext } from '@/contexts/UserContext'
-import { ILoginForm } from '@/lib/interfaces'
-import post from '@/lib/post'
-import { ModalProps } from '@/lib/types'
-import Link from 'next/link'
-import { useContext } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import login from '@/lib/actions/login'
+import { ILoginForm } from '@/lib/interfaces'
+import { ModalProps } from '@/lib/types'
+import Cookie from 'js-cookie'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   const {
@@ -27,10 +27,20 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     },
   })
 
-  const { setUser } = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit: SubmitHandler<ILoginForm> = async data => {
-    const res = await login(data.email, data.password)
+  const router = useRouter()
+
+  const onSubmit: SubmitHandler<ILoginForm> = async ({
+    email,
+    password,
+    stayLoggedIn,
+  }) => {
+    setIsLoading(true)
+
+    const res = await login(email, password)
+
+    setIsLoading(false)
 
     if (res.error) {
       setError('password', {
@@ -38,7 +48,10 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         message: res.error,
       })
     } else {
-      setUser(res.user)
+      Cookie.set('token', res.token)
+      Cookie.set('token_expires', new Date().setDate(new Date().getDate() + 1))
+
+      router.push('/accueil')
     }
   }
 
@@ -50,7 +63,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         text: "S'inscrire",
         customAction: () => changeModal('SignupFirstModal'),
       }}
-      footerRightButton={{ text: 'Se connecter' }}
+      footerRightButton={{ text: 'Se connecter', isLoading }}
       isOpen={isOpen}
       onClose={onClose}
     >

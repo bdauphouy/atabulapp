@@ -1,6 +1,11 @@
 import { BASE_URL } from './variables'
 
-const post = async (url: string, body: string) => {
+type PostParams = {
+  url: string
+  body: string
+}
+
+const post = async ({ url, body }: PostParams) => {
   const res = await fetch(BASE_URL + url, {
     method: 'POST',
     headers: {
