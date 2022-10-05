@@ -3,6 +3,7 @@ import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Radio from '@/components/shared/Radio'
 import { IPersonalTwoForm } from '@/lib/interfaces'
+import signup from '@/lib/actions/signup'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
@@ -13,16 +14,42 @@ const PersonalTwo = () => {
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<IPersonalTwoForm>()
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<IPersonalTwoForm> = data => {
-    if (data.workStatus === 'student') {
-      router.push('/mobile/inscription/personnelle/3?workStatus=student')
+  const onSubmit: SubmitHandler<IPersonalTwoForm> = async ({
+    email,
+    password,
+    firstName,
+    lastName,
+    workStatus,
+    birthDate,
+    city,
+  }) => {
+    const res = await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    )
+
+    if (res.error) {
+      setError('password', {
+        type: 'server',
+        message: res.error,
+      })
     } else {
-      router.push('/mobile/inscription/personnelle/3?workStatus=employee')
+      if (workStatus === 'student') {
+        router.push('/mobile/inscription/personnelle/3?workStatus=student')
+      } else {
+        router.push('/mobile/inscription/personnelle/3?workStatus=employee')
+      }
     }
   }
 

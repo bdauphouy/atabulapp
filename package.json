@@ -14,6 +14,7 @@
   "dependencies": {
     "@rooks/use-media-match": "^4.11.2",
     "framer-motion": "^6.5.1",
+    "html-react-parser": "^3.0.4",
     "next": "12.1.6",
     "next-pwa": "^5.5.2",
     "npx": "^10.2.2",

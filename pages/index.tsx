@@ -3,6 +3,7 @@ import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import Button from '@/components/shared/Button'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
+import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
 import { UserContext } from '@/contexts/UserContext'
@@ -150,9 +151,7 @@ const Home = () => {
           })}
         </Section>
         <div className="px-5 xl:px-32">
-          <div className="flex h-48 w-full items-center justify-center rounded-lg bg-alto text-lg font-bold text-white">
-            PUB
-          </div>
+          <Mea />
         </div>
         <Section title="Sélection Atabulapp" isSwiper>
           {[...Array(5)].map((_, i) => {

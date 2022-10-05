@@ -2,6 +2,7 @@ import Section from '@/components/home/Section'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import SearchPage from '@/components/mobile/explore/SearchPage'
 import SearchHeader from '@/components/mobile/search/SearchHeader'
+import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import Link from 'next/link'
@@ -101,9 +102,7 @@ const Explore = () => {
           })}
         </Section>
         <div className="px-5">
-          <div className="flex h-48 w-full items-center justify-center rounded-lg bg-alto text-lg font-bold text-white">
-            PUB
-          </div>
+          <Mea />
         </div>
         <Section title="Sélection Atabulapp" isSwiper isMobile>
           {[...Array(5)].map((_, i) => {
