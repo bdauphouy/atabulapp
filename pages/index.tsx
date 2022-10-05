@@ -50,14 +50,21 @@ const Home = () => {
         changeModal={changeModal}
       />
       <header className="flex h-28 lg:h-[450px]">
-        <div className="flex flex-[2] items-center justify-center bg-white-rock px-16 py-8 lg:py-40">
-          <div className="relative h-full w-full">
+        <div className="flex w-full items-center justify-between bg-white-rock px-6 py-8 lg:flex-[2] lg:py-40">
+          <div className="relative h-full w-20 lg:w-full">
             <Image
               src="/images/full-logo.svg"
               alt="Logo d'Atabulapp"
               layout="fill"
             />
           </div>
+          <Button
+            className="z-50 lg:hidden"
+            onClick={() => setIsLoginModalOpen(true)}
+            variant="primary"
+          >
+            Se connecter
+          </Button>
         </div>
         <div className="relative hidden flex-[5] items-start justify-end pr-6 pt-6 lg:flex xl:pr-32">
           <Button
