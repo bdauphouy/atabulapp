@@ -1,12 +1,15 @@
 import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import { UserContext } from '@/contexts/UserContext'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 const PersonalInformation = () => {
+  const { user } = useContext(UserContext)
+
   const {
     control,
     setValue,
@@ -14,11 +17,11 @@ const PersonalInformation = () => {
     formState: { errors },
   } = useForm<IPersonalSettingsForm>({
     defaultValues: {
-      lastName: 'Brun',
-      firstName: 'Marc',
-      location: 'Paris',
-      email: 'marc.brun@gmail.com',
-      phoneNumber: '0601020304',
+      lastName: user?.lastName || '...',
+      firstName: user?.firstName || '...',
+      location: user?.location || '...',
+      email: user?.email || '...',
+      phoneNumber: user?.phoneNumber || '...',
     },
   })
 

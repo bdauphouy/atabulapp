@@ -4,6 +4,7 @@ import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
 import { IPersonalTwoForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
+import signup from '@/lib/actions/signup'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -17,20 +18,44 @@ const SignupPersonalThirdModal = ({
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<IPersonalTwoForm>()
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<IPersonalTwoForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IPersonalTwoForm> = async ({
+    email,
+    password,
+    firstName,
+    lastName,
+    workStatus,
+    birthDate,
+    city,
+  }) => {
+    const res = await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    )
 
-    if (data.workStatus === 'student') {
-      router.push('/?workStatus=student')
+    if (res.error) {
+      setError('password', {
+        type: 'server',
+        message: res.error,
+      })
     } else {
-      router.push('/?workStatus=employee')
+      if (workStatus === 'student') {
+        router.push('/?workStatus=student')
+      } else {
+        router.push('/?workStatus=employee')
+      }
+      changeModal('SignupPersonalFourthModal')
     }
-    changeModal('SignupPersonalFourthModal')
   }
 
   return (
@@ -145,7 +170,7 @@ const SignupPersonalThirdModal = ({
           <Message type="error">
             {errors.birthDate?.type === 'pattern'
               ? errors.birthDate.message
-              : errors.email?.type === 'pattern'
+              : ['pattern', 'server'].includes(errors.email?.type)
               ? errors.email.message
               : errors.password?.type === 'minLength'
               ? errors.password.message

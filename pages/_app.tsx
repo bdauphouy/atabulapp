@@ -4,15 +4,13 @@ import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
 import { HonorsContextProvider } from '@/contexts/HonorsContext'
 import { SearchContextProvider } from '@/contexts/SearchContext'
 import { TypesOfCuisineContextProvider } from '@/contexts/TypesOfCuisineContext'
+import { UserContextProvider } from '@/contexts/UserContext'
 import '@/styles/globals.css'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ReactElement, ReactNode } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import 'swiper/css'
-
-const queryClient = new QueryClient()
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -26,9 +24,9 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <HonorsContextProvider>
-        <SearchContextProvider>
+    <HonorsContextProvider>
+      <SearchContextProvider>
+        <UserContextProvider>
           <TypesOfCuisineContextProvider>
             <GeolocationContextProvider>
               <AddRegularOfferFormContextProvider>
@@ -48,9 +46,9 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
               </AddRegularOfferFormContextProvider>
             </GeolocationContextProvider>
           </TypesOfCuisineContextProvider>
-        </SearchContextProvider>
-      </HonorsContextProvider>
-    </QueryClientProvider>
+        </UserContextProvider>
+      </SearchContextProvider>
+    </HonorsContextProvider>
   )
 }
 

@@ -136,10 +136,15 @@ export interface IAddRegularOfferFormContext
   setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {}
+export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {
+  isSubscribedNewsletter: boolean
+  isIdentityValid: boolean
+  IsCertificateValid: boolean
+  id: number
+  stripeCustomerId: string
+}
 
 export interface IUserContext {
-  user: string
-  setUser: (user: string) => void
-  removeUser: (user: string) => void
+  user: User
+  setUser: (user: User) => void
 }

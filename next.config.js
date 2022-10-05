@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-console.warn = () => {}
-
-const withPWA = require('next-pwa')
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+})
 
 const nextConfig = withPWA({
   reactStrictMode: false,
@@ -15,10 +16,6 @@ const nextConfig = withPWA({
   },
   experimental: {
     newNextLinkBehavior: true,
-  },
-  pwa: {
-    disable: process.env.NODE_ENV !== 'production',
-    dest: 'public',
   },
 })
 

@@ -4,6 +4,7 @@ import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import useModal from '@/lib/hooks/useModal'
+import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import { ReactElement, useContext, useState } from 'react'
 
 const Home = () => {
@@ -21,14 +22,22 @@ const Home = () => {
 
   const { Modal } = useModal('SettingsModal')
 
+  const [settings, setSettings] = useLocalstorage('settings', false)
+
   return (
     <>
-      <div className="fixed top-0 z-50">
-        <Modal
-          isOpen={isSettingsModalOpen}
-          onClose={() => setIsSettingsModalOpen(false)}
-        />
-      </div>
+      {!settings && (
+        <div className="fixed top-0 z-50">
+          <Modal
+            isOpen={isSettingsModalOpen}
+            onClose={() => {
+              setIsSettingsModalOpen(false)
+              setSettings(true)
+            }}
+          />
+        </div>
+      )}
+
       <pre>{JSON.stringify(searchData)}</pre>
       <div className="flex flex-wrap gap-6 px-5 pt-5 xl:px-32">
         <FiltersDropdown
