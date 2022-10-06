@@ -2,11 +2,11 @@ import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
+import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
 import { IPersonalTwoForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import signup from '@/lib/actions/signup'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupPersonalThirdModal = ({
@@ -15,14 +15,38 @@ const SignupPersonalThirdModal = ({
   changeModal,
 }: ModalProps) => {
   const {
+    email,
+    password,
+    firstName,
+    lastName,
+    workStatus,
+    birthDate,
+    city,
+    setEmail,
+    setPassword,
+    setFirstName,
+    setLastName,
+    setWorkStatus,
+    setBirthDate,
+    setCity,
+  } = useContext(SignupPersonalFormContext)
+
+  const {
     control,
     handleSubmit,
     setValue,
-    setError,
     formState: { errors },
-  } = useForm<IPersonalTwoForm>()
-
-  const router = useRouter()
+  } = useForm<IPersonalTwoForm>({
+    defaultValues: {
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    },
+  })
 
   const onSubmit: SubmitHandler<IPersonalTwoForm> = async ({
     email,
@@ -33,29 +57,15 @@ const SignupPersonalThirdModal = ({
     birthDate,
     city,
   }) => {
-    const res = await signup(
-      email,
-      password,
-      firstName,
-      lastName,
-      workStatus,
-      birthDate,
-      city,
-    )
+    setEmail(email)
+    setPassword(password)
+    setFirstName(firstName)
+    setLastName(lastName)
+    setWorkStatus(workStatus)
+    setBirthDate(birthDate)
+    setCity(city)
 
-    if (res.error) {
-      setError('password', {
-        type: 'server',
-        message: res.error,
-      })
-    } else {
-      if (workStatus === 'student') {
-        router.push('/?workStatus=student')
-      } else {
-        router.push('/?workStatus=employee')
-      }
-      changeModal('SignupPersonalFourthModal')
-    }
+    changeModal('SignupPersonalFourthModal')
   }
 
   return (

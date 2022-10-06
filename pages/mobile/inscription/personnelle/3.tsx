@@ -1,35 +1,49 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Message from '@/components/shared/Message'
 import SupportingDocument from '@/components/shared/SupportingDocument'
+import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
+import signup from '@/lib/actions/signup'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const PersonalThree = () => {
+  const { email, password, firstName, lastName, workStatus, birthDate, city } =
+    useContext(SignupPersonalFormContext)
+
   const {
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm<IPersonalThreeForm>()
 
   const router = useRouter()
 
-  const [workStatus, setWorkStatus] = useState<'student' | 'employee'>()
+  const onSubmit: SubmitHandler<IPersonalThreeForm> = async ({
+    proofOfIdentity,
+    schoolCertificate,
+    workCertificate,
+  }) => {
+    const res = await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    )
 
-  useEffect(() => {
-    const { workStatus } = router.query
-
-    if (workStatus === 'employee') {
-      setWorkStatus('employee')
+    if (res.error) {
+      setError('workCertificate', {
+        type: 'server',
+        message: res.error,
+      })
     } else {
-      setWorkStatus('student')
+      router.push('/mobile/inscription/personnelle/4')
     }
-  }, [router])
-
-  const onSubmit: SubmitHandler<IPersonalThreeForm> = data => {
-    console.log(data)
-    router.push('/mobile/inscription/personnelle/4')
   }
 
   return (
@@ -62,7 +76,11 @@ const PersonalThree = () => {
         )}
       </ul>
       {Object.keys(errors).length > 0 && (
-        <Message type="error">Veuillez importer tous les documents.</Message>
+        <Message type="error">
+          {errors.workCertificate?.type === 'server'
+            ? errors.workCertificate?.message
+            : 'Veuillez importer tous les documents.'}
+        </Message>
       )}
     </form>
   )

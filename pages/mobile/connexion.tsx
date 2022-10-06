@@ -3,12 +3,12 @@ import Button from '@/components/shared/Button'
 import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { UserContext } from '@/contexts/UserContext'
 import login from '@/lib/actions/login'
 import { ILoginForm } from '@/lib/interfaces'
+import Cookie from 'js-cookie'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement, useContext } from 'react'
+import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const Login = () => {
@@ -28,8 +28,6 @@ const Login = () => {
 
   const router = useRouter()
 
-  const { setUser } = useContext(UserContext)
-
   const onSubmit: SubmitHandler<ILoginForm> = async data => {
     const res = await login(data.email, data.password)
 
@@ -39,7 +37,9 @@ const Login = () => {
         message: res.error,
       })
     } else {
-      setUser(res.user)
+      Cookie.set('token', res.token)
+      Cookie.set('token_expires', new Date().setDate(new Date().getDate() + 1))
+
       router.push('/mobile/explorer')
     }
   }

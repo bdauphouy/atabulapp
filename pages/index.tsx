@@ -14,13 +14,22 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
-export const getServerSideProps = async ({ req }) => {
-  console.log(req.headers)
+// export const getServerSideProps = async ({ req }) => {
+//   const expires = parseInt(req.cookies['token-expires-date'])
 
-  return {
-    props: {},
-  }
-}
+//   if (req.cookies.token && expires >= Date.now()) {
+//     return {
+//       redirect: {
+//         destination: '/accueil',
+//         permanent: false,
+//       },
+//     }
+//   }
+
+//   return {
+//     props: {},
+//   }
+// }
 
 const Home = () => {
   const coords = useContext(GeolocationContext)

@@ -12,12 +12,11 @@ const signup = async (
   const response = {
     error: null,
     user: null,
-    token: null,
   }
 
-  const res = await post(
-    '/users/auth/signup',
-    JSON.stringify({
+  const res = await post({
+    url: '/users/auth/signup',
+    body: JSON.stringify({
       email,
       password,
       firstName,
@@ -26,13 +25,12 @@ const signup = async (
       birthDate: new Date(birthDate).toISOString(),
       city,
     }),
-  )
+  })
 
   if (res.status === 409) {
     response.error = 'Cet email est déjà utilisé.'
   } else {
-    response.user = res.user
-    response.token = res.token
+    response.user = res
   }
 
   return response

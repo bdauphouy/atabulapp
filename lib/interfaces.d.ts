@@ -1,3 +1,5 @@
+import { WorkStatus } from './types'
+
 export interface ILoginForm {
   email: string
   password: string
@@ -15,7 +17,7 @@ export interface IPersonalTwoForm {
   birthDate: string
   city: string
   password: string
-  workStatus: 'student' | 'employee'
+  workStatus: WorkStatus
 }
 
 export interface IPersonalThreeForm {
@@ -120,6 +122,19 @@ export interface IAddRegularOfferThirdForm {
 
 export interface IAddRegularOfferFourthForm {}
 
+export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {
+  isSubscribedNewsletter: boolean
+  isIdentityValid: boolean
+  IsCertificateValid: boolean
+  id: number
+  stripeCustomerId: string
+}
+
+export interface IUserContext {
+  user: User
+  setUser: (user: User) => void
+}
+
 export interface IAddRegularOfferFormContext
   extends IAddRegularOfferFirstForm,
     IAddRegularOfferSecondForm,
@@ -134,17 +149,18 @@ export interface IAddRegularOfferFormContext
   setDiscount: React.Dispatch<React.SetStateAction<string>>
   hasReachedConfirmation: boolean
   setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {
-  isSubscribedNewsletter: boolean
-  isIdentityValid: boolean
-  IsCertificateValid: boolean
-  id: number
-  stripeCustomerId: string
-}
-
-export interface IUserContext {
-  user: User
-  setUser: (user: User) => void
+export interface ISignupPersonalFormContext extends IPersonalTwoForm {
+  setEmail: React.Dispatch<React.SetStateAction<string>>
+  setLastName: React.Dispatch<React.SetStateAction<string>>
+  setFirstName: React.Dispatch<React.SetStateAction<string>>
+  setBirthDate: React.Dispatch<React.SetStateAction<string>>
+  setCity: React.Dispatch<React.SetStateAction<string>>
+  setPassword: React.Dispatch<React.SetStateAction<string>>
+  setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
