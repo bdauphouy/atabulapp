@@ -12,7 +12,6 @@ const FormFooter = ({
   footerLeftButton,
   footerRightButton,
   isInTheForeground = false,
-  isFixed = false,
 }: FormFooterProps) => {
   const router = useRouter()
 

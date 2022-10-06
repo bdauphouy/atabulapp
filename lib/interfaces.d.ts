@@ -149,6 +149,8 @@ export interface IAddRegularOfferFormContext
   setDiscount: React.Dispatch<React.SetStateAction<string>>
   hasReachedConfirmation: boolean
   setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ISignupPersonalFormContext extends IPersonalTwoForm {
@@ -159,4 +161,6 @@ export interface ISignupPersonalFormContext extends IPersonalTwoForm {
   setCity: React.Dispatch<React.SetStateAction<string>>
   setPassword: React.Dispatch<React.SetStateAction<string>>
   setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }

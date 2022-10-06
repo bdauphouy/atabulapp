@@ -2,25 +2,52 @@ import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Radio from '@/components/shared/Radio'
+import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
 import { IPersonalTwoForm } from '@/lib/interfaces'
-import signup from '@/lib/actions/signup'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const PersonalTwo = () => {
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    workStatus,
+    birthDate,
+    city,
+    setEmail,
+    setPassword,
+    setFirstName,
+    setLastName,
+    setWorkStatus,
+    setBirthDate,
+    setCity,
+  } = useContext(SignupPersonalFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     setError,
     formState: { errors },
-  } = useForm<IPersonalTwoForm>()
+  } = useForm<IPersonalTwoForm>({
+    defaultValues: {
+      email,
+      password,
+      firstName,
+      lastName,
+      workStatus,
+      birthDate,
+      city,
+    },
+  })
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<IPersonalTwoForm> = async ({
+  const onSubmit: SubmitHandler<IPersonalTwoForm> = ({
     email,
     password,
     firstName,
@@ -29,28 +56,15 @@ const PersonalTwo = () => {
     birthDate,
     city,
   }) => {
-    const res = await signup(
-      email,
-      password,
-      firstName,
-      lastName,
-      workStatus,
-      birthDate,
-      city,
-    )
+    setEmail(email)
+    setPassword(password)
+    setFirstName(firstName)
+    setLastName(lastName)
+    setWorkStatus(workStatus)
+    setBirthDate(birthDate)
+    setCity(city)
 
-    if (res.error) {
-      setError('password', {
-        type: 'server',
-        message: res.error,
-      })
-    } else {
-      if (workStatus === 'student') {
-        router.push('/mobile/inscription/personnelle/3?workStatus=student')
-      } else {
-        router.push('/mobile/inscription/personnelle/3?workStatus=employee')
-      }
-    }
+    router.push('/mobile/inscription/personnelle/3')
   }
 
   return (

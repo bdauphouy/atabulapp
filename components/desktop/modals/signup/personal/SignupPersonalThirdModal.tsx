@@ -6,7 +6,6 @@ import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormCo
 import { IPersonalTwoForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -36,7 +35,6 @@ const SignupPersonalThirdModal = ({
     control,
     handleSubmit,
     setValue,
-    setError,
     formState: { errors },
   } = useForm<IPersonalTwoForm>({
     defaultValues: {
@@ -49,8 +47,6 @@ const SignupPersonalThirdModal = ({
       city,
     },
   })
-
-  const router = useRouter()
 
   const onSubmit: SubmitHandler<IPersonalTwoForm> = async ({
     email,
