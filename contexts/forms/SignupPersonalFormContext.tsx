@@ -12,7 +12,6 @@ export const SignupPersonalFormContextProvider = ({ children }) => {
   const [workStatus, setWorkStatus] = useState(null)
   const [birthDate, setBirthDate] = useState('')
   const [city, setCity] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
   return (
     <SignupPersonalFormContext.Provider
@@ -31,8 +30,6 @@ export const SignupPersonalFormContextProvider = ({ children }) => {
         setBirthDate,
         city,
         setCity,
-        isLoading,
-        setIsLoading,
       }}
     >
       {children}
