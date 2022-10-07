@@ -1,5 +1,9 @@
 import Tag from '@/components/shared/Tag'
+import { addFavorite } from '@/lib/actions/favorites'
 import Image from 'next/image'
+import { useState } from 'react'
+import { RiHeartLine, RiHeartFill } from 'react-icons/ri'
+import Cookie from 'js-cookie'
 
 type RestaurantCardProps = {
   className?: string
@@ -15,6 +19,7 @@ type RestaurantCardProps = {
   promotion?: number
   size?: 'sm' | 'md' | 'lg'
   isResult?: boolean
+  isDefaultLiked?: boolean
 }
 
 const RestaurantCard = ({
@@ -28,7 +33,17 @@ const RestaurantCard = ({
   promotion,
   size = 'md',
   isResult = false,
+  isDefaultLiked = false,
 }: RestaurantCardProps) => {
+  const [isLiked, setIsLiked] = useState(isDefaultLiked)
+
+  const handleLike = async () => {
+    setIsLiked(!isLiked)
+    const res = await addFavorite(12, Cookie.get('token'))
+
+    console.log(res)
+  }
+
   return (
     <article
       className={`${className} ${
@@ -56,6 +71,12 @@ const RestaurantCard = ({
           src={thumbnail}
           alt={`Image du restaurant ${name}`}
         />
+        <div
+          className="absolute bottom-3 right-3 cursor-pointer text-white"
+          onClick={handleLike}
+        >
+          {isLiked ? <RiHeartFill size={32} /> : <RiHeartLine size={32} />}
+        </div>
       </header>
       {tags && (
         <div className={`flex gap-2 ${isResult ? 'px-2' : ''}`}>

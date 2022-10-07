@@ -12,8 +12,6 @@ const get = async ({ url, token }: GetParams) => {
       Authorization: token ? 'Bearer ' + token : null,
     },
   })
-
-  console.log(res)
 }
 
 export default get
