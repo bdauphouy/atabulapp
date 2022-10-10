@@ -3,7 +3,7 @@ import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import login from '@/lib/actions/login'
+import api from '@/lib/api'
 import { ILoginForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import Cookie from 'js-cookie'
@@ -38,7 +38,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   }) => {
     setIsLoading(true)
 
-    const res = await login(email, password)
+    const res = await api.loginUser({ email, password })
 
     setIsLoading(false)
 

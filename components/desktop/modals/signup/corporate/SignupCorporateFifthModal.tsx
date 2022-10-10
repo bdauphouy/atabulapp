@@ -1,12 +1,13 @@
 import ImportImageArea from '@/components/shared/ImportImageArea'
 import Modal from '@/components/shared/Modal'
 import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
+import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { ICorporateFiveForm } from '@/lib/interfaces'
-import { ModalProps } from '@/lib/types'
+import { ApiSignupCorporateData, ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { RiContactsBookLine } from 'react-icons/ri'
 
 const SignupCorporateFifthModal = ({
   isOpen,
@@ -15,9 +16,11 @@ const SignupCorporateFifthModal = ({
 }: ModalProps) => {
   const data = useContext(SignupCorporateFormContext)
 
-  console.log(data)
-
-  const { handleSubmit, control } = useForm<ICorporateFiveForm>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ICorporateFiveForm>({
     defaultValues: {
       additionalPictures: data.additionalPictures,
       coverPicture: data.coverPicture,
@@ -26,14 +29,43 @@ const SignupCorporateFifthModal = ({
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateFiveForm> = ({
+  const onSubmit: SubmitHandler<ICorporateFiveForm> = async ({
     additionalPictures,
     coverPicture,
   }) => {
     data.additionalPictures = additionalPictures
     data.coverPicture = coverPicture
 
-    changeModal('SignupCorporateSixthModal')
+    const toSend: ApiSignupCorporateData = {
+      name: data.name,
+      address: data.address,
+      zipCode: data.zipCode,
+      city: data.city,
+      phone: toInternationalFormat(data.phoneNumber),
+      email: data.email,
+      password: data.password,
+      coordinates: '+90.0, -127.554334', // wip
+      preferredContact: {
+        fullName: data.privilegedFullName,
+        phone: toInternationalFormat(data.privilegedPhoneNumber),
+        email: data.privilegedEmail,
+      },
+      types: [1], // wip
+      distinctions: [1], // wip
+      headChefFullName: data.chefFullName,
+      pastryChefFullName: data.pastryChefFullName,
+      sommelierFullName: data.sommelierFullName,
+      restaurantManagerFullName: data.roomManagerFullName,
+    }
+    console.log(data)
+
+    const res = await api.signupCorporate(toSend)
+
+    console.log(res)
+
+    // signup corporate
+
+    // changeModal('SignupCorporateSixthModal')
   }
 
   return (

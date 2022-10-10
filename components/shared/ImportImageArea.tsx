@@ -1,8 +1,7 @@
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
+import toBase64 from '@/lib/functions/toBase64'
 import Image from 'next/image'
-import { ChangeEvent, useContext, useId, useState } from 'react'
+import { useId, useState } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import toBase64 from '@/lib/toBase64'
 
 type ImportImageAreaProps = {
   variant: 'normal' | 'full'
@@ -29,7 +28,7 @@ const ImportImageArea = ({
         required: true,
       }}
       render={({ field: { name, onChange, value } }) => {
-        toBase64(value).then(res => setFile(res as string))
+        value && toBase64(value).then(res => setFile(res as string))
         return (
           <div>
             <label

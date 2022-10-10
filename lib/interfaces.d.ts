@@ -142,3 +142,12 @@ export interface IAddRegularOfferFormContext
     IAddRegularOfferFourthForm {
   hasReachedConfirmation: boolean
 }
+
+export interface ISignupPersonalFormContext extends IPersonalTwoForm {}
+
+export interface ISignupCorporateFormContext
+  extends ICorporateOneForm,
+    ICorporateTwoForm,
+    ICorporateThreeForm,
+    ICorporateFourForm,
+    ICorporateFiveForm {}

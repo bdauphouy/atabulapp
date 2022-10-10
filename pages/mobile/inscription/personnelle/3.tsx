@@ -2,7 +2,7 @@ import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Message from '@/components/shared/Message'
 import SupportingDocument from '@/components/shared/SupportingDocument'
 import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
-import signup from '@/lib/actions/signup'
+import api from '@/lib/api'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
@@ -26,7 +26,7 @@ const PersonalThree = () => {
     schoolCertificate,
     workCertificate,
   }) => {
-    const res = await signup(
+    const res = await api.signupUser({
       email,
       password,
       firstName,
@@ -34,7 +34,7 @@ const PersonalThree = () => {
       workStatus,
       birthDate,
       city,
-    )
+    })
 
     if (res.error) {
       setError('workCertificate', {

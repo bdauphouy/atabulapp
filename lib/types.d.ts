@@ -66,3 +66,50 @@ export type Day =
   | 'Dimanche'
 
 export type WorkStatus = 'student' | 'employee'
+
+export type ApiGetParams = {
+  route: string
+  token?: string
+}
+
+type ApiPostParams = {
+  route: string
+  body: string | FormData
+  isFormData?: boolean
+}
+
+type ApiSignupUserData = {
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  workStatus: WorkStatus
+  birthDate: string
+  city: string
+}
+
+type ApiSignupCorporateData = {
+  name: string
+  address: string
+  zipCode: string
+  city: string
+  phone: string
+  email: string
+  password: string
+  preferredContact: {
+    fullName: string
+    email: string
+    phone: string
+  }
+  types: number[]
+  distinctions: number[]
+  headChefFullName?: string
+  pastryChefFullName?: string
+  sommelierFullName?: string
+  restaurantManagerFullName?: string
+}
+
+type ApiLoginData = {
+  email: string
+  password: string
+}

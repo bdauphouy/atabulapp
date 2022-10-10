@@ -2,7 +2,7 @@ import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
 import SupportingDocument from '@/components/shared/SupportingDocument'
 import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
-import signup from '@/lib/actions/signup'
+import api from '@/lib/api'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
@@ -35,7 +35,7 @@ const SignupPersonalFourthModal = ({
   }) => {
     setIsLoading(true)
 
-    const res = await signup(
+    const res = await api.signupUser({
       email,
       password,
       firstName,
@@ -43,7 +43,7 @@ const SignupPersonalFourthModal = ({
       workStatus,
       birthDate,
       city,
-    )
+    })
 
     setIsLoading(false)
 
