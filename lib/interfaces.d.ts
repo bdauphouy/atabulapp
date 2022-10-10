@@ -40,10 +40,10 @@ export interface ICorporateTwoForm {
 }
 
 export interface ICorporateThreeForm {
-  fullName: string
-  position: string
-  email: string
-  phoneNumber: string
+  privilegedFullName: string
+  privilegedPosition: string
+  privilegedEmail: string
+  privilegedPhoneNumber: string
 }
 
 export interface ICorporateFourForm {
@@ -160,3 +160,10 @@ export interface ISignupPersonalFormContext extends IPersonalTwoForm {
   setPassword: React.Dispatch<React.SetStateAction<string>>
   setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
 }
+
+export interface ISignupCorporateFormContext
+  extends ICorporateOneForm,
+    ICorporateTwoForm,
+    ICorporateThreeForm,
+    ICorporateFourForm,
+    ICorporateFiveForm {}

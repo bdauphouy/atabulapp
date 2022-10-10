@@ -1,9 +1,11 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateTwoForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import Link from 'next/link'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupCorporateSecondModal = ({
@@ -11,15 +13,35 @@ const SignupCorporateSecondModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const data = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateTwoForm>()
+  } = useForm<ICorporateTwoForm>({
+    defaultValues: {
+      name: data.name,
+      address: data.address,
+      zipCode: data.zipCode,
+      city: data.city,
+      phoneNumber: data.phoneNumber,
+    },
+  })
 
-  const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ICorporateTwoForm> = ({
+    name,
+    address,
+    zipCode,
+    city,
+    phoneNumber,
+  }) => {
+    data.name = name
+    data.address = address
+    data.zipCode = zipCode
+    data.city = city
+    data.phoneNumber = phoneNumber
 
     changeModal('SignupCorporateThirdModal')
   }
@@ -29,7 +51,7 @@ const SignupCorporateSecondModal = ({
       formId="establishment-signup-form"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('SignupPersonalFirstModal'),
+        customAction: () => changeModal('SignupCorporateFirstModal'),
       }}
       footerRightButton={{
         text: 'Continuer',

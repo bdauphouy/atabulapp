@@ -3,10 +3,11 @@ import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateFourForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupCorporateFourthModal = ({
@@ -14,13 +15,26 @@ const SignupCorporateFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const data = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<ICorporateFourForm>()
+  } = useForm<ICorporateFourForm>({
+    defaultValues: {
+      typesOfCuisineString: data.typesOfCuisineString,
+      typesOfCuisine: data.typesOfCuisine,
+      honorsString: data.honorsString,
+      honors: data.honors,
+      chefFullName: data.chefFullName,
+      pastryChefFullName: data.pastryChefFullName,
+      sommelierFullName: data.sommelierFullName,
+      roomManagerFullName: data.roomManagerFullName,
+    },
+  })
 
   const watchTypesOfCuisine = watch(['typesOfCuisine'])
   const watchHonors = watch(['honors'])
@@ -69,10 +83,24 @@ const SignupCorporateFourthModal = ({
     )
   }, [watchHonors, setValue])
 
-  const router = useRouter()
-
-  const onSubmit: SubmitHandler<ICorporateFourForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ICorporateFourForm> = ({
+    typesOfCuisineString,
+    typesOfCuisine,
+    honorsString,
+    honors,
+    chefFullName,
+    pastryChefFullName,
+    sommelierFullName,
+    roomManagerFullName,
+  }) => {
+    data.typesOfCuisineString = typesOfCuisineString
+    data.typesOfCuisine = typesOfCuisine
+    data.honorsString = honorsString
+    data.honors = honors
+    data.chefFullName = chefFullName
+    data.pastryChefFullName = pastryChefFullName
+    data.sommelierFullName = sommelierFullName
+    data.roomManagerFullName = roomManagerFullName
 
     changeModal('SignupCorporateFifthModal')
   }
