@@ -1,8 +1,10 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupCorporateThirdModal = ({
@@ -10,15 +12,32 @@ const SignupCorporateThirdModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const data = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateThreeForm>()
+  } = useForm<ICorporateThreeForm>({
+    defaultValues: {
+      privilegedFullName: data.privilegedFullName,
+      privilegedPosition: data.privilegedPosition,
+      privilegedEmail: data.privilegedEmail,
+      privilegedPhoneNumber: data.privilegedPhoneNumber,
+    },
+  })
 
-  const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ICorporateThreeForm> = ({
+    privilegedFullName,
+    privilegedPosition,
+    privilegedEmail,
+    privilegedPhoneNumber,
+  }) => {
+    data.privilegedFullName = privilegedFullName
+    data.privilegedPosition = privilegedPosition
+    data.privilegedEmail = privilegedEmail
+    data.privilegedPhoneNumber = privilegedPhoneNumber
 
     changeModal('SignupCorporateFourthModal')
   }
@@ -53,7 +72,7 @@ const SignupCorporateThirdModal = ({
           rules={{
             required: true,
           }}
-          name="fullName"
+          name="privilegedFullName"
         />
         <Input
           placeholder="Fonction"
@@ -62,7 +81,7 @@ const SignupCorporateThirdModal = ({
           rules={{
             required: true,
           }}
-          name="position"
+          name="privilegedPosition"
         />
         <Input
           placeholder="Email"
@@ -76,7 +95,7 @@ const SignupCorporateThirdModal = ({
               message: 'Veuillez renseigner une adresse email valide.',
             },
           }}
-          name="email"
+          name="privilegedEmail"
         />
         <Input
           placeholder="Numéro de téléphone"
@@ -89,14 +108,14 @@ const SignupCorporateThirdModal = ({
               message: 'Veuillez renseigner un numéro de téléphone valide.',
             },
           }}
-          name="phoneNumber"
+          name="privilegedPhoneNumber"
         />
         {Object.keys(errors).length > 0 && (
           <Message type="error">
-            {errors.phoneNumber?.type === 'pattern'
-              ? errors.phoneNumber.message
-              : errors.email?.type === 'pattern'
-              ? errors.email.message
+            {errors.privilegedPhoneNumber?.type === 'pattern'
+              ? errors.privilegedPhoneNumber.message
+              : errors.privilegedEmail?.type === 'pattern'
+              ? errors.privilegedEmail.message
               : 'Veuillez remplir tous les champs.'}
           </Message>
         )}

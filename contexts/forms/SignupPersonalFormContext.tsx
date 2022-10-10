@@ -31,8 +31,6 @@ export const SignupPersonalFormContextProvider = ({ children }) => {
         setBirthDate,
         city,
         setCity,
-        isLoading,
-        setIsLoading,
       }}
     >
       {children}
