@@ -3,7 +3,7 @@ import Button from '@/components/shared/Button'
 import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import login from '@/lib/actions/login'
+import api from '@/lib/api'
 import { ILoginForm } from '@/lib/interfaces'
 import Cookie from 'js-cookie'
 import Link from 'next/link'
@@ -28,8 +28,11 @@ const Login = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ILoginForm> = async data => {
-    const res = await login(data.email, data.password)
+  const onSubmit: SubmitHandler<ILoginForm> = async ({ email, password }) => {
+    const res = await api.loginUser({
+      email,
+      password,
+    })
 
     if (res.error) {
       setError('password', {
