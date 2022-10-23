@@ -11,9 +11,7 @@ const AddRegularOfferThirdModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setDiscount, discount, hasReachedConfirmation } = useContext(
-    AddRegularOfferFormContext,
-  )
+  const data = useContext(AddRegularOfferFormContext)
 
   const {
     control,
@@ -22,14 +20,14 @@ const AddRegularOfferThirdModal = ({
     setValue,
   } = useForm<IAddRegularOfferThirdForm>({
     defaultValues: {
-      discount,
+      discount: data.discount,
     },
   })
 
   const [discountValue, setDiscountValue] = useState<string>()
 
   const onSubmit: SubmitHandler<IAddRegularOfferThirdForm> = ({ discount }) => {
-    setDiscount(discount === 'other' ? discountValue : discount)
+    data.discount = discount === 'other' ? discountValue : discount
     changeModal('AddRegularOfferFourthModal')
   }
 
@@ -42,7 +40,7 @@ const AddRegularOfferThirdModal = ({
         customAction: () => changeModal('AddRegularOfferSecondModal'),
       }}
       footerRightButton={{
-        text: hasReachedConfirmation
+        text: data.hasReachedConfirmation
           ? 'Confirmer les modifications'
           : 'Continuer',
       }}

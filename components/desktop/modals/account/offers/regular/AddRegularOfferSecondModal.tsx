@@ -12,15 +12,7 @@ const AddRegularOfferSecondModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const {
-    setConcernedMeal,
-    setNumberOfBeneficiaries,
-    setWithDrinks,
-    concernedMeal,
-    numberOfBeneficiaries,
-    withDrinks,
-    hasReachedConfirmation,
-  } = useContext(AddRegularOfferFormContext)
+  const data = useContext(AddRegularOfferFormContext)
 
   const {
     control,
@@ -28,9 +20,9 @@ const AddRegularOfferSecondModal = ({
     formState: { errors },
   } = useForm<IAddRegularOfferSecondForm>({
     defaultValues: {
-      concernedMeal,
-      numberOfBeneficiaries,
-      withDrinks,
+      concernedMeal: data.concernedMeal,
+      numberOfBeneficiaries: data.numberOfBeneficiaries,
+      withDrinks: data.withDrinks,
     },
   })
 
@@ -40,12 +32,12 @@ const AddRegularOfferSecondModal = ({
     withDrinks,
   }) => {
     console.log(numberOfBeneficiaries)
-    setConcernedMeal(concernedMeal)
-    setNumberOfBeneficiaries(numberOfBeneficiaries)
-    setWithDrinks(withDrinks)
+    data.concernedMeal = concernedMeal
+    data.numberOfBeneficiaries = numberOfBeneficiaries
+    data.withDrinks = withDrinks
 
     changeModal(
-      hasReachedConfirmation
+      data.hasReachedConfirmation
         ? 'AddRegularOfferFourthModal'
         : 'AddRegularOfferThirdModal',
     )
@@ -60,7 +52,7 @@ const AddRegularOfferSecondModal = ({
         customAction: () => changeModal('AddRegularOfferFirstModal'),
       }}
       footerRightButton={{
-        text: hasReachedConfirmation
+        text: data.hasReachedConfirmation
           ? 'Confirmer les modifications'
           : 'Continuer',
       }}
