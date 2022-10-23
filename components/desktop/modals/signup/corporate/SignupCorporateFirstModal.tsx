@@ -1,8 +1,10 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateOneForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const SignupCorporateFirstModal = ({
@@ -10,16 +12,23 @@ const SignupCorporateFirstModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
+  const data = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateOneForm>()
+  } = useForm<ICorporateOneForm>({
+    defaultValues: {
+      email: data.email,
+      password: data.password,
+    },
+  })
 
-  const onSubmit: SubmitHandler<ICorporateOneForm> = data => {
-    console.log(data)
-
+  const onSubmit: SubmitHandler<ICorporateOneForm> = ({ email, password }) => {
+    data.email = email
+    data.password = password
     changeModal('SignupCorporateSecondModal')
   }
 
@@ -69,6 +78,7 @@ const SignupCorporateFirstModal = ({
             },
           }}
           name="password"
+          isPasswordInput
         />
         {Object.keys(errors).length > 0 && (
           <Message type="error">

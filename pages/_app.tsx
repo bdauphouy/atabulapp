@@ -1,5 +1,6 @@
 import Toaster from '@/components/shared/Toaster'
 import { AddRegularOfferFormContextProvider } from '@/contexts/forms/AddRegularOfferFormContext'
+import { SignupCorporateFormContextProvider } from '@/contexts/forms/SignupCorporateFormContext'
 import { SignupPersonalFormContextProvider } from '@/contexts/forms/SignupPersonalFormContext'
 import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
 import { HonorsContextProvider } from '@/contexts/HonorsContext'
@@ -30,23 +31,25 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <UserContextProvider>
           <TypesOfCuisineContextProvider>
             <GeolocationContextProvider>
-              <SignupPersonalFormContextProvider>
-                <AddRegularOfferFormContextProvider>
-                  <Head>
-                    <meta
-                      name="viewport"
-                      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                    />
+              <SignupCorporateFormContextProvider>
+                <SignupPersonalFormContextProvider>
+                  <AddRegularOfferFormContextProvider>
+                    <Head>
+                      <meta
+                        name="viewport"
+                        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                      />
 
-                    <title>
-                      Atabulapp - Offres et avantages pour les professionnels de
-                      la restauration et de l'hôtellerie
-                    </title>
-                  </Head>
-                  <Toaster />
-                  {getLayout(<Component {...pageProps} />)}
-                </AddRegularOfferFormContextProvider>
-              </SignupPersonalFormContextProvider>
+                      <title>
+                        Atabulapp - Offres et avantages pour les professionnels
+                        de la restauration et de l'hôtellerie
+                      </title>
+                    </Head>
+                    <Toaster />
+                    {getLayout(<Component {...pageProps} />)}
+                  </AddRegularOfferFormContextProvider>
+                </SignupPersonalFormContextProvider>
+              </SignupCorporateFormContextProvider>
             </GeolocationContextProvider>
           </TypesOfCuisineContextProvider>
         </UserContextProvider>

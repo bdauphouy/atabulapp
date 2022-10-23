@@ -40,10 +40,10 @@ export interface ICorporateTwoForm {
 }
 
 export interface ICorporateThreeForm {
-  fullName: string
-  position: string
-  email: string
-  phoneNumber: string
+  privilegedFullName: string
+  privilegedPosition: string
+  privilegedEmail: string
+  privilegedPhoneNumber: string
 }
 
 export interface ICorporateFourForm {
@@ -143,17 +143,6 @@ export interface IAddRegularOfferFormContext
   hasReachedConfirmation: boolean
 }
 
-<<<<<<< Updated upstream
-export interface ISignupPersonalFormContext extends IPersonalTwoForm {
-  setEmail: React.Dispatch<React.SetStateAction<string>>
-  setLastName: React.Dispatch<React.SetStateAction<string>>
-  setFirstName: React.Dispatch<React.SetStateAction<string>>
-  setBirthDate: React.Dispatch<React.SetStateAction<string>>
-  setCity: React.Dispatch<React.SetStateAction<string>>
-  setPassword: React.Dispatch<React.SetStateAction<string>>
-  setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
-}
-=======
 export interface ISignupPersonalFormContext extends IPersonalTwoForm {}
 
 export interface ISignupCorporateFormContext
@@ -162,4 +151,3 @@ export interface ISignupCorporateFormContext
     ICorporateThreeForm,
     ICorporateFourForm,
     ICorporateFiveForm {}
->>>>>>> Stashed changes

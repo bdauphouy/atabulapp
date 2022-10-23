@@ -1,21 +1,37 @@
 import ImportImageArea from '@/components/shared/ImportImageArea'
 import Modal from '@/components/shared/Modal'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateFiveForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { RiContactsBookLine } from 'react-icons/ri'
 
 const SignupCorporateFifthModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { handleSubmit, control } = useForm<ICorporateFiveForm>()
+  const data = useContext(SignupCorporateFormContext)
+
+  console.log(data)
+
+  const { handleSubmit, control } = useForm<ICorporateFiveForm>({
+    defaultValues: {
+      additionalPictures: data.additionalPictures,
+      coverPicture: data.coverPicture,
+    },
+  })
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateFiveForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ICorporateFiveForm> = ({
+    additionalPictures,
+    coverPicture,
+  }) => {
+    data.additionalPictures = additionalPictures
+    data.coverPicture = coverPicture
 
     changeModal('SignupCorporateSixthModal')
   }
