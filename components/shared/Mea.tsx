@@ -12,7 +12,7 @@ const Mea = () => {
     setData(await res.text())
   }
 
-  getMea()
+  // getMea()
 
   return parse(data) as JSX.Element
 }
