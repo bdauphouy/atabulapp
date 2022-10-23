@@ -64,6 +64,14 @@ body .swiper-pagination-bullet-active {
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
+  transition-property: background-color, color, gap;
+  transition: 0.2s ease-in-out;
+}
+
+.promotional-insert__link-btn:hover {
+  background-color: black;
+  color: white;
+  gap: 2rem;
 }
 
 .promotional-insert__img {
@@ -71,6 +79,14 @@ body .swiper-pagination-bullet-active {
   height: 100px;
   object-fit: cover;
   object-position: center;
+}
+
+.promotional-insert__link-btn svg {
+  transition: filter 0.2s ease-in-out;
+}
+
+.promotional-insert__link-btn:hover svg {
+  filter: invert(1);
 }
 
 @media (min-width: 768px) {

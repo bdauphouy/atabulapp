@@ -6,6 +6,6 @@ export default {
   component: TabBar,
 } as ComponentMeta<typeof TabBar>
 
-const Template: ComponentStory<typeof TabBar> = args => <TabBar {...args} />
+const Template: ComponentStory<typeof TabBar> = () => <TabBar />
 
 export const Base = Template

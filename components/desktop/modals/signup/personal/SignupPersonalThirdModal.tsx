@@ -14,22 +14,7 @@ const SignupPersonalThirdModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const {
-    email,
-    password,
-    firstName,
-    lastName,
-    workStatus,
-    birthDate,
-    city,
-    setEmail,
-    setPassword,
-    setFirstName,
-    setLastName,
-    setWorkStatus,
-    setBirthDate,
-    setCity,
-  } = useContext(SignupPersonalFormContext)
+  const data = useContext(SignupPersonalFormContext)
 
   const {
     control,
@@ -38,13 +23,13 @@ const SignupPersonalThirdModal = ({
     formState: { errors },
   } = useForm<IPersonalTwoForm>({
     defaultValues: {
-      email,
-      password,
-      firstName,
-      lastName,
-      workStatus,
-      birthDate,
-      city,
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      workStatus: data.workStatus,
+      birthDate: data.birthDate,
+      city: data.city,
     },
   })
 
@@ -57,13 +42,13 @@ const SignupPersonalThirdModal = ({
     birthDate,
     city,
   }) => {
-    setEmail(email)
-    setPassword(password)
-    setFirstName(firstName)
-    setLastName(lastName)
-    setWorkStatus(workStatus)
-    setBirthDate(birthDate)
-    setCity(city)
+    data.email = email
+    data.password = password
+    data.firstName = firstName
+    data.lastName = lastName
+    data.workStatus = workStatus
+    data.birthDate = birthDate
+    data.city = city
 
     changeModal('SignupPersonalFourthModal')
   }

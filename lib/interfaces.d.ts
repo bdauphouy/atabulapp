@@ -140,26 +140,10 @@ export interface IAddRegularOfferFormContext
     IAddRegularOfferSecondForm,
     IAddRegularOfferThirdForm,
     IAddRegularOfferFourthForm {
-  setOfferDays: React.Dispatch<React.SetStateAction<(Day | undefined)[]>>
-  setConcernedMeal: React.Dispatch<React.SetStateAction<'lunch' | 'dinner'>>
-  setWithDrinks: React.Dispatch<
-    React.SetStateAction<'withDrinks' | 'withoutDrinks'>
-  >
-  setNumberOfBeneficiaries: React.Dispatch<React.SetStateAction<string[]>>
-  setDiscount: React.Dispatch<React.SetStateAction<string>>
   hasReachedConfirmation: boolean
-  setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface ISignupPersonalFormContext extends IPersonalTwoForm {
-  setEmail: React.Dispatch<React.SetStateAction<string>>
-  setLastName: React.Dispatch<React.SetStateAction<string>>
-  setFirstName: React.Dispatch<React.SetStateAction<string>>
-  setBirthDate: React.Dispatch<React.SetStateAction<string>>
-  setCity: React.Dispatch<React.SetStateAction<string>>
-  setPassword: React.Dispatch<React.SetStateAction<string>>
-  setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
-}
+export interface ISignupPersonalFormContext extends IPersonalTwoForm {}
 
 export interface ISignupCorporateFormContext
   extends ICorporateOneForm,

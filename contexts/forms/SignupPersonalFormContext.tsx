@@ -1,38 +1,23 @@
 import { ISignupPersonalFormContext } from '@/lib/interfaces'
-import { createContext, useState } from 'react'
+import { createContext } from 'react'
 
 export const SignupPersonalFormContext =
   createContext<ISignupPersonalFormContext>(null)
 
 export const SignupPersonalFormContextProvider = ({ children }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [workStatus, setWorkStatus] = useState(null)
-  const [birthDate, setBirthDate] = useState('')
-  const [city, setCity] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-
+  const data = {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    workStatus: null,
+    birthDate: '',
+    city: '',
+    isLoading: false,
+  }
+  
   return (
-    <SignupPersonalFormContext.Provider
-      value={{
-        email,
-        setEmail,
-        password,
-        setPassword,
-        firstName,
-        setFirstName,
-        lastName,
-        setLastName,
-        workStatus,
-        setWorkStatus,
-        birthDate,
-        setBirthDate,
-        city,
-        setCity,
-      }}
-    >
+    <SignupPersonalFormContext.Provider value={data}>
       {children}
     </SignupPersonalFormContext.Provider>
   )
