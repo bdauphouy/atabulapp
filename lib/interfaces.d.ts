@@ -140,17 +140,10 @@ export interface IAddRegularOfferFormContext
     IAddRegularOfferSecondForm,
     IAddRegularOfferThirdForm,
     IAddRegularOfferFourthForm {
-  setOfferDays: React.Dispatch<React.SetStateAction<(Day | undefined)[]>>
-  setConcernedMeal: React.Dispatch<React.SetStateAction<'lunch' | 'dinner'>>
-  setWithDrinks: React.Dispatch<
-    React.SetStateAction<'withDrinks' | 'withoutDrinks'>
-  >
-  setNumberOfBeneficiaries: React.Dispatch<React.SetStateAction<string[]>>
-  setDiscount: React.Dispatch<React.SetStateAction<string>>
   hasReachedConfirmation: boolean
-  setHasReachedConfirmation: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+<<<<<<< Updated upstream
 export interface ISignupPersonalFormContext extends IPersonalTwoForm {
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setLastName: React.Dispatch<React.SetStateAction<string>>
@@ -160,3 +153,13 @@ export interface ISignupPersonalFormContext extends IPersonalTwoForm {
   setPassword: React.Dispatch<React.SetStateAction<string>>
   setWorkStatus: React.Dispatch<React.SetStateAction<WorkStatus>>
 }
+=======
+export interface ISignupPersonalFormContext extends IPersonalTwoForm {}
+
+export interface ISignupCorporateFormContext
+  extends ICorporateOneForm,
+    ICorporateTwoForm,
+    ICorporateThreeForm,
+    ICorporateFourForm,
+    ICorporateFiveForm {}
+>>>>>>> Stashed changes

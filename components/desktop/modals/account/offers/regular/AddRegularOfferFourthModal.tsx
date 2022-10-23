@@ -15,7 +15,7 @@ const AddRegularOfferFourthModal = ({
     offerDays,
     numberOfBeneficiaries,
     withDrinks,
-    setHasReachedConfirmation,
+    ...data
   } = useContext(AddRegularOfferFormContext)
 
   const onSubmit = () => {
@@ -58,8 +58,8 @@ const AddRegularOfferFourthModal = ({
   }, [numberOfBeneficiaries])
 
   useEffect(() => {
-    setHasReachedConfirmation(true)
-  }, [setHasReachedConfirmation])
+    data.hasReachedConfirmation = true
+  }, [data])
 
   return (
     <Modal
