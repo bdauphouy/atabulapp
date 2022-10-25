@@ -75,7 +75,14 @@ export type ApiGetParams = {
 type ApiPostParams = {
   route: string
   body: string | FormData
+  token?: string
   isFormData?: boolean
+}
+
+type ApiDeleteParams = {
+  route: string
+  queries: { [key: string]: string | number }
+  token?: string
 }
 
 type ApiSignupUserData = {
@@ -96,6 +103,7 @@ type ApiSignupCorporateData = {
   phone: string
   email: string
   password: string
+  coordinates: string
   preferredContact: {
     fullName: string
     email: string

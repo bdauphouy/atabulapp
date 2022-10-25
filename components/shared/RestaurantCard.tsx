@@ -1,9 +1,9 @@
 import Tag from '@/components/shared/Tag'
-import { addFavorite } from '@/lib/actions/favorites'
+import api from '@/lib/api'
+import Cookie from 'js-cookie'
 import Image from 'next/image'
 import { useState } from 'react'
-import { RiHeartLine, RiHeartFill } from 'react-icons/ri'
-import Cookie from 'js-cookie'
+import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 
 type RestaurantCardProps = {
   className?: string
@@ -38,10 +38,13 @@ const RestaurantCard = ({
   const [isLiked, setIsLiked] = useState(isDefaultLiked)
 
   const handleLike = async () => {
-    setIsLiked(!isLiked)
-    const res = await addFavorite(12, Cookie.get('token'))
+    if (isLiked) {
+      await api.removeFavorites(1, Cookie.get('token'))
+    } else {
+      await api.addFavorite(1, Cookie.get('token'))
+    }
 
-    console.log(res)
+    setIsLiked(!isLiked)
   }
 
   return (
