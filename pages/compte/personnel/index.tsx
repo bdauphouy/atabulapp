@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-const Compte = () => {
+const AccountIndex = () => {
   const router = useRouter()
 
   useEffect(() => {
@@ -11,4 +11,4 @@ const Compte = () => {
   return <></>
 }
 
-export default Compte
+export default AccountIndex
