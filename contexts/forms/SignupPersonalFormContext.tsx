@@ -15,7 +15,7 @@ export const SignupPersonalFormContextProvider = ({ children }) => {
     city: '',
     isLoading: false,
   }
-  
+
   return (
     <SignupPersonalFormContext.Provider value={data}>
       {children}

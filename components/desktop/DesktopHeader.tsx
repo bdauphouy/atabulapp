@@ -2,6 +2,7 @@ import { SearchContext } from '@/contexts/SearchContext'
 import { ISearchForm } from '@/lib/interfaces'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiUser6Line } from 'react-icons/ri'
@@ -31,6 +32,8 @@ const DesktopHeader = () => {
     setPeriod(period)
     setNumberOfPersons(numberOfPersons)
   }
+
+  const router = useRouter()
 
   return (
     <>
@@ -78,7 +81,10 @@ const DesktopHeader = () => {
             Chercher
           </Button>
         </form>
-        <Button variant="primary">
+        <Button
+          variant="primary"
+          onClick={() => router.push('/compte/personnel')}
+        >
           <RiUser6Line />
           Profil
         </Button>
