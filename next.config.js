@@ -17,6 +17,9 @@ const nextConfig = withPWA({
   experimental: {
     newNextLinkBehavior: true,
   },
+  images: {
+    domains: ['api.qrserver.com'],
+  },
 })
 
 module.exports = nextConfig
