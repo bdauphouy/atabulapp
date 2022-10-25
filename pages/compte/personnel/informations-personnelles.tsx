@@ -1,15 +1,37 @@
 import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
-import { UserContext } from '@/contexts/UserContext'
+import api from '@/lib/api'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
-import { ReactElement, useContext } from 'react'
+import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-const PersonalInformation = () => {
-  const { user } = useContext(UserContext)
+export const getServerSideProps = async ({ req }) => {
+  const { token } = req.cookies
 
+  if (!token) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const user = await api.me(token)
+
+  if (!user) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      user,
+    },
+  }
+}
+
+const PersonalInformation = ({ user }) => {
   const {
     control,
     setValue,
@@ -19,9 +41,8 @@ const PersonalInformation = () => {
     defaultValues: {
       lastName: user?.lastName || '...',
       firstName: user?.firstName || '...',
-      location: user?.location || '...',
+      location: user?.city || '...',
       email: user?.email || '...',
-      phoneNumber: user?.phoneNumber || '...',
     },
   })
 
@@ -82,19 +103,6 @@ const PersonalInformation = () => {
           },
         }}
         name="email"
-      />
-      <Input
-        placeholder="Téléphone"
-        control={control}
-        setValue={setValue}
-        rules={{
-          required: true,
-          pattern: {
-            value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
-            message: 'Veuillez renseigner un numéro de téléphone valide.',
-          },
-        }}
-        name="phoneNumber"
       />
       <div>
         <header>

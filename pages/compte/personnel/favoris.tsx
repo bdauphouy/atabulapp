@@ -43,7 +43,9 @@ const Favorites = ({ favorites }) => {
       </label>
       <header className="mt-6 flex items-end justify-between">
         <h3 className="text-lg font-bold text-black">Offres actuelles</h3>
-        <h4 className="text-sm uppercase text-gray">4 restaurants</h4>
+        <h4 className="text-sm uppercase text-gray">
+          {favorites.length} restaurants
+        </h4>
       </header>
       <div className="mt-4 flex flex-col gap-6 pb-10">
         {favorites.map((favorite: any, i: number) => {
