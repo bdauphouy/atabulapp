@@ -29,7 +29,8 @@ const ScanQrCode = () => {
 
     if (videoRef.current) {
       const qrScanner = new QrScanner(videoRef.current!, result => {
-        api.me(result).then(user => {
+        api.me(result).then(({ error, user }) => {
+          if (error) return
           if (user) {
             Cookie.set(
               'qrData',

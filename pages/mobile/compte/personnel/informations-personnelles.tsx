@@ -17,9 +17,9 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await api.me(token)
+  const { error, user } = await api.me(token)
 
-  if (!user) {
+  if (error) {
     return {
       notFound: true,
     }

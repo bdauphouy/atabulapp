@@ -16,7 +16,6 @@ const PersonalTwo = () => {
     control,
     handleSubmit,
     setValue,
-    setError,
     formState: { errors },
   } = useForm<IPersonalTwoForm>({
     defaultValues: {

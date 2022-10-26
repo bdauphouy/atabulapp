@@ -37,8 +37,6 @@ const Home = () => {
           />
         </div>
       )}
-
-      <pre>{JSON.stringify(searchData)}</pre>
       <div className="flex flex-wrap gap-6 px-5 pt-5 xl:px-32">
         <FiltersDropdown
           size="lg"
