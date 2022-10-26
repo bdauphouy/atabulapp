@@ -22,7 +22,10 @@ class Api {
       },
     })
 
-    return response.json()
+    return {
+      ...(await response.json()),
+      status: response.status,
+    }
   }
 
   private async post({
@@ -42,7 +45,10 @@ class Api {
 
     if (response.status !== 204) {
       // temporary fix
-      return response.json()
+      return {
+        ...(await response.json()),
+        status: response.status,
+      }
     }
 
     return response.text()
@@ -58,7 +64,10 @@ class Api {
 
     if (response.status !== 204) {
       // temporary fix
-      return response.json()
+      return {
+        ...(await response.json()),
+        status: response.status,
+      }
     }
 
     return response.text()

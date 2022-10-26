@@ -1,10 +1,11 @@
 import ImportImageArea from '@/components/shared/ImportImageArea'
+import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
 import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import api from '@/lib/api'
 import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { ICorporateFiveForm } from '@/lib/interfaces'
-import { ApiSignupCorporateData, ModalProps } from '@/lib/types'
+import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -14,58 +15,57 @@ const SignupCorporateFifthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const data = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
 
   const {
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm<ICorporateFiveForm>({
     defaultValues: {
-      additionalPictures: data.additionalPictures,
-      coverPicture: data.coverPicture,
+      additionalPictures: previousData.additionalPictures,
+      coverPicture: previousData.coverPicture,
     },
   })
 
+  console.log(errors)
+
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateFiveForm> = async ({
-    additionalPictures,
-    coverPicture,
-  }) => {
-    data.additionalPictures = additionalPictures
-    data.coverPicture = coverPicture
+  const onSubmit: SubmitHandler<ICorporateFiveForm> = async data => {
+    setData({ ...previousData, ...data })
 
-    const toSend: ApiSignupCorporateData = {
-      name: data.name,
-      address: data.address,
-      zipCode: data.zipCode,
-      city: data.city,
-      phone: toInternationalFormat(data.phoneNumber),
-      email: data.email,
-      password: data.password,
+    const response = await api.signupCorporate({
+      name: previousData.name,
+      address: previousData.address,
+      zipCode: previousData.zipCode,
+      city: previousData.city,
+      phone: toInternationalFormat(previousData.phoneNumber),
+      email: previousData.email,
+      password: previousData.password,
       coordinates: '+90.0, -127.554334', // wip
       preferredContact: {
-        fullName: data.privilegedFullName,
-        phone: toInternationalFormat(data.privilegedPhoneNumber),
-        email: data.privilegedEmail,
+        fullName: previousData.privilegedFullName,
+        phone: toInternationalFormat(previousData.privilegedPhoneNumber),
+        email: previousData.privilegedEmail,
       },
       types: [1], // wip
       distinctions: [1], // wip
-      headChefFullName: data.chefFullName,
-      pastryChefFullName: data.pastryChefFullName,
-      sommelierFullName: data.sommelierFullName,
-      restaurantManagerFullName: data.roomManagerFullName,
+      headChefFullName: previousData.chefFullName,
+      pastryChefFullName: previousData.pastryChefFullName,
+      sommelierFullName: previousData.sommelierFullName,
+      restaurantManagerFullName: previousData.roomManagerFullName,
+    })
+
+    if (response.error) {
+      setError('coverPicture', {
+        type: 'server',
+        message: response.error,
+      })
+    } else {
+      changeModal('SignupCorporateSixthModal')
     }
-    console.log(data)
-
-    const res = await api.signupCorporate(toSend)
-
-    console.log(res)
-
-    // signup corporate
-
-    // changeModal('SignupCorporateSixthModal')
   }
 
   return (
@@ -133,6 +133,13 @@ const SignupCorporateFifthModal = ({
             />
           </div>
         </div>
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.coverPicture?.type === 'server'
+              ? errors.coverPicture?.message
+              : 'Veuillez remplir tous les champs'}
+          </Message>
+        )}
       </form>
     </Modal>
   )

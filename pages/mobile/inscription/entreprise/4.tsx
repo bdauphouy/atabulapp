@@ -3,23 +3,33 @@ import HonorsBottomSheet from '@/components/mobile/additional-information/Honors
 import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import useStringify from '@/lib/hooks/useStringify'
 import { ICorporateFourForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateFour = () => {
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<ICorporateFourForm>({
     defaultValues: {
-      typesOfCuisine: [],
-      honors: [],
+      typesOfCuisineString: previousData.typesOfCuisineString,
+      typesOfCuisine: previousData.typesOfCuisine,
+      honorsString: previousData.honorsString,
+      honors: previousData.honors,
+      chefFullName: previousData.chefFullName,
+      pastryChefFullName: previousData.pastryChefFullName,
+      sommelierFullName: previousData.sommelierFullName,
+      roomManagerFullName: previousData.roomManagerFullName,
     },
   })
 
@@ -34,20 +44,19 @@ const CorporateFour = () => {
       setTypesOfCuisineCheckedCount(length)
     },
   )
+
   useStringify('honorsString', watchHonors, setValue)
 
   const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
     useState(false)
-
   const [typesOfCuisineCheckedCount, setTypesOfCuisineCheckedCount] =
     useState(0)
-
   const [isHonorsSheetOpen, setIsHonorsSheetOpen] = useState(false)
 
   const router = useRouter()
 
   const onSubmit: SubmitHandler<ICorporateFourForm> = data => {
-    console.log(data)
+    setData({ ...previousData, ...data })
 
     router.push('/mobile/inscription/entreprise/5')
   }
@@ -72,6 +81,7 @@ const CorporateFour = () => {
       </header>
       <div onClick={() => setIsTypeOfCuisineSheetOpen(true)}>
         <Input
+          key={getValues().typesOfCuisineString}
           placeholder="Types de cuisine"
           control={control}
           setValue={setValue}
@@ -92,6 +102,7 @@ const CorporateFour = () => {
       />
       <div onClick={() => setIsHonorsSheetOpen(true)}>
         <Input
+          key={getValues().honorsString}
           placeholder="Distinctions"
           control={control}
           setValue={setValue}

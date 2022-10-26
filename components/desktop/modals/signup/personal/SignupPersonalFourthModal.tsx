@@ -5,7 +5,6 @@ import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormCo
 import api from '@/lib/api'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -14,43 +13,46 @@ const SignupPersonalFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { email, password, firstName, lastName, workStatus, birthDate, city } =
-    useContext(SignupPersonalFormContext)
+  const { setData, ...previousData } = useContext(SignupPersonalFormContext)
 
   const {
     handleSubmit,
     control,
     setError,
     formState: { errors },
-  } = useForm<IPersonalThreeForm>()
+  } = useForm<IPersonalThreeForm>({
+    defaultValues: {
+      schoolCertificate: previousData.schoolCertificate,
+      workCertificate: previousData.workCertificate,
+      proofOfIdentity: previousData.proofOfIdentity,
+    },
+  })
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const router = useRouter()
-
-  const onSubmit: SubmitHandler<IPersonalThreeForm> = async ({
-    proofOfIdentity,
-    schoolCertificate,
-    workCertificate,
-  }) => {
+  const onSubmit: SubmitHandler<IPersonalThreeForm> = async data => {
     setIsLoading(true)
 
-    const res = await api.signupUser({
-      email,
-      password,
-      firstName,
-      lastName,
-      workStatus,
-      birthDate,
-      city,
+    setData({ ...previousData, ...data })
+
+    const response = await api.signupUser({
+      email: previousData.email,
+      password: previousData.password,
+      firstName: previousData.firstName,
+      lastName: previousData.lastName,
+      workStatus: previousData.workStatus,
+      birthDate: previousData.birthDate,
+      city: previousData.city,
     })
 
     setIsLoading(false)
 
-    if (res.error) {
+    console.log(response)
+
+    if (response.error) {
       setError('workCertificate', {
         type: 'server',
-        message: res.error,
+        message: response.error,
       })
     } else {
       changeModal('SignupPersonalFifthModal')
@@ -82,7 +84,7 @@ const SignupPersonalFourthModal = ({
           className="flex flex-col gap-6"
         >
           <ul className="flex flex-col gap-10">
-            {workStatus === 'student' ? (
+            {previousData.workStatus === 'student' ? (
               <SupportingDocument
                 title="Certificat de scolarité"
                 name="schoolCertificate"

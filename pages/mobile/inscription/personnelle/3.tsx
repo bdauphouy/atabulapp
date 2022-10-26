@@ -9,37 +9,40 @@ import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const PersonalThree = () => {
-  const { email, password, firstName, lastName, workStatus, birthDate, city } =
-    useContext(SignupPersonalFormContext)
+  const { setData, ...previousData } = useContext(SignupPersonalFormContext)
 
   const {
     handleSubmit,
     control,
     setError,
     formState: { errors },
-  } = useForm<IPersonalThreeForm>()
+  } = useForm<IPersonalThreeForm>({
+    defaultValues: {
+      schoolCertificate: previousData.schoolCertificate,
+      workCertificate: previousData.workCertificate,
+      proofOfIdentity: previousData.proofOfIdentity,
+    },
+  })
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<IPersonalThreeForm> = async ({
-    proofOfIdentity,
-    schoolCertificate,
-    workCertificate,
-  }) => {
-    const res = await api.signupUser({
-      email,
-      password,
-      firstName,
-      lastName,
-      workStatus,
-      birthDate,
-      city,
+  const onSubmit: SubmitHandler<IPersonalThreeForm> = async data => {
+    setData({ ...previousData, ...data })
+
+    const response = await api.signupUser({
+      email: previousData.email,
+      password: previousData.password,
+      firstName: previousData.firstName,
+      lastName: previousData.lastName,
+      workStatus: previousData.workStatus,
+      birthDate: previousData.birthDate,
+      city: previousData.city,
     })
 
-    if (res.error) {
+    if (response.error) {
       setError('workCertificate', {
         type: 'server',
-        message: res.error,
+        message: response.error,
       })
     } else {
       router.push('/mobile/inscription/personnelle/4')
@@ -54,7 +57,7 @@ const PersonalThree = () => {
     >
       <h2 className="mb-2 text-2xl font-extrabold text-black">Justificatifs</h2>
       <ul className="flex flex-col gap-10">
-        {workStatus === 'student' ? (
+        {previousData.workStatus === 'student' ? (
           <SupportingDocument
             title="Certificat de scolarité"
             name="schoolCertificate"

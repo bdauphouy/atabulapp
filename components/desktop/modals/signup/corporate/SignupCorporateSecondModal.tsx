@@ -13,7 +13,7 @@ const SignupCorporateSecondModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const data = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
 
   const {
     control,
@@ -22,26 +22,16 @@ const SignupCorporateSecondModal = ({
     formState: { errors },
   } = useForm<ICorporateTwoForm>({
     defaultValues: {
-      name: data.name,
-      address: data.address,
-      zipCode: data.zipCode,
-      city: data.city,
-      phoneNumber: data.phoneNumber,
+      name: previousData.name,
+      address: previousData.address,
+      zipCode: previousData.zipCode,
+      city: previousData.city,
+      phoneNumber: previousData.phoneNumber,
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateTwoForm> = ({
-    name,
-    address,
-    zipCode,
-    city,
-    phoneNumber,
-  }) => {
-    data.name = name
-    data.address = address
-    data.zipCode = zipCode
-    data.city = city
-    data.phoneNumber = phoneNumber
+  const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
+    setData({ ...previousData, ...data })
 
     changeModal('SignupCorporateThirdModal')
   }

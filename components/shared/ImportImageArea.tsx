@@ -28,7 +28,7 @@ const ImportImageArea = ({
         required: true,
       }}
       render={({ field: { name, onChange, value } }) => {
-        value && toBase64(value).then(res => setFile(res as string))
+        value && toBase64(value).then(response => setFile(response as string))
         return (
           <div>
             <label

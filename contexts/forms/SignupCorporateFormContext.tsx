@@ -5,7 +5,7 @@ export const SignupCorporateFormContext =
   createContext<ISignupCorporateFormContext>(null)
 
 export const SignupCorporateFormContextProvider = ({ children }) => {
-  const data = {
+  const [data, setData] = useState({
     email: '',
     password: '',
     name: '',
@@ -27,10 +27,10 @@ export const SignupCorporateFormContextProvider = ({ children }) => {
     roomManagerFullName: '',
     coverPicture: null,
     additionalPictures: [],
-  }
+  })
 
   return (
-    <SignupCorporateFormContext.Provider value={data}>
+    <SignupCorporateFormContext.Provider value={{ ...data, setData }}>
       {children}
     </SignupCorporateFormContext.Provider>
   )

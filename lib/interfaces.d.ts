@@ -1,3 +1,4 @@
+import { SetStateAction } from 'react'
 import { WorkStatus } from './types'
 
 export interface ILoginForm {
@@ -143,11 +144,17 @@ export interface IAddRegularOfferFormContext
   hasReachedConfirmation: boolean
 }
 
-export interface ISignupPersonalFormContext extends IPersonalTwoForm {}
+export interface ISignupPersonalFormContext
+  extends IPersonalTwoForm,
+    IPersonalThreeForm {
+  setData: Dispatch<SetStateAction<Partial<ISignupPersonalFormContext>>>
+}
 
 export interface ISignupCorporateFormContext
   extends ICorporateOneForm,
     ICorporateTwoForm,
     ICorporateThreeForm,
     ICorporateFourForm,
-    ICorporateFiveForm {}
+    ICorporateFiveForm {
+  setData: Dispatch<SetStateAction<Partial<ISignupCorporateFormContext>>>
+}
