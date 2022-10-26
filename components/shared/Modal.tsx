@@ -1,6 +1,6 @@
 import FormFooter from '@/components/shared/FormFooter'
 import { FormFooterActionsProps, ModalProps as MP } from '@/lib/types'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { RiArrowLeftSLine, RiCloseLine } from 'react-icons/ri'
 
 type ModalProps = {
@@ -24,6 +24,10 @@ const Modal = ({
   onClose,
   hasGoBackArrow = false,
 }: ModalProps) => {
+  useEffect(() => {
+    document.body.style.overflowY = isOpen ? 'hidden' : null
+  }, [isOpen])
+
   return (
     isOpen && (
       <>
