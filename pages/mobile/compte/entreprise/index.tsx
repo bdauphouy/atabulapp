@@ -15,9 +15,9 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await api.me(token)
+  const { error, user } = await api.me(token)
 
-  if (!user) {
+  if (error) {
     return {
       notFound: true,
     }
@@ -41,6 +41,7 @@ const AccountIndex = ({ user }) => {
             layout="fill"
             src="/images/restaurant-card-thumbnail.png"
             alt="Bannière du restaurant"
+            objectFit="cover"
           />
         </div>
         <div className="px-5 pt-6">

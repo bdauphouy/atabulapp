@@ -7,7 +7,7 @@ const AccountLayout = ({ children, title, isTransparent = false }) => {
   return (
     <>
       <header
-        className={`flex items-center justify-between gap-4 px-5 py-6 ${
+        className={`z-10 flex items-center justify-between gap-4 px-5 py-6 ${
           isTransparent ? 'bg-transparent' : 'bg-white'
         }`}
       >
