@@ -1,41 +1,34 @@
 import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
-import api from '@/lib/api'
 import Image from 'next/image'
 import { ReactElement } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
-  const { token } = req.cookies
+  const { qrData } = req.cookies
 
-  if (!token) {
+  if (!qrData) {
     return {
-      notFound: true,
-    }
-  }
-
-  const user = await api.me(token)
-
-  if (!user) {
-    return {
-      notFound: true,
+      redirect: {
+        destination: '/mobile/compte/entreprise/scanner-un-qrcode',
+      },
     }
   }
 
   return {
     props: {
-      user,
+      qrData: JSON.parse(qrData),
     },
   }
 }
 
-const MemberCard = ({ user }) => {
+const MemberCard = ({ qrData }) => {
   return (
     <>
       <header className="flex justify-between">
         <div>
           <h3 className="text-sm text-gray">Prénom</h3>
           <span>
-            {user.firstName} {user.lastName}
+            {qrData.user.firstName} {qrData.user.lastName}
           </span>
         </div>
         <div className="flex flex-col items-end text-right">
@@ -49,7 +42,7 @@ const MemberCard = ({ user }) => {
             alt="Carte membre"
             className="aspect-square"
             layout="fill"
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${user.token}`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${qrData.user.token}`}
           />
         </div>
       </div>
