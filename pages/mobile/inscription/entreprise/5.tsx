@@ -1,19 +1,66 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import ImportImageArea from '@/components/shared/ImportImageArea'
+import Message from '@/components/shared/Message'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
+import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { ICorporateFiveForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateFive = () => {
-  const { handleSubmit, control } = useForm<ICorporateFiveForm>()
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+
+  const {
+    handleSubmit,
+    control,
+    setError,
+    formState: { errors },
+  } = useForm<ICorporateFiveForm>({
+    defaultValues: {
+      additionalPictures: previousData.additionalPictures,
+      coverPicture: previousData.coverPicture,
+    },
+  })
+
+  console.log(errors)
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateFiveForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<ICorporateFiveForm> = async data => {
+    setData({ ...previousData, ...data })
 
-    router.push('/mobile/inscription/entreprise/6')
+    const response = await api.signupCorporate({
+      name: previousData.name,
+      address: previousData.address,
+      zipCode: previousData.zipCode,
+      city: previousData.city,
+      phone: toInternationalFormat(previousData.phoneNumber),
+      email: previousData.email,
+      password: previousData.password,
+      coordinates: '90.0, -127.554334', // wip
+      preferredContact: {
+        fullName: previousData.privilegedFullName,
+        phone: toInternationalFormat(previousData.privilegedPhoneNumber),
+        email: previousData.privilegedEmail,
+      },
+      types: [1], // wip
+      distinctions: [1], // wip
+      headChefFullName: previousData.chefFullName,
+      pastryChefFullName: previousData.pastryChefFullName,
+      sommelierFullName: previousData.sommelierFullName,
+      restaurantManagerFullName: previousData.roomManagerFullName,
+    })
+
+    if (response.error) {
+      setError('coverPicture', {
+        type: 'server',
+        message: response.error,
+      })
+    } else {
+      router.push('/mobile/inscription/entreprise/6')
+    }
   }
 
   return (
@@ -73,6 +120,13 @@ const CorporateFive = () => {
           />
         </div>
       </div>
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.coverPicture?.type === 'server'
+            ? errors.coverPicture?.message
+            : 'Veuillez remplir tous les champs'}
+        </Message>
+      )}
     </form>
   )
 }

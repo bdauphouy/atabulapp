@@ -1,11 +1,11 @@
 import { ISignupPersonalFormContext } from '@/lib/interfaces'
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 export const SignupPersonalFormContext =
   createContext<ISignupPersonalFormContext>(null)
 
 export const SignupPersonalFormContextProvider = ({ children }) => {
-  const data = {
+  const [data, setData] = useState({
     email: '',
     password: '',
     firstName: '',
@@ -14,10 +14,10 @@ export const SignupPersonalFormContextProvider = ({ children }) => {
     birthDate: '',
     city: '',
     isLoading: false,
-  }
+  })
 
   return (
-    <SignupPersonalFormContext.Provider value={data}>
+    <SignupPersonalFormContext.Provider value={{ ...data, setData }}>
       {children}
     </SignupPersonalFormContext.Provider>
   )

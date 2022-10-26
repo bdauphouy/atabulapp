@@ -1,24 +1,36 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateTwoForm } from '@/lib/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const CorporateTwo = () => {
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateTwoForm>()
+  } = useForm<ICorporateTwoForm>({
+    defaultValues: {
+      name: previousData.name,
+      address: previousData.address,
+      zipCode: previousData.zipCode,
+      city: previousData.city,
+      phoneNumber: previousData.phoneNumber,
+    },
+  })
 
   const router = useRouter()
 
   const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
-    console.log(data)
+    setData({ ...previousData, ...data })
+
     router.push('/mobile/inscription/entreprise/3')
   }
 

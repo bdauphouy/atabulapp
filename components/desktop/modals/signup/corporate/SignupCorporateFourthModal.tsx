@@ -6,7 +6,6 @@ import Modal from '@/components/shared/Modal'
 import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
 import { ICorporateFourForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
-import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -15,24 +14,25 @@ const SignupCorporateFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const data = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<ICorporateFourForm>({
     defaultValues: {
-      typesOfCuisineString: data.typesOfCuisineString,
-      typesOfCuisine: data.typesOfCuisine,
-      honorsString: data.honorsString,
-      honors: data.honors,
-      chefFullName: data.chefFullName,
-      pastryChefFullName: data.pastryChefFullName,
-      sommelierFullName: data.sommelierFullName,
-      roomManagerFullName: data.roomManagerFullName,
+      typesOfCuisineString: previousData.typesOfCuisineString,
+      typesOfCuisine: previousData.typesOfCuisine,
+      honorsString: previousData.honorsString,
+      honors: previousData.honors,
+      chefFullName: previousData.chefFullName,
+      pastryChefFullName: previousData.pastryChefFullName,
+      sommelierFullName: previousData.sommelierFullName,
+      roomManagerFullName: previousData.roomManagerFullName,
     },
   })
 
@@ -83,24 +83,8 @@ const SignupCorporateFourthModal = ({
     )
   }, [watchHonors, setValue])
 
-  const onSubmit: SubmitHandler<ICorporateFourForm> = ({
-    typesOfCuisineString,
-    typesOfCuisine,
-    honorsString,
-    honors,
-    chefFullName,
-    pastryChefFullName,
-    sommelierFullName,
-    roomManagerFullName,
-  }) => {
-    data.typesOfCuisineString = typesOfCuisineString
-    data.typesOfCuisine = typesOfCuisine
-    data.honorsString = honorsString
-    data.honors = honors
-    data.chefFullName = chefFullName
-    data.pastryChefFullName = pastryChefFullName
-    data.sommelierFullName = sommelierFullName
-    data.roomManagerFullName = roomManagerFullName
+  const onSubmit: SubmitHandler<ICorporateFourForm> = data => {
+    setData({ ...previousData, ...data })
 
     changeModal('SignupCorporateFifthModal')
   }
@@ -135,6 +119,7 @@ const SignupCorporateFourthModal = ({
         </header>
         <div onClick={() => setIsTypeOfCuisineSheetOpen(true)}>
           <Input
+            key={getValues().typesOfCuisineString}
             placeholder="Types de cuisine"
             control={control}
             setValue={setValue}
@@ -155,14 +140,14 @@ const SignupCorporateFourthModal = ({
         />
         <div onClick={() => setIsHonorsSheetOpen(true)}>
           <Input
+            key={getValues().honorsString}
             placeholder="Distinctions"
             control={control}
             setValue={setValue}
             rules={{
-              required: true,
+              required: false,
             }}
             name="honorsString"
-            isRequired
             isDisabled
             isFocusedLike={isHonorsSheetOpen}
           />
