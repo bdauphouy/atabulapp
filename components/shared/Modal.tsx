@@ -9,6 +9,7 @@ type ModalProps = {
   hasFooter?: boolean
   hasHeader?: boolean
   hasGoBackArrow?: boolean
+  onGoBack?: () => void
 } & MP &
   FormFooterActionsProps
 
@@ -23,6 +24,7 @@ const Modal = ({
   hasFooter = true,
   onClose,
   hasGoBackArrow = false,
+  onGoBack,
 }: ModalProps) => {
   useEffect(() => {
     document.body.style.overflowY = isOpen ? 'hidden' : null
@@ -34,9 +36,9 @@ const Modal = ({
         <div className="fixed left-1/2 top-1/2 z-[100] w-[415px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white pb-20">
           {hasHeader && (
             <header className="flex items-start justify-between p-8 pb-0">
-              {hasGoBackArrow && (
+              {hasGoBackArrow && onGoBack && (
                 <div
-                  onClick={onClose}
+                  onClick={onGoBack}
                   className="cursor-pointer text-black transition-colors duration-300 hover:text-black/50"
                 >
                   <RiArrowLeftSLine size={28} />
