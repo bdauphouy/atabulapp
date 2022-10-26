@@ -9,15 +9,21 @@ export const getServerSideProps = async ({ req }) => {
 
   if (!token) {
     return {
-      notFound: true,
+      redirect: {
+        destination: '/',
+      },
     }
   }
 
   const { error, favorites } = await api.getFavorites(token)
 
+  console.log(favorites)
+
   if (error) {
     return {
-      notFound: true,
+      redirect: {
+        destination: '/',
+      },
     }
   }
 

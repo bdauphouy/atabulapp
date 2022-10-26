@@ -22,8 +22,10 @@ class Api {
       },
     })
 
+    // temporary fix
     return {
-      ...(await response.json()),
+      data:
+        response.status !== 204 ? await response.json() : await response.text(),
       status: response.status,
     }
   }
@@ -43,15 +45,12 @@ class Api {
       body,
     })
 
-    if (response.status !== 204) {
-      // temporary fix
-      return {
-        ...(await response.json()),
-        status: response.status,
-      }
+    // temporary fix
+    return {
+      data:
+        response.status !== 204 ? await response.json() : await response.text(),
+      status: response.status,
     }
-
-    return response.text()
   }
 
   private async delete({ route, queries, token }: ApiDeleteParams) {
@@ -62,15 +61,12 @@ class Api {
       },
     })
 
-    if (response.status !== 204) {
-      // temporary fix
-      return {
-        ...(await response.json()),
-        status: response.status,
-      }
+    // temporary fix
+    return {
+      data:
+        response.status !== 204 ? await response.json() : await response.text(),
+      status: response.status,
     }
-
-    return response.text()
   }
 
   async signupUser(data: ApiSignupUserData) {
@@ -90,7 +86,7 @@ class Api {
     if (response.status === 409) {
       responseObject.error = 'Cet email est déjà utilisé.'
     } else {
-      responseObject.user = response
+      responseObject.user = response.data
     }
 
     return responseObject
@@ -110,7 +106,7 @@ class Api {
     if (response.status === 409) {
       responseObject.error = 'Cet email est déjà utilisé.'
     } else {
-      responseObject.user = response
+      responseObject.user = response.data
     }
 
     return responseObject
@@ -133,7 +129,7 @@ class Api {
     if (response.status === 401) {
       responseObject.error = 'Votre email ou mot de passe est incorrect.'
     } else {
-      responseObject.token = response.token
+      responseObject.token = response.data.token
     }
 
     return responseObject
@@ -156,19 +152,30 @@ class Api {
     if (response.status === 401) {
       responseObject.error = 'Votre email ou mot de passe est incorrect.'
     } else {
-      responseObject.token = response.token
+      responseObject.token = response.data.token
     }
 
     return responseObject
   }
 
   async me(token: string) {
+    const responseObject = {
+      error: null,
+      user: null,
+    }
+
     const response = await this.get({
       route: '/users/me',
       token,
     })
 
-    return response
+    if (response.status === 401) {
+      responseObject.error = 'Le token est invalide.'
+    } else {
+      responseObject.user = response.data
+    }
+
+    return responseObject
   }
 
   async addFavorite(restaurantId: number, token: string) {
@@ -183,7 +190,7 @@ class Api {
       token,
     })
 
-    if (response === '') {
+    if (response.data === '') {
       responseObject.success = true
     }
 
@@ -204,7 +211,7 @@ class Api {
       token,
     })
 
-    if (response === '') {
+    if (response.data === '') {
       responseObject.success = true
     }
 
@@ -222,8 +229,8 @@ class Api {
       token,
     })
 
-    if (response.length) {
-      responseObject.favorites = response
+    if (response.data.length) {
+      responseObject.favorites = response.data
     }
 
     return responseObject
