@@ -47,8 +47,6 @@ const SignupPersonalFourthModal = ({
 
     setIsLoading(false)
 
-    console.log(response)
-
     if (response.error) {
       setError('workCertificate', {
         type: 'server',

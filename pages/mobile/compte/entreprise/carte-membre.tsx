@@ -22,6 +22,7 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const MemberCard = ({ qrData }) => {
+  console.log()
   return (
     <>
       <header className="flex justify-between">
@@ -42,13 +43,22 @@ const MemberCard = ({ qrData }) => {
             alt="Carte membre"
             className="aspect-square"
             layout="fill"
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${qrData.user.token}`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${qrData.qr}`}
           />
         </div>
       </div>
       <p className="text-sm text-black">
         Cette carte membre permet de certifier que votre statut de professionnel
         de la restauration est à jour.
+      </p>
+      <p
+        className={`mt-10 text-sm ${
+          qrData.user.isCertificateValid ? 'text-green-600' : 'text-scarlet'
+        }`}
+      >
+        {`Ce certificat est ${
+          qrData.user.isCertificateValid ? 'valide' : 'non valide'
+        }.`}
       </p>
     </>
   )
