@@ -143,7 +143,7 @@ const Input = ({
         const option = filteredOptions[focusedOption]
 
         setIsOptionsShown(false)
-        setIsEmpty(option.length === 0)
+        setIsEmpty(option?.length === 0)
         setValue(name, option)
 
         inputRef.current.value = option
