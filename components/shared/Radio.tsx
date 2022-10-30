@@ -13,6 +13,7 @@ type RadioProps = {
   label?: string
   withUnderline?: boolean
   isEditable?: boolean
+  defaultEditableValue?: number
   onInput?: (value: string) => void
   onFocus?: () => void
 }
@@ -26,6 +27,7 @@ const Radio = ({
   label = '',
   withUnderline = false,
   isEditable = false,
+  defaultEditableValue,
   onInput,
   onFocus,
 }: RadioProps) => {
@@ -67,6 +69,7 @@ const Radio = ({
                   type="number"
                   placeholder={label}
                   className="outline-none"
+                  defaultValue={defaultEditableValue}
                   onInput={e => onInput?.((e.target as HTMLInputElement).value)}
                   onFocus={onFocus}
                 />

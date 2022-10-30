@@ -2,6 +2,7 @@ import Offer from '@/components/account/Offer'
 import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import FilterTag from '@/components/shared/FilterTag'
+import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
 import { RiAddCircleLine } from 'react-icons/ri'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,7 +21,7 @@ const RegularOffers = () => {
     [],
   )
 
-  const handleAddRegularOfferClick = () => {}
+  const router = useRouter()
 
   const [selectedDay, setSelectedDay] = useState(days[0])
 
@@ -51,7 +52,11 @@ const RegularOffers = () => {
       <Offer promotion={30} concernedMeal="dinner" />
       <Offer promotion={30} concernedMeal="dinner" />
       <button
-        onClick={handleAddRegularOfferClick}
+        onClick={() =>
+          router.push(
+            '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/1',
+          )
+        }
         className="mt-10 flex items-center gap-2 text-lg text-scarlet"
       >
         <RiAddCircleLine size={26} />
@@ -66,7 +71,7 @@ export default RegularOffers
 RegularOffers.getLayout = (page: ReactElement) => {
   return (
     <MobileLayout>
-      <AccountLayout title="Régulières">{page}</AccountLayout>
+      <AccountLayout title="Offres régulières">{page}</AccountLayout>
     </MobileLayout>
   )
 }
