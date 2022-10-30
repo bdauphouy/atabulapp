@@ -2,10 +2,23 @@ import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import api from '@/lib/api'
 import { ICorporateSettingsForm } from '@/lib/interfaces'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+
+export const getServerSideProps = async ({ req }) => {
+  const { token } = req.cookies
+
+  const response = await api.me(token)
+
+  console.log(response)
+
+  return {
+    props: {},
+  }
+}
 
 const RestaurantInformation = () => {
   const {

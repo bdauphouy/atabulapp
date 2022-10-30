@@ -68,7 +68,7 @@ const AddRegularOfferFourthModal = ({
         text: 'Retour',
         customAction: () => changeModal('AddRegularOfferThirdModal'),
       }}
-      footerRightButton={{ text: 'Valider', customAction: () => onSubmit() }}
+      footerRightButton={{ text: 'Valider', customAction: onSubmit }}
       isOpen={isOpen}
       onClose={onClose}
     >

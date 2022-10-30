@@ -28,7 +28,7 @@ const PersonalFour = () => {
       <Button
         variant="primary"
         className="mt-20"
-        onClick={() => router.push('/')}
+        onClick={() => router.push('/mobile/explorer')}
       >
         Accéder à l'application
       </Button>

@@ -142,12 +142,15 @@ export interface IAddRegularOfferFormContext
     IAddRegularOfferThirdForm,
     IAddRegularOfferFourthForm {
   hasReachedConfirmation: boolean
+  setData: Dispatch<SetStateAction<Partial<ISignupCorporateFormContext>>>
+  removeData: () => void
 }
 
 export interface ISignupPersonalFormContext
   extends IPersonalTwoForm,
     IPersonalThreeForm {
   setData: Dispatch<SetStateAction<Partial<ISignupPersonalFormContext>>>
+  removeData: () => void
 }
 
 export interface ISignupCorporateFormContext
@@ -157,4 +160,5 @@ export interface ISignupCorporateFormContext
     ICorporateFourForm,
     ICorporateFiveForm {
   setData: Dispatch<SetStateAction<Partial<ISignupCorporateFormContext>>>
+  removeData: () => void
 }

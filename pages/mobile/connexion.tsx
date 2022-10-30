@@ -29,19 +29,18 @@ const Login = () => {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<ILoginForm> = async ({ email, password }) => {
-    const res = await api.loginUser({
+    const response = await api.loginUser({
       email,
       password,
     })
 
-    if (res.error) {
+    if (response.error) {
       setError('password', {
         type: 'server',
-        message: res.error,
+        message: response.error,
       })
     } else {
-      Cookie.set('token', res.token)
-      Cookie.set('token_expires', new Date().setDate(new Date().getDate() + 1))
+      Cookie.set('token', response.token)
 
       router.push('/mobile/explorer')
     }

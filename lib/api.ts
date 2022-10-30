@@ -126,16 +126,23 @@ class Api {
       }),
     })
 
-    if (response.status === 401) {
-      responseObject.error = 'Votre email ou mot de passe est incorrect.'
-    } else {
-      responseObject.token = response.data.token
+    switch (response.status) {
+      case 401:
+        responseObject.error = 'Votre email ou mot de passe est incorrect.'
+        break
+      case 403:
+        responseObject.error = "Votre compte n'est pas encore validé."
+        break
+      case 404:
+        responseObject.error = "Cet utilisateur n'existe pas."
+      default:
+        responseObject.token = response.data.token
     }
 
     return responseObject
   }
 
-  async loginCorporate(data: ApiLoginData) {
+  async loginRestaurant(data: ApiLoginData) {
     const responseObject = {
       error: null,
       token: null,
@@ -149,10 +156,17 @@ class Api {
       }),
     })
 
-    if (response.status === 401) {
-      responseObject.error = 'Votre email ou mot de passe est incorrect.'
-    } else {
-      responseObject.token = response.data.token
+    switch (response.status) {
+      case 401:
+        responseObject.error = 'Votre email ou mot de passe est incorrect.'
+        break
+      case 403:
+        responseObject.error = "Votre compte n'est pas encore validé."
+        break
+      case 404:
+        responseObject.error = "Ce restaurant n'existe pas."
+      default:
+        responseObject.token = response.data.token
     }
 
     return responseObject

@@ -29,10 +29,10 @@ const Checkbox = ({
 }: CheckboxProps) => {
   const id = useId()
 
-  const defaultValue = useMemo(
-    () => control._defaultValues[name.split('.')[0]],
-    [name, control._defaultValues],
-  )
+  const defaultValue = useMemo(() => {
+    const [a, b] = name.split('.')
+    return control._defaultValues[a][b]
+  }, [name, control._defaultValues])
 
   return (
     <Controller
@@ -53,7 +53,7 @@ const Checkbox = ({
             name={name}
             className="hidden"
             onChange={e => onChange(e.target.checked ? e.target.value : false)}
-            defaultChecked={isChecked || defaultValue === true}
+            defaultChecked={isChecked || defaultValue}
             value={value}
             disabled={isDisabled}
           />
