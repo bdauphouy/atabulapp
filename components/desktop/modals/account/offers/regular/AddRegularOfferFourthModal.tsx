@@ -2,6 +2,7 @@ import Button from '@/components/shared/Button'
 import Modal from '@/components/shared/Modal'
 import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import { ModalProps } from '@/lib/types'
+import { useRouter } from 'next/router'
 import { useContext, useEffect, useMemo } from 'react'
 
 const AddRegularOfferFourthModal = ({
@@ -9,35 +10,23 @@ const AddRegularOfferFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const {
-    concernedMeal,
-    discount,
-    offerDays,
-    numberOfBeneficiaries,
-    withDrinks,
-    ...data
-  } = useContext(AddRegularOfferFormContext)
+  const { setData, removeData, ...previousData } = useContext(
+    AddRegularOfferFormContext,
+  )
 
-  const onSubmit = () => {
-    console.log({
-      concernedMeal,
-      discount,
-      offerDays,
-      numberOfBeneficiaries,
-      withDrinks,
-    })
-  }
+  const router = useRouter()
 
   const formattedOfferDays = useMemo(() => {
-    const filteredOfferDays = offerDays.filter(Boolean)
+    const filteredOfferDays = previousData.offerDays.filter(Boolean)
 
     return filteredOfferDays
       .map((day, i) => (i > 0 ? day.toLowerCase() : day))
       .join(', ')
-  }, [offerDays])
+  }, [previousData.offerDays])
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
-    const filterdNumberOfBeneficiaries = numberOfBeneficiaries.filter(Boolean)
+    const filterdNumberOfBeneficiaries =
+      previousData.numberOfBeneficiaries.filter(Boolean)
 
     return (
       filterdNumberOfBeneficiaries
@@ -55,11 +44,20 @@ const AddRegularOfferFourthModal = ({
           : 's'
       }`
     )
-  }, [numberOfBeneficiaries])
+  }, [previousData.numberOfBeneficiaries])
 
   useEffect(() => {
-    data.hasReachedConfirmation = true
-  }, [data])
+    setData({
+      ...previousData,
+      hasReachedConfirmation: true,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onSubmit = () => {
+    // Add regular offer
+    removeData()
+  }
 
   return (
     <Modal
@@ -84,7 +82,9 @@ const AddRegularOfferFourthModal = ({
           </Button>
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-          <span>{concernedMeal === 'lunch' ? 'Déjeuner' : 'Dîner'}</span>
+          <span>
+            {previousData.concernedMeal === 'lunch' ? 'Déjeuner' : 'Dîner'}
+          </span>
           <Button
             variant="tertiary"
             onClick={() => changeModal('AddRegularOfferSecondModal')}
@@ -95,7 +95,8 @@ const AddRegularOfferFourthModal = ({
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
             Réduction sur l'addition{' '}
-            {withDrinks === 'withDrinks' ? 'avec' : 'sans'} boissons
+            {previousData.withDrinks === 'withDrinks' ? 'avec' : 'hors'}{' '}
+            boissons
           </span>
           <Button
             variant="tertiary"
@@ -105,7 +106,9 @@ const AddRegularOfferFourthModal = ({
           </Button>
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-          <span>{discount}%</span>
+          <span>
+            {previousData.discount?.split('.')[1] || previousData.discount}%
+          </span>
           <Button
             variant="tertiary"
             onClick={() => changeModal('AddRegularOfferThirdModal')}

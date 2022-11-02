@@ -1,0 +1,94 @@
+.promotional-insert {
+  @apply bg-white-rock;
+  display: flex;
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-direction: column-reverse;
+}
+
+.promotional-insert__desc {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.promotional-insert__title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.promotional-insert__link-btn {
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition-property: background-color, color, gap;
+  transition: 0.2s ease-in-out;
+}
+
+.promotional-insert__link-btn:hover {
+  background-color: black;
+  color: white;
+  gap: 2rem;
+}
+
+.promotional-insert__img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.promotional-insert__link-btn svg {
+  transition: filter 0.2s ease-in-out;
+}
+
+.promotional-insert__link-btn:hover svg {
+  filter: invert(1);
+}
+
+@media (min-width: 768px) {
+  .promotional-insert {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    background: rgba(241, 237, 226, 1);
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .promotional-insert__desc {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 50%;
+  }
+
+  .promotional-insert__title {
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .promotional-insert__img {
+    width: 50%;
+    right: 0;
+    height: 100%;
+    position: absolute;
+  }
+}

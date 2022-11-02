@@ -38,18 +38,16 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   }) => {
     setIsLoading(true)
 
-    const response = await api.loginUser({ email, password })
+    const response = await api.loginRestaurant({ email, password })
 
     setIsLoading(false)
 
-    console.log(response)
     if (response.error) {
       setError('password', {
         type: 'server',
         message: response.error,
       })
     } else {
-      console.log(response.token)
       Cookie.set('token', response.token)
 
       router.push('/accueil')
