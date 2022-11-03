@@ -1,4 +1,5 @@
 import Toaster from '@/components/shared/Toaster'
+import { AddLastMinuteOfferFormContextProvider } from '@/contexts/forms/AddLastMinuteOfferFormContext'
 import { AddRegularOfferFormContextProvider } from '@/contexts/forms/AddRegularOfferFormContext'
 import { SignupCorporateFormContextProvider } from '@/contexts/forms/SignupCorporateFormContext'
 import { SignupPersonalFormContextProvider } from '@/contexts/forms/SignupPersonalFormContext'
@@ -33,21 +34,23 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
             <GeolocationContextProvider>
               <SignupCorporateFormContextProvider>
                 <SignupPersonalFormContextProvider>
-                  <AddRegularOfferFormContextProvider>
-                    <Head>
-                      <meta
-                        name="viewport"
-                        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-                      />
+                  <AddLastMinuteOfferFormContextProvider>
+                    <AddRegularOfferFormContextProvider>
+                      <Head>
+                        <meta
+                          name="viewport"
+                          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                        />
 
-                      <title>
-                        Atabulapp - Offres et avantages pour les professionnels
-                        de la restauration et de l'hôtellerie
-                      </title>
-                    </Head>
-                    <Toaster />
-                    {getLayout(<Component {...pageProps} />)}
-                  </AddRegularOfferFormContextProvider>
+                        <title>
+                          Atabulapp - Offres et avantages pour les
+                          professionnels de la restauration et de l'hôtellerie
+                        </title>
+                      </Head>
+                      <Toaster />
+                      {getLayout(<Component {...pageProps} />)}
+                    </AddRegularOfferFormContextProvider>
+                  </AddLastMinuteOfferFormContextProvider>
                 </SignupPersonalFormContextProvider>
               </SignupCorporateFormContextProvider>
             </GeolocationContextProvider>

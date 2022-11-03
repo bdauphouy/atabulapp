@@ -20,7 +20,7 @@ const AddRegularOfferFourthModal = ({
     const filteredOfferDays = previousData.offerDays.filter(Boolean)
 
     return filteredOfferDays
-      .map((day, i) => (i > 0 ? day.toLowerCase() : day))
+      .map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
       .join(', ')
   }, [previousData.offerDays])
 
