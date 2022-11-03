@@ -47,17 +47,27 @@ const RegularOffers = () => {
       <h3 className="mt-8 mb-2 text-lg font-bold text-black">
         Les offres régulières
       </h3>
-      <Offer promotion={30} concernedMeal="dinner" />
-      <Offer promotion={30} concernedMeal="dinner" />
-      <Offer promotion={30} concernedMeal="dinner" />
-      <Offer promotion={30} concernedMeal="dinner" />
+      <ul>
+        <li>
+          <Offer promotion={30} concernedMeal="dinner" />
+        </li>
+        <li>
+          <Offer promotion={30} concernedMeal="dinner" />
+        </li>
+        <li>
+          <Offer promotion={30} concernedMeal="dinner" />
+        </li>
+        <li>
+          <Offer promotion={30} concernedMeal="dinner" />
+        </li>
+      </ul>
       <button
         onClick={() =>
           router.push(
             '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/1',
           )
         }
-        className="mt-10 flex items-center gap-2 text-lg text-scarlet"
+        className="mt-8 flex items-center gap-2 text-lg text-scarlet"
       >
         <RiAddCircleLine size={26} />
         Ajouter une offre

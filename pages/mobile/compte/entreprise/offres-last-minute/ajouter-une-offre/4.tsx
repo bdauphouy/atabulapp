@@ -1,25 +1,19 @@
 import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import Button from '@/components/shared/Button'
 import FormFooter from '@/components/shared/FormFooter'
-import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
+import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
 
 const AddOfferFourthStep = () => {
   const { setData, removeData, ...previousData } = useContext(
-    AddRegularOfferFormContext,
+    AddLastMinuteOfferFormContext,
   )
 
   const router = useRouter()
-
-  const formattedOfferDays = useMemo(() => {
-    const filteredOfferDays = previousData.offerDays.filter(Boolean)
-
-    return filteredOfferDays
-      .map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
-      .join(', ')
-  }, [previousData.offerDays])
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
     const filterdNumberOfBeneficiaries =
@@ -54,7 +48,6 @@ const AddOfferFourthStep = () => {
   const onSubmit = () => {
     // Add regular offer
     toast.success('Offre ajoutée avec succès !')
-    // removeData()
   }
 
   return (
@@ -62,12 +55,17 @@ const AddOfferFourthStep = () => {
       <h3 className="mb-4 text-lg font-bold">Confirmation de l'offre</h3>
       <ul className="flex flex-col gap-4">
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-          <span>{formattedOfferDays}</span>
+          <span className="capitalize">
+            {previousData.offerDay &&
+              format(previousData.offerDay, 'EEEE d MMMM yyyy', {
+                locale: fr,
+              })}
+          </span>
           <Button
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/1',
+                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/1',
               )
             }
           >
@@ -82,7 +80,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/2',
+                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >
@@ -99,7 +97,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/2',
+                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >
@@ -114,7 +112,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/3',
+                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/3',
               )
             }
           >
@@ -127,7 +125,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/2',
+                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >
@@ -152,5 +150,5 @@ const AddOfferFourthStep = () => {
 export default AddOfferFourthStep
 
 AddOfferFourthStep.getLayout = (page: ReactElement) => {
-  return <AccountLayout title="Offres régulières">{page}</AccountLayout>
+  return <AccountLayout title="Last minute">{page}</AccountLayout>
 }

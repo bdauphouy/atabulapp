@@ -44,7 +44,7 @@ const Pictures = () => {
                 title="Photo de couverture"
                 variant="full"
                 control={control}
-                name="coverPicture"
+                name={`additionalPictures.${i + 1}`}
               />
             )
           })}

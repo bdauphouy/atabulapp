@@ -1,62 +1,56 @@
-import Calendar from '@/components/account/Calendar'
+import Offer from '@/components/account/Offer'
 import AccountLayout from '@/components/layouts/mobile/AccountLayout'
-import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
+import {
+  RiAddCircleLine,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+} from 'react-icons/ri'
 
-export const getServerSideProps = () => {
-  return {
-    props: {
-      offers: [
-        {
-          id: 1,
-          name: 'Leslie Alexander',
-          imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-          startDatetime: '2022-11-11T13:00',
-          endDatetime: '2022-11-11T14:30',
-        },
-        {
-          id: 2,
-          name: 'Michael Foster',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-          startDatetime: '2022-11-20T09:00',
-          endDatetime: '2022-11-20T11:30',
-        },
-        {
-          id: 3,
-          name: 'Dries Vincent',
-          imageUrl:
-            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-          startDatetime: '2022-11-20T17:00',
-          endDatetime: '2022-11-20T18:30',
-        },
-        {
-          id: 4,
-          name: 'Leslie Alexander',
-          imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-          startDatetime: '2022-06-09T13:00',
-          endDatetime: '2022-06-09T14:30',
-        },
-        {
-          id: 5,
-          name: 'Michael Foster',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-          startDatetime: '2022-11-13T14:00',
-          endDatetime: '2022-11-13T14:30',
-        },
-      ],
-    },
-  }
-}
+const LastMinuteOffers = () => {
+  const router = useRouter()
 
-const LastMinuteOffers = ({ offers }) => {
   return (
     <div>
-      Offres last minute
-      <Calendar offers={offers} />
+      <header className="flex items-center justify-between gap-6">
+        <h3 className="text-lg font-bold capitalize text-black">
+          jeudi 07 avril
+        </h3>
+        <div className="flex items-center gap-6">
+          <button
+            type="button"
+            className="rounded-full border-[1px] border-solid border-scarlet p-0.5 hover:text-gray"
+          >
+            <RiArrowLeftSLine size={16} className="text-scarlet" />
+          </button>
+          <button
+            type="button"
+            className="rounded-full border-[1px] border-solid border-scarlet p-0.5"
+          >
+            <RiArrowRightSLine size={16} className="text-scarlet" />
+          </button>
+        </div>
+      </header>
+      <ul>
+        <li>
+          <Offer concernedMeal="lunch" promotion={30} />
+        </li>
+        <li>
+          <Offer concernedMeal="lunch" promotion={30} />
+        </li>
+      </ul>
+      <button
+        onClick={() =>
+          router.push(
+            '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/1',
+          )
+        }
+        className="mt-8 flex items-center gap-2 text-lg text-scarlet"
+      >
+        <RiAddCircleLine size={26} />
+        Ajouter une offre
+      </button>
     </div>
   )
 }
@@ -64,9 +58,5 @@ const LastMinuteOffers = ({ offers }) => {
 export default LastMinuteOffers
 
 LastMinuteOffers.getLayout = (page: ReactElement) => {
-  return (
-    <MobileLayout>
-      <AccountLayout title="Last minute">{page}</AccountLayout>
-    </MobileLayout>
-  )
+  return <AccountLayout title="Last minute">{page}</AccountLayout>
 }
