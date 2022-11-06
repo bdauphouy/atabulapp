@@ -7,6 +7,7 @@ import { IPersonalThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import Cookie from 'js-cookie'
 
 const PersonalThree = () => {
   const { setData, ...previousData } = useContext(SignupPersonalFormContext)
@@ -45,7 +46,20 @@ const PersonalThree = () => {
         message: response.error,
       })
     } else {
-      router.push('/mobile/inscription/personnelle/4')
+      const response = await api.loginUser({
+        email: previousData.email,
+        password: previousData.password,
+      })
+
+      if (response.error) {
+        setError('workCertificate', {
+          type: 'server',
+          message: response.error,
+        })
+      } else {
+        Cookie.set('token', response.token)
+        router.push('/mobile/inscription/personnelle/4')
+      }
     }
   }
 

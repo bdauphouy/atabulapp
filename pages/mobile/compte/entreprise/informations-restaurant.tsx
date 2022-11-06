@@ -1,11 +1,24 @@
-import CorporateAccountLayout from '@/components/layouts/desktop/CorporateAccountLayout'
+import AccountLayout from '@/components/layouts/mobile/AccountLayout'
+import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import api from '@/lib/api'
 import { ICorporateSettingsForm } from '@/lib/interfaces'
-import Image from 'next/image'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+
+export const getServerSideProps = async ({ req }) => {
+  const { token } = req.cookies
+
+  const response = await api.me(token)
+
+  console.log(response)
+
+  return {
+    props: {},
+  }
+}
 
 const RestaurantInformation = () => {
   const {
@@ -29,25 +42,14 @@ const RestaurantInformation = () => {
       <form
         id="corporate-settings-form"
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 pb-32"
       >
-        <header className="mb-4 flex flex-col">
-          <div className="relative h-44 overflow-hidden rounded-lg">
-            <Image
-              src="/images/restaurant-card-thumbnail.png"
-              alt="Bannière du restaurant"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <h2 className="mt-8 text-2xl text-black">
-            La Meurice - Alain Ducasse
-          </h2>
-          <h4>Restaurant certifié Atabulapp</h4>
-          <Button variant="tertiary" className="mt-8 self-end" isSubmit>
-            Enregistrer les modifications
+        <header className="flex justify-end">
+          <Button variant="tertiary" isSubmit>
+            Enregistrer
           </Button>
         </header>
+        <h3 className="text-lg font-bold text-black">Informations générales</h3>
         <Input
           placeholder="Nom du restaurant"
           control={control}
@@ -161,6 +163,10 @@ const RestaurantInformation = () => {
 
 export default RestaurantInformation
 
-RestaurantInformation.getLayout = (page: ReactElement) => (
-  <CorporateAccountLayout>{page}</CorporateAccountLayout>
-)
+RestaurantInformation.getLayout = (page: ReactElement) => {
+  return (
+    <MobileLayout>
+      <AccountLayout title="Restaurant">{page}</AccountLayout>
+    </MobileLayout>
+  )
+}

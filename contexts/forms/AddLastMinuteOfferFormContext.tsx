@@ -1,15 +1,15 @@
 import useLocalStorage from '@/lib/hooks/useLocalStorage'
-import { IAddRegularOfferFormContext } from '@/lib/interfaces'
+import { IAddLastMinuteOfferFormContext } from '@/lib/interfaces'
 import { createContext } from 'react'
 
-export const AddRegularOfferFormContext =
-  createContext<IAddRegularOfferFormContext>(null)
+export const AddLastMinuteOfferFormContext =
+  createContext<IAddLastMinuteOfferFormContext>(null)
 
-export const AddRegularOfferFormContextProvider = ({ children }) => {
+export const AddLastMinuteOfferFormContextProvider = ({ children }) => {
   const [data, setData, removeData] = useLocalStorage(
-    'add-regular-offer-form-data',
+    'add-last-minute-offer-form-data',
     {
-      offerDays: [],
+      offerDay: null,
       concernedMeal: null,
       withDrinks: null,
       numberOfBeneficiaries: [],
@@ -19,10 +19,10 @@ export const AddRegularOfferFormContextProvider = ({ children }) => {
   )
 
   return (
-    <AddRegularOfferFormContext.Provider
+    <AddLastMinuteOfferFormContext.Provider
       value={{ ...data, setData, removeData }}
     >
       {children}
-    </AddRegularOfferFormContext.Provider>
+    </AddLastMinuteOfferFormContext.Provider>
   )
 }

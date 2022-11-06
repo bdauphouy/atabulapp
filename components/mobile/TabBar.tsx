@@ -10,7 +10,7 @@ const TabBar = () => {
     return {
       explore: '/mobile/explorer',
       favorites: '/mobile/favoris',
-      profile: '/mobile/profil',
+      profile: '/mobile/compte/personnel',
     }
   }, [])
 

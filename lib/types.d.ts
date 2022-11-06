@@ -121,3 +121,7 @@ type ApiLoginData = {
   email: string
   password: string
 }
+
+type Offer = {
+  startDate: string
+}

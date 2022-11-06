@@ -11,7 +11,7 @@ const AddRegularOfferThirdModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const data = useContext(AddRegularOfferFormContext)
+  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
 
   const {
     control,
@@ -20,14 +20,22 @@ const AddRegularOfferThirdModal = ({
     setValue,
   } = useForm<IAddRegularOfferThirdForm>({
     defaultValues: {
-      discount: data.discount,
+      discount: previousData.discount?.split('.')[0] || previousData.discount,
     },
   })
 
-  const [discountValue, setDiscountValue] = useState<string>()
+  const [otherDiscountValue, setOtherDiscountValue] = useState(
+    previousData.discount &&
+      previousData.discount.split('.')[0] === 'other' &&
+      parseInt(previousData.discount.split('.')[1]),
+  )
 
   const onSubmit: SubmitHandler<IAddRegularOfferThirdForm> = ({ discount }) => {
-    data.discount = discount === 'other' ? discountValue : discount
+    setData({
+      ...previousData,
+      discount: discount === 'other' ? `other.${otherDiscountValue}` : discount,
+    })
+
     changeModal('AddRegularOfferFourthModal')
   }
 
@@ -40,7 +48,7 @@ const AddRegularOfferThirdModal = ({
         customAction: () => changeModal('AddRegularOfferSecondModal'),
       }}
       footerRightButton={{
-        text: data.hasReachedConfirmation
+        text: previousData.hasReachedConfirmation
           ? 'Confirmer les modifications'
           : 'Continuer',
       }}
@@ -71,7 +79,8 @@ const AddRegularOfferThirdModal = ({
           name="discount"
           value="other"
           isEditable
-          onInput={value => setDiscountValue(value)}
+          defaultEditableValue={otherDiscountValue}
+          onInput={value => setOtherDiscountValue(parseInt(value))}
           onFocus={() => setValue('discount', 'other')}
         />
       </form>

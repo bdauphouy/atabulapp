@@ -38,18 +38,17 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   }) => {
     setIsLoading(true)
 
-    const res = await api.loginUser({ email, password })
+    const response = await api.loginRestaurant({ email, password })
 
     setIsLoading(false)
 
-    if (res.error) {
+    if (response.error) {
       setError('password', {
         type: 'server',
-        message: res.error,
+        message: response.error,
       })
     } else {
-      Cookie.set('token', res.token)
-      Cookie.set('token_expires', new Date().setDate(new Date().getDate() + 1))
+      Cookie.set('token', response.token)
 
       router.push('/accueil')
     }

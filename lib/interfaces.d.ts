@@ -108,7 +108,7 @@ export interface ICorporatePicturesForm {
 }
 
 export interface IAddRegularOfferFirstForm {
-  offerDays: (Day | undefined)[]
+  offerDays: (Date | undefined)[]
 }
 
 export interface IAddRegularOfferSecondForm {
@@ -121,7 +121,19 @@ export interface IAddRegularOfferThirdForm {
   discount: string
 }
 
-export interface IAddRegularOfferFourthForm {}
+export interface IAddLastMinuteOfferFirstForm {
+  offerDay: Date
+}
+
+export interface IAddLastMinuteOfferSecondForm {
+  concernedMeal: 'lunch' | 'dinner'
+  withDrinks: 'withDrinks' | 'withoutDrinks'
+  numberOfBeneficiaries: string[]
+}
+
+export interface IAddLastMinuteOfferThirdForm {
+  discount: string
+}
 
 export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {
   isSubscribedNewsletter: boolean
@@ -139,15 +151,26 @@ export interface IUserContext {
 export interface IAddRegularOfferFormContext
   extends IAddRegularOfferFirstForm,
     IAddRegularOfferSecondForm,
-    IAddRegularOfferThirdForm,
-    IAddRegularOfferFourthForm {
+    IAddRegularOfferThirdForm {
   hasReachedConfirmation: boolean
+  setData: Dispatch<SetStateAction<Partial<IAddRegularOfferFormContext>>>
+  removeData: () => void
+}
+
+export interface IAddLastMinuteOfferFormContext
+  extends IAddLastMinuteOfferFirstForm,
+    IAddLastMinuteOfferSecondForm,
+    IAddLastMinuteOfferThirdForm {
+  hasReachedConfirmation: boolean
+  setData: Dispatch<SetStateAction<Partial<IAddLastMinuteOfferFormContext>>>
+  removeData: () => void
 }
 
 export interface ISignupPersonalFormContext
   extends IPersonalTwoForm,
     IPersonalThreeForm {
   setData: Dispatch<SetStateAction<Partial<ISignupPersonalFormContext>>>
+  removeData: () => void
 }
 
 export interface ISignupCorporateFormContext
@@ -157,4 +180,5 @@ export interface ISignupCorporateFormContext
     ICorporateFourForm,
     ICorporateFiveForm {
   setData: Dispatch<SetStateAction<Partial<ISignupCorporateFormContext>>>
+  removeData: () => void
 }
