@@ -35,6 +35,7 @@ const SignupCorporateSecondModal = ({
 
     changeModal('SignupCorporateThirdModal')
   }
+
   return (
     <Modal
       title="Inscription établissement"
