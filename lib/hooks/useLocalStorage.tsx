@@ -1,9 +1,15 @@
-import { useDebugValue, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useDebugValue,
+  useEffect,
+  useState,
+} from 'react'
 
 const useLocalStorage = <S,>(
   key: string,
   initialState?: S | (() => S),
-): [S, React.Dispatch<React.SetStateAction<S>>, () => void] => {
+): [S, Dispatch<SetStateAction<S>>, () => void] => {
   const [state, setState] = useState<S>(initialState as S)
   useDebugValue(state)
 

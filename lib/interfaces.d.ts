@@ -2,6 +2,7 @@ import { SetStateAction } from 'react'
 import { WorkStatus } from './types'
 
 export interface ILoginForm {
+  accountType: 'personal' | 'restaurant'
   email: string
   password: string
   stayLoggedIn: boolean

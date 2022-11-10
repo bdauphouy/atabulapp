@@ -4,6 +4,7 @@ import SearchPage from '@/components/mobile/explore/SearchPage'
 import SearchHeader from '@/components/mobile/search/SearchHeader'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
@@ -14,6 +15,10 @@ import {
   useState,
 } from 'react'
 import { RiArrowLeftSLine, RiMenu2Fill } from 'react-icons/ri'
+
+const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
+  ssr: false,
+})
 
 const Results = () => {
   const {
@@ -61,7 +66,7 @@ const Results = () => {
       <header
         className={`${
           isOnTheMap ? 'fixed' : 'sticky'
-        } top-0 z-[50] w-full bg-white pb-5`}
+        } top-0 z-50 w-full bg-white pb-5`}
       >
         <SearchHeader>
           <div className="flex w-full items-center gap-4">
@@ -95,30 +100,35 @@ const Results = () => {
       </header>
       <main className={isOnTheMap ? '' : 'pb-40'}>
         {isOnTheMap ? (
-          <div className="flex h-screen flex-col items-center justify-end gap-5 bg-alto/30 p-5 pb-24">
-            <Link href="/mobile/restaurants/1" className="w-full">
-              <RestaurantCard
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
-                typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
-                tags={[
-                  { name: 'michelin', level: 2 },
-                  { name: 'etoile-verte', level: 1 },
-                ]}
-                isCertified
-                promotion={30}
-                size="sm"
-                isResult
-              />
-            </Link>
-            <button
-              className="flex items-center gap-4 rounded-full bg-white/80 px-6 py-2 text-base text-black"
-              onClick={handleListButton}
-            >
-              <RiMenu2Fill />
-              Liste
-            </button>
+          <div>
+            <div className="absolute top-0 -z-10 h-full w-full">
+              <SearchResultMap centerDelta={0.015} />
+            </div>
+            <div className="absolute bottom-20 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-5 p-5">
+              <Link href="/mobile/restaurants/1" className="w-full">
+                <RestaurantCard
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  isCertified
+                  promotion={30}
+                  size="sm"
+                  isResult
+                />
+              </Link>
+              <button
+                className="flex items-center gap-4 rounded-full bg-white/80 px-6 py-2 text-base text-black"
+                onClick={handleListButton}
+              >
+                <RiMenu2Fill />
+                Liste
+              </button>
+            </div>
           </div>
         ) : (
           <Section title={searchData.location} isGrid>

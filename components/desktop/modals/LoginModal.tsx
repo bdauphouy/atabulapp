@@ -3,6 +3,7 @@ import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
+import Radio from '@/components/shared/Radio'
 import api from '@/lib/api'
 import { ILoginForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
@@ -21,6 +22,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     formState: { errors },
   } = useForm<ILoginForm>({
     defaultValues: {
+      accountType: null,
       email: '',
       password: '',
       stayLoggedIn: false,
@@ -32,13 +34,15 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<ILoginForm> = async ({
+    accountType,
     email,
     password,
-    stayLoggedIn,
   }) => {
     setIsLoading(true)
 
-    const response = await api.loginRestaurant({ email, password })
+    const response = await api[
+      accountType === 'personal' ? 'loginUser' : 'loginRestaurant'
+    ]({ email, password })
 
     setIsLoading(false)
 
@@ -71,6 +75,28 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        <h3 className="text-base text-black">
+          Choisissez votre type de compte.
+        </h3>
+        <Radio
+          control={control}
+          name="accountType"
+          label="Personnel"
+          value="personal"
+          rules={{
+            required: 'Veuillez sélectionner un type de compte.',
+          }}
+        />
+        <Radio
+          control={control}
+          name="accountType"
+          label="Restaurant"
+          value="restaurant"
+          className="mb-6"
+          rules={{
+            required: 'Veuillez sélectionner un type de compte.',
+          }}
+        />
         <Input
           placeholder="Email"
           control={control}
@@ -101,7 +127,8 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
               ? errors.email.message
               : errors.password?.type === 'server'
               ? errors.password.message
-              : 'Veuillez remplir tous les champs.'}
+              : errors.accountType?.message ||
+                'Veuillez remplir tous les champs.'}
           </Message>
         )}
         <Link href="/mobile/mot-de-passe-oublie" className="self-end">

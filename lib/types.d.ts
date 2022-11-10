@@ -11,6 +11,7 @@ export type Honor = {
 }
 
 type SignupType = 'Corporate' | 'Personal'
+
 export type Modal =
   | 'LoginModal'
   | 'SignupFirstModal'

@@ -3,6 +3,7 @@ import Button from '@/components/shared/Button'
 import Checkbox from '@/components/shared/Checkbox'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
+import Radio from '@/components/shared/Radio'
 import api from '@/lib/api'
 import { ILoginForm } from '@/lib/interfaces'
 import Cookie from 'js-cookie'
@@ -20,6 +21,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<ILoginForm>({
     defaultValues: {
+      accountType: null,
       email: '',
       password: '',
       stayLoggedIn: false,
@@ -28,8 +30,14 @@ const Login = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ILoginForm> = async ({ email, password }) => {
-    const response = await api.loginUser({
+  const onSubmit: SubmitHandler<ILoginForm> = async ({
+    accountType,
+    email,
+    password,
+  }) => {
+    const response = await api[
+      accountType === 'personal' ? 'loginUser' : 'loginRestaurant'
+    ]({
       email,
       password,
     })
@@ -53,6 +61,26 @@ const Login = () => {
       className="flex flex-col gap-6"
     >
       <h2 className="text-2xl font-extrabold text-black">Connexion</h2>
+      <h3 className="text-base text-black">Choisissez votre type de compte.</h3>
+      <Radio
+        control={control}
+        name="accountType"
+        label="Personnel"
+        value="personal"
+        rules={{
+          required: 'Veuillez sélectionner un type de compte.',
+        }}
+      />
+      <Radio
+        control={control}
+        name="accountType"
+        label="Restaurant"
+        value="restaurant"
+        className="mb-6"
+        rules={{
+          required: 'Veuillez sélectionner un type de compte.',
+        }}
+      />
       <Input
         placeholder="Email"
         control={control}
@@ -83,7 +111,8 @@ const Login = () => {
             ? errors.email.message
             : errors.password?.type === 'server'
             ? errors.password.message
-            : 'Veuillez remplir tous les champs.'}
+            : errors.accountType?.message ||
+              'Veuillez remplir tous les champs.'}
         </Message>
       )}
       <Link href="/mobile/mot-de-passe-oublie" className="self-end">

@@ -14,6 +14,12 @@ export default function Document() {
         <meta name="theme-color" content="#FFFFFF" />
 
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+          integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+          crossOrigin=""
+        />
       </Head>
       <body>
         <Main />
