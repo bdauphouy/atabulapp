@@ -5,12 +5,16 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
+import dynamic from 'next/dynamic'
 import { ReactElement, useContext, useState } from 'react'
+
+const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
+  ssr: false,
+})
 
 const Home = () => {
   const searchData = useContext(SearchContext)
 
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(true)
   const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
     useState(false)
   const [isMealFiltersDropdownOpen, setIsMealFiltersDropdownOpen] =
@@ -29,9 +33,8 @@ const Home = () => {
       {!settings && (
         <div className="fixed top-0 z-50">
           <Modal
-            isOpen={isSettingsModalOpen}
+            isOpen={settings}
             onClose={() => {
-              setIsSettingsModalOpen(false)
               setSettings(true)
             }}
           />
@@ -88,18 +91,12 @@ const Home = () => {
                   { name: 'etoile-verte', level: 1 },
                 ]}
                 isCertified
-                size="sm"
+                size="md"
                 promotion={50}
               />
             </div>
-            <div className="h-60 overflow-hidden rounded-md bg-alto/60 md:h-auto md:flex-[3]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42027.16171034499!2d2.3421359866132287!3d48.82583085395752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sfr!4v1657555032540!5m2!1sen!2sfr"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full border-0"
-              ></iframe>
+            <div className="h-60 overflow-hidden rounded-md md:h-auto md:flex-[3]">
+              <SearchResultMap />
             </div>
           </div>
         </div>

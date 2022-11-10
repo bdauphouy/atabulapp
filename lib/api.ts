@@ -183,6 +183,8 @@ class Api {
       token,
     })
 
+    console.log(response)
+
     if (response.status === 401) {
       responseObject.error = 'Le token est invalide.'
     } else {

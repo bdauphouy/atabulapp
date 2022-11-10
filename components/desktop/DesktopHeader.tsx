@@ -31,6 +31,7 @@ const DesktopHeader = () => {
     setLocation(location)
     setPeriod(period)
     setNumberOfPersons(numberOfPersons)
+    setIsRecentSearchesOpen(false)
   }
 
   const router = useRouter()
@@ -59,7 +60,9 @@ const DesktopHeader = () => {
               name="location"
               {...register('location')}
               placeholder="Localisation"
+              onClick={() => setIsRecentSearchesOpen(true)}
               onFocus={() => setIsRecentSearchesOpen(true)}
+              onInput={() => setIsRecentSearchesOpen(true)}
               onBlur={() => setIsRecentSearchesOpen(false)}
             />
             <input

@@ -10,7 +10,8 @@ const TabBar = () => {
     return {
       explore: '/mobile/explorer',
       favorites: '/mobile/favoris',
-      profile: '/mobile/compte/personnel',
+      // profile: '/mobile/compte/personnel',
+      profile: '/mobile/compte/entreprise',
     }
   }, [])
 

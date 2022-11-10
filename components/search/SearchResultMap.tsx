@@ -5,20 +5,21 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
 type SearchResultMapProps = {
   restaurantsCoords?: [number, number][]
   center?: [number, number]
+  centerDelta?: number
 }
 
-const MapControls = ({ restaurantsCoords, activeMarker }) => {
+const MapControls = ({ restaurantsCoords, activeMarker, centerDelta = 0 }) => {
   const map = useMap()
 
   useEffect(() => {
     map.setView(
       [
-        restaurantsCoords[activeMarker][0] - 0.015,
+        restaurantsCoords[activeMarker][0] - centerDelta,
         restaurantsCoords[activeMarker][1],
       ],
       13,
     )
-  }, [map, restaurantsCoords, activeMarker])
+  }, [map, restaurantsCoords, activeMarker, centerDelta])
 
   return null
 }
@@ -30,6 +31,7 @@ const SearchResultMap = ({
     [48.86, 2.32],
   ],
   center = [48.8566, 2.3522],
+  centerDelta = 0,
 }: SearchResultMapProps) => {
   const [activeMarker, setActiveMarker] = useState(0)
 
@@ -55,6 +57,7 @@ const SearchResultMap = ({
         <MapControls
           restaurantsCoords={restaurantsCoords}
           activeMarker={activeMarker}
+          centerDelta={centerDelta}
         />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

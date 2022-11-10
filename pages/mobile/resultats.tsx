@@ -102,7 +102,7 @@ const Results = () => {
         {isOnTheMap ? (
           <div>
             <div className="absolute top-0 -z-10 h-full w-full">
-              <SearchResultMap />
+              <SearchResultMap centerDelta={0.015} />
             </div>
             <div className="absolute bottom-20 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-5 p-5">
               <Link href="/mobile/restaurants/1" className="w-full">
