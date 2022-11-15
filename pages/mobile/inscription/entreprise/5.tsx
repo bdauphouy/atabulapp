@@ -132,8 +132,8 @@ const CorporateFive = () => {
           ].map((_, i) => (
             <ImportImageArea
               key={i}
-              title={`Photo supplémentaire ${i + 5}`}
-              name={`additionalPictures.${i + 5}`}
+              title={`Photo supplémentaire ${i + 6}`}
+              name={`additionalPictures.${i + 6}`}
               control={control}
               variant="dashed"
             />

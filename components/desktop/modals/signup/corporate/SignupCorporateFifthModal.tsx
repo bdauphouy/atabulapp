@@ -108,7 +108,7 @@ const SignupCorporateFifthModal = ({
             Il vous faut importer au minimum 4 photos supplémentaires pour
             valider votre profil.
           </p>
-          <div className="grid h-72 grid-cols-2 gap-2 overflow-auto">
+          <div className="grid grid-cols-2 gap-2">
             <ImportImageArea
               title="Photo supplémentaire 1"
               name="additionalPictures.0"
@@ -133,6 +133,12 @@ const SignupCorporateFifthModal = ({
               control={control}
               variant="normal"
             />
+            <ImportImageArea
+              title="Photo supplémentaire 5"
+              name="additionalPictures.4"
+              control={control}
+              variant="dashed"
+            />
             {[
               ...Array(
                 Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
@@ -140,8 +146,8 @@ const SignupCorporateFifthModal = ({
             ].map((_, i) => (
               <ImportImageArea
                 key={i}
-                title={`Photo supplémentaire ${i + 5}`}
-                name={`additionalPictures.${i + 5}`}
+                title={`Photo supplémentaire ${i + 6}`}
+                name={`additionalPictures.${i + 6}`}
                 control={control}
                 variant="dashed"
               />

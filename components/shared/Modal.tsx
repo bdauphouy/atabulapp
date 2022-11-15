@@ -32,8 +32,8 @@ const Modal = ({
 
   return (
     isOpen && (
-      <>
-        <div className="fixed left-1/2 top-1/2 z-[100] w-[415px] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white pb-20">
+      <div className="fixed z-[100] flex h-screen w-full items-center justify-center p-10">
+        <div className="relative flex max-h-full w-[415px] flex-col overflow-hidden rounded-xl bg-white pb-20">
           {hasHeader && (
             <header className="flex items-start justify-between p-8 pb-0">
               {hasGoBackArrow && onGoBack && (
@@ -53,7 +53,7 @@ const Modal = ({
               </div>
             </header>
           )}
-          <div className="p-8">{children}</div>
+          <div className="h-full overflow-auto p-8 pt-4">{children}</div>
           {hasFooter && (
             <FormFooter
               formId={formId}
@@ -64,9 +64,9 @@ const Modal = ({
         </div>
         <div
           onClick={onClose}
-          className="fixed left-0 top-0 z-40 h-screen w-full bg-black/40"
+          className="fixed left-0 top-0 -z-10 h-screen w-full bg-black/40"
         ></div>
-      </>
+      </div>
     )
   )
 }
