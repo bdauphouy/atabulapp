@@ -1,9 +1,38 @@
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import api from '@/lib/api'
 import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 
-const Favorites = () => {
+export const getServerSideProps = async ({ req }) => {
+  const { token } = req.cookies
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/mobile/connexion',
+      },
+    }
+  }
+
+  const { error, favorites } = await api.getFavorites(token)
+
+  if (error) {
+    return {
+      redirect: {
+        destination: '/',
+      },
+    }
+  }
+
+  return {
+    props: {
+      favorites,
+    },
+  }
+}
+
+const Favorites = ({ favorites }) => {
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +46,7 @@ const Favorites = () => {
   }, [searchInputValue])
 
   return (
-    <div>
+    <>
       <div className="flex flex-col gap-3 px-5 pt-5">
         <h2 className="mb-2 text-3xl font-bold text-black">Favoris</h2>
         <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
@@ -34,23 +63,26 @@ const Favorites = () => {
         <div>
           <header className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-black">Offres actuelles</h3>
-            <span className="text-sm uppercase text-gray">5 restaurants</span>
+            <span className="text-sm uppercase text-gray">
+              {favorites.length} restaurants
+            </span>
           </header>
           <div className="mt-4 flex flex-col gap-6 border-b-[1px] border-solid border-alto/60 pb-8">
-            {[...Array(5)].map((_, i) => {
+            {favorites.map((favorite: any, i: number) => {
               return (
                 <RestaurantCard
+                  id={1}
                   key={i}
                   thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
+                  name={favorite.name}
                   typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
+                  location={favorite.city}
                   tags={[
                     { name: 'michelin', level: 2 },
                     { name: 'etoile-verte', level: 1 },
                   ]}
                   isCertified
-                  promotion={50}
+                  isDefaultLiked
                   size="sm"
                 />
               )
@@ -58,31 +90,14 @@ const Favorites = () => {
           </div>
           <header className="flex items-center justify-between pt-8">
             <h3 className="text-lg font-bold text-black">Sans offre</h3>
-            <span className="text-sm uppercase text-gray">5 restaurants</span>
+            <span className="text-sm uppercase text-gray">
+              {favorites.length} restaurants
+            </span>
           </header>
-          <div className="mt-4 flex flex-col gap-6">
-            {[...Array(5)].map((_, i) => {
-              return (
-                <RestaurantCard
-                  key={i}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={50}
-                  size="sm"
-                />
-              )
-            })}
-          </div>
+          <div className="mt-4 flex flex-col gap-6"></div>
         </div>
       </main>
-    </div>
+    </>
   )
 }
 

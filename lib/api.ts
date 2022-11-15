@@ -7,6 +7,8 @@ import {
   ApiSignupUserData,
 } from '@/lib/types'
 import serialize from './functions/serialize'
+import Cookie from 'js-cookie'
+
 class Api {
   baseUrl: string
 
@@ -110,6 +112,10 @@ class Api {
     }
 
     return responseObject
+  }
+
+  async logout() {
+    Cookie.remove('token')
   }
 
   async loginUser(data: ApiLoginData) {

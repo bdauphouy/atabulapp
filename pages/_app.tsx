@@ -12,7 +12,8 @@ import '@/styles/globals.css'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { ReactElement, ReactNode } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, ReactNode, useEffect } from 'react'
 import 'swiper/css'
 
 type NextPageWithLayout = NextPage & {

@@ -44,6 +44,8 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
       accountType === 'personal' ? 'loginUser' : 'loginRestaurant'
     ]({ email, password })
 
+    Cookie.set('accountType', accountType)
+
     setIsLoading(false)
 
     if (response.error) {

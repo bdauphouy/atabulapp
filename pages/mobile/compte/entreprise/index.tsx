@@ -33,6 +33,11 @@ export const getServerSideProps = async ({ req }) => {
 const AccountIndex = ({ user }) => {
   const router = useRouter()
 
+  const handleLogout = () => {
+    api.logout()
+    router.push('/mobile/connexion')
+  }
+
   return (
     <div className="">
       <header className="mb-10">
@@ -102,7 +107,7 @@ const AccountIndex = ({ user }) => {
             Scanner un QR Code
           </ArrowCta>
         </div>
-        <Button variant="tertiary" className="mt-6">
+        <Button variant="tertiary" className="mt-6" onClick={handleLogout}>
           Déconnexion
         </Button>
       </div>

@@ -16,6 +16,7 @@ const CorporateFive = () => {
     handleSubmit,
     control,
     setError,
+    watch,
     formState: { errors },
   } = useForm<ICorporateFiveForm>({
     defaultValues: {
@@ -24,9 +25,9 @@ const CorporateFive = () => {
     },
   })
 
-  console.log(errors)
-
   const router = useRouter()
+
+  const additionalPictures = watch(['additionalPictures'])
 
   const onSubmit: SubmitHandler<ICorporateFiveForm> = async data => {
     setData({ ...previousData, ...data })
@@ -118,6 +119,25 @@ const CorporateFive = () => {
             control={control}
             variant="normal"
           />
+          <ImportImageArea
+            title="Photo supplémentaire 5"
+            name="additionalPictures.4"
+            control={control}
+            variant="dashed"
+          />
+          {[
+            ...Array(
+              Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
+            ),
+          ].map((_, i) => (
+            <ImportImageArea
+              key={i}
+              title={`Photo supplémentaire ${i + 5}`}
+              name={`additionalPictures.${i + 5}`}
+              control={control}
+              variant="dashed"
+            />
+          ))}
         </div>
       </div>
       {Object.keys(errors).length > 0 && (

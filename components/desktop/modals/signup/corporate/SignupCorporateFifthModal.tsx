@@ -7,8 +7,9 @@ import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { ICorporateFiveForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { RiAddLine } from 'react-icons/ri'
 
 const SignupCorporateFifthModal = ({
   isOpen,
@@ -21,6 +22,7 @@ const SignupCorporateFifthModal = ({
     handleSubmit,
     control,
     setError,
+    watch,
     formState: { errors },
   } = useForm<ICorporateFiveForm>({
     defaultValues: {
@@ -29,9 +31,9 @@ const SignupCorporateFifthModal = ({
     },
   })
 
-  console.log(errors)
-
   const router = useRouter()
+
+  const additionalPictures = watch(['additionalPictures'])
 
   const onSubmit: SubmitHandler<ICorporateFiveForm> = async data => {
     setData({ ...previousData, ...data })
@@ -64,7 +66,7 @@ const SignupCorporateFifthModal = ({
         message: response.error,
       })
     } else {
-      changeModal('SignupCorporateSixthModal')
+      changeModal('SignupCorporateFourthModal')
     }
   }
 
@@ -106,7 +108,7 @@ const SignupCorporateFifthModal = ({
             Il vous faut importer au minimum 4 photos supplémentaires pour
             valider votre profil.
           </p>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid h-72 grid-cols-2 gap-2 overflow-auto">
             <ImportImageArea
               title="Photo supplémentaire 1"
               name="additionalPictures.0"
@@ -120,17 +122,40 @@ const SignupCorporateFifthModal = ({
               variant="normal"
             />
             <ImportImageArea
-              title="Photo supplémentaire 2"
+              title="Photo supplémentaire 3"
               name="additionalPictures.2"
               control={control}
               variant="normal"
             />
             <ImportImageArea
-              title="Photo supplémentaire 3"
+              title="Photo supplémentaire 4"
               name="additionalPictures.3"
               control={control}
               variant="normal"
             />
+            {[
+              ...Array(
+                Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
+              ),
+            ].map((_, i) => (
+              <ImportImageArea
+                key={i}
+                title={`Photo supplémentaire ${i + 5}`}
+                name={`additionalPictures.${i + 5}`}
+                control={control}
+                variant="dashed"
+              />
+            ))}
+            {/* <label
+              htmlFor="test"
+              className="flex h-28 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-scarlet"
+            >
+              <RiAddLine
+                className="rounded-full border-2 border-solid border-scarlet text-scarlet"
+                size={36}
+              />
+            </label>
+            <input hidden type="file" id="test" /> */}
           </div>
         </div>
         {Object.keys(errors).length > 0 && (

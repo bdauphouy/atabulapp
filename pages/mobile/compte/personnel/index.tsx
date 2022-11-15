@@ -32,6 +32,11 @@ export const getServerSideProps = async ({ req }) => {
 const AccountIndex = ({ user }) => {
   const router = useRouter()
 
+  const handleLogout = () => {
+    api.logout()
+    router.push('/mobile/connexion')
+  }
+
   return (
     <div className="py-10 px-5">
       <header className="mb-10 flex flex-wrap items-center gap-6">
@@ -68,7 +73,7 @@ const AccountIndex = ({ user }) => {
           Politique de confidentialité
         </ArrowCta>
       </div>
-      <Button variant="tertiary" className="mt-6">
+      <Button variant="tertiary" className="mt-6" onClick={handleLogout}>
         Déconnexion
       </Button>
     </div>

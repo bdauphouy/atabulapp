@@ -9,10 +9,17 @@ const SignupPersonalSecondModal = ({
   return (
     <Modal
       title="Règlement"
-      hasFooter={false}
+      hasFooter={true}
       isOpen={isOpen}
       onClose={onClose}
       hasGoBackArrow
+      footerLeftButton={{
+        text: 'Retour',
+        customAction: () => changeModal('SignupPersonalThirdModal'),
+      }}
+      footerRightButton={{
+        text: 'Continuer',
+      }}
       onGoBack={() => changeModal('SignupPersonalFirstModal')}
     >
       payment

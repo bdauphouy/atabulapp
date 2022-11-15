@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiUser6Line } from 'react-icons/ri'
 import Button from '../shared/Button'
 import RecentSearches from './RecentSearches'
+import Cookie from 'js-cookie'
 
 const DesktopHeader = () => {
   const { setLocation, setPeriod, setNumberOfPersons, ...searchData } =
@@ -86,7 +87,15 @@ const DesktopHeader = () => {
         </form>
         <Button
           variant="primary"
-          onClick={() => router.push('/compte/personnel')}
+          onClick={() =>
+            router.push(
+              `/compte/${
+                Cookie.get('accountType') === 'personal'
+                  ? 'personnel/informations-personnelles'
+                  : 'entreprise/informations-restaurant'
+              }`,
+            )
+          }
         >
           <RiUser6Line />
           Profil

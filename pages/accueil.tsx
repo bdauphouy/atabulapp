@@ -5,12 +5,18 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
+
 import dynamic from 'next/dynamic'
+
 import { ReactElement, useContext, useState } from 'react'
+
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 
 const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
   ssr: false,
 })
+
+export const getServerSideProps = requireAuth(async () => ({ props: {} }))
 
 const Home = () => {
   const searchData = useContext(SearchContext)
@@ -82,6 +88,7 @@ const Home = () => {
           <div className="mt-4 flex flex-col-reverse gap-2 rounded-lg border-[1px] border-solid border-alto/60 p-2 md:flex-row">
             <div className="md:flex-[1]">
               <RestaurantCard
+                id={1}
                 thumbnail="/images/restaurant-card-thumbnail.png"
                 name="La Meurice Alain Ducasse"
                 typesOfCooking={['Cuisine créative']}
@@ -105,6 +112,7 @@ const Home = () => {
             {[...Array(6)].map((_, i) => {
               return (
                 <RestaurantCard
+                  id={1}
                   key={i}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"

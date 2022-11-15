@@ -42,6 +42,8 @@ const Login = () => {
       password,
     })
 
+    Cookie.set('accountType', accountType)
+
     if (response.error) {
       setError('password', {
         type: 'server',

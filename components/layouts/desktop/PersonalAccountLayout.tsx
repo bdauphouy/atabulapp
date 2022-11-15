@@ -1,12 +1,18 @@
 import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
 import Footer from '@/components/shared/Footer'
+import api from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
+
+  const handleLogout = () => {
+    api.logout()
+    router.push('/')
+  }
 
   return (
     <>
@@ -62,7 +68,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
             >
               Politique de confidentialité
             </ArrowCta>
-            <Button variant="tertiary" className="mt-6">
+            <Button variant="tertiary" className="mt-6" onClick={handleLogout}>
               Déconnexion
             </Button>
           </aside>

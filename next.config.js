@@ -7,7 +7,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = withPWA({
   reactStrictMode: false,
-  webpackDevMiddleware: config => {
+  webpack: config => {
     config.watchOptions = {
       poll: 1000,
       aggregateTimeout: 300,

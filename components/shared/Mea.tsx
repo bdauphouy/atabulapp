@@ -1,18 +1,20 @@
 import parse from 'html-react-parser'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const Mea = () => {
-  const [data, setData] = useState('<h1>test</h1>')
+  const [data, setData] = useState('<span>Aucun bandeau publicitaire.</span>')
 
-  const getMea = async () => {
+  const getMea = useCallback(async () => {
     const res = await fetch(
       'https://api.atabulapp.synerghetic.net/v1/promotional-insert',
     )
 
     setData(await res.text())
-  }
+  }, [])
 
-  getMea()
+  useEffect(() => {
+    getMea()
+  }, [getMea])
 
   return parse(data) as JSX.Element
 }

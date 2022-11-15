@@ -17,8 +17,6 @@ export const getServerSideProps = async ({ req }) => {
 
   const { error, favorites } = await api.getFavorites(token)
 
-  console.log(favorites)
-
   if (error) {
     return {
       redirect: {
@@ -57,6 +55,7 @@ const Favorites = ({ favorites }) => {
         {favorites.map((favorite: any, i: number) => {
           return (
             <RestaurantCard
+              id={1}
               key={i}
               thumbnail="/images/restaurant-card-thumbnail.png"
               name={favorite.name}

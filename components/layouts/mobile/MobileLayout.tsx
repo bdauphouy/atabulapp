@@ -1,7 +1,9 @@
-import TabBar from '@/components/mobile/TabBar'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { RiArrowLeftSLine } from 'react-icons/ri'
+
+const TabBar = dynamic(import('@/components/mobile/TabBar'), { ssr: false })
 
 type MobileLayoutProps = {
   children: ReactNode
@@ -32,6 +34,7 @@ const MobileLayout = ({
         </header>
       )}
       {children}
+      <div className="h-20"></div>
       <TabBar />
     </>
   )

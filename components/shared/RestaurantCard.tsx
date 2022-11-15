@@ -1,12 +1,17 @@
 import Tag from '@/components/shared/Tag'
 import api from '@/lib/api'
 import Cookie from 'js-cookie'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
+
+const Link = dynamic(import('next/link'), { ssr: false })
 
 type RestaurantCardProps = {
   className?: string
+  id: number
   thumbnail: string
   isCertified?: boolean
   tags?: {
@@ -24,6 +29,7 @@ type RestaurantCardProps = {
 
 const RestaurantCard = ({
   className = '',
+  id,
   thumbnail,
   isCertified,
   tags,
@@ -38,10 +44,24 @@ const RestaurantCard = ({
   const [isLiked, setIsLiked] = useState(isDefaultLiked)
 
   const handleLike = async () => {
-    if (isLiked) {
-      await api.removeFavorites(1, Cookie.get('token'))
-    } else {
-      await api.addFavorite(1, Cookie.get('token'))
+    const response = await api[isLiked ? 'removeFavorite' : 'addFavorite'](
+      1,
+      Cookie.get('token'),
+    )
+
+    if (!response.success) {
+      return toast(t => (
+        <span className="">
+          Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
+          <Link
+            href="/mobile/connexion"
+            className="text-scarlet"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Se connecter
+          </Link>
+        </span>
+      ))
     }
 
     setIsLiked(!isLiked)
@@ -88,33 +108,35 @@ const RestaurantCard = ({
           ))}
         </div>
       )}
-      <div className={isResult ? 'px-2 pb-2' : ''}>
-        <h3 className="text-lg font-medium text-black">{name}</h3>
-        <div
-          className={`${
-            size === 'sm'
-              ? isResult
-                ? 'flex-row'
-                : 'flex-col items-start'
-              : 'flex-row items-end'
-          } flex flex-wrap justify-between gap-2`}
-        >
-          <div>
-            <h4 className="text-base text-gray">
-              Cuisine{' '}
-              {typesOfCooking
-                .map(typeOfCooking => typeOfCooking.replace('Cuisine', ''))
-                .join(', ')}
-            </h4>
-            {!isResult && <h4 className="text=base text-gray">{location}</h4>}
-          </div>
-          {promotion && (
-            <div className="rounded-[4px] bg-white-rock px-2 py-0.5 text-lg text-black">
-              Jusqu'à <span className="text-scarlet">-{promotion}%</span>
+      <Link href={`/mobile/restaurants/${id}`}>
+        <div className={isResult ? 'px-2 pb-2' : ''}>
+          <h3 className="text-lg font-medium text-black">{name}</h3>
+          <div
+            className={`${
+              size === 'sm'
+                ? isResult
+                  ? 'flex-row'
+                  : 'flex-col items-start'
+                : 'flex-row items-end'
+            } flex flex-wrap justify-between gap-2`}
+          >
+            <div>
+              <h4 className="text-base text-gray">
+                Cuisine{' '}
+                {typesOfCooking
+                  .map(typeOfCooking => typeOfCooking.replace('Cuisine', ''))
+                  .join(', ')}
+              </h4>
+              {!isResult && <h4 className="text=base text-gray">{location}</h4>}
             </div>
-          )}
+            {promotion && (
+              <div className="rounded-[4px] bg-white-rock px-2 py-0.5 text-lg text-black">
+                Jusqu'à <span className="text-scarlet">-{promotion}%</span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </Link>
     </article>
   )
 }

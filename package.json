@@ -20,7 +20,7 @@
     "html-react-parser": "^3.0.4",
     "js-cookie": "^3.0.1",
     "leaflet": "^1.9.2",
-    "next": "12.1.6",
+    "next": "12.2",
     "next-pwa": "^5.5.2",
     "npx": "^10.2.2",
     "qr-scanner": "^1.4.1",

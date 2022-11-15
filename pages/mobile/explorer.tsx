@@ -5,7 +5,6 @@ import SearchHeader from '@/components/mobile/search/SearchHeader'
 import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
   ChangeEvent,
@@ -60,22 +59,21 @@ const Explore = () => {
           {[...Array(5)].map((_, i) => {
             return (
               <SwiperSlide key={i}>
-                <Link href="/mobile/restaurants/1">
-                  <RestaurantCard
-                    key={i}
-                    thumbnail="/images/restaurant-card-thumbnail.png"
-                    name="La Meurice Alain Ducasse"
-                    typesOfCooking={['Cuisine créative']}
-                    location="PARIS (75001)"
-                    tags={[
-                      { name: 'michelin', level: 2 },
-                      { name: 'etoile-verte', level: 1 },
-                    ]}
-                    isCertified
-                    promotion={30}
-                    size="sm"
-                  />
-                </Link>
+                <RestaurantCard
+                  id={1}
+                  key={i}
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  isCertified
+                  promotion={30}
+                  size="sm"
+                />
               </SwiperSlide>
             )
           })}
@@ -85,6 +83,7 @@ const Explore = () => {
             return (
               <SwiperSlide key={i}>
                 <RestaurantCard
+                  id={1}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"
                   typesOfCooking={['Cuisine créative']}
@@ -109,6 +108,7 @@ const Explore = () => {
             return (
               <SwiperSlide key={i}>
                 <RestaurantCard
+                  id={1}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"
                   typesOfCooking={['Cuisine créative']}
@@ -130,6 +130,7 @@ const Explore = () => {
             return (
               <RestaurantCard
                 key={i}
+                id={1}
                 thumbnail="/images/restaurant-card-thumbnail.png"
                 name="La Meurice Alain Ducasse"
                 typesOfCooking={['Cuisine créative', 'Cuisine traditionnelle']}

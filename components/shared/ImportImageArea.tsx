@@ -2,9 +2,10 @@ import toBase64 from '@/lib/functions/toBase64'
 import Image from 'next/image'
 import { useId, useState } from 'react'
 import { Control, Controller } from 'react-hook-form'
+import { RiAddLine } from 'react-icons/ri'
 
 type ImportImageAreaProps = {
-  variant: 'normal' | 'full'
+  variant: 'normal' | 'full' | 'dashed'
   control: Control<any>
   name: `additionalPictures.${number}` | 'coverPicture'
   title: string
@@ -25,7 +26,7 @@ const ImportImageArea = ({
       control={control}
       name={name}
       rules={{
-        required: true,
+        required: variant !== 'dashed',
       }}
       render={({ field: { name, onChange, value } }) => {
         value && toBase64(value).then(response => setFile(response as string))
@@ -33,12 +34,19 @@ const ImportImageArea = ({
           <div>
             <label
               htmlFor={uuid}
-              className={`${
-                variant === 'full' ? 'h-40' : 'h-32'
-              } relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-alto/50`}
+              className={`${variant === 'full' ? 'h-40' : 'h-28'} ${
+                variant === 'dashed'
+                  ? 'border-2 border-dashed border-scarlet'
+                  : 'bg-alto/50'
+              } relative flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md`}
             >
               {file ? (
                 <Image src={file} layout="fill" alt={title} objectFit="cover" />
+              ) : variant === 'dashed' ? (
+                <RiAddLine
+                  className="rounded-full border-2 border-solid border-scarlet text-scarlet"
+                  size={36}
+                />
               ) : (
                 <div className="relative h-14 w-14">
                   <Image
@@ -48,14 +56,12 @@ const ImportImageArea = ({
                   />
                 </div>
               )}
-
               {variant === 'full' && (
                 <p className="mt-2 text-base text-scarlet underline">
                   Importer une photo
                 </p>
               )}
             </label>
-
             <input
               onChange={e => {
                 onChange({

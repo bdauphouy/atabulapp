@@ -8,6 +8,7 @@ type FormFooterProps = {
 } & FormFooterActionsProps
 
 const FormFooter = ({
+  isFixed = false,
   formId,
   footerLeftButton,
   footerRightButton,
@@ -37,7 +38,7 @@ const FormFooter = ({
 
   return (
     <footer
-      className={`absolute ${
+      className={`${isFixed ? 'fixed' : 'absolute'} ${
         isInTheForeground ? 'z-[99999999]' : ''
       } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >

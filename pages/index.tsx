@@ -14,22 +14,6 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
-export const getServerSideProps = async ({ req }) => {
-  const { token } = req.cookies
-
-  if (token) {
-    return {
-      redirect: {
-        destination: '/accueil',
-      },
-    }
-  }
-
-  return {
-    props: {},
-  }
-}
-
 const Home = () => {
   const coords = useContext(GeolocationContext)
 
@@ -38,7 +22,7 @@ const Home = () => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
 
-  const { Modal, changeModal } = useModal('LoginModal')
+  const { Modal, changeModal } = useModal('SignupCorporateFifthModal')
 
   const { user } = useContext(UserContext)
 
@@ -129,6 +113,7 @@ const Home = () => {
             return (
               <SwiperSlide key={i}>
                 <RestaurantCard
+                  id={1}
                   key={i}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"
@@ -150,6 +135,7 @@ const Home = () => {
             return (
               <SwiperSlide key={i}>
                 <RestaurantCard
+                  id={1}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"
                   typesOfCooking={['Cuisine créative']}
@@ -173,6 +159,7 @@ const Home = () => {
             return (
               <SwiperSlide key={i}>
                 <RestaurantCard
+                  id={1}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"
                   typesOfCooking={['Cuisine créative']}
@@ -192,6 +179,7 @@ const Home = () => {
           {[...Array(4)].map((_, i) => {
             return (
               <RestaurantCard
+                id={1}
                 key={i}
                 thumbnail="/images/restaurant-card-thumbnail.png"
                 name="La Meurice Alain Ducasse"
