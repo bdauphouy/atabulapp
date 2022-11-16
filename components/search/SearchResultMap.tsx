@@ -13,6 +13,7 @@ const MapControls = () => {
   const [bounds, setBounds] = useState(null)
   const [zoom, setZoom] = useState(12)
   const [restaurants, setRestaurants] = useState([])
+  const [activeMarker, setActiveMarker] = useState(null)
 
   const markerIcon = icon({
     iconUrl: '/markers/marker.svg',
@@ -21,13 +22,15 @@ const MapControls = () => {
   })
 
   const clusterIcon = (count: number) => {
-    const size = Math.min(Math.max(count, 40), 120)
+    const size = Math.min(Math.max(count / 2, 40), 80) * (zoom / 10)
     const opacity = Math.min(Math.max(count, 60), 80)
+    const fontSize = Math.min(Math.max(count / 5, 16), 24) * (zoom / 10)
 
     return divIcon({
-      html: `<div style="width: ${size}px;height: ${size}px;opacity: ${opacity}%" class="-translate-x-1/2 -translate-y-1/2 bg-scarlet rounded-full flex justify-center items-center text-white text-base">
+      html: `<div style="width: ${size}px; height: ${size}px; opacity: ${opacity}%; font-size: ${fontSize}px" class="-translate-x-1/2 -translate-y-1/2 bg-scarlet rounded-full flex justify-center items-center text-white">
         ${count}
       </div>`,
+      iconSize: [0, 0],
     })
   }
 
@@ -59,9 +62,9 @@ const MapControls = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const points = restaurants.map(restaurant => ({
+  const points = restaurants.map((restaurant, i) => ({
     type: 'Feature',
-    properties: { cluster: false, restaurantId: restaurant.id },
+    properties: { cluster: false, restaurantId: i },
     geometry: {
       type: 'Point',
       coordinates: [
@@ -76,29 +79,36 @@ const MapControls = () => {
     bounds,
     zoom,
     options: {
-      radius: 100,
+      radius: 75,
       maxZoom: 20,
     },
   })
+
+  const handleMarkerClick = (coords: [number, number]) => {
+    map.setView([coords[0] - 0.0025, coords[1]], 15, {
+      animate: true,
+    })
+  }
 
   return (
     <>
       {clusters.map((cluster, i) => {
         const [longitude, latitude] = cluster.geometry.coordinates
-        const { cluster: isCluster, point_count: pointCount } =
-          cluster.properties
+        const {
+          cluster: isCluster,
+          point_count: pointCount,
+          restaurantId,
+        } = cluster.properties
 
         if (isCluster) {
           return (
             <Marker
-              key={i}
+              key={`cluster-${i}`}
               position={[latitude, longitude]}
               icon={clusterIcon(pointCount)}
               eventHandlers={{
                 click: () => {
-                  map.setView([latitude, longitude], 16, {
-                    animate: true,
-                  })
+                  handleMarkerClick([latitude, longitude])
                 },
               }}
             />
@@ -106,7 +116,18 @@ const MapControls = () => {
         }
 
         return (
-          <Marker key={i} position={[latitude, longitude]} icon={markerIcon} />
+          <Marker
+            opacity={restaurantId === activeMarker ? 1 : 0.5}
+            key={`marker-${restaurantId}`}
+            position={[latitude, longitude]}
+            icon={markerIcon}
+            eventHandlers={{
+              click: () => {
+                handleMarkerClick([latitude, longitude])
+                setActiveMarker(restaurantId)
+              },
+            }}
+          />
         )
       })}
     </>
@@ -115,11 +136,10 @@ const MapControls = () => {
 
 const SearchResultMap = ({
   center = [48.8566, 2.3522],
-  centerDelta = 0,
 }: SearchResultMapProps) => {
   return (
     <>
-      <MapContainer center={center} zoom={13} scrollWheelZoom>
+      <MapContainer center={center} zoom={13} scrollWheelZoom minZoom={6}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={process.env.NEXT_PUBLIC_MAPBOX_URL}

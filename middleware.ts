@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-server-import-in-page */
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export const middleware = (request: NextRequest) => {
   const getDeviceType = () => {
@@ -18,18 +18,22 @@ export const middleware = (request: NextRequest) => {
     return 'desktop'
   }
 
+  const response = NextResponse.next()
+
+  response.cookies.set('deviceType', getDeviceType())
+
   // switch (getDeviceType()) {
   //   case 'mobile' || 'tablet':
   //     if (!request.nextUrl.pathname.startsWith('/mobile')) {
   //       return NextResponse.redirect(new URL('/mobile', request.url))
   //     } else {
-  //       return NextResponse.next()
+  //       return response
   //     }
   //   default:
   //     if (request.nextUrl.pathname.startsWith('/mobile')) {
   //       return NextResponse.redirect(new URL('/', request.url))
   //     } else {
-  //       return NextResponse.next()
+  //       return response
   //     }
   // }
 }

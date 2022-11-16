@@ -90,6 +90,7 @@ CorporateOne.getLayout = (page: ReactElement) => (
     footerRightButton={{
       text: 'Accepter et continuer',
     }}
+    progress={100 / 6}
   >
     {page}
   </LoginSignupLayout>

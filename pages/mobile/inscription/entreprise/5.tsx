@@ -161,6 +161,7 @@ CorporateFive.getLayout = (page: ReactElement) => (
     footerRightButton={{
       text: "Finaliser l'inscription",
     }}
+    progress={5 * (100 / 6)}
   >
     {page}
   </LoginSignupLayout>

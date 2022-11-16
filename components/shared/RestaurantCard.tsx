@@ -49,12 +49,14 @@ const RestaurantCard = ({
       Cookie.get('token'),
     )
 
+    const device = Cookie.get('deviceType')
+
     if (!response.success) {
       return toast(t => (
         <span className="">
           Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
           <Link
-            href="/mobile/connexion"
+            href={device === 'desktop' ? '/' : '/mobile/connexion'}
             className="text-scarlet"
             onClick={() => toast.dismiss(t.id)}
           >

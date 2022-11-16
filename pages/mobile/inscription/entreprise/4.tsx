@@ -172,6 +172,7 @@ CorporateFour.getLayout = (page: ReactElement) => (
     footerRightButton={{
       text: 'Continuer',
     }}
+    progress={4 * (100 / 6)}
   >
     {page}
   </LoginSignupLayout>

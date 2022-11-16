@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 type FormFooterProps = {
   isFixed?: boolean
   isInTheForeground?: boolean
+  progress?: number
 } & FormFooterActionsProps
 
 const FormFooter = ({
@@ -13,6 +14,7 @@ const FormFooter = ({
   footerLeftButton,
   footerRightButton,
   isInTheForeground = false,
+  progress = 0,
 }: FormFooterProps) => {
   const router = useRouter()
 
@@ -42,6 +44,10 @@ const FormFooter = ({
         isInTheForeground ? 'z-[99999999]' : ''
       } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >
+      <div
+        style={{ width: progress + '%' }}
+        className="absolute left-0 -top-0.5 h-0.5 rounded-md bg-scarlet transition-[width] duration-300"
+      ></div>
       {footerLeftButton ? (
         <Button
           onClick={() => handleClick('left')}

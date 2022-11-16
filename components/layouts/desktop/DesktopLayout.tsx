@@ -10,9 +10,11 @@ type DesktopLayoutProps = {
 const DesktopLayout = ({ children, hasHeader = true }: DesktopLayoutProps) => {
   return (
     <>
-      {hasHeader && <DesktopHeader />}
-      {children}
-      <Footer />
+      <div className="flex min-h-screen flex-col">
+        {hasHeader && <DesktopHeader />}
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </div>
     </>
   )
 }

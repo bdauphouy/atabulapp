@@ -6,6 +6,7 @@ import { ReactNode } from 'react'
 type LoginSignupLayoutProps = {
   hasFooter?: boolean
   children: ReactNode
+  progress?: number
 } & FormFooterActionsProps
 
 const LoginSignupLayout = ({
@@ -14,6 +15,7 @@ const LoginSignupLayout = ({
   footerRightButton,
   hasFooter = true,
   children,
+  progress = 0,
 }: LoginSignupLayoutProps) => {
   return (
     <div>
@@ -32,6 +34,7 @@ const LoginSignupLayout = ({
           footerLeftButton={footerLeftButton}
           footerRightButton={footerRightButton}
           isFixed
+          progress={progress}
         />
       )}
     </div>
