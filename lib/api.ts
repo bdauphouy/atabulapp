@@ -6,8 +6,9 @@ import {
   ApiSignupCorporateData,
   ApiSignupUserData,
 } from '@/lib/types'
-import serialize from './functions/serialize'
 import Cookie from 'js-cookie'
+import { LatLngBounds } from 'leaflet'
+import serialize from './functions/serialize'
 
 class Api {
   baseUrl: string
@@ -16,8 +17,8 @@ class Api {
     this.baseUrl = baseUrl
   }
 
-  private async get({ route, token }: ApiGetParams) {
-    const response = await fetch(this.baseUrl + route, {
+  private async get({ route, queries, token }: ApiGetParams) {
+    const response = await fetch(this.baseUrl + route + serialize(queries), {
       method: 'GET',
       headers: {
         Authorization: token ? 'Bearer ' + token : null,
@@ -189,8 +190,6 @@ class Api {
       token,
     })
 
-    console.log(response)
-
     if (response.status === 401) {
       responseObject.error = 'Le token est invalide.'
     } else {
@@ -254,6 +253,40 @@ class Api {
     if (response.data.length) {
       responseObject.favorites = response.data
     }
+
+    return responseObject
+  }
+
+  async getRestaurantsIntoBounds(bounds: LatLngBounds) {
+    const responseObject = {
+      error: null,
+      restaurants: [],
+    }
+
+    const formattedBoundaries = {
+      ne: bounds.getNorthEast(),
+      sw: bounds.getSouthWest(),
+    }
+
+    const response = await fetch(
+      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=1000',
+    )
+    const data = await response.json()
+
+    if (data) {
+      responseObject.restaurants = data.records
+    }
+
+    // const response = await this.get({
+    //   route: '/restaurants',
+    //   queries: {
+    //     boundaries: JSON.stringify(formattedBoundaries),
+    //   },
+    // })
+
+    // if (response.data.length) {
+    //   responseObject.restaurants = response.data
+    // }
 
     return responseObject
   }

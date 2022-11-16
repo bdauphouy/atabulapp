@@ -25,7 +25,7 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
       formId="signup-type-form"
       footerLeftButton={{
         text: 'Se connecter',
-        customAction: () => changeModal('SignupPersonalFirstModal'),
+        customAction: () => changeModal('LoginModal'),
       }}
       footerRightButton={{ text: 'Continuer' }}
       isOpen={isOpen}

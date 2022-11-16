@@ -70,6 +70,7 @@ export type WorkStatus = 'student' | 'employee'
 
 export type ApiGetParams = {
   route: string
+  queries?: Record<string, string | number>
   token?: string
 }
 
@@ -82,7 +83,7 @@ type ApiPostParams = {
 
 type ApiDeleteParams = {
   route: string
-  queries: { [key: string]: string | number }
+  queries: Record<string, string | number>
   token?: string
 }
 

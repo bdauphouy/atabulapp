@@ -22,7 +22,7 @@ const Home = () => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
 
-  const { Modal, changeModal } = useModal('SignupCorporateFifthModal')
+  const { Modal, changeModal } = useModal('SignupFirstModal')
 
   const { user } = useContext(UserContext)
 

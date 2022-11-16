@@ -5,7 +5,6 @@ import SearchHeader from '@/components/mobile/search/SearchHeader'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
   FocusEvent,
@@ -105,22 +104,21 @@ const Results = () => {
               <SearchResultMap centerDelta={0.015} />
             </div>
             <div className="absolute bottom-20 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-5 p-5">
-              <Link href="/mobile/restaurants/1" className="w-full">
-                <RestaurantCard
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={30}
-                  size="sm"
-                  isResult
-                />
-              </Link>
+              <RestaurantCard
+                id={1}
+                thumbnail="/images/restaurant-card-thumbnail.png"
+                name="La Meurice Alain Ducasse"
+                typesOfCooking={['Cuisine créative']}
+                location="PARIS (75001)"
+                tags={[
+                  { name: 'michelin', level: 2 },
+                  { name: 'etoile-verte', level: 1 },
+                ]}
+                isCertified
+                promotion={30}
+                size="sm"
+                isResult
+              />
               <button
                 className="flex items-center gap-4 rounded-full bg-white/80 px-6 py-2 text-base text-black"
                 onClick={handleListButton}
@@ -135,6 +133,7 @@ const Results = () => {
             {[...Array(4)].map((_, i) => {
               return (
                 <RestaurantCard
+                  id={i}
                   key={i}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name="La Meurice Alain Ducasse"

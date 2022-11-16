@@ -1,78 +1,130 @@
-import { icon } from 'leaflet'
+import api from '@/lib/api'
+import { divIcon, DragEndEvent, icon, Map } from 'leaflet'
 import { useEffect, useState } from 'react'
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
+import useSupercluster from 'use-supercluster'
 
 type SearchResultMapProps = {
-  restaurantsCoords?: [number, number][]
   center?: [number, number]
   centerDelta?: number
 }
 
-const MapControls = ({ restaurantsCoords, activeMarker, centerDelta = 0 }) => {
-  const map = useMap()
+const MapControls = () => {
+  const [bounds, setBounds] = useState(null)
+  const [zoom, setZoom] = useState(12)
+  const [restaurants, setRestaurants] = useState([])
+
+  const markerIcon = icon({
+    iconUrl: '/markers/marker.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  })
+
+  const clusterIcon = (count: number) => {
+    const size = Math.min(Math.max(count, 40), 120)
+    const opacity = Math.min(Math.max(count, 60), 80)
+
+    return divIcon({
+      html: `<div style="width: ${size}px;height: ${size}px;opacity: ${opacity}%" class="-translate-x-1/2 -translate-y-1/2 bg-scarlet rounded-full flex justify-center items-center text-white text-base">
+        ${count}
+      </div>`,
+    })
+  }
+
+  const loadRestaurants = async (e: DragEndEvent | { target: Map }) => {
+    const bounds = map.getBounds()
+    setBounds([
+      bounds.getSouthWest().lng,
+      bounds.getSouthWest().lat,
+      bounds.getNorthEast().lng,
+      bounds.getNorthEast().lat,
+    ])
+
+    setZoom(map.getZoom())
+  }
+
+  const map = useMapEvents({
+    moveend: loadRestaurants,
+  })
 
   useEffect(() => {
-    map.setView(
-      [
-        restaurantsCoords[activeMarker][0] - centerDelta,
-        restaurantsCoords[activeMarker][1],
+    ;(async () => {
+      const response = await api.getRestaurantsIntoBounds(map.getBounds())
+
+      if (!response.error) {
+        setRestaurants(response.restaurants)
+      }
+    })()
+    loadRestaurants({ target: map })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const points = restaurants.map(restaurant => ({
+    type: 'Feature',
+    properties: { cluster: false, restaurantId: restaurant.id },
+    geometry: {
+      type: 'Point',
+      coordinates: [
+        restaurant.fields.coordonnees_geo[1],
+        restaurant.fields.coordonnees_geo[0],
       ],
-      13,
-    )
-  }, [map, restaurantsCoords, activeMarker, centerDelta])
+    },
+  }))
 
-  return null
-}
-
-const SearchResultMap = ({
-  restaurantsCoords = [
-    [48.8566, 2.3522],
-    [48.85, 2.35],
-    [48.86, 2.32],
-  ],
-  center = [48.8566, 2.3522],
-  centerDelta = 0,
-}: SearchResultMapProps) => {
-  const [activeMarker, setActiveMarker] = useState(0)
-
-  const activeIcon = icon({
-    iconUrl: '/images/active-map-marker.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+  const { clusters } = useSupercluster({
+    points,
+    bounds,
+    zoom,
+    options: {
+      radius: 100,
+      maxZoom: 20,
+    },
   })
-
-  const inactiveIcon = icon({
-    iconUrl: '/images/inactive-map-marker.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  })
-
-  const handleMarkerClick = (i: number) => {
-    setActiveMarker(i)
-  }
 
   return (
     <>
+      {clusters.map((cluster, i) => {
+        const [longitude, latitude] = cluster.geometry.coordinates
+        const { cluster: isCluster, point_count: pointCount } =
+          cluster.properties
+
+        if (isCluster) {
+          return (
+            <Marker
+              key={i}
+              position={[latitude, longitude]}
+              icon={clusterIcon(pointCount)}
+              eventHandlers={{
+                click: () => {
+                  map.setView([latitude, longitude], 16, {
+                    animate: true,
+                  })
+                },
+              }}
+            />
+          )
+        }
+
+        return (
+          <Marker key={i} position={[latitude, longitude]} icon={markerIcon} />
+        )
+      })}
+    </>
+  )
+}
+
+const SearchResultMap = ({
+  center = [48.8566, 2.3522],
+  centerDelta = 0,
+}: SearchResultMapProps) => {
+  return (
+    <>
       <MapContainer center={center} zoom={13} scrollWheelZoom>
-        <MapControls
-          restaurantsCoords={restaurantsCoords}
-          activeMarker={activeMarker}
-          centerDelta={centerDelta}
-        />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={process.env.NEXT_PUBLIC_MAPBOX_URL}
         />
-        {restaurantsCoords.map((coords, i) => (
-          <Marker
-            icon={i === activeMarker ? activeIcon : inactiveIcon}
-            key={i}
-            position={coords}
-            eventHandlers={{
-              click: () => handleMarkerClick(i),
-            }}
-          />
-        ))}
+        <MapControls />
       </MapContainer>
     </>
   )
