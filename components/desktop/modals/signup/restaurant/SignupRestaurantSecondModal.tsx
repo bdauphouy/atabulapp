@@ -1,26 +1,26 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateTwoForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantTwoForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const SignupCorporateSecondModal = ({
+const SignupRestaurantSecondModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateTwoForm>({
+  } = useForm<IRestaurantTwoForm>({
     defaultValues: {
       name: previousData.name,
       address: previousData.address,
@@ -30,10 +30,10 @@ const SignupCorporateSecondModal = ({
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantTwoForm> = data => {
     setData({ ...previousData, ...data })
 
-    changeModal('SignupCorporateThirdModal')
+    changeModal('SignupRestaurantThirdModal')
   }
 
   return (
@@ -42,7 +42,7 @@ const SignupCorporateSecondModal = ({
       formId="establishment-signup-form"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('SignupCorporateFirstModal'),
+        customAction: () => changeModal('SignupRestaurantFirstModal'),
       }}
       footerRightButton={{
         text: 'Continuer',
@@ -133,4 +133,4 @@ const SignupCorporateSecondModal = ({
   )
 }
 
-export default SignupCorporateSecondModal
+export default SignupRestaurantSecondModal

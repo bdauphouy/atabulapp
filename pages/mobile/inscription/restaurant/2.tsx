@@ -1,22 +1,22 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateTwoForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantTwoForm } from '@/lib/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const CorporateTwo = () => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+const RestaurantTwo = () => {
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateTwoForm>({
+  } = useForm<IRestaurantTwoForm>({
     defaultValues: {
       name: previousData.name,
       address: previousData.address,
@@ -28,10 +28,10 @@ const CorporateTwo = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateTwoForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantTwoForm> = data => {
     setData({ ...previousData, ...data })
 
-    router.push('/mobile/inscription/entreprise/3')
+    router.push('/mobile/inscription/restaurant/3')
   }
 
   return (
@@ -120,7 +120,7 @@ const CorporateTwo = () => {
   )
 }
 
-CorporateTwo.getLayout = (page: ReactElement) => (
+RestaurantTwo.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="establishment-signup-form"
     footerLeftButton={{
@@ -136,4 +136,4 @@ CorporateTwo.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateTwo
+export default RestaurantTwo

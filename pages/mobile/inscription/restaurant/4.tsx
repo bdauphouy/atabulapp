@@ -3,15 +3,15 @@ import HonorsBottomSheet from '@/components/mobile/additional-information/Honors
 import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information/TypeOfCuisineBottomSheet'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
 import useStringify from '@/lib/hooks/useStringify'
-import { ICorporateFourForm } from '@/lib/interfaces'
+import { IRestaurantFourForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const CorporateFour = () => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+const RestaurantFour = () => {
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
@@ -20,7 +20,7 @@ const CorporateFour = () => {
     watch,
     getValues,
     formState: { errors },
-  } = useForm<ICorporateFourForm>({
+  } = useForm<IRestaurantFourForm>({
     defaultValues: {
       typesOfCuisineString: previousData.typesOfCuisineString,
       typesOfCuisine: previousData.typesOfCuisine,
@@ -55,10 +55,10 @@ const CorporateFour = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateFourForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantFourForm> = data => {
     setData({ ...previousData, ...data })
 
-    router.push('/mobile/inscription/entreprise/5')
+    router.push('/mobile/inscription/restaurant/5')
   }
 
   return (
@@ -162,7 +162,7 @@ const CorporateFour = () => {
   )
 }
 
-CorporateFour.getLayout = (page: ReactElement) => (
+RestaurantFour.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="additional-information-signup-form"
     footerLeftButton={{
@@ -178,4 +178,4 @@ CorporateFour.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateFour
+export default RestaurantFour

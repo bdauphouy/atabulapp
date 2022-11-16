@@ -1,25 +1,25 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateThreeForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const SignupCorporateThirdModal = ({
+const SignupRestaurantThirdModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateThreeForm>({
+  } = useForm<IRestaurantThreeForm>({
     defaultValues: {
       privilegedFullName: previousData.privilegedFullName,
       privilegedPosition: previousData.privilegedPosition,
@@ -28,10 +28,10 @@ const SignupCorporateThirdModal = ({
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantThreeForm> = data => {
     setData({ ...previousData, ...data })
 
-    changeModal('SignupCorporateFourthModal')
+    changeModal('SignupRestaurantFourthModal')
   }
 
   return (
@@ -40,7 +40,7 @@ const SignupCorporateThirdModal = ({
       formId="privileged-contact-signup-form"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('SignupCorporateSecondModal'),
+        customAction: () => changeModal('SignupRestaurantSecondModal'),
       }}
       footerRightButton={{
         text: 'Continuer',
@@ -116,4 +116,4 @@ const SignupCorporateThirdModal = ({
   )
 }
 
-export default SignupCorporateThirdModal
+export default SignupRestaurantThirdModal

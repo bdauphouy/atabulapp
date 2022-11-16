@@ -3,7 +3,7 @@ import Modal from '@/components/shared/Modal'
 import { ModalProps } from '@/lib/types'
 import Image from 'next/image'
 
-const SignupCorporateSixthModal = ({
+const SignupRestaurantSixthModal = ({
   isOpen,
   onClose,
   changeModal,
@@ -48,4 +48,4 @@ const SignupCorporateSixthModal = ({
   )
 }
 
-export default SignupCorporateSixthModal
+export default SignupRestaurantSixthModal

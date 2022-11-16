@@ -44,7 +44,7 @@ const AddOfferFirstStep = () => {
     })
 
     router.push(
-      `/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/${
+      `/mobile/compte/restaurant/offres-regulieres/ajouter-une-offre/${
         previousData.hasReachedConfirmation ? 4 : 2
       }`,
     )

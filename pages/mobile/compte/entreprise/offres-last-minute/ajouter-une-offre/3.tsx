@@ -38,7 +38,7 @@ const AddOfferThirdStep = () => {
     })
 
     router.push(
-      '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/4',
+      '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/4',
     )
   }
 

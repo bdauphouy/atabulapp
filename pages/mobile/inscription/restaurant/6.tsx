@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
-const CorporateSix = () => {
+const RestaurantSix = () => {
   const router = useRouter()
 
   return (
@@ -38,8 +38,8 @@ const CorporateSix = () => {
   )
 }
 
-CorporateSix.getLayout = (page: ReactElement) => (
+RestaurantSix.getLayout = (page: ReactElement) => (
   <LoginSignupLayout hasFooter={false}>{page}</LoginSignupLayout>
 )
 
-export default CorporateSix
+export default RestaurantSix

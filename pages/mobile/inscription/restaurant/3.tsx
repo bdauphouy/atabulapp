@@ -1,21 +1,21 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateThreeForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantThreeForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const CorporateThree = () => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+const RestaurantThree = () => {
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateThreeForm>({
+  } = useForm<IRestaurantThreeForm>({
     defaultValues: {
       privilegedFullName: previousData.privilegedFullName,
       privilegedPosition: previousData.privilegedPosition,
@@ -26,10 +26,10 @@ const CorporateThree = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateThreeForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantThreeForm> = data => {
     setData({ ...previousData, ...data })
 
-    router.push('/mobile/inscription/entreprise/4')
+    router.push('/mobile/inscription/restaurant/4')
   }
 
   return (
@@ -105,7 +105,7 @@ const CorporateThree = () => {
   )
 }
 
-CorporateThree.getLayout = (page: ReactElement) => (
+RestaurantThree.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="privileged-contact-signup-form"
     footerLeftButton={{
@@ -121,4 +121,4 @@ CorporateThree.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateThree
+export default RestaurantThree

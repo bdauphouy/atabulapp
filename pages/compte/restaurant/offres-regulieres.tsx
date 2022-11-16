@@ -1,5 +1,5 @@
 import Offer from '@/components/account/Offer'
-import CorporateAccountLayout from '@/components/layouts/desktop/CorporateAccountLayout'
+import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import FilterTag from '@/components/shared/FilterTag'
 import useModal from '@/lib/hooks/useModal'
 import { ReactElement, useMemo, useState } from 'react'
@@ -71,5 +71,5 @@ const RegularOffers = () => {
 export default RegularOffers
 
 RegularOffers.getLayout = (page: ReactElement) => (
-  <CorporateAccountLayout>{page}</CorporateAccountLayout>
+  <RestaurantAccountLayout>{page}</RestaurantAccountLayout>
 )

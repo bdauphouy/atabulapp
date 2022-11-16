@@ -1,16 +1,16 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import ImportImageArea from '@/components/shared/ImportImageArea'
 import Message from '@/components/shared/Message'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
 import api from '@/lib/api'
 import toInternationalFormat from '@/lib/functions/toInternationalFormat'
-import { ICorporateFiveForm } from '@/lib/interfaces'
+import { IRestaurantFiveForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const CorporateFive = () => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+const RestaurantFive = () => {
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     handleSubmit,
@@ -18,7 +18,7 @@ const CorporateFive = () => {
     setError,
     watch,
     formState: { errors },
-  } = useForm<ICorporateFiveForm>({
+  } = useForm<IRestaurantFiveForm>({
     defaultValues: {
       additionalPictures: previousData.additionalPictures,
       coverPicture: previousData.coverPicture,
@@ -29,10 +29,10 @@ const CorporateFive = () => {
 
   const additionalPictures = watch(['additionalPictures'])
 
-  const onSubmit: SubmitHandler<ICorporateFiveForm> = async data => {
+  const onSubmit: SubmitHandler<IRestaurantFiveForm> = async data => {
     setData({ ...previousData, ...data })
 
-    const response = await api.signupCorporate({
+    const response = await api.signupRestaurant({
       name: previousData.name,
       address: previousData.address,
       zipCode: previousData.zipCode,
@@ -60,7 +60,7 @@ const CorporateFive = () => {
         message: response.error,
       })
     } else {
-      router.push('/mobile/inscription/entreprise/6')
+      router.push('/mobile/inscription/restaurant/6')
     }
   }
 
@@ -151,7 +151,7 @@ const CorporateFive = () => {
   )
 }
 
-CorporateFive.getLayout = (page: ReactElement) => (
+RestaurantFive.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
     formId="pictures-signup-form"
     footerLeftButton={{
@@ -167,4 +167,4 @@ CorporateFive.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateFive
+export default RestaurantFive

@@ -1,4 +1,4 @@
-import CorporateAccountLayout from '@/components/layouts/desktop/CorporateAccountLayout'
+import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import { ReactElement } from 'react'
 
 const LastMinuteOffers = () => {
@@ -8,5 +8,5 @@ const LastMinuteOffers = () => {
 export default LastMinuteOffers
 
 LastMinuteOffers.getLayout = (page: ReactElement) => (
-  <CorporateAccountLayout>{page}</CorporateAccountLayout>
+  <RestaurantAccountLayout>{page}</RestaurantAccountLayout>
 )

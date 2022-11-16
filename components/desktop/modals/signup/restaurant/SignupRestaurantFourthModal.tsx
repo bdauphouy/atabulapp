@@ -3,18 +3,18 @@ import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateFourForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantFourForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const SignupCorporateFourthModal = ({
+const SignupRestaurantFourthModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
@@ -23,7 +23,7 @@ const SignupCorporateFourthModal = ({
     watch,
     getValues,
     formState: { errors },
-  } = useForm<ICorporateFourForm>({
+  } = useForm<IRestaurantFourForm>({
     defaultValues: {
       typesOfCuisineString: previousData.typesOfCuisineString,
       typesOfCuisine: previousData.typesOfCuisine,
@@ -83,10 +83,10 @@ const SignupCorporateFourthModal = ({
     )
   }, [watchHonors, setValue])
 
-  const onSubmit: SubmitHandler<ICorporateFourForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantFourForm> = data => {
     setData({ ...previousData, ...data })
 
-    changeModal('SignupCorporateFifthModal')
+    changeModal('SignupRestaurantFifthModal')
   }
 
   return (
@@ -95,7 +95,7 @@ const SignupCorporateFourthModal = ({
       formId="additional-information-signup-form"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('SignupCorporateThirdModal'),
+        customAction: () => changeModal('SignupRestaurantThirdModal'),
       }}
       footerRightButton={{
         text: 'Continuer',
@@ -201,4 +201,4 @@ const SignupCorporateFourthModal = ({
   )
 }
 
-export default SignupCorporateFourthModal
+export default SignupRestaurantFourthModal

@@ -9,7 +9,7 @@ export interface ILoginForm {
 }
 
 export interface ISignupForm {
-  person: 'personal' | 'corporate'
+  person: 'personal' | 'restaurant'
 }
 
 export interface IPersonalTwoForm {
@@ -28,12 +28,12 @@ export interface IPersonalThreeForm {
   workCertificate?: File
 }
 
-export interface ICorporateOneForm {
+export interface IRestaurantOneForm {
   email: string
   password: string
 }
 
-export interface ICorporateTwoForm {
+export interface IRestaurantTwoForm {
   name: string
   address: string
   zipCode: string
@@ -41,14 +41,14 @@ export interface ICorporateTwoForm {
   phoneNumber: string
 }
 
-export interface ICorporateThreeForm {
+export interface IRestaurantThreeForm {
   privilegedFullName: string
   privilegedPosition: string
   privilegedEmail: string
   privilegedPhoneNumber: string
 }
 
-export interface ICorporateFourForm {
+export interface IRestaurantFourForm {
   typesOfCuisineString: string
   typesOfCuisine: (boolean | string)[]
   honorsString: string
@@ -59,7 +59,7 @@ export interface ICorporateFourForm {
   roomManagerFullName: string
 }
 
-export interface ICorporateFiveForm {
+export interface IRestaurantFiveForm {
   coverPicture?: File
   additionalPictures?: File[]
 }
@@ -91,7 +91,7 @@ export interface IPersonalSettingsForm {
   phoneNumber: string
 }
 
-export interface ICorporateSettingsForm {
+export interface IRestaurantSettingsForm {
   name: string
   address: string
   zipCode: string
@@ -104,7 +104,7 @@ export interface ICorporateSettingsForm {
   roomManagerFullName: string
 }
 
-export interface ICorporatePicturesForm {
+export interface IRestaurantPicturesForm {
   coverPicture?: File
 }
 
@@ -136,7 +136,7 @@ export interface IAddLastMinuteOfferThirdForm {
   discount: string
 }
 
-export interface User extends IPersonalSettingsForm, ICorporateSettingsForm {
+export interface User extends IPersonalSettingsForm, IRestaurantSettingsForm {
   isSubscribedNewsletter: boolean
   isIdentityValid: boolean
   IsCertificateValid: boolean
@@ -174,12 +174,12 @@ export interface ISignupPersonalFormContext
   removeData: () => void
 }
 
-export interface ISignupCorporateFormContext
-  extends ICorporateOneForm,
-    ICorporateTwoForm,
-    ICorporateThreeForm,
-    ICorporateFourForm,
-    ICorporateFiveForm {
-  setData: Dispatch<SetStateAction<Partial<ISignupCorporateFormContext>>>
+export interface ISignupRestaurantFormContext
+  extends IRestaurantOneForm,
+    IRestaurantTwoForm,
+    IRestaurantThreeForm,
+    IRestaurantFourForm,
+    IRestaurantFiveForm {
+  setData: Dispatch<SetStateAction<Partial<ISignupRestaurantFormContext>>>
   removeData: () => void
 }

@@ -1,16 +1,16 @@
-import CorporateAccountLayout from '@/components/layouts/desktop/CorporateAccountLayout'
+import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import Button from '@/components/shared/Button'
 import ImportImageArea from '@/components/shared/ImportImageArea'
-import { ICorporatePicturesForm } from '@/lib/interfaces'
+import { IRestaurantPicturesForm } from '@/lib/interfaces'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const Pictures = () => {
-  const { handleSubmit, control } = useForm<ICorporatePicturesForm>()
+  const { handleSubmit, control } = useForm<IRestaurantPicturesForm>()
 
   const handleCoverEdit = () => {}
 
-  const onSubmit: SubmitHandler<ICorporatePicturesForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantPicturesForm> = data => {
     console.log(data)
   }
 
@@ -56,5 +56,5 @@ const Pictures = () => {
 export default Pictures
 
 Pictures.getLayout = (page: ReactElement) => (
-  <CorporateAccountLayout>{page}</CorporateAccountLayout>
+  <RestaurantAccountLayout>{page}</RestaurantAccountLayout>
 )

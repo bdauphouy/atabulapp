@@ -64,7 +64,7 @@ const RegularOffers = () => {
       <button
         onClick={() =>
           router.push(
-            '/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/1',
+            '/mobile/compte/restaurant/offres-regulieres/ajouter-une-offre/1',
           )
         }
         className="mt-8 flex items-center gap-2 text-lg text-scarlet"

@@ -4,17 +4,17 @@ import AddRegularOfferSecondModal from '@/components/desktop/modals/account/offe
 import AddRegularOfferThirdModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferThirdModal'
 import LoginModal from '@/components/desktop/modals/LoginModal'
 import SettingsModal from '@/components/desktop/modals/SettingsModal'
-import SignupCorporateFifthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFifthModal'
-import SignupCorporateFirstModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFirstModal'
-import SignupCorporateFourthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateFourthModal'
-import SignupCorporateSecondModal from '@/components/desktop/modals/signup/corporate/SignupCorporateSecondModal'
-import SignupCorporateSixthModal from '@/components/desktop/modals/signup/corporate/SignupCorporateSixthModal'
-import SignupCorporateThirdModal from '@/components/desktop/modals/signup/corporate/SignupCorporateThirdModal'
 import SignupPersonalFifthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFifthModal'
 import SignupPersonalFirstModal from '@/components/desktop/modals/signup/personal/SignupPersonalFirstModal'
 import SignupPersonalFourthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFourthModal'
 import SignupPersonalSecondModal from '@/components/desktop/modals/signup/personal/SignupPersonalSecondModal'
 import SignupPersonalThirdModal from '@/components/desktop/modals/signup/personal/SignupPersonalThirdModal'
+import SignupRestaurantFifthModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantFifthModal'
+import SignupRestaurantFirstModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantFirstModal'
+import SignupRestaurantFourthModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantFourthModal'
+import SignupRestaurantSecondModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantSecondModal'
+import SignupRestaurantSixthModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantSixthModal'
+import SignupRestaurantThirdModal from '@/components/desktop/modals/signup/restaurant/SignupRestaurantThirdModal'
 import SignupFirstModal from '@/components/desktop/modals/signup/SignupFirstModal'
 import { useCallback, useMemo, useState } from 'react'
 import { Modal } from '../types'
@@ -29,12 +29,12 @@ const useModal = (defaultActiveModal: Modal) => {
       SignupPersonalThirdModal,
       SignupPersonalFourthModal,
       SignupPersonalFifthModal,
-      SignupCorporateFirstModal,
-      SignupCorporateSecondModal,
-      SignupCorporateThirdModal,
-      SignupCorporateFourthModal,
-      SignupCorporateFifthModal,
-      SignupCorporateSixthModal,
+      SignupRestaurantFirstModal,
+      SignupRestaurantSecondModal,
+      SignupRestaurantThirdModal,
+      SignupRestaurantFourthModal,
+      SignupRestaurantFifthModal,
+      SignupRestaurantSixthModal,
       SettingsModal,
       AddRegularOfferFirstModal,
       AddRegularOfferSecondModal,

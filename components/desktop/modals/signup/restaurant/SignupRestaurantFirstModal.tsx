@@ -1,41 +1,41 @@
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import Modal from '@/components/shared/Modal'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateOneForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantOneForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const SignupCorporateFirstModal = ({
+const SignupRestaurantFirstModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateOneForm>({
+  } = useForm<IRestaurantOneForm>({
     defaultValues: {
       email: previousData.email,
       password: previousData.password,
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateOneForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantOneForm> = data => {
     setData({ ...previousData, ...data })
 
-    changeModal('SignupCorporateSecondModal')
+    changeModal('SignupRestaurantSecondModal')
   }
 
   return (
     <Modal
       title="Inscription"
-      formId="corporate-signup-form"
+      formId="restaurant-signup-form"
       footerLeftButton={{
         text: 'Retour',
         customAction: () => changeModal('SignupFirstModal'),
@@ -47,7 +47,7 @@ const SignupCorporateFirstModal = ({
       onClose={onClose}
     >
       <form
-        id="corporate-signup-form"
+        id="restaurant-signup-form"
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
@@ -94,4 +94,4 @@ const SignupCorporateFirstModal = ({
   )
 }
 
-export default SignupCorporateFirstModal
+export default SignupRestaurantFirstModal

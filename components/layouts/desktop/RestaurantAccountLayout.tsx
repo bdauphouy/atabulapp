@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const CorporateAccountLayout = ({ children, withSideMenu = true }) => {
+const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
 
   const handleLogout = () => {
@@ -42,14 +42,14 @@ const CorporateAccountLayout = ({ children, withSideMenu = true }) => {
               <ArrowCta
                 variant="lg"
                 onClick={() =>
-                  router.push('/compte/entreprise/informations-restaurant')
+                  router.push('/compte/restaurant/informations-restaurant')
                 }
               >
                 Informations restaurant
               </ArrowCta>
               <ArrowCta
                 variant="lg"
-                onClick={() => router.push('/compte/entreprise/photos')}
+                onClick={() => router.push('/compte/restaurant/photos')}
               >
                 Photos
               </ArrowCta>
@@ -59,7 +59,7 @@ const CorporateAccountLayout = ({ children, withSideMenu = true }) => {
               <ArrowCta
                 variant="lg"
                 onClick={() =>
-                  router.push('/compte/entreprise/offres-regulieres')
+                  router.push('/compte/restaurant/offres-regulieres')
                 }
               >
                 Offres régulières
@@ -70,7 +70,7 @@ const CorporateAccountLayout = ({ children, withSideMenu = true }) => {
               <ArrowCta
                 variant="lg"
                 onClick={() =>
-                  router.push('/compte/entreprise/offres-last-minute')
+                  router.push('/compte/restaurant/offres-last-minute')
                 }
                 withUnderline={false}
               >
@@ -89,4 +89,4 @@ const CorporateAccountLayout = ({ children, withSideMenu = true }) => {
   )
 }
 
-export default CorporateAccountLayout
+export default RestaurantAccountLayout

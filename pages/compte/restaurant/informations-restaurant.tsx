@@ -1,7 +1,7 @@
-import CorporateAccountLayout from '@/components/layouts/desktop/CorporateAccountLayout'
+import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
-import { ICorporateSettingsForm } from '@/lib/interfaces'
+import { IRestaurantSettingsForm } from '@/lib/interfaces'
 import Image from 'next/image'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -13,13 +13,13 @@ const RestaurantInformation = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICorporateSettingsForm>({
+  } = useForm<IRestaurantSettingsForm>({
     defaultValues: {
       name: 'test',
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateSettingsForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantSettingsForm> = data => {
     console.log(data)
     toast.success('Les modifications ont bien été prises en compte.')
   }
@@ -27,7 +27,7 @@ const RestaurantInformation = () => {
   return (
     <>
       <form
-        id="corporate-settings-form"
+        id="restaurant-settings-form"
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
@@ -162,5 +162,5 @@ const RestaurantInformation = () => {
 export default RestaurantInformation
 
 RestaurantInformation.getLayout = (page: ReactElement) => (
-  <CorporateAccountLayout>{page}</CorporateAccountLayout>
+  <RestaurantAccountLayout>{page}</RestaurantAccountLayout>
 )

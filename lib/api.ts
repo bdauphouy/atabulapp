@@ -3,7 +3,7 @@ import {
   ApiGetParams,
   ApiLoginData,
   ApiPostParams,
-  ApiSignupCorporateData,
+  ApiSignupRestaurantData,
   ApiSignupUserData,
 } from '@/lib/types'
 import Cookie from 'js-cookie'
@@ -95,7 +95,7 @@ class Api {
     return responseObject
   }
 
-  async signupCorporate(data: ApiSignupCorporateData) {
+  async signupRestaurant(data: ApiSignupRestaurantData) {
     const responseObject = {
       error: null,
       user: null,

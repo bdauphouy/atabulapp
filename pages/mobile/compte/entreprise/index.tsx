@@ -64,7 +64,7 @@ const AccountIndex = ({ user }) => {
           <ArrowCta
             variant="md"
             onClick={() =>
-              router.push('/mobile/compte/entreprise/informations-restaurant')
+              router.push('/mobile/compte/restaurant/informations-restaurant')
             }
           >
             Informations restaurant
@@ -73,7 +73,7 @@ const AccountIndex = ({ user }) => {
             withUnderline={false}
             variant="md"
             onClick={() => {
-              router.push('/mobile/compte/entreprise/photos')
+              router.push('/mobile/compte/restaurant/photos')
             }}
           >
             Photos
@@ -84,7 +84,7 @@ const AccountIndex = ({ user }) => {
           <ArrowCta
             variant="md"
             onClick={() =>
-              router.push('/mobile/compte/entreprise/offres-regulieres')
+              router.push('/mobile/compte/restaurant/offres-regulieres')
             }
           >
             Offres régulières
@@ -92,7 +92,7 @@ const AccountIndex = ({ user }) => {
           <ArrowCta
             variant="md"
             onClick={() => {
-              router.push('/mobile/compte/entreprise/offres-last-minute')
+              router.push('/mobile/compte/restaurant/offres-last-minute')
             }}
           >
             Offres last minute
@@ -101,7 +101,7 @@ const AccountIndex = ({ user }) => {
             withUnderline={false}
             variant="md"
             onClick={() => {
-              router.push('/mobile/compte/entreprise/scanner-un-qrcode')
+              router.push('/mobile/compte/restaurant/scanner-un-qrcode')
             }}
           >
             Scanner un QR Code

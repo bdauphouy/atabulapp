@@ -1,8 +1,8 @@
 import Toaster from '@/components/shared/Toaster'
 import { AddLastMinuteOfferFormContextProvider } from '@/contexts/forms/AddLastMinuteOfferFormContext'
 import { AddRegularOfferFormContextProvider } from '@/contexts/forms/AddRegularOfferFormContext'
-import { SignupCorporateFormContextProvider } from '@/contexts/forms/SignupCorporateFormContext'
 import { SignupPersonalFormContextProvider } from '@/contexts/forms/SignupPersonalFormContext'
+import { SignupRestaurantFormContextProvider } from '@/contexts/forms/SignupRestaurantFormContext'
 import { GeolocationContextProvider } from '@/contexts/GeolocationContext'
 import { HonorsContextProvider } from '@/contexts/HonorsContext'
 import { SearchContextProvider } from '@/contexts/SearchContext'
@@ -12,8 +12,7 @@ import '@/styles/globals.css'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { ReactElement, ReactNode, useEffect } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import 'swiper/css'
 
 type NextPageWithLayout = NextPage & {
@@ -33,7 +32,7 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
         <UserContextProvider>
           <TypesOfCuisineContextProvider>
             <GeolocationContextProvider>
-              <SignupCorporateFormContextProvider>
+              <SignupRestaurantFormContextProvider>
                 <SignupPersonalFormContextProvider>
                   <AddLastMinuteOfferFormContextProvider>
                     <AddRegularOfferFormContextProvider>
@@ -53,7 +52,7 @@ const Atabulapp = ({ Component, pageProps }: AppPropsWithLayout) => {
                     </AddRegularOfferFormContextProvider>
                   </AddLastMinuteOfferFormContextProvider>
                 </SignupPersonalFormContextProvider>
-              </SignupCorporateFormContextProvider>
+              </SignupRestaurantFormContextProvider>
             </GeolocationContextProvider>
           </TypesOfCuisineContextProvider>
         </UserContextProvider>

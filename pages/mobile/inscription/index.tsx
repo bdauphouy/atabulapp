@@ -19,7 +19,7 @@ const Signup = () => {
     if (person === 'personal') {
       router.push('/mobile/inscription/personnelle/1')
     } else {
-      router.push('/mobile/inscription/entreprise/1')
+      router.push('/mobile/inscription/restaurant/1')
     }
   }
 
@@ -41,7 +41,7 @@ const Signup = () => {
       />
       <Radio
         control={control}
-        value="corporate"
+        value="restaurant"
         name="person"
         label="Inscrire son établissement de restauration pour proposer des offres sur Atabulapp"
       />

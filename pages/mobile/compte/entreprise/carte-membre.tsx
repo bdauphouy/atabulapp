@@ -9,7 +9,7 @@ export const getServerSideProps = async ({ req }) => {
   if (!qrData) {
     return {
       redirect: {
-        destination: '/mobile/compte/entreprise/scanner-un-qrcode',
+        destination: '/mobile/compte/restaurant/scanner-un-qrcode',
       },
     }
   }

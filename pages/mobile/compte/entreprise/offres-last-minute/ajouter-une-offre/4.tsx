@@ -65,7 +65,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/1',
+                '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/1',
               )
             }
           >
@@ -80,7 +80,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
+                '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >
@@ -97,7 +97,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
+                '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >
@@ -112,7 +112,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/3',
+                '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/3',
               )
             }
           >
@@ -125,7 +125,7 @@ const AddOfferFourthStep = () => {
             variant="tertiary"
             onClick={() =>
               router.push(
-                '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/2',
+                '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/2',
               )
             }
           >

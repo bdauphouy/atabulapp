@@ -3,7 +3,7 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
 import api from '@/lib/api'
-import { ICorporateSettingsForm } from '@/lib/interfaces'
+import { IRestaurantSettingsForm } from '@/lib/interfaces'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -26,13 +26,13 @@ const RestaurantInformation = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICorporateSettingsForm>({
+  } = useForm<IRestaurantSettingsForm>({
     defaultValues: {
       name: 'test',
     },
   })
 
-  const onSubmit: SubmitHandler<ICorporateSettingsForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantSettingsForm> = data => {
     console.log(data)
     toast.success('Les modifications ont bien été prises en compte.')
   }
@@ -40,7 +40,7 @@ const RestaurantInformation = () => {
   return (
     <>
       <form
-        id="corporate-settings-form"
+        id="restaurant-settings-form"
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 pb-32"
       >

@@ -10,7 +10,7 @@ export type Honor = {
   tag: Tag
 }
 
-type SignupType = 'Corporate' | 'Personal'
+type SignupType = 'Restaurant' | 'Personal'
 
 export type Modal =
   | 'LoginModal'
@@ -20,7 +20,7 @@ export type Modal =
   | `Signup${SignupType}ThirdModal`
   | `Signup${SignupType}FourthModal`
   | `Signup${SignupType}FifthModal`
-  | 'SignupCorporateSixthModal'
+  | 'SignupRestaurantSixthModal'
   | 'SettingsModal'
   | 'AddRegularOfferFirstModal'
   | 'AddRegularOfferSecondModal'
@@ -97,7 +97,7 @@ type ApiSignupUserData = {
   city: string
 }
 
-type ApiSignupCorporateData = {
+type ApiSignupRestaurantData = {
   name: string
   address: string
   zipCode: string

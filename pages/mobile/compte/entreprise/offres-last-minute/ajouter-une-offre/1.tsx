@@ -33,7 +33,7 @@ const AddOfferFirstStep = ({ offers }) => {
     setData({ ...previousData, offerDay: selectedDay })
 
     router.push(
-      `/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/${
+      `/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/${
         previousData.hasReachedConfirmation ? 4 : 2
       }`,
     )

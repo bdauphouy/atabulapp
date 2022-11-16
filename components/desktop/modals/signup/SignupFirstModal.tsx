@@ -16,7 +16,7 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
     if (person === 'personal') {
       changeModal('SignupPersonalFirstModal')
     } else {
-      changeModal('SignupCorporateFirstModal')
+      changeModal('SignupRestaurantFirstModal')
     }
   }
   return (
@@ -47,7 +47,7 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         />
         <Radio
           control={control}
-          value="corporate"
+          value="restaurant"
           name="person"
           label="Inscrire son établissement de restauration pour proposer des offres sur Atabulapp"
         />

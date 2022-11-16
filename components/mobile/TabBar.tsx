@@ -1,8 +1,8 @@
+import Cookie from 'js-cookie'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { RiHeart3Line, RiHome5Line, RiUserLine } from 'react-icons/ri'
-import Cookie from 'js-cookie'
 
 const TabBar = () => {
   const router = useRouter()
@@ -19,7 +19,7 @@ const TabBar = () => {
       },
       profile: {
         url: `/mobile/compte/${
-          Cookie.get('accountType') === 'personal' ? 'personnel' : 'entreprise'
+          Cookie.get('accountType') === 'personal' ? 'personnel' : 'restaurant'
         }`,
         includes: [/\/mobile\/compte/],
       },

@@ -1,21 +1,21 @@
 import LoginSignupLayout from '@/components/layouts/mobile/LoginSignupLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { SignupCorporateFormContext } from '@/contexts/forms/SignupCorporateFormContext'
-import { ICorporateOneForm } from '@/lib/interfaces'
+import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
+import { IRestaurantOneForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const CorporateOne = () => {
-  const { setData, ...previousData } = useContext(SignupCorporateFormContext)
+const RestaurantOne = () => {
+  const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ICorporateOneForm>({
+  } = useForm<IRestaurantOneForm>({
     defaultValues: {
       email: previousData.email,
       password: previousData.password,
@@ -24,15 +24,15 @@ const CorporateOne = () => {
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<ICorporateOneForm> = data => {
+  const onSubmit: SubmitHandler<IRestaurantOneForm> = data => {
     setData({ ...previousData, ...data })
 
-    router.push('/mobile/inscription/entreprise/2')
+    router.push('/mobile/inscription/restaurant/2')
   }
 
   return (
     <form
-      id="corporate-signup-form"
+      id="restaurant-signup-form"
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
@@ -80,9 +80,9 @@ const CorporateOne = () => {
   )
 }
 
-CorporateOne.getLayout = (page: ReactElement) => (
+RestaurantOne.getLayout = (page: ReactElement) => (
   <LoginSignupLayout
-    formId="corporate-signup-form"
+    formId="restaurant-signup-form"
     footerLeftButton={{
       text: 'Retour',
       action: 'go-back',
@@ -96,4 +96,4 @@ CorporateOne.getLayout = (page: ReactElement) => (
   </LoginSignupLayout>
 )
 
-export default CorporateOne
+export default RestaurantOne

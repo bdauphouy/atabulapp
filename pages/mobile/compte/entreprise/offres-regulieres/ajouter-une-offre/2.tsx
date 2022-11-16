@@ -29,7 +29,7 @@ const AddOfferSecondStep = () => {
     setData({ ...previousData, ...data })
 
     router.push(
-      `/mobile/compte/entreprise/offres-regulieres/ajouter-une-offre/${
+      `/mobile/compte/restaurant/offres-regulieres/ajouter-une-offre/${
         previousData.hasReachedConfirmation ? 4 : 3
       }`,
     )

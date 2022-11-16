@@ -1,13 +1,13 @@
 import useLocalStorage from '@/lib/hooks/useLocalStorage'
-import { ISignupCorporateFormContext } from '@/lib/interfaces'
+import { ISignupRestaurantFormContext } from '@/lib/interfaces'
 import { createContext } from 'react'
 
-export const SignupCorporateFormContext =
-  createContext<ISignupCorporateFormContext>(null)
+export const SignupRestaurantFormContext =
+  createContext<ISignupRestaurantFormContext>(null)
 
-export const SignupCorporateFormContextProvider = ({ children }) => {
+export const SignupRestaurantFormContextProvider = ({ children }) => {
   const [data, setData, removeData] = useLocalStorage(
-    'signup-corporate-form-data',
+    'signup-restaurant-form-data',
     {
       email: '',
       password: '',
@@ -34,10 +34,10 @@ export const SignupCorporateFormContextProvider = ({ children }) => {
   )
 
   return (
-    <SignupCorporateFormContext.Provider
+    <SignupRestaurantFormContext.Provider
       value={{ ...data, setData, removeData }}
     >
       {children}
-    </SignupCorporateFormContext.Provider>
+    </SignupRestaurantFormContext.Provider>
   )
 }

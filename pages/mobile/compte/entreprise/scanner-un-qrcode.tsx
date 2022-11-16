@@ -1,7 +1,5 @@
 import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import QrScope from '@/components/mobile/account/QrScope'
-import api from '@/lib/api'
-import Cookie from 'js-cookie'
 import { useRouter } from 'next/router'
 import QrScanner from 'qr-scanner'
 import { ReactElement, useEffect, useRef } from 'react'
@@ -41,7 +39,7 @@ const ScanQrCode = () => {
         //       }),
         //     )
         //     qrScanner.stop()
-        //     router.push('/mobile/compte/entreprise/carte-membre')
+        //     router.push('/mobile/compte/restaurant/carte-membre')
         //   }
         // })
       })

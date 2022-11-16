@@ -43,7 +43,7 @@ const LastMinuteOffers = () => {
       <button
         onClick={() =>
           router.push(
-            '/mobile/compte/entreprise/offres-last-minute/ajouter-une-offre/1',
+            '/mobile/compte/restaurant/offres-last-minute/ajouter-une-offre/1',
           )
         }
         className="mt-8 flex items-center gap-2 text-lg text-scarlet"
