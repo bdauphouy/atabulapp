@@ -218,7 +218,7 @@ class Api {
     return responseObject
   }
 
-  async removeFavorites(restaurantId: number, token: string) {
+  async removeFavorite(restaurantId: number, token: string) {
     const responseObject = {
       error: null,
       success: false,
