@@ -2,6 +2,7 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import api from '@/lib/api'
 import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
+import { Flipper } from 'react-flip-toolkit'
 import { RiSearchLine } from 'react-icons/ri'
 
 export const getServerSideProps = async ({ req }) => {
@@ -32,7 +33,8 @@ export const getServerSideProps = async ({ req }) => {
   }
 }
 
-const Favorites = ({ favorites }) => {
+const Favorites = ({ favorites: f }) => {
+  const [favorites, setFavorites] = useState(f)
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,12 +69,21 @@ const Favorites = ({ favorites }) => {
               {favorites.length} restaurants
             </span>
           </header>
-          <div className="mt-4 flex flex-col gap-6 border-b-[1px] border-solid border-alto/60 pb-8">
+          <Flipper
+            flipKey={favorites.map(({ id }) => id).join('-')}
+            staggerConfig={{
+              default: {
+                reverse: false,
+                speed: 4,
+              },
+            }}
+            className="mt-4 flex flex-col-reverse gap-6 border-b-[1px] border-solid border-alto/60 pb-8"
+          >
             {favorites.map((favorite: any, i: number) => {
               return (
                 <RestaurantCard
-                  id={1}
                   key={i}
+                  id={i}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name={favorite.name}
                   typesOfCooking={['Cuisine créative']}
@@ -84,10 +95,17 @@ const Favorites = ({ favorites }) => {
                   isCertified
                   isDefaultLiked
                   size="sm"
+                  promotion={20}
+                  onLike={isLiked =>
+                    !isLiked &&
+                    setFavorites(
+                      favorites.filter((f: any) => f.id !== favorite.id),
+                    )
+                  }
                 />
               )
             })}
-          </div>
+          </Flipper>
           <header className="flex items-center justify-between pt-8">
             <h3 className="text-lg font-bold text-black">Sans offre</h3>
             <span className="text-sm uppercase text-gray">
