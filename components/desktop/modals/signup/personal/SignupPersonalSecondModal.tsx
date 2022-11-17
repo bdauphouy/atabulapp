@@ -15,10 +15,11 @@ const SignupPersonalSecondModal = ({
       hasGoBackArrow
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('SignupPersonalThirdModal'),
+        customAction: () => changeModal('SignupPersonalFirstModal'),
       }}
       footerRightButton={{
         text: 'Continuer',
+        customAction: () => changeModal('SignupPersonalThirdModal'),
       }}
       onGoBack={() => changeModal('SignupPersonalFirstModal')}
     >

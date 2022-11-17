@@ -44,6 +44,7 @@ const PersonalInformation = ({ user }) => {
       firstName: user?.firstName || '...',
       location: user?.city || '...',
       email: user?.email || '...',
+      phoneNumber: user?.phoneNumber || '...',
     },
   })
 
@@ -104,6 +105,19 @@ const PersonalInformation = ({ user }) => {
           },
         }}
         name="email"
+      />
+      <Input
+        placeholder="Numéro de téléphone"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+          pattern: {
+            value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
+            message: 'Veuillez renseigner un numéro de téléphone valide.',
+          },
+        }}
+        name="phoneNumber"
       />
       <div>
         <header>

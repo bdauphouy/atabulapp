@@ -19,6 +19,7 @@ export interface IPersonalTwoForm {
   birthDate: string
   city: string
   password: string
+  phoneNumber: string
   workStatus: WorkStatus
 }
 

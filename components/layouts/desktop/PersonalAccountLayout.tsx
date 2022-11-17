@@ -15,7 +15,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
   }
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <header className="flex justify-center border-b-[1px] border-solid border-alto/60 pt-6 pb-3">
         <div className="flex w-full max-w-5xl items-end">
           <div className="w-96">
@@ -34,9 +34,9 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
           </div>
         </div>
       </header>
-      <div className="mx-auto mt-10 flex max-w-5xl">
+      <div className="mx-auto mt-10 flex w-full max-w-5xl flex-1">
         {withSideMenu && (
-          <aside className="border-right h-full w-96 border-r-[1px] border-solid border-alto/60 py-10 pr-6">
+          <aside className="border-right sticky top-0 h-full w-96 border-r-[1px] border-solid border-alto/60 py-10 pr-6">
             <ArrowCta
               variant="lg"
               onClick={() =>
@@ -76,7 +76,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
         <div className="ml-24 flex-1">{children}</div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
 
