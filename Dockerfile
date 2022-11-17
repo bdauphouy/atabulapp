@@ -11,8 +11,4 @@ COPY . ./
 RUN npm run build
 EXPOSE 3000
 
-RUN npm run build-storybook
-
-RUN mv storybook-static ./public
-
 CMD npm start
