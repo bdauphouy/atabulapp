@@ -1,29 +1,24 @@
-import useLocalStorage from '@/lib/hooks/useLocalStorage'
 import { ISignupPersonalFormContext } from '@/lib/interfaces'
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 export const SignupPersonalFormContext =
   createContext<ISignupPersonalFormContext>(null)
 
 export const SignupPersonalFormContextProvider = ({ children }) => {
-  const [data, setData, removeData] = useLocalStorage(
-    'signup-personal-form-data',
-    {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      workStatus: null,
-      birthDate: '',
-      city: '',
-      isLoading: false,
-    },
-  )
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    workStatus: null,
+    phoneNumber: '',
+    birthDate: '',
+    city: '',
+    isLoading: false,
+  })
 
   return (
-    <SignupPersonalFormContext.Provider
-      value={{ ...data, setData, removeData }}
-    >
+    <SignupPersonalFormContext.Provider value={{ ...data, setData }}>
       {children}
     </SignupPersonalFormContext.Provider>
   )

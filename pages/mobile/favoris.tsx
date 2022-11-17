@@ -1,7 +1,7 @@
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import api from '@/lib/api'
-import { ChangeEvent, ReactElement, useEffect, useState } from 'react'
+import { ChangeEvent, ReactElement, useState } from 'react'
 import { Flipper } from 'react-flip-toolkit'
 import { RiSearchLine } from 'react-icons/ri'
 
@@ -41,12 +41,6 @@ const Favorites = ({ favorites: f }) => {
     setSearchInputValue(e.target.value)
   }
 
-  useEffect(() => {
-    console.log({
-      searchInputValue,
-    })
-  }, [searchInputValue])
-
   return (
     <>
       <div className="flex flex-col gap-3 px-5 pt-5">
@@ -83,7 +77,7 @@ const Favorites = ({ favorites: f }) => {
               return (
                 <RestaurantCard
                   key={i}
-                  id={i}
+                  id={favorite.id}
                   thumbnail="/images/restaurant-card-thumbnail.png"
                   name={favorite.name}
                   typesOfCooking={['Cuisine créative']}

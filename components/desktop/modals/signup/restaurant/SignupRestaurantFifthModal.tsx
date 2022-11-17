@@ -108,30 +108,17 @@ const SignupRestaurantFifthModal = ({
             valider votre profil.
           </p>
           <div className="grid grid-cols-2 gap-2">
-            <ImportImageArea
-              title="Photo supplémentaire 1"
-              name="additionalPictures.0"
-              control={control}
-              variant="normal"
-            />
-            <ImportImageArea
-              title="Photo supplémentaire 2"
-              name="additionalPictures.1"
-              control={control}
-              variant="normal"
-            />
-            <ImportImageArea
-              title="Photo supplémentaire 3"
-              name="additionalPictures.2"
-              control={control}
-              variant="normal"
-            />
-            <ImportImageArea
-              title="Photo supplémentaire 4"
-              name="additionalPictures.3"
-              control={control}
-              variant="normal"
-            />
+            {[...Array(4)].map((_, i) => {
+              return (
+                <ImportImageArea
+                  key={i}
+                  title={`Photo supplémentaire ${i + 1}`}
+                  variant="normal"
+                  control={control}
+                  name={`additionalPictures.${i}`}
+                />
+              )
+            })}
             <ImportImageArea
               title="Photo supplémentaire 5"
               name="additionalPictures.4"
@@ -151,16 +138,6 @@ const SignupRestaurantFifthModal = ({
                 variant="dashed"
               />
             ))}
-            {/* <label
-              htmlFor="test"
-              className="flex h-28 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-scarlet"
-            >
-              <RiAddLine
-                className="rounded-full border-2 border-solid border-scarlet text-scarlet"
-                size={36}
-              />
-            </label>
-            <input hidden type="file" id="test" /> */}
           </div>
         </div>
         {Object.keys(errors).length > 0 && (

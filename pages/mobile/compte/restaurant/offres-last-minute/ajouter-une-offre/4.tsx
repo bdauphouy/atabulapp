@@ -9,9 +9,7 @@ import { ReactElement, useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
 
 const AddOfferFourthStep = () => {
-  const { setData, removeData, ...previousData } = useContext(
-    AddLastMinuteOfferFormContext,
-  )
+  const { setData, ...previousData } = useContext(AddLastMinuteOfferFormContext)
 
   const router = useRouter()
 

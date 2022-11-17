@@ -1,4 +1,5 @@
 import api from '@/lib/api'
+import Cookie from 'js-cookie'
 import { divIcon, DragEndEvent, icon, Map } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
@@ -35,6 +36,8 @@ const MapControls = () => {
   }
 
   const loadRestaurants = async (e: DragEndEvent | { target: Map }) => {
+    console.log('load restaurants')
+
     const bounds = map.getBounds()
     setBounds([
       bounds.getSouthWest().lng,
@@ -84,10 +87,30 @@ const MapControls = () => {
     },
   })
 
+  const handleClusterClick = (coords: [number, number]) => {
+    map.setView(
+      [
+        coords[0] - (Cookie.get('deviceType') !== 'desktop' ? 0.0025 : 0),
+        coords[1],
+      ],
+      zoom + 2,
+      {
+        animate: true,
+      },
+    )
+  }
+
   const handleMarkerClick = (coords: [number, number]) => {
-    map.setView([coords[0] - 0.0025, coords[1]], 15, {
-      animate: true,
-    })
+    map.setView(
+      [
+        coords[0] - (Cookie.get('deviceType') !== 'desktop' ? 0.0025 : 0),
+        coords[1],
+      ],
+      zoom,
+      {
+        animate: true,
+      },
+    )
   }
 
   return (
@@ -108,7 +131,7 @@ const MapControls = () => {
               icon={clusterIcon(pointCount)}
               eventHandlers={{
                 click: () => {
-                  handleMarkerClick([latitude, longitude])
+                  handleClusterClick([latitude, longitude])
                 },
               }}
             />

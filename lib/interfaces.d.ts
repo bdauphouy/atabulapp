@@ -90,6 +90,8 @@ export interface IPersonalSettingsForm {
   location: string
   email: string
   phoneNumber: string
+  proofOfIdentity?: File
+  workCertificate?: File
 }
 
 export interface IRestaurantSettingsForm {
@@ -107,6 +109,7 @@ export interface IRestaurantSettingsForm {
 
 export interface IRestaurantPicturesForm {
   coverPicture?: File
+  additionalPictures?: File[]
 }
 
 export interface IAddRegularOfferFirstForm {
@@ -156,7 +159,6 @@ export interface IAddRegularOfferFormContext
     IAddRegularOfferThirdForm {
   hasReachedConfirmation: boolean
   setData: Dispatch<SetStateAction<Partial<IAddRegularOfferFormContext>>>
-  removeData: () => void
 }
 
 export interface IAddLastMinuteOfferFormContext
@@ -165,14 +167,12 @@ export interface IAddLastMinuteOfferFormContext
     IAddLastMinuteOfferThirdForm {
   hasReachedConfirmation: boolean
   setData: Dispatch<SetStateAction<Partial<IAddLastMinuteOfferFormContext>>>
-  removeData: () => void
 }
 
 export interface ISignupPersonalFormContext
   extends IPersonalTwoForm,
     IPersonalThreeForm {
   setData: Dispatch<SetStateAction<Partial<ISignupPersonalFormContext>>>
-  removeData: () => void
 }
 
 export interface ISignupRestaurantFormContext
@@ -182,5 +182,4 @@ export interface ISignupRestaurantFormContext
     IRestaurantFourForm,
     IRestaurantFiveForm {
   setData: Dispatch<SetStateAction<Partial<ISignupRestaurantFormContext>>>
-  removeData: () => void
 }

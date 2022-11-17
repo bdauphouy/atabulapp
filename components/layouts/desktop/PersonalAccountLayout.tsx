@@ -19,7 +19,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
       <header className="flex justify-center border-b-[1px] border-solid border-alto/60 pt-6 pb-3">
         <div className="flex w-full max-w-5xl items-end">
           <div className="w-96">
-            <Link href="/">
+            <Link href="/accueil">
               <div className="bg relative h-14 w-24">
                 <Image
                   src="/images/full-logo.svg"

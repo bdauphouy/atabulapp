@@ -95,36 +95,17 @@ const RestaurantFive = () => {
           votre profil.
         </p>
         <div className="grid grid-cols-2 gap-2">
-          <ImportImageArea
-            title="Photo supplémentaire 1"
-            name="additionalPictures.0"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 2"
-            name="additionalPictures.1"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 2"
-            name="additionalPictures.2"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 3"
-            name="additionalPictures.3"
-            control={control}
-            variant="normal"
-          />
-          <ImportImageArea
-            title="Photo supplémentaire 5"
-            name="additionalPictures.4"
-            control={control}
-            variant="dashed"
-          />
+          {[...Array(4)].map((_, i) => {
+            return (
+              <ImportImageArea
+                key={i}
+                title={`Photo supplémentaire ${i + 1}`}
+                variant="full"
+                control={control}
+                name={`additionalPictures.${i}`}
+              />
+            )
+          })}
           {[
             ...Array(
               Math.max(0, additionalPictures[0].filter(Boolean).length - 4),

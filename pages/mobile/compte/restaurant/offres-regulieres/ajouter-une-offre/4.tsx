@@ -7,9 +7,7 @@ import { ReactElement, useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
 
 const AddOfferFourthStep = () => {
-  const { setData, removeData, ...previousData } = useContext(
-    AddRegularOfferFormContext,
-  )
+  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
 
   const router = useRouter()
 
@@ -54,7 +52,6 @@ const AddOfferFourthStep = () => {
   const onSubmit = () => {
     // Add regular offer
     toast.success('Offre ajoutée avec succès !')
-    // removeData()
   }
 
   return (

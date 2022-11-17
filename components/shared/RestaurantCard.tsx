@@ -48,7 +48,7 @@ const RestaurantCard = ({
 
   const handleLike = async () => {
     const response = await api[isLiked ? 'removeFavorite' : 'addFavorite'](
-      9,
+      id,
       Cookie.get('token'),
     )
 

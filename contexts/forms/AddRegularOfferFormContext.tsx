@@ -1,27 +1,21 @@
-import useLocalStorage from '@/lib/hooks/useLocalStorage'
 import { IAddRegularOfferFormContext } from '@/lib/interfaces'
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 export const AddRegularOfferFormContext =
   createContext<IAddRegularOfferFormContext>(null)
 
 export const AddRegularOfferFormContextProvider = ({ children }) => {
-  const [data, setData, removeData] = useLocalStorage(
-    'add-regular-offer-form-data',
-    {
-      offerDays: [],
-      concernedMeal: null,
-      withDrinks: null,
-      numberOfBeneficiaries: [],
-      discount: null,
-      hasReachedConfirmation: false,
-    },
-  )
+  const [data, setData] = useState({
+    offerDays: [],
+    concernedMeal: null,
+    withDrinks: null,
+    numberOfBeneficiaries: [],
+    discount: null,
+    hasReachedConfirmation: false,
+  })
 
   return (
-    <AddRegularOfferFormContext.Provider
-      value={{ ...data, setData, removeData }}
-    >
+    <AddRegularOfferFormContext.Provider value={{ ...data, setData }}>
       {children}
     </AddRegularOfferFormContext.Provider>
   )

@@ -44,6 +44,8 @@ const PersonalInformation = ({ user }) => {
       location: user?.city || '...',
       email: user?.email || '...',
       phoneNumber: user?.phoneNumber || '...',
+      proofOfIdentity: user?.proofOfIdentity || '...',
+      workCertificate: user?.workCertificate || '...',
     },
   })
 
@@ -119,11 +121,27 @@ const PersonalInformation = ({ user }) => {
         name="phoneNumber"
       />
       <div>
-        <header>
-          <h3 className="text-lg font-bold text-black">Identité vérifiée</h3>
-          <h4 className="text-sm text-gray">Valable jusqu'au 21/02/2022</h4>
-        </header>
+        <h3 className="text-lg font-bold text-black">Identité vérifiée</h3>
+        <h4 className="text-sm text-gray">Valable jusqu'au 21/02/2022</h4>
       </div>
+      <Input
+        placeholder="Pièce d'identité"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+        }}
+        name="proofOfIdentity"
+      />
+      <Input
+        placeholder="Justificatif de travail"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+        }}
+        name="workCertificate"
+      />
       {/* {Object.keys(errors).length > 0 && (
           <Message type="error">
             {errors.email?.type === 'pattern'

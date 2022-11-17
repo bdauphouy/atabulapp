@@ -10,9 +10,7 @@ const AddRegularOfferFourthModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, removeData, ...previousData } = useContext(
-    AddRegularOfferFormContext,
-  )
+  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
 
   const router = useRouter()
 
@@ -54,10 +52,7 @@ const AddRegularOfferFourthModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onSubmit = () => {
-    // Add regular offer
-    removeData()
-  }
+  const onSubmit = () => {}
 
   return (
     <Modal

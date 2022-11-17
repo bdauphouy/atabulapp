@@ -7,7 +7,14 @@ import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const Pictures = () => {
-  const { handleSubmit, control } = useForm<IRestaurantPicturesForm>()
+  const { handleSubmit, control, watch } = useForm<IRestaurantPicturesForm>({
+    defaultValues: {
+      additionalPictures: [],
+      coverPicture: null,
+    },
+  })
+
+  const additionalPictures = watch(['additionalPictures'])
 
   const handleCoverEdit = () => {}
 
@@ -41,13 +48,32 @@ const Pictures = () => {
             return (
               <ImportImageArea
                 key={i}
-                title="Photo de couverture"
+                title={`Photo supplémentaire ${i + 1}`}
                 variant="full"
                 control={control}
-                name={`additionalPictures.${i + 1}`}
+                name={`additionalPictures.${i}`}
               />
             )
           })}
+          <ImportImageArea
+            title="Photo supplémentaire 5"
+            name="additionalPictures.4"
+            control={control}
+            variant="dashed-full"
+          />
+          {[
+            ...Array(
+              Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
+            ),
+          ].map((_, i) => (
+            <ImportImageArea
+              key={i}
+              title={`Photo supplémentaire ${i + 6}`}
+              name={`additionalPictures.${i + 6}`}
+              control={control}
+              variant="dashed-full"
+            />
+          ))}
         </div>
       </form>
     </div>

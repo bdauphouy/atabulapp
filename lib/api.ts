@@ -269,7 +269,7 @@ class Api {
     }
 
     const response = await fetch(
-      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=1000',
+      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=20',
     )
     const data = await response.json()
 

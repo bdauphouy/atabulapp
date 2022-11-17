@@ -1,7 +1,8 @@
 import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import api from '@/lib/api'
-import { ReactElement } from 'react'
+import { ChangeEvent, ReactElement, useState } from 'react'
+import { Flipper } from 'react-flip-toolkit'
 import { RiSearchLine } from 'react-icons/ri'
 
 export const getServerSideProps = async ({ req }) => {
@@ -32,8 +33,14 @@ export const getServerSideProps = async ({ req }) => {
   }
 }
 
-const Favorites = ({ favorites }) => {
-  console.log(favorites)
+const Favorites = ({ favorites: f }) => {
+  const [favorites, setFavorites] = useState(f)
+  const [searchInputValue, setSearchInputValue] = useState('')
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(e.target.value)
+  }
+
   return (
     <div>
       <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
@@ -43,6 +50,7 @@ const Favorites = ({ favorites }) => {
           name="search"
           placeholder="Recherche"
           className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
+          onChange={handleSearchInputChange}
         />
       </label>
       <header className="mt-6 flex items-end justify-between">
@@ -51,12 +59,21 @@ const Favorites = ({ favorites }) => {
           {favorites.length} restaurants
         </h4>
       </header>
-      <div className="mt-4 flex flex-col gap-6 pb-10">
+      <Flipper
+        flipKey={favorites.map(({ id }) => id).join('-')}
+        staggerConfig={{
+          default: {
+            reverse: false,
+            speed: 4,
+          },
+        }}
+        className="mt-4 flex flex-col-reverse gap-6 pb-10"
+      >
         {favorites.map((favorite: any, i: number) => {
           return (
             <RestaurantCard
-              id={1}
               key={i}
+              id={favorite.id}
               thumbnail="/images/restaurant-card-thumbnail.png"
               name={favorite.name}
               typesOfCooking={['Cuisine créative']}
@@ -68,10 +85,15 @@ const Favorites = ({ favorites }) => {
               isCertified
               isDefaultLiked
               size="sm"
+              promotion={20}
+              onLike={isLiked =>
+                !isLiked &&
+                setFavorites(favorites.filter((f: any) => f.id !== favorite.id))
+              }
             />
           )
         })}
-      </div>
+      </Flipper>
     </div>
   )
 }
