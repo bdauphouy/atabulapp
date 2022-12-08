@@ -100,12 +100,18 @@ const RestaurantFive = () => {
               <ImportImageArea
                 key={i}
                 title={`Photo supplémentaire ${i + 1}`}
-                variant="full"
+                variant="normal"
                 control={control}
                 name={`additionalPictures.${i}`}
               />
             )
           })}
+          <ImportImageArea
+            title={`Photo supplémentaire 5`}
+            name={`additionalPictures.4`}
+            control={control}
+            variant="dashed"
+          />
           {[
             ...Array(
               Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
@@ -114,7 +120,7 @@ const RestaurantFive = () => {
             <ImportImageArea
               key={i}
               title={`Photo supplémentaire ${i + 6}`}
-              name={`additionalPictures.${i + 6}`}
+              name={`additionalPictures.${i + 5}`}
               control={control}
               variant="dashed"
             />

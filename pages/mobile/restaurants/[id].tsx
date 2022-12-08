@@ -2,25 +2,55 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
+import api from '@/lib/api'
 import Image from 'next/image'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 import { Pagination } from 'swiper'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-const Restaurant = () => {
+export const getServerSideProps = async ({ params }) => {
+  const { id } = params
+
+  if (!typeof parseInt(id)) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const { restaurant, error } = await api.getRestaurantById(parseInt(id))
+
+  if (error) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      restaurant,
+    },
+  }
+}
+
+const Restaurant = ({ restaurant }) => {
+  console.log(restaurant)
+
   const handleCopyAddressClick = () => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
       toast.success("L'adresse a bien été copiée.")
-      return navigator.clipboard.writeText(
-        'Le Meurice, 228 rue de Rivoli, Paris, 75001',
-      )
+      return navigator.clipboard.writeText(fullAddress)
     }
     toast.error("Votre navigateur ne peut pas copier l'adresse.")
     return Promise.reject('The Clipboard API is not available.')
   }
+
+  const fullAddress = useMemo(
+    () => `${restaurant.address}, ${restaurant.zipCode} ${restaurant.city}`,
+    [restaurant],
+  )
 
   const [image, setImage] = useState('')
 
@@ -103,17 +133,23 @@ const Restaurant = () => {
       <main className="mt-6 gap-6 px-5 pb-10">
         <div>
           <div className="flex gap-2">
-            <Tag type="michelin" number={2} />
-            <Tag type="etoile-verte" number={1} />
+            {restaurant.distinctions.map((distinction: any) => (
+              <Tag
+                withText
+                key={distinction.id}
+                type={distinction.slug.split('_')[0]}
+                number={parseInt(distinction.slug.split('_')[1])}
+              />
+            ))}
           </div>
-          <h2 className="mt-2 text-2xl text-black">
-            Le Meurice - Alain Ducasse
-          </h2>
-          <h3 className="text-lg text-gray">Cuisine créative</h3>
+          <h2 className="mt-2 text-2xl text-black">{restaurant.name}</h2>
+          <h3 className="text-lg text-gray">
+            {restaurant.types
+              .map((type: { name: string }) => type.name)
+              .join(', ')}
+          </h3>
           <address className="mt-2 text-base not-italic text-gray/80">
-            Le Meurice, 228 rue de Rivoli,
-            <br />
-            Paris, 75001
+            {fullAddress}
           </address>
           <div className="mt-8">
             <h3 className="text-lg font-bold text-black">Réservation</h3>
@@ -122,13 +158,30 @@ const Restaurant = () => {
           <div className="mt-10 border-b-[1px] border-solid border-alto/60 pb-5">
             <h3 className="text-lg font-bold text-black">Equipe</h3>
             <ul className="mt-4 grid grid-cols-2 gap-y-6 gap-x-2">
-              <Role title="Chef(fe) cuisinier" subtitle="Maria Brenault" />
-              <Role title="Chef(fe) Patissier(ière)" subtitle="Arnaud Meriod" />
-              <Role title="Somelier(ière)" subtitle="Hélène Serres" />
-              <Role
-                title="Directeur(rice) de salle"
-                subtitle="Jean-Marie Guérin"
-              />
+              {restaurant.headChefFullName && (
+                <Role
+                  title="Chef(fe) cuisinier"
+                  subtitle={restaurant.headChefFullName}
+                />
+              )}
+              {restaurant.pastryChefFullName && (
+                <Role
+                  title="Chef(fe) Patissier(ière)"
+                  subtitle={restaurant.pastryChefFullName}
+                />
+              )}
+              {restaurant.sommelierFullName && (
+                <Role
+                  title="Somelier(ière)"
+                  subtitle={restaurant.sommelierFullName}
+                />
+              )}
+              {restaurant.restaurantManagerFullName && (
+                <Role
+                  title="Directeur(rice) de salle"
+                  subtitle={restaurant.restaurantManagerFullName}
+                />
+              )}
             </ul>
           </div>
           <div className="mt-6 border-b-[1px] border-solid border-alto/60 pb-5">

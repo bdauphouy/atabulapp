@@ -26,7 +26,7 @@ const ScanQrCode = () => {
     }
 
     if (videoRef.current) {
-      const qrScanner = new QrScanner(videoRef.current!, result => {
+      const qrScanner = new QrScanner(videoRef.current, result => {
         console.log(result)
         // api.me(result).then(({ error, user }) => {
         //   if (error) return

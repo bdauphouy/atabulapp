@@ -36,7 +36,11 @@ const ImportImageArea = ({
               <button
                 onClick={() => {
                   setFile(null)
-                  onChange(null)
+                  onChange({
+                    target: {
+                      value: null,
+                    },
+                  })
                 }}
                 className="absolute right-0 top-0 z-10 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-solid border-gray bg-white"
               >
@@ -84,6 +88,10 @@ const ImportImageArea = ({
                     value: e.target.files[0],
                   },
                 })
+                // console.log(e.target.files[0])
+                toBase64(e.target.files[0]).then(response =>
+                  setFile(response as string),
+                )
               }}
               id={uuid}
               name={name}

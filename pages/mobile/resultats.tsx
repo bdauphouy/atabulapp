@@ -65,7 +65,7 @@ const Results = () => {
       <header
         className={`${
           isOnTheMap ? 'fixed' : 'sticky'
-        } top-0 z-50 w-full bg-white pb-5`}
+        } top-0 z-50 w-full bg-white pb-3`}
       >
         <SearchHeader>
           <div className="flex w-full items-center gap-4">
@@ -74,7 +74,7 @@ const Results = () => {
               className="min-w-[30px] cursor-pointer text-black"
               size={30}
             />
-            <div className="flex w-full rounded-full bg-alto/30 p-2">
+            <div className="flex w-full overflow-auto rounded-full bg-alto/30 p-2">
               <input
                 type="text"
                 key="location-input"
@@ -103,7 +103,7 @@ const Results = () => {
             <div className="absolute top-0 -z-10 h-full w-full">
               <SearchResultMap centerDelta={0.015} />
             </div>
-            <div className="absolute bottom-20 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-5 p-5">
+            <div className="absolute bottom-20 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-5 p-5 pb-2">
               <RestaurantCard
                 id={1}
                 thumbnail="/images/restaurant-card-thumbnail.png"
@@ -117,6 +117,7 @@ const Results = () => {
                 isCertified
                 promotion={30}
                 size="sm"
+                variant="horizontal"
                 isResult
               />
               <button

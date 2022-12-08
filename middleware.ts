@@ -22,6 +22,8 @@ export const middleware = (request: NextRequest) => {
 
   response.cookies.set('deviceType', getDeviceType())
 
+  return response
+
   // switch (getDeviceType()) {
   //   case 'mobile' || 'tablet':
   //     if (!request.nextUrl.pathname.startsWith('/mobile')) {

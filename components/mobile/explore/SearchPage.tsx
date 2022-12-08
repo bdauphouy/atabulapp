@@ -40,7 +40,7 @@ const SearchPage = ({ setSearchPageOpen }) => {
   }
 
   return (
-    <div className="fixed z-50 h-screen w-full bg-white px-5 pt-5">
+    <div className="fixed z-[100] h-screen w-full bg-white px-5 pt-5">
       <header className="mb-6 flex gap-3">
         <form className="w-full" action="" onSubmit={handleSubmit}>
           <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">

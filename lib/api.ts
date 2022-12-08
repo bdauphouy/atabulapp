@@ -269,7 +269,7 @@ class Api {
     }
 
     const response = await fetch(
-      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=20',
+      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=1000',
     )
     const data = await response.json()
 
@@ -287,6 +287,25 @@ class Api {
     // if (response.data.length) {
     //   responseObject.restaurants = response.data
     // }
+
+    return responseObject
+  }
+
+  async getRestaurantById(id: number) {
+    const responseObject = {
+      error: null,
+      restaurant: null,
+    }
+
+    const response = await this.get({
+      route: '/restaurants/' + id,
+    })
+
+    if (response.status === 200) {
+      responseObject.restaurant = response.data
+    } else {
+      responseObject.error = "Ce restaurant n'existe pas."
+    }
 
     return responseObject
   }

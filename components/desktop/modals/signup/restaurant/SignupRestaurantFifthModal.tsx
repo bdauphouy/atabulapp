@@ -133,7 +133,7 @@ const SignupRestaurantFifthModal = ({
               <ImportImageArea
                 key={i}
                 title={`Photo supplémentaire ${i + 6}`}
-                name={`additionalPictures.${i + 6}`}
+                name={`additionalPictures.${i + 5}`}
                 control={control}
                 variant="dashed"
               />

@@ -14,6 +14,25 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import { SwiperSlide } from 'swiper/react'
 
+export const getServerSideProps = async ({ req }) => {
+  const { token } = req.cookies
+
+  if (token) {
+    return {
+      redirect: {
+        destination: req.url.startsWith('/mobile')
+          ? '/mobile/explorer'
+          : '/accueil',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
 const Home = () => {
   const coords = useContext(GeolocationContext)
 

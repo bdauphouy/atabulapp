@@ -5,8 +5,6 @@ export const requireAuth = (gssp: GetServerSideProps) => {
     const { req } = ctx
     const { token } = req.cookies
 
-    console.log(req.url.startsWith('/mobile'))
-
     if (!token) {
       return {
         redirect: {
