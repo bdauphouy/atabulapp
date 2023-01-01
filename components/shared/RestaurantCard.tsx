@@ -62,7 +62,7 @@ const RestaurantCard = ({
           Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
           <Link
             href={device === 'desktop' ? '/' : '/mobile/connexion'}
-            className="text-scarlet"
+            className="text-scarlet underline"
             onClick={() => toast.dismiss(t.id)}
           >
             Se connecter

@@ -5,12 +5,9 @@ import RestaurantCard from '@/components/shared/RestaurantCard'
 import { SearchContext } from '@/contexts/SearchContext'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
-
-import dynamic from 'next/dynamic'
-
-import { ReactElement, useContext, useState } from 'react'
-
 import { requireAuth } from '@/lib/middlewares/requireAuth'
+import dynamic from 'next/dynamic'
+import { ReactElement, useContext, useState } from 'react'
 
 const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
   ssr: false,

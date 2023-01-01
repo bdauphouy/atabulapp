@@ -2,32 +2,17 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
 import api from '@/lib/api'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
-export const getServerSideProps = async ({ req }) => {
-  const { token } = req.cookies
-
-  if (!token) {
-    return {
-      notFound: true,
-    }
-  }
-
-  const { error, user } = await api.me(token)
-
-  if (error) {
-    return {
-      notFound: true,
-    }
-  }
-
+export const getServerSideProps = requireAuth(async ({ req }, user) => {
   return {
     props: {
       user,
     },
   }
-}
+})
 
 const AccountIndex = ({ user }) => {
   const router = useRouter()

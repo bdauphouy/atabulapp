@@ -122,7 +122,9 @@ const PersonalInformation = ({ user }) => {
       />
       <div>
         <h3 className="text-lg font-bold text-black">Identité vérifiée</h3>
-        <h4 className="text-sm text-gray">Valable jusqu'au 21/02/2022</h4>
+        <h4 className="text-sm uppercase text-gray">
+          Valable jusqu'au 21/02/2022
+        </h4>
       </div>
       <Input
         placeholder="Pièce d'identité"

@@ -1,11 +1,12 @@
-import {
-  ApiDeleteParams,
-  ApiGetParams,
-  ApiLoginData,
-  ApiPostParams,
-  ApiSignupRestaurantData,
-  ApiSignupUserData,
-} from '@/lib/types'
+import
+  {
+    ApiDeleteParams,
+    ApiGetParams,
+    ApiLoginData,
+    ApiPostParams,
+    ApiSignupRestaurantData,
+    ApiSignupUserData
+  } from '@/lib/types'
 import Cookie from 'js-cookie'
 import { LatLngBounds } from 'leaflet'
 import serialize from './functions/serialize'
