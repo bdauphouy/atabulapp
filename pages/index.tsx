@@ -7,6 +7,7 @@ import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
 import { UserContext } from '@/contexts/UserContext'
+import api from '@/lib/api'
 import useModal from '@/lib/hooks/useModal'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -28,12 +29,31 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
+  const { error: regularError, discounts: regularDiscounts } =
+    await api.getRegularDiscounts({
+      limit: 20,
+      skip: 0,
+      latitude: 48.856614,
+      longitude: 2.3522219,
+    })
+
+  const { error: lastMinuteError, discounts: lastMinuteDiscounts } =
+    await api.getLastMinuteDiscounts({
+      limit: 20,
+      skip: 0,
+      latitude: 48.856614,
+      longitude: 2.3522219,
+    })
+
   return {
-    props: {},
+    props: {
+      regularDiscounts: regularError ? [] : regularDiscounts,
+      lastMinuteDiscounts: lastMinuteError ? [] : lastMinuteDiscounts,
+    },
   }
 }
 
-const Home = () => {
+const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
   const coords = useContext(GeolocationContext)
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -128,47 +148,59 @@ const Home = () => {
       </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
-          {[...Array(5)].map((_, i) => {
-            return (
-              <SwiperSlide key={i}>
-                <RestaurantCard
-                  id={1}
-                  key={i}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={30}
-                />
-              </SwiperSlide>
-            )
-          })}
+          {lastMinuteDiscounts.length === 0 ? (
+            <div className="flex h-48 items-center justify-center">
+              <p className="text-xl text-gray">Aucune offre pour le moment</p>
+            </div>
+          ) : (
+            regularDiscounts.map((_, i) => {
+              return (
+                <SwiperSlide key={i}>
+                  <RestaurantCard
+                    id={1}
+                    key={i}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name="La Meurice Alain Ducasse"
+                    typesOfCooking={['Cuisine créative']}
+                    location="PARIS (75001)"
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    promotion={30}
+                  />
+                </SwiperSlide>
+              )
+            })
+          )}
         </Section>
         <Section title="Last minute" isSwiper>
-          {[...Array(5)].map((_, i) => {
-            return (
-              <SwiperSlide key={i}>
-                <RestaurantCard
-                  id={1}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={50}
-                />
-              </SwiperSlide>
-            )
-          })}
+          {lastMinuteDiscounts.length === 0 ? (
+            <div className="flex h-48 items-center justify-center">
+              <p className="text-xl text-gray">Aucune offre pour le moment</p>
+            </div>
+          ) : (
+            lastMinuteDiscounts.map((_, i) => {
+              return (
+                <SwiperSlide key={i}>
+                  <RestaurantCard
+                    id={1}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name="La Meurice Alain Ducasse"
+                    typesOfCooking={['Cuisine créative']}
+                    location="PARIS (75001)"
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    promotion={50}
+                  />
+                </SwiperSlide>
+              )
+            })
+          )}
         </Section>
         <div className="px-5 xl:px-32">
           <Mea />
@@ -195,25 +227,31 @@ const Home = () => {
           })}
         </Section>
         <Section title="Offres disponibles" isGrid>
-          {[...Array(4)].map((_, i) => {
-            return (
-              <RestaurantCard
-                id={1}
-                key={i}
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
-                typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
-                tags={[
-                  { name: 'michelin', level: 2 },
-                  { name: 'etoile-verte', level: 1 },
-                ]}
-                isCertified
-                size="lg"
-                promotion={50}
-              />
-            )
-          })}
+          {lastMinuteDiscounts.length === 0 ? (
+            <div className="col-span-2 flex h-48 items-center justify-center">
+              <p className="text-xl text-gray">Aucune offre pour le moment</p>
+            </div>
+          ) : (
+            lastMinuteDiscounts.slice(0, 4).map((_, i) => {
+              return (
+                <RestaurantCard
+                  id={1}
+                  key={i}
+                  thumbnail="/images/restaurant-card-thumbnail.png"
+                  name="La Meurice Alain Ducasse"
+                  typesOfCooking={['Cuisine créative']}
+                  location="PARIS (75001)"
+                  tags={[
+                    { name: 'michelin', level: 2 },
+                    { name: 'etoile-verte', level: 1 },
+                  ]}
+                  isCertified
+                  size="lg"
+                  promotion={50}
+                />
+              )
+            })
+          )}
         </Section>
       </main>
     </div>

@@ -1,12 +1,12 @@
-import
-  {
-    ApiDeleteParams,
-    ApiGetParams,
-    ApiLoginData,
-    ApiPostParams,
-    ApiSignupRestaurantData,
-    ApiSignupUserData
-  } from '@/lib/types'
+import {
+  ApiDeleteParams,
+  ApiGetDiscountsParams,
+  ApiGetParams,
+  ApiLoginData,
+  ApiPostParams,
+  ApiSignupRestaurantData,
+  ApiSignupUserData,
+} from '@/lib/types'
 import Cookie from 'js-cookie'
 import { LatLngBounds } from 'leaflet'
 import serialize from './functions/serialize'
@@ -306,6 +306,52 @@ class Api {
       responseObject.restaurant = response.data
     } else {
       responseObject.error = "Ce restaurant n'existe pas."
+    }
+
+    return responseObject
+  }
+
+  async getRegularDiscounts(queries: ApiGetDiscountsParams) {
+    const responseObject = {
+      error: null,
+      discounts: null,
+    }
+
+    const response = await this.get({
+      route: '/restaurants/discounts',
+      queries: {
+        type: 'regular',
+        ...queries,
+      },
+    })
+
+    if (response.status === 200) {
+      responseObject.discounts = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async getLastMinuteDiscounts(queries: ApiGetDiscountsParams) {
+    const responseObject = {
+      error: null,
+      discounts: null,
+    }
+
+    const response = await this.get({
+      route: '/restaurants/discounts',
+      queries: {
+        type: 'lastMinute',
+        ...queries,
+      },
+    })
+
+    if (response.status === 200) {
+      responseObject.discounts = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
     }
 
     return responseObject

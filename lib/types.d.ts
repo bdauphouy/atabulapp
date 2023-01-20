@@ -119,6 +119,13 @@ type ApiSignupRestaurantData = {
   restaurantManagerFullName?: string
 }
 
+type ApiGetDiscountsParams = {
+  latitude: number
+  longitude: number
+  limit: number
+  skip: number
+}
+
 type ApiLoginData = {
   email: string
   password: string
