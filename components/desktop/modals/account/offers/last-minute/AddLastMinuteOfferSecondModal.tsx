@@ -1,24 +1,25 @@
 import Checkbox from '@/components/shared/Checkbox'
+import FormFooter from '@/components/shared/FormFooter'
 import Modal from '@/components/shared/Modal'
 import Radio from '@/components/shared/Radio'
-import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
-import { IAddRegularOfferSecondForm } from '@/lib/interfaces'
+import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
+import { IAddLastMinuteOfferSecondForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const AddRegularOfferSecondModal = ({
+const AddLastMinuteOfferSecondModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
+  const { setData, ...previousData } = useContext(AddLastMinuteOfferFormContext)
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAddRegularOfferSecondForm>({
+  } = useForm<IAddLastMinuteOfferSecondForm>({
     defaultValues: {
       concernedMeal: previousData.concernedMeal,
       numberOfBeneficiaries: previousData.numberOfBeneficiaries,
@@ -26,23 +27,23 @@ const AddRegularOfferSecondModal = ({
     },
   })
 
-  const onSubmit: SubmitHandler<IAddRegularOfferSecondForm> = data => {
+  const onSubmit: SubmitHandler<IAddLastMinuteOfferSecondForm> = data => {
     setData({ ...previousData, ...data })
 
     changeModal(
       previousData.hasReachedConfirmation
-        ? 'AddRegularOfferFourthModal'
-        : 'AddRegularOfferThirdModal',
+        ? 'AddLastMinuteOfferFourthModal'
+        : 'AddLastMinuteOfferThirdModal',
     )
   }
 
   return (
     <Modal
-      title="Offres régulières"
+      title="Offres last minute"
       formId="add-offer-second-form"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('AddRegularOfferFirstModal'),
+        customAction: () => onClose(),
       }}
       footerRightButton={{
         text: previousData.hasReachedConfirmation
@@ -112,9 +113,19 @@ const AddRegularOfferSecondModal = ({
             )
           })}
         </div>
+        <FormFooter
+          formId="add-offer-second-form"
+          footerLeftButton={{
+            text: 'Retour',
+            action: 'go-back',
+          }}
+          footerRightButton={{
+            text: 'Continuer',
+          }}
+        />
       </form>
     </Modal>
   )
 }
 
-export default AddRegularOfferSecondModal
+export default AddLastMinuteOfferSecondModal

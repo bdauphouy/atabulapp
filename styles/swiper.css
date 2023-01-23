@@ -21,3 +21,17 @@ body .swiper-pagination-bullet:last-of-type {
 body .swiper-pagination-bullet-active {
   @apply bg-scarlet;
 }
+
+body .swiper-button-next,
+body .swiper-button-prev {
+  @apply h-20 w-20 scale-75 cursor-pointer rounded-full bg-black/30 text-white transition-colors duration-300;
+}
+
+body .swiper-button-next:hover,
+body .swiper-button-prev:hover {
+  @apply bg-black/40;
+}
+
+body .swiper-button-disabled {
+  @apply !pointer-events-auto !cursor-not-allowed;
+}

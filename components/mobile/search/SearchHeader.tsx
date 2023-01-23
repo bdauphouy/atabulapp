@@ -25,6 +25,12 @@ const SearchHeader = ({ children }) => {
 
   const honorsString = useStringify('honorsString', watchHonors)
 
+  const filterDropdownOptions = [
+    { label: 'Tous', value: 'all' },
+    { label: 'Restaurant', value: 'restaurant' },
+    { label: 'Bar', value: 'bar' },
+  ]
+
   useEffect(() => {
     setHonors(watchHonors[0])
   }, [watchHonors, setHonors])
@@ -49,9 +55,8 @@ const SearchHeader = ({ children }) => {
               isFiltersDropdownOpen => !isFiltersDropdownOpen,
             )
           }
-        >
-          Filtres
-        </FiltersDropdown>
+          value="Filtres"
+        />
         <FiltersBottomSheet
           control={control}
           isOpen={isFiltersDropdownOpen}

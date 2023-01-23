@@ -1,16 +1,24 @@
 import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
+import Booking from '@/components/restaurant/Booking'
 import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
 import Toaster from '@/components/shared/Toaster'
 import api from '@/lib/api'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
-import { Pagination } from 'swiper'
+import { Navigation, Pagination } from 'swiper'
+import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
+const RouteMap = dynamic(import('@/components/restaurant/RouteMap'), {
+  ssr: false,
+})
 
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
@@ -37,6 +45,10 @@ export const getServerSideProps = async ({ params }) => {
 }
 
 const Restaurant = ({ restaurant }) => {
+  console.log(
+    restaurant.coordinates.split(',').map((c: string) => parseFloat(c)),
+  )
+
   const handleCopyAddressClick = () => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
       toast.success("L'adresse a bien été copiée.")
@@ -68,7 +80,15 @@ const Restaurant = ({ restaurant }) => {
   ])
   const [image, setImage] = useState(0)
 
-  const handleGetDirectionsClick = () => {}
+  const router = useRouter()
+
+  const handleGetDirectionsClick = () => {
+    router.push(
+      `https://maps.${
+        navigator.userAgent.includes('AppleWebKit') ? 'apple' : 'google'
+      }.com/?daddr=${fullAddress}`,
+    )
+  }
 
   return (
     <main className="px-5 py-10 lg:px-32">
@@ -77,14 +97,17 @@ const Restaurant = ({ restaurant }) => {
         <div
           className="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center bg-[#33333380] p-5 py-32 xl:px-64"
           onClick={e =>
-            (e.target as HTMLDivElement).tagName === 'DIV' && setImage(0)
+            (e.target as HTMLDivElement).tagName === 'DIV' &&
+            !(e.target as HTMLDivElement).className.includes('swiper-button') &&
+            setImage(0)
           }
         >
           <Swiper
-            modules={[Pagination]}
+            modules={[Pagination, Navigation]}
             spaceBetween={0}
             slidesPerView={1}
             initialSlide={image - 1}
+            navigation
             pagination={{ clickable: true }}
             className="h-full w-full rounded-2xl"
           >
@@ -211,11 +234,17 @@ const Restaurant = ({ restaurant }) => {
                   </ArrowCta>
                 </div>
               </div>
-              <div className="rounded-lg bg-scarlet/10"></div>
+              <div className="overflow-hidden rounded-lg">
+                <RouteMap
+                  position={restaurant.coordinates
+                    .split(',')
+                    .map((c: string) => parseFloat(c))}
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div className="h-[660px] bg-scarlet/10"></div>
+        <Booking />
       </div>
     </main>
   )

@@ -11,6 +11,7 @@ export type Honor = {
 }
 
 type SignupType = 'Restaurant' | 'Personal'
+type OfferType = 'Regular' | 'LastMinute'
 
 export type Modal =
   | 'LoginModal'
@@ -22,10 +23,11 @@ export type Modal =
   | `Signup${SignupType}FifthModal`
   | 'SignupRestaurantSixthModal'
   | 'SettingsModal'
-  | 'AddRegularOfferFirstModal'
-  | 'AddRegularOfferSecondModal'
-  | 'AddRegularOfferThirdModal'
-  | 'AddRegularOfferFourthModal'
+  | `Add${OfferType}OfferFirstModal`
+  | `Add${OfferType}OfferSecondModal`
+  | `Add${OfferType}OfferThirdModal`
+  | `Add${OfferType}OfferFourthModal`
+  | 'AskToLoginModal'
 
 export type ModalProps = {
   isOpen: boolean
@@ -87,6 +89,12 @@ type ApiDeleteParams = {
   token?: string
 }
 
+type ApiPutParams = {
+  route: string
+  body: string | FormData
+  token?: string
+}
+
 type ApiSignupUserData = {
   email: string
   password: string
@@ -95,6 +103,12 @@ type ApiSignupUserData = {
   workStatus: WorkStatus
   birthDate: string
   city: string
+  phone: string
+}
+
+type ApiUpdateUserData = {
+  email: string
+  phone: string
 }
 
 type ApiSignupRestaurantData = {
@@ -117,6 +131,23 @@ type ApiSignupRestaurantData = {
   pastryChefFullName?: string
   sommelierFullName?: string
   restaurantManagerFullName?: string
+}
+
+type ApiUpdateRestaurantData = {
+  id: string
+  name: string
+  address: string
+  zipCode: string
+  city: string
+  coordinates: string
+  phone: string
+  email: string
+  password: string
+  headChefFullName: string
+  pastryChefFullName: string
+  sommelierFullName: string
+  restaurantManagerFullName: string
+  isEmailConfirmed: boolean
 }
 
 type ApiGetDiscountsParams = {

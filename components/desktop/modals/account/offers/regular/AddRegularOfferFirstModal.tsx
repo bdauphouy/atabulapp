@@ -11,7 +11,7 @@ const AddRegularOfferFirstModal = ({
   onClose,
   changeModal,
 }: ModalProps) => {
-  const data = useContext(AddRegularOfferFormContext)
+  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
 
   const {
     control,
@@ -19,7 +19,7 @@ const AddRegularOfferFirstModal = ({
     formState: { errors },
   } = useForm<IAddRegularOfferFirstForm>({
     defaultValues: {
-      offerDays: data.offerDays,
+      offerDays: previousData.offerDays,
     },
   })
 
@@ -36,13 +36,11 @@ const AddRegularOfferFirstModal = ({
     [],
   )
 
-  const onSubmit: SubmitHandler<IAddRegularOfferFirstForm> = ({
-    offerDays,
-  }) => {
-    data.offerDays = offerDays
+  const onSubmit: SubmitHandler<IAddRegularOfferFirstForm> = data => {
+    setData({ ...previousData, ...data })
 
     changeModal(
-      data.hasReachedConfirmation
+      previousData.hasReachedConfirmation
         ? 'AddRegularOfferFourthModal'
         : 'AddRegularOfferSecondModal',
     )
@@ -57,7 +55,7 @@ const AddRegularOfferFirstModal = ({
         customAction: () => onClose(),
       }}
       footerRightButton={{
-        text: data.hasReachedConfirmation
+        text: previousData.hasReachedConfirmation
           ? 'Confirmer les modifications'
           : 'Continuer',
       }}

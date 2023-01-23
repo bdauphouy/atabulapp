@@ -1,27 +1,22 @@
 import Button from '@/components/shared/Button'
+import FormFooter from '@/components/shared/FormFooter'
 import Modal from '@/components/shared/Modal'
-import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
+import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
 import { ModalProps } from '@/lib/types'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
 
-const AddRegularOfferFourthModal = ({
+const AddLastMinuteOfferFourthModal = ({
   isOpen,
   onClose,
   changeModal,
 }: ModalProps) => {
-  const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
+  const { setData, ...previousData } = useContext(AddLastMinuteOfferFormContext)
 
   const router = useRouter()
-
-  const formattedOfferDays = useMemo(() => {
-    const filteredOfferDays = previousData.offerDays.filter(Boolean)
-
-    return filteredOfferDays
-      .map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
-      .join(', ')
-  }, [previousData.offerDays])
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
     const filterdNumberOfBeneficiaries =
@@ -54,16 +49,16 @@ const AddRegularOfferFourthModal = ({
   }, [])
 
   const onSubmit = () => {
-    // Add regular offer
+    // Add last minute offer
     toast.success('Offre ajoutée avec succès !')
   }
 
   return (
     <Modal
-      title="Offres régulières"
+      title="Offres last minute"
       footerLeftButton={{
         text: 'Retour',
-        customAction: () => changeModal('AddRegularOfferThirdModal'),
+        customAction: () => changeModal('AddLastMinuteOfferThirdModal'),
       }}
       footerRightButton={{ text: 'Valider', customAction: onSubmit }}
       isOpen={isOpen}
@@ -72,10 +67,15 @@ const AddRegularOfferFourthModal = ({
       <h3 className="mb-4 text-lg font-bold">Confirmation de l'offre</h3>
       <ul className="flex flex-col gap-4">
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
-          <span>{formattedOfferDays}</span>
+          <span className="capitalize">
+            {previousData.offerDay &&
+              format(previousData.offerDay, 'EEEE d MMMM yyyy', {
+                locale: fr,
+              })}
+          </span>
           <Button
             variant="tertiary"
-            onClick={() => changeModal('AddRegularOfferFirstModal')}
+            onClick={() => changeModal('AddLastMinuteOfferFirstModal')}
           >
             Modifier
           </Button>
@@ -86,7 +86,7 @@ const AddRegularOfferFourthModal = ({
           </span>
           <Button
             variant="tertiary"
-            onClick={() => changeModal('AddRegularOfferSecondModal')}
+            onClick={() => changeModal('AddLastMinuteOfferSecondModal')}
           >
             Modifier
           </Button>
@@ -99,7 +99,7 @@ const AddRegularOfferFourthModal = ({
           </span>
           <Button
             variant="tertiary"
-            onClick={() => changeModal('AddRegularOfferSecondModal')}
+            onClick={() => changeModal('AddLastMinuteOfferSecondModal')}
           >
             Modifier
           </Button>
@@ -110,7 +110,7 @@ const AddRegularOfferFourthModal = ({
           </span>
           <Button
             variant="tertiary"
-            onClick={() => changeModal('AddRegularOfferThirdModal')}
+            onClick={() => changeModal('AddLastMinuteOfferThirdModal')}
           >
             Modifier
           </Button>
@@ -119,14 +119,24 @@ const AddRegularOfferFourthModal = ({
           <span>{formattedNumberOfBeneficiaries}</span>
           <Button
             variant="tertiary"
-            onClick={() => changeModal('AddRegularOfferSecondModal')}
+            onClick={() => changeModal('AddLastMinuteOfferSecondModal')}
           >
             Modifier
           </Button>
         </li>
       </ul>
+      <FormFooter
+        footerLeftButton={{
+          text: 'Retour',
+          action: 'go-back',
+        }}
+        footerRightButton={{
+          text: "Confirmer l'offre",
+          customAction: onSubmit,
+        }}
+      />
     </Modal>
   )
 }
 
-export default AddRegularOfferFourthModal
+export default AddLastMinuteOfferFourthModal

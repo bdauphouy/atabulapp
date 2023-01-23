@@ -1,22 +1,50 @@
 import Section from '@/components/home/Section'
 import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
+import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import { RestaurantsContext } from '@/contexts/RestaurantsContext'
 import { SearchContext } from '@/contexts/SearchContext'
+import api from '@/lib/api'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
 import { requireAuth } from '@/lib/middlewares/requireAuth'
 import dynamic from 'next/dynamic'
 import { ReactElement, useContext, useState } from 'react'
+import { SwiperSlide } from 'swiper/react'
 
 const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
   ssr: false,
 })
 
-export const getServerSideProps = requireAuth(async () => ({ props: {} }))
+export const getServerSideProps = requireAuth(async () => {
+  const { error: regularError, discounts: regularDiscounts } =
+    await api.getRegularDiscounts({
+      limit: 20,
+      skip: 0,
+      latitude: 48.856614,
+      longitude: 2.3522219,
+    })
 
-const Home = () => {
-  const searchData = useContext(SearchContext)
+  const { error: lastMinuteError, discounts: lastMinuteDiscounts } =
+    await api.getLastMinuteDiscounts({
+      limit: 20,
+      skip: 0,
+      latitude: 48.856614,
+      longitude: 2.3522219,
+    })
+
+  return {
+    props: {
+      regularDiscounts: regularError ? [] : regularDiscounts,
+      lastMinuteDiscounts: lastMinuteError ? [] : lastMinuteDiscounts,
+    },
+  }
+})
+
+const Home = ({ lastMinuteDiscounts, regularDiscounts }) => {
+  const { hasSearched, ...searchData } = useContext(SearchContext)
+  const { restaurants } = useContext(RestaurantsContext)
 
   const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
     useState(false)
@@ -52,9 +80,8 @@ const Home = () => {
               isHonorsFiltersDropdownOpen => !isHonorsFiltersDropdownOpen,
             )
           }
-        >
-          Distinctions
-        </FiltersDropdown>
+          value="Distinctions"
+        />
         <FiltersDropdown
           size="lg"
           isOpen={isMealFiltersDropdownOpen}
@@ -63,9 +90,8 @@ const Home = () => {
               isMealFiltersDropdownOpen => !isMealFiltersDropdownOpen,
             )
           }}
-        >
-          Repas
-        </FiltersDropdown>
+          value="Repas"
+        />
         <FiltersDropdown
           size="lg"
           isOpen={isTypeOfCuisineFiltersDropdownOpen}
@@ -75,9 +101,8 @@ const Home = () => {
                 !isTypeOfCuisineFiltersDropdownOpen,
             )
           }}
-        >
-          Type de cuisine
-        </FiltersDropdown>
+          value="Type de cuisine"
+        />
       </div>
       <main className="flex flex-col gap-11 py-10">
         <div className="px-5 xl:px-32">
@@ -104,28 +129,147 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {searchData.location && (
-          <Section title={`Offres à ${searchData.location}`} isGrid>
-            {[...Array(6)].map((_, i) => {
-              return (
-                <RestaurantCard
-                  id={1}
-                  key={i}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  size="lg"
-                  promotion={50}
-                />
-              )
-            })}
+        {hasSearched ? (
+          <Section title={`Offres à "${searchData.location}"`} isGrid>
+            {restaurants.length > 0 ? (
+              restaurants.map((_, i) => {
+                return (
+                  <RestaurantCard
+                    id={1}
+                    key={i}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name="La Meurice Alain Ducasse"
+                    typesOfCooking={['Cuisine créative']}
+                    location="PARIS (75001)"
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    size="lg"
+                    promotion={50}
+                  />
+                )
+              })
+            ) : (
+              <p className="mt-4 text-lg text-black">Aucune offre disponible</p>
+            )}
           </Section>
+        ) : (
+          <>
+            <Section title="A proximité" isSwiper>
+              {regularDiscounts.length === 0 ? (
+                <div className="flex h-48 items-center justify-center">
+                  <p className="text-xl text-gray">
+                    Aucune offre pour le moment
+                  </p>
+                </div>
+              ) : (
+                regularDiscounts.map((_, i) => {
+                  return (
+                    <SwiperSlide key={i}>
+                      <RestaurantCard
+                        id={1}
+                        key={i}
+                        thumbnail="/images/restaurant-card-thumbnail.png"
+                        name="La Meurice Alain Ducasse"
+                        typesOfCooking={['Cuisine créative']}
+                        location="PARIS (75001)"
+                        tags={[
+                          { name: 'michelin', level: 2 },
+                          { name: 'etoile-verte', level: 1 },
+                        ]}
+                        isCertified
+                        promotion={30}
+                      />
+                    </SwiperSlide>
+                  )
+                })
+              )}
+            </Section>
+            <Section title="Last minute" isSwiper>
+              {lastMinuteDiscounts.length === 0 ? (
+                <div className="flex h-48 items-center justify-center">
+                  <p className="text-xl text-gray">
+                    Aucune offre pour le moment
+                  </p>
+                </div>
+              ) : (
+                lastMinuteDiscounts.map((_, i) => {
+                  return (
+                    <SwiperSlide key={i}>
+                      <RestaurantCard
+                        id={1}
+                        thumbnail="/images/restaurant-card-thumbnail.png"
+                        name="La Meurice Alain Ducasse"
+                        typesOfCooking={['Cuisine créative']}
+                        location="PARIS (75001)"
+                        tags={[
+                          { name: 'michelin', level: 2 },
+                          { name: 'etoile-verte', level: 1 },
+                        ]}
+                        isCertified
+                        promotion={50}
+                      />
+                    </SwiperSlide>
+                  )
+                })
+              )}
+            </Section>
+            <div className="px-5 xl:px-32">
+              <Mea />
+            </div>
+            <Section title="Sélection Atabulapp" isSwiper>
+              {[...Array(5)].map((_, i) => {
+                return (
+                  <SwiperSlide key={i}>
+                    <RestaurantCard
+                      id={1}
+                      thumbnail="/images/restaurant-card-thumbnail.png"
+                      name="La Meurice Alain Ducasse"
+                      typesOfCooking={['Cuisine créative']}
+                      location="PARIS (75001)"
+                      tags={[
+                        { name: 'michelin', level: 2 },
+                        { name: 'etoile-verte', level: 1 },
+                      ]}
+                      isCertified
+                      promotion={50}
+                    />
+                  </SwiperSlide>
+                )
+              })}
+            </Section>
+            <Section title="Offres disponibles" isGrid>
+              {lastMinuteDiscounts.length === 0 ? (
+                <div className="col-span-2 flex h-48 items-center justify-center">
+                  <p className="text-xl text-gray">
+                    Aucune offre pour le moment
+                  </p>
+                </div>
+              ) : (
+                lastMinuteDiscounts.slice(0, 4).map((_, i) => {
+                  return (
+                    <RestaurantCard
+                      id={1}
+                      key={i}
+                      thumbnail="/images/restaurant-card-thumbnail.png"
+                      name="La Meurice Alain Ducasse"
+                      typesOfCooking={['Cuisine créative']}
+                      location="PARIS (75001)"
+                      tags={[
+                        { name: 'michelin', level: 2 },
+                        { name: 'etoile-verte', level: 1 },
+                      ]}
+                      isCertified
+                      size="lg"
+                      promotion={50}
+                    />
+                  )
+                })
+              )}
+            </Section>
+          </>
         )}
       </main>
     </>

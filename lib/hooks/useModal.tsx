@@ -1,7 +1,12 @@
+import AddLastMinuteOfferFirstModal from '@/components/desktop/modals/account/offers/last-minute/AddLastMinuteOfferFirstModal'
+import AddLastMinuteOfferFourthModal from '@/components/desktop/modals/account/offers/last-minute/AddLastMinuteOfferFourthModal'
+import AddLastMinuteOfferSecondModal from '@/components/desktop/modals/account/offers/last-minute/AddLastMinuteOfferSecondModal'
+import AddLastMinuteOfferThirdModal from '@/components/desktop/modals/account/offers/last-minute/AddLastMinuteOfferThirdModal'
 import AddRegularOfferFirstModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferFirstModal'
 import AddRegularOfferFourthModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferFourthModal'
 import AddRegularOfferSecondModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferSecondModal'
 import AddRegularOfferThirdModal from '@/components/desktop/modals/account/offers/regular/AddRegularOfferThirdModal'
+import AskToLoginModal from '@/components/desktop/modals/AskToLoginModal'
 import LoginModal from '@/components/desktop/modals/LoginModal'
 import SettingsModal from '@/components/desktop/modals/SettingsModal'
 import SignupPersonalFifthModal from '@/components/desktop/modals/signup/personal/SignupPersonalFifthModal'
@@ -40,6 +45,11 @@ const useModal = (defaultActiveModal: Modal) => {
       AddRegularOfferSecondModal,
       AddRegularOfferThirdModal,
       AddRegularOfferFourthModal,
+      AddLastMinuteOfferFirstModal,
+      AddLastMinuteOfferSecondModal,
+      AddLastMinuteOfferThirdModal,
+      AddLastMinuteOfferFourthModal,
+      AskToLoginModal,
     }
   }, [])
 

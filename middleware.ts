@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 
 export const middleware = (request: NextRequest) => {
   const getDeviceType = () => {
+    console.log(request.headers.get('user-agent'))
     const ua = request.headers.get('user-agent') || ''
     if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
       return 'tablet'

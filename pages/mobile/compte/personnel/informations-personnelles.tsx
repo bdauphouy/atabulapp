@@ -2,6 +2,7 @@ import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
 import api from '@/lib/api'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
 import { ReactElement } from 'react'
@@ -45,6 +46,8 @@ const PersonalInformation = ({ user }) => {
       location: user?.city || '...',
       email: user?.email || '...',
       phoneNumber: user?.phoneNumber || '...',
+      proofOfIdentity: user?.proofOfIdentity || '...',
+      workCertificate: user?.workCertificate || '...',
     },
   })
 
@@ -73,6 +76,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="lastName"
+        isDisabled
       />
       <Input
         placeholder="Prénom"
@@ -82,6 +86,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="firstName"
+        isDisabled
       />
       <Input
         placeholder="Localisation"
@@ -91,6 +96,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="location"
+        isDisabled
       />
       <Input
         placeholder="Email"
@@ -105,6 +111,7 @@ const PersonalInformation = ({ user }) => {
           },
         }}
         name="email"
+        canBeModified
       />
       <Input
         placeholder="Numéro de téléphone"
@@ -118,6 +125,7 @@ const PersonalInformation = ({ user }) => {
           },
         }}
         name="phoneNumber"
+        canBeModified
       />
       <div>
         <header>
@@ -127,15 +135,35 @@ const PersonalInformation = ({ user }) => {
           </h4>
         </header>
       </div>
-      {/* {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.email?.type === 'pattern'
-              ? errors.email.message
-              : errors.password?.type === 'minLength'
-              ? errors.password.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )} */}
+      <Input
+        placeholder="Pièce d'identité"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+        }}
+        name="proofOfIdentity"
+        canBeModified
+      />
+      <Input
+        placeholder="Justificatif de travail"
+        control={control}
+        setValue={setValue}
+        rules={{
+          required: true,
+        }}
+        name="workCertificate"
+        canBeModified
+      />
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : errors.phoneNumber?.type === 'pattern'
+            ? errors.phoneNumber.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
     </form>
   )
 }

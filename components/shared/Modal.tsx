@@ -32,10 +32,10 @@ const Modal = ({
 
   return (
     isOpen && (
-      <div className="fixed z-[100] flex h-screen w-full items-center justify-center p-10">
+      <div className="fixed left-0 top-0 z-[100] flex h-screen w-full items-center justify-center p-10">
         <div className="relative flex max-h-full w-[415px] flex-col overflow-hidden rounded-xl bg-white pb-20">
           {hasHeader && (
-            <header className="flex items-start justify-between p-8 pb-0">
+            <header className="flex items-start justify-between p-8 pb-4">
               {hasGoBackArrow && onGoBack && (
                 <div
                   onClick={onGoBack}

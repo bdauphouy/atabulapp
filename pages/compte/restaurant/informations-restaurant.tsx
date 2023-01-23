@@ -1,13 +1,35 @@
 import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
+import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IRestaurantSettingsForm } from '@/lib/interfaces'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import Image from 'next/image'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-const RestaurantInformation = () => {
+export const getServerSideProps = requireAuth(async ({ req }) => {
+  const { error, restaurant } = await api.getRestaurantById(7)
+  const { pictures } = await api.getRestaurantPictures(7)
+
+  if (error) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      restaurant,
+      pictures,
+    },
+  }
+})
+
+const RestaurantInformation = ({ restaurant, pictures }) => {
   const {
     control,
     setValue,
@@ -15,14 +37,50 @@ const RestaurantInformation = () => {
     formState: { errors },
   } = useForm<IRestaurantSettingsForm>({
     defaultValues: {
-      name: 'test',
+      name: restaurant.name,
+      address: restaurant.address,
+      zipCode: restaurant.zipCode,
+      city: restaurant.city,
+      typeOfCuisine: restaurant.types
+        .map((type: { name: string }) => type.name)
+        .join(', '),
+      honors: restaurant.distinctions
+        .map((distinction: { name: string }) => distinction.name)
+        .join(', '),
+      chefFullName: restaurant.headChefFullName,
+      pastryChefFullName: restaurant.pastryChefFullName,
+      sommelierFullName: restaurant.sommelierFullName,
+      roomManagerFullName: restaurant.restaurantManagerFullName,
+      phoneNumber: restaurant.phone,
     },
   })
 
-  const onSubmit: SubmitHandler<IRestaurantSettingsForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IRestaurantSettingsForm> = async data => {
+    const { error } = await api.updateRestaurant(restaurant.id, {
+      id: restaurant.id,
+      name: data.name,
+      address: data.address,
+      zipCode: data.zipCode,
+      city: data.city,
+      coordinates: restaurant.coordinates,
+      phone: toInternationalFormat(data.phoneNumber),
+      email: restaurant.email,
+      password: restaurant.password,
+      headChefFullName: data.chefFullName,
+      pastryChefFullName: data.pastryChefFullName,
+      sommelierFullName: data.sommelierFullName,
+      restaurantManagerFullName: data.roomManagerFullName,
+      isEmailConfirmed: restaurant.isEmailConfirmed,
+    })
+
+    if (error) {
+      return toast.error(error)
+    }
+
     toast.success('Les modifications ont bien été prises en compte.')
   }
+
+  console.log(pictures)
 
   return (
     <>
@@ -40,10 +98,10 @@ const RestaurantInformation = () => {
               objectFit="cover"
             />
           </div>
-          <h2 className="mt-8 text-2xl text-black">
-            La Meurice - Alain Ducasse
-          </h2>
-          <h4>Restaurant certifié Atabulapp</h4>
+          <h2 className="mt-8 text-2xl text-black">{restaurant.name}</h2>
+          {restaurant.isEmailConfirmed && (
+            <h4>Restaurant certifié Atabulapp</h4>
+          )}
           <Button variant="tertiary" className="mt-8 self-end" isSubmit>
             Enregistrer les modifications
           </Button>
@@ -90,13 +148,22 @@ const RestaurantInformation = () => {
           setValue={setValue}
           rules={{
             required: true,
+          }}
+          name="typeOfCuisine"
+          options={['test', 'test2']}
+        />
+        <Input
+          placeholder="Numéro de téléphone"
+          control={control}
+          setValue={setValue}
+          rules={{
+            required: true,
             pattern: {
               value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
               message: 'Veuillez renseigner un numéro de téléphone valide.',
             },
           }}
-          name="typeOfCuisine"
-          options={['test', 'test2']}
+          name="phoneNumber"
         />
         <Input
           placeholder="Distinctions"
@@ -114,7 +181,7 @@ const RestaurantInformation = () => {
           control={control}
           setValue={setValue}
           rules={{
-            required: true,
+            required: false,
           }}
           name="chefFullName"
         />
@@ -123,7 +190,7 @@ const RestaurantInformation = () => {
           control={control}
           setValue={setValue}
           rules={{
-            required: true,
+            required: false,
           }}
           name="pastryChefFullName"
         />
@@ -132,7 +199,7 @@ const RestaurantInformation = () => {
           control={control}
           setValue={setValue}
           rules={{
-            required: true,
+            required: false,
           }}
           name="sommelierFullName"
         />
@@ -141,19 +208,19 @@ const RestaurantInformation = () => {
           control={control}
           setValue={setValue}
           rules={{
-            required: true,
+            required: false,
           }}
           name="roomManagerFullName"
         />
-        {/* {Object.keys(errors).length > 0 && (
+        {Object.keys(errors).length > 0 && (
           <Message type="error">
-            {errors.email?.type === 'pattern'
-              ? errors.email.message
-              : errors.password?.type === 'minLength'
-              ? errors.password.message
+            {errors.phoneNumber?.type === 'pattern'
+              ? errors.phoneNumber.message
+              : errors.zipCode?.type === 'pattern'
+              ? errors.zipCode.message
               : 'Veuillez remplir tous les champs.'}
           </Message>
-        )} */}
+        )}
       </form>
     </>
   )

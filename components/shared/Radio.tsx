@@ -40,7 +40,7 @@ const Radio = ({
       name={name}
       render={({ field: { onChange, name, value: formValue } }) => (
         <div
-          className={`flex gap-4 ${className} ${
+          className={`relative flex gap-3 ${className} ${
             withUnderline
               ? 'border-b-[1px] border-solid border-alto/30 pb-4'
               : ''

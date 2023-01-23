@@ -17,8 +17,8 @@ export const getServerSideProps = requireAuth(async ({ req }, user) => {
 const AccountIndex = ({ user }) => {
   const router = useRouter()
 
-  const handleLogout = () => {
-    api.logout()
+  const handleLogout = async () => {
+    await api.logout()
     router.push('/mobile/connexion')
   }
 

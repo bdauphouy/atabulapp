@@ -18,10 +18,13 @@ const Like = ({ isLiked, onClick }: LikeProps) => {
           animate={{ scale: 1 }}
           transition={{ type: 'spring', duration: 0.4 }}
         >
-          <RiHeartFill size={32} className="text-scarlet" />
+          <RiHeartFill size={32} className="text-white" />
         </motion.div>
       ) : (
-        <RiHeartLine size={32} />
+        <div className="relative">
+          <RiHeartLine size={32} className="absolute" />
+          <RiHeartFill size={32} className="text-white/40" />
+        </div>
       )}
     </button>
   )

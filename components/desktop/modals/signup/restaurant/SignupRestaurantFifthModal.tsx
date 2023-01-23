@@ -7,8 +7,9 @@ import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IRestaurantFiveForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { RiAddLine } from 'react-icons/ri'
 
 const SignupRestaurantFifthModal = ({
   isOpen,
@@ -16,12 +17,15 @@ const SignupRestaurantFifthModal = ({
   changeModal,
 }: ModalProps) => {
   const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
+  const [numberOfAdditionalPictures, setNumberOfAdditionalPictures] =
+    useState(0)
 
   const {
     handleSubmit,
     control,
     setError,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IRestaurantFiveForm>({
     defaultValues: {
@@ -33,6 +37,19 @@ const SignupRestaurantFifthModal = ({
   const router = useRouter()
 
   const additionalPictures = watch(['additionalPictures'])
+
+  const picturesGridRef = useRef<HTMLDivElement>()
+
+  const handleAddPictureClick = () => {
+    setValue('additionalPictures', [...additionalPictures[0], undefined])
+    setTimeout(() => {
+      picturesGridRef.current.children[
+        picturesGridRef.current.children.length - 2
+      ]
+        .querySelector('input')
+        .click()
+    })
+  }
 
   const onSubmit: SubmitHandler<IRestaurantFiveForm> = async data => {
     setData({ ...previousData, ...data })
@@ -65,7 +82,12 @@ const SignupRestaurantFifthModal = ({
         message: response.error,
       })
     } else {
-      changeModal('SignupRestaurantFourthModal')
+      for (const picture of data.additionalPictures.filter(Boolean)) {
+        await api.addRestaurantPicture(response.user.id, picture)
+      }
+
+      setData(null)
+      changeModal('SignupRestaurantSixthModal')
     }
   }
 
@@ -101,43 +123,32 @@ const SignupRestaurantFifthModal = ({
             variant="full"
           />
         </div>
-        <div>
+        <header className="flex flex-col gap-2">
           <h3 className="text-sm text-black">Photos supplémentaires</h3>
-          <p className="mt-2 mb-3 text-sm text-gray">
+          <h4 className="text-sm text-gray">
             Il vous faut importer au minimum 4 photos supplémentaires pour
             valider votre profil.
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {[...Array(4)].map((_, i) => {
-              return (
-                <ImportImageArea
-                  key={i}
-                  title={`Photo supplémentaire ${i + 1}`}
-                  variant="normal"
-                  control={control}
-                  name={`additionalPictures.${i}`}
-                />
-              )
-            })}
-            <ImportImageArea
-              title="Photo supplémentaire 5"
-              name="additionalPictures.4"
-              control={control}
-              variant="dashed"
-            />
-            {[
-              ...Array(
-                Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
-              ),
-            ].map((_, i) => (
+          </h4>
+        </header>
+        <div className="grid grid-cols-2 gap-4" ref={picturesGridRef}>
+          {additionalPictures[0].map((_, i) => {
+            return (
               <ImportImageArea
                 key={i}
-                title={`Photo supplémentaire ${i + 6}`}
-                name={`additionalPictures.${i + 5}`}
+                title={`Photo supplémentaire ${i + 1}`}
+                variant="full"
                 control={control}
-                variant="dashed"
+                name={`additionalPictures.${i}`}
               />
-            ))}
+            )
+          })}
+          <div className="relative" onClick={handleAddPictureClick}>
+            <div className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md border-2 border-dashed border-scarlet">
+              <RiAddLine
+                className="rounded-full border-2 border-solid border-scarlet text-scarlet"
+                size={36}
+              />
+            </div>
           </div>
         </div>
         {Object.keys(errors).length > 0 && (

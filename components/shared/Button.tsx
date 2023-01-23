@@ -34,10 +34,11 @@ const Button = ({
           textColor === 'white'
             ? 'text-white hover:text-white/80'
             : 'text-scarlet hover:text-scarlet/80'
-        } text-base font-medium underline underline-offset-2 transition-colors duration-300 disabled:hidden`}
+        } flex items-center gap-3 text-base font-medium underline underline-offset-2 transition-colors duration-300 disabled:hidden`}
         onClick={onClick}
       >
         {children}
+        {isLoading && <Spin color="scarlet" size={12} />}
       </button>
     )
   }

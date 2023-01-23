@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Cookie from 'js-cookie'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 
 const PersonalThree = () => {
   const { setData, ...previousData } = useContext(SignupPersonalFormContext)
@@ -38,6 +39,7 @@ const PersonalThree = () => {
       workStatus: previousData.workStatus,
       birthDate: previousData.birthDate,
       city: previousData.city,
+      phone: toInternationalFormat(previousData.phoneNumber),
     })
 
     if (response.error) {

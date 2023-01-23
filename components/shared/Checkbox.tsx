@@ -31,7 +31,7 @@ const Checkbox = ({
 
   const defaultValue = useMemo(() => {
     const [a, b] = name.split('.')
-    return control._defaultValues[a][b]
+    return control._defaultValues?.[a]?.[b]
   }, [name, control._defaultValues])
 
   return (
@@ -41,7 +41,7 @@ const Checkbox = ({
       rules={rules}
       render={({ field: { onChange, name } }) => (
         <div
-          className={`flex gap-4 ${className} ${
+          className={`flex gap-3 ${className} ${
             withUnderline
               ? 'border-b-[1px] border-solid border-alto/30 pb-4'
               : ''

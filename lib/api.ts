@@ -4,8 +4,11 @@ import {
   ApiGetParams,
   ApiLoginData,
   ApiPostParams,
+  ApiPutParams,
   ApiSignupRestaurantData,
   ApiSignupUserData,
+  ApiUpdateRestaurantData,
+  ApiUpdateUserData,
 } from '@/lib/types'
 import Cookie from 'js-cookie'
 import { LatLngBounds } from 'leaflet'
@@ -26,7 +29,6 @@ class Api {
       },
     })
 
-    // temporary fix
     return {
       data:
         response.status !== 204 ? await response.json() : await response.text(),
@@ -40,16 +42,20 @@ class Api {
     token,
     isFormData = false,
   }: ApiPostParams) {
+    const headers = {
+      Authorization: token ? 'Bearer ' + token : null,
+    }
+
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json'
+    }
+
     const response = await fetch(this.baseUrl + route, {
       method: 'POST',
-      headers: {
-        'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
-        Authorization: token ? 'Bearer ' + token : null,
-      },
+      headers,
       body,
     })
 
-    // temporary fix
     return {
       data:
         response.status !== 204 ? await response.json() : await response.text(),
@@ -65,7 +71,23 @@ class Api {
       },
     })
 
-    // temporary fix
+    return {
+      data:
+        response.status !== 204 ? await response.json() : await response.text(),
+      status: response.status,
+    }
+  }
+
+  private async put({ route, body, token }: ApiPutParams) {
+    const response = await fetch(this.baseUrl + route, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token ? 'Bearer ' + token : null,
+      },
+      body,
+    })
+
     return {
       data:
         response.status !== 204 ? await response.json() : await response.text(),
@@ -79,11 +101,13 @@ class Api {
       user: null,
     }
 
+    const [day, month, year] = data.birthDate.split('/')
+
     const response = await this.post({
       route: '/users/auth/signup',
       body: JSON.stringify({
         ...data,
-        birthDate: new Date(data.birthDate).toISOString(),
+        birthDate: new Date(`${month}/${day}/${year}`).toISOString(),
       }),
     })
 
@@ -117,7 +141,10 @@ class Api {
   }
 
   async logout() {
-    Cookie.remove('token')
+    return new Promise(resolve => {
+      Cookie.remove('token')
+      setTimeout(resolve, 1000)
+    })
   }
 
   async loginUser(data: ApiLoginData) {
@@ -126,6 +153,8 @@ class Api {
       token: null,
     }
 
+    console.log(data)
+
     const response = await this.post({
       route: '/users/auth/login',
       body: JSON.stringify({
@@ -133,6 +162,8 @@ class Api {
         password: data.password,
       }),
     })
+
+    console.log(response)
 
     switch (response.status) {
       case 401:
@@ -195,6 +226,28 @@ class Api {
       responseObject.error = 'Le token est invalide.'
     } else {
       responseObject.user = response.data
+    }
+
+    return responseObject
+  }
+
+  async updateMe(token: string, data: ApiUpdateUserData) {
+    const responseObject = {
+      error: null,
+      success: false,
+    }
+
+    const response = await this.put({
+      route: '/users/me',
+      body: JSON.stringify(data),
+      token,
+    })
+
+    if (response.status === 204) {
+      responseObject.success = true
+    } else {
+      responseObject.error =
+        'Une erreur est survenue lors de la modification de ce profil.'
     }
 
     return responseObject
@@ -311,6 +364,27 @@ class Api {
     return responseObject
   }
 
+  async updateRestaurant(id: number, data: ApiUpdateRestaurantData) {
+    const responseObject = {
+      error: null,
+      success: false,
+    }
+
+    const response = await this.put({
+      route: '/restaurants/' + id,
+      body: JSON.stringify(data),
+    })
+
+    if (response.status === 204) {
+      responseObject.success = true
+    } else {
+      responseObject.error =
+        'Une erreur est survenue lors de la modification de ce restaurant.'
+    }
+
+    return responseObject
+  }
+
   async getRegularDiscounts(queries: ApiGetDiscountsParams) {
     const responseObject = {
       error: null,
@@ -350,6 +424,101 @@ class Api {
 
     if (response.status === 200) {
       responseObject.discounts = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async addRestaurantPicture(id: number, picture: File) {
+    const responseObject = {
+      error: null,
+      success: false,
+    }
+
+    const formData = new FormData()
+    formData.append('file', picture)
+
+    const response = await this.post({
+      route: '/restaurants/' + id + '/photos',
+      body: formData,
+      isFormData: true,
+    })
+
+    if (response.status === 204) {
+      responseObject.success = true
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async getRestaurantPictures(id: number) {
+    const responseObject = {
+      error: null,
+      pictures: [],
+    }
+
+    const response = await this.get({
+      route: '/restaurants/' + id + '/photos',
+    })
+
+    if (response.status === 200) {
+      responseObject.pictures = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  getRestaurantPictureUrl(suffix: string) {
+    return this.baseUrl + '/' + suffix
+  }
+
+  async getAutocompleteSuggestions(query: string) {
+    const responseObject = {
+      error: null,
+      suggestions: [],
+    }
+
+    const response = await this.get({
+      route: '/restaurants/autocomplete',
+      queries: {
+        place: query,
+      },
+    })
+
+    if (response.status === 200) {
+      responseObject.suggestions = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async searchRestaurants(queries: {
+    place: string
+    lowerDate: string
+    upperDate: string
+    limit: number
+    skip: number
+  }) {
+    const responseObject = {
+      error: null,
+      restaurants: [],
+    }
+
+    const response = await this.get({
+      route: '/restaurants/search',
+      queries,
+    })
+
+    if (response.status === 200) {
+      responseObject.restaurants = response.data
     } else {
       responseObject.error = "Une erreur s'est produite."
     }

@@ -3,12 +3,14 @@ import { FormFooterActionsProps } from '@/lib/types'
 import { useRouter } from 'next/router'
 
 type FormFooterProps = {
+  isAbsolute?: boolean
   isFixed?: boolean
   isInTheForeground?: boolean
   progress?: number
 } & FormFooterActionsProps
 
 const FormFooter = ({
+  isAbsolute = true,
   isFixed = false,
   formId,
   footerLeftButton,
@@ -40,7 +42,7 @@ const FormFooter = ({
 
   return (
     <footer
-      className={`${isFixed ? 'fixed' : 'absolute'} ${
+      className={`${isFixed ? 'fixed' : isAbsolute ? 'absolute' : 'relative'} ${
         isInTheForeground ? 'z-[99999999]' : ''
       } bottom-0 left-0 flex w-full items-center justify-between border-t-[1px] border-solid border-alto/60 bg-white p-6`}
     >

@@ -1,8 +1,9 @@
 type SpinProps = {
   size: number
+  color?: 'white' | 'scarlet'
 }
 
-const Spin = ({ size = 24 }: SpinProps) => {
+const Spin = ({ size = 24, color = 'white' }: SpinProps) => {
   return (
     <svg
       role="status"
@@ -10,7 +11,11 @@ const Spin = ({ size = 24 }: SpinProps) => {
         width: size,
         height: size,
       }}
-      className="animate-spin fill-white text-alto/50"
+      className={`${
+        color === 'white'
+          ? 'fill-white text-alto/50'
+          : 'fill-scarlet text-scarlet/20'
+      } animate-spin`}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

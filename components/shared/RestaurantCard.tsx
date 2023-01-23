@@ -1,8 +1,9 @@
+import { ShowLoginModal } from '@/contexts/ShowLoginModal'
 import api from '@/lib/api'
 import Cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Flipped } from 'react-flip-toolkit'
 import toast from 'react-hot-toast'
 import Like from '../restaurant/Like'
@@ -48,6 +49,8 @@ const RestaurantCard = ({
 }: RestaurantCardProps) => {
   const [isLiked, setIsLiked] = useState(isDefaultLiked)
 
+  const { setShowLoginModal } = useContext(ShowLoginModal)
+
   const handleLike = async () => {
     const response = await api[isLiked ? 'removeFavorite' : 'addFavorite'](
       id,
@@ -57,18 +60,22 @@ const RestaurantCard = ({
     const device = Cookie.get('deviceType')
 
     if (!response.success) {
-      return toast(t => (
-        <span className="">
-          Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
-          <Link
-            href={device === 'desktop' ? '/' : '/mobile/connexion'}
-            className="text-scarlet underline"
-            onClick={() => toast.dismiss(t.id)}
-          >
-            Se connecter
-          </Link>
-        </span>
-      ))
+      if (device !== 'desktop') {
+        return toast(t => (
+          <span className="">
+            Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
+            <Link
+              href={device === 'desktop' ? '/' : '/mobile/connexion'}
+              className="text-scarlet underline"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Se connecter
+            </Link>
+          </span>
+        ))
+      }
+
+      return setShowLoginModal(true)
     }
 
     setIsLiked(!isLiked)

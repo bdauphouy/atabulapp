@@ -6,6 +6,7 @@ import FilterTag from '@/components/shared/FilterTag'
 import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
 import { GeolocationContext } from '@/contexts/GeolocationContext'
+import { ShowLoginModal } from '@/contexts/ShowLoginModal'
 import { UserContext } from '@/contexts/UserContext'
 import api from '@/lib/api'
 import useModal from '@/lib/hooks/useModal'
@@ -60,18 +61,31 @@ const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
   const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
+  const [filterDropdownValue, setFilterDropdownValue] = useState('Filtres')
 
-  const { Modal, changeModal } = useModal('SignupFirstModal')
+  const { Modal, changeModal } = useModal('LoginModal')
 
   const { user } = useContext(UserContext)
+  const { showLoginModal } = useContext(ShowLoginModal)
 
   const router = useRouter()
+
+  const filterDropdownOptions = [
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' },
+  ]
 
   useEffect(() => {
     if (user?.id) {
       router.push('/accueil')
     }
   }, [router, user])
+
+  useEffect(() => {
+    showLoginModal && changeModal('AskToLoginModal')
+    setIsLoginModalOpen(showLoginModal)
+  }, [showLoginModal, changeModal])
 
   return (
     <div>
@@ -132,9 +146,14 @@ const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
                 isFiltersDropdownOpen => !isFiltersDropdownOpen,
               )
             }
-          >
-            Filtres
-          </FiltersDropdown>
+            onChange={value => setFilterDropdownValue(value)}
+            value={
+              filterDropdownOptions.find(
+                option => option.value === filterDropdownValue,
+              )?.label || filterDropdownValue
+            }
+            options={filterDropdownOptions}
+          />
           <FilterTag
             isSelected={isLastMinute}
             onChange={() => setIsLastMinute(isLastMinute => !isLastMinute)}
@@ -148,12 +167,13 @@ const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
       </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
-          {lastMinuteDiscounts.length === 0 ? (
+          {regularDiscounts.length === 0 ? (
             <div className="flex h-48 items-center justify-center">
               <p className="text-xl text-gray">Aucune offre pour le moment</p>
             </div>
           ) : (
-            regularDiscounts.map((_, i) => {
+            regularDiscounts.map((regularDiscount, i) => {
+              console.log(regularDiscount)
               return (
                 <SwiperSlide key={i}>
                   <RestaurantCard

@@ -3,13 +3,19 @@ import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
 import api from '@/lib/api'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 import { Pagination } from 'swiper'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
+const RouteMap = dynamic(import('@/components/restaurant/RouteMap'), {
+  ssr: false,
+})
 
 export const getServerSideProps = async ({ params }) => {
   const { id } = params
@@ -36,8 +42,6 @@ export const getServerSideProps = async ({ params }) => {
 }
 
 const Restaurant = ({ restaurant }) => {
-  console.log(restaurant)
-
   const handleCopyAddressClick = () => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
       toast.success("L'adresse a bien été copiée.")
@@ -54,7 +58,15 @@ const Restaurant = ({ restaurant }) => {
 
   const [image, setImage] = useState('')
 
-  const handleGetDirectionsClick = () => {}
+  const router = useRouter()
+
+  const handleGetDirectionsClick = () => {
+    router.push(
+      `https://maps.${
+        navigator.userAgent.includes('AppleWebKit') ? 'apple' : 'google'
+      }.com/?daddr=${fullAddress}`,
+    )
+  }
 
   return (
     <>
@@ -196,7 +208,13 @@ const Restaurant = ({ restaurant }) => {
               Comment s'y rendre ?
             </h3>
             <div className="mt-4">
-              <div className="h-44 rounded-lg bg-scarlet/10"></div>
+              <div className="h-44 overflow-hidden rounded-lg">
+                <RouteMap
+                  position={restaurant.coordinates
+                    .split(',')
+                    .map((c: string) => parseFloat(c))}
+                />
+              </div>
               <div className="mt-4">
                 <ArrowCta onClick={handleCopyAddressClick} variant="md">
                   <RiFileCopyLine size={30} />

@@ -30,6 +30,7 @@ const SignupPersonalThirdModal = ({
       workStatus: previousData.workStatus,
       birthDate: previousData.birthDate,
       city: previousData.city,
+      phoneNumber: previousData.phoneNumber,
     },
   })
 

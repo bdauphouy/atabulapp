@@ -60,7 +60,7 @@ const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
   return (
     <div>
       <header className="flex items-center justify-between gap-6">
-        <h2 className="font-bold capitalize text-black">
+        <h2 className="text-base font-bold capitalize text-black lg:text-lg">
           {format(selectedDay, 'EEEE d MMMM yyyy', { locale: fr })}
         </h2>
         <div className="flex items-center gap-6">
@@ -104,13 +104,12 @@ const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
               className={classNames(
                 isEqual(day, selectedDay) && 'bg-scarlet text-white',
                 !isEqual(day, selectedDay) && isToday(day) && 'text-scarlet',
-                offers.some(offer =>
-                  isSameDay(parseISO(offer.startDate), day),
-                ) && 'font-bold text-scarlet',
-                !isEqual(day, selectedDay) &&
-                  !isToday(day) &&
-                  isSameMonth(day, firstDayCurrentMonth) &&
-                  'text-black',
+                offers.some(offer => isSameDay(parseISO(offer.startDate), day))
+                  ? 'font-bold text-scarlet'
+                  : !isEqual(day, selectedDay) &&
+                      !isToday(day) &&
+                      isSameMonth(day, firstDayCurrentMonth) &&
+                      'text-black',
                 !isEqual(day, selectedDay) &&
                   !isToday(day) &&
                   !isSameMonth(day, firstDayCurrentMonth) &&
@@ -127,7 +126,9 @@ const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
             <div className="mx-auto mt-1 h-1 w-1">
               {offers.some(offer =>
                 isSameDay(parseISO(offer.startDate), day),
-              ) && <div className="h-1 w-1 rounded-full bg-scarlet"></div>}
+              ) && (
+                <div className="-mt-1 h-1 w-1 rounded-full bg-scarlet"></div>
+              )}
             </div>
           </div>
         ))}

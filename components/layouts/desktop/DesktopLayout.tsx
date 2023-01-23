@@ -12,7 +12,7 @@ const DesktopLayout = ({ children, hasHeader = true }: DesktopLayoutProps) => {
     <>
       <div className="flex min-h-screen flex-col">
         {hasHeader && <DesktopHeader />}
-        <div className="flex-1">{children}</div>
+        <div className={`flex-1 ${hasHeader ? 'pt-24' : ''}`}>{children}</div>
         <Footer />
       </div>
     </>

@@ -14,6 +14,7 @@ import {
   RegisterOptions,
   UseFormSetValue,
 } from 'react-hook-form'
+import Button from './Button'
 
 type InputTextProps = {
   control: Control<any>
@@ -33,6 +34,7 @@ type InputTextProps = {
   isFocusedLike?: boolean
   onFocus?: () => void
   onBlur?: () => void
+  canBeModified?: boolean
 }
 
 const Input = ({
@@ -43,13 +45,14 @@ const Input = ({
   name,
   placeholder,
   className = '',
-  isDisabled = false,
+  isDisabled: disabled = false,
   isRequired = false,
   isDateInput = false,
   isPasswordInput = false,
   isFocusedLike = false,
   onFocus,
   onBlur,
+  canBeModified = false,
 }: InputTextProps) => {
   const defaultValue = control._defaultValues[name]
 
@@ -62,6 +65,7 @@ const Input = ({
   const [isOptionsShown, setIsOptionsShown] = useState(false)
   const [focusedOption, setFocusedOption] = useState<number>()
   const [entryLength, setEntryLength] = useState(defaultValue?.length || 0)
+  const [isDisabled, setIsDisabled] = useState(disabled)
 
   const inputRef = useRef<HTMLInputElement>()
   const optionListRef = useRef<HTMLUListElement>()
@@ -78,6 +82,7 @@ const Input = ({
 
     setIsEmpty(e.target.value.length === 0)
     setIsOptionsShown(false)
+    canBeModified && setIsDisabled(true)
   }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +121,15 @@ const Input = ({
     const option = (e.target as HTMLLIElement).innerText
 
     setFocusedOption(filteredOptions.indexOf(option))
+  }
+
+  const handleModify = () => {
+    setIsDisabled(false)
+    setTimeout(() => {
+      inputRef.current.focus()
+      inputRef.current.value = ''
+      inputRef.current.value = defaultValue
+    })
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -182,6 +196,12 @@ const Input = ({
     }
   }, [defaultValue, options])
 
+  useEffect(() => {
+    if (canBeModified) {
+      setIsDisabled(true)
+    }
+  }, [canBeModified])
+
   return (
     <Controller
       control={control}
@@ -205,7 +225,7 @@ const Input = ({
             type={isPasswordInput ? 'password' : 'text'}
             placeholder={placeholder}
             ref={inputRef}
-            className="w-full py-3 text-base text-black outline-none placeholder:text-white/0 disabled:bg-white"
+            className="w-full py-3 text-base text-black outline-none placeholder:text-white/0 disabled:cursor-not-allowed disabled:bg-white disabled:text-gray"
           />
           <label
             htmlFor={id}
@@ -213,11 +233,20 @@ const Input = ({
               isEmpty && !isFocusedLike
                 ? 'top-1/2 -translate-y-1/2 text-base text-gray'
                 : 'top-0 -translate-y-2/3 text-sm text-black'
-            } absolute left-0 cursor-text transition-[top,color,font-size,transform] duration-200 label-focus:top-0 label-focus:-translate-y-2/3 label-focus:cursor-default label-focus:text-sm label-focus:text-black`}
+            } absolute left-0 cursor-text transition-[tops,color,font-size,transform] duration-200 label-focus:top-0 label-focus:-translate-y-2/3 label-focus:cursor-default label-focus:text-sm label-focus:text-black`}
           >
             {placeholder}{' '}
             {isRequired ? <span className="text-scarlet">*</span> : ''}
           </label>
+          {canBeModified && (
+            <Button
+              onClick={handleModify}
+              variant="tertiary"
+              className="absolute right-0 -top-4"
+            >
+              Modifier
+            </Button>
+          )}
           {isOptionsShown && (
             <ul
               ref={optionListRef}

@@ -7,6 +7,8 @@ interface ISearchContext extends ISearchForm {
   setNumberOfPersons?: Dispatch<SetStateAction<number>>
   setHonors?: Dispatch<SetStateAction<(string | boolean)[]>>
   setIsLastMinute?: Dispatch<SetStateAction<boolean>>
+  hasSearched?: boolean
+  setHasSearched?: Dispatch<SetStateAction<boolean>>
 }
 
 export const SearchContext = createContext<ISearchContext>({})
@@ -17,6 +19,7 @@ export const SearchContextProvider = ({ children }) => {
   const [numberOfPersons, setNumberOfPersons] = useState()
   const [honors, setHonors] = useState([])
   const [isLastMinute, setIsLastMinute] = useState(false)
+  const [hasSearched, setHasSearched] = useState(false)
 
   return (
     <SearchContext.Provider
@@ -31,6 +34,8 @@ export const SearchContextProvider = ({ children }) => {
         setNumberOfPersons,
         setHonors,
         setIsLastMinute,
+        hasSearched,
+        setHasSearched,
       }}
     >
       {children}

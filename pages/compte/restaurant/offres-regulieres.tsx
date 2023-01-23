@@ -1,11 +1,31 @@
 import Offer from '@/components/account/Offer'
 import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import FilterTag from '@/components/shared/FilterTag'
+import api from '@/lib/api'
 import useModal from '@/lib/hooks/useModal'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import { ReactElement, useMemo, useState } from 'react'
 import { RiAddCircleLine } from 'react-icons/ri'
 
-const RegularOffers = () => {
+export const getServerSideProps = requireAuth(async ({ req }) => {
+  const { error, restaurant } = await api.getRestaurantById(5)
+
+  if (error) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      offers: restaurant.discounts,
+    },
+  }
+})
+
+const RegularOffers = ({ offers }) => {
+  console.log(offers)
+
   const days = useMemo(
     () => [
       'Lundi',

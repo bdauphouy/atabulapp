@@ -6,8 +6,9 @@ import api from '@/lib/api'
 import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IRestaurantFiveForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
-import { ReactElement, useContext } from 'react'
+import { ReactElement, useContext, useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { RiAddLine } from 'react-icons/ri'
 
 const RestaurantFive = () => {
   const { setData, ...previousData } = useContext(SignupRestaurantFormContext)
@@ -17,6 +18,7 @@ const RestaurantFive = () => {
     control,
     setError,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IRestaurantFiveForm>({
     defaultValues: {
@@ -28,6 +30,19 @@ const RestaurantFive = () => {
   const router = useRouter()
 
   const additionalPictures = watch(['additionalPictures'])
+
+  const picturesGridRef = useRef<HTMLDivElement>()
+
+  const handleAddPictureClick = () => {
+    setValue('additionalPictures', [...additionalPictures[0], undefined])
+    setTimeout(() => {
+      picturesGridRef.current.children[
+        picturesGridRef.current.children.length - 2
+      ]
+        .querySelector('input')
+        .click()
+    })
+  }
 
   const onSubmit: SubmitHandler<IRestaurantFiveForm> = async data => {
     setData({ ...previousData, ...data })
@@ -94,37 +109,26 @@ const RestaurantFive = () => {
           Il vous faut importer au minimum 4 photos supplémentaires pour valider
           votre profil.
         </p>
-        <div className="grid grid-cols-2 gap-2">
-          {[...Array(4)].map((_, i) => {
+        <div className="grid grid-cols-2 gap-2" ref={picturesGridRef}>
+          {additionalPictures[0].map((_, i) => {
             return (
               <ImportImageArea
                 key={i}
                 title={`Photo supplémentaire ${i + 1}`}
-                variant="normal"
+                variant="full"
                 control={control}
                 name={`additionalPictures.${i}`}
               />
             )
           })}
-          <ImportImageArea
-            title={`Photo supplémentaire 5`}
-            name={`additionalPictures.4`}
-            control={control}
-            variant="dashed"
-          />
-          {[
-            ...Array(
-              Math.max(0, additionalPictures[0].filter(Boolean).length - 4),
-            ),
-          ].map((_, i) => (
-            <ImportImageArea
-              key={i}
-              title={`Photo supplémentaire ${i + 6}`}
-              name={`additionalPictures.${i + 5}`}
-              control={control}
-              variant="dashed"
-            />
-          ))}
+          <div className="relative" onClick={handleAddPictureClick}>
+            <div className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md border-2 border-dashed border-scarlet">
+              <RiAddLine
+                className="rounded-full border-2 border-solid border-scarlet text-scarlet"
+                size={36}
+              />
+            </div>
+          </div>
         </div>
       </div>
       {Object.keys(errors).length > 0 && (

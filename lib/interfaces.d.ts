@@ -105,6 +105,7 @@ export interface IRestaurantSettingsForm {
   pastryChefFullName: string
   sommelierFullName: string
   roomManagerFullName: string
+  phoneNumber: string
 }
 
 export interface IRestaurantPicturesForm {
@@ -182,4 +183,9 @@ export interface ISignupRestaurantFormContext
     IRestaurantFourForm,
     IRestaurantFiveForm {
   setData: Dispatch<SetStateAction<Partial<ISignupRestaurantFormContext>>>
+}
+
+export interface IShowLoginModalContext {
+  showLoginModal: boolean
+  setShowLoginModal: Dispatch<SetStateAction<boolean>>
 }

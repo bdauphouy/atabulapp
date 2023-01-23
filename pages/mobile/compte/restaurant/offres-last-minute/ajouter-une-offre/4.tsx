@@ -44,7 +44,7 @@ const AddOfferFourthStep = () => {
   }, [])
 
   const onSubmit = () => {
-    // Add regular offer
+    // Add last minute offer
     toast.success('Offre ajoutée avec succès !')
   }
 

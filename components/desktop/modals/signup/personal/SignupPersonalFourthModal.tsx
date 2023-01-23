@@ -3,6 +3,7 @@ import Modal from '@/components/shared/Modal'
 import SupportingDocument from '@/components/shared/SupportingDocument'
 import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
 import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IPersonalThreeForm } from '@/lib/interfaces'
 import { ModalProps } from '@/lib/types'
 import { useContext, useState } from 'react'
@@ -41,6 +42,7 @@ const SignupPersonalFourthModal = ({
       firstName: previousData.firstName,
       lastName: previousData.lastName,
       workStatus: previousData.workStatus,
+      phone: toInternationalFormat(previousData.phoneNumber),
       birthDate: previousData.birthDate,
       city: previousData.city,
     })
@@ -53,6 +55,7 @@ const SignupPersonalFourthModal = ({
         message: response.error,
       })
     } else {
+      setData(null)
       changeModal('SignupPersonalFifthModal')
     }
   }

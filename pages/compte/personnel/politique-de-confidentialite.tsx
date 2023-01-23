@@ -1,5 +1,10 @@
 import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import { ReactElement } from 'react'
+
+export const getServerSideProps = requireAuth(async () => ({
+  props: {},
+}))
 
 const PrivacyPolicy = () => {
   return (

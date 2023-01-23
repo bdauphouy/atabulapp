@@ -1,35 +1,19 @@
 import PersonalAccountLayout from '@/components/layouts/desktop/PersonalAccountLayout'
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/Input'
+import Message from '@/components/shared/Message'
 import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
-export const getServerSideProps = async ({ req }) => {
-  const { token } = req.cookies
-
-  if (!token) {
-    return {
-      redirect: '/',
-    }
-  }
-
-  const { error, user } = await api.me(token)
-
-  if (error) {
-    return {
-      redirect: '/',
-    }
-  }
-
-  return {
-    props: {
-      user,
-    },
-  }
-}
+export const getServerSideProps = requireAuth(async (_, user) => ({
+  props: { user },
+}))
 
 const PersonalInformation = ({ user }) => {
   const {
@@ -39,20 +23,31 @@ const PersonalInformation = ({ user }) => {
     formState: { errors },
   } = useForm<IPersonalSettingsForm>({
     defaultValues: {
-      lastName: user?.lastName || '...',
-      firstName: user?.firstName || '...',
-      location: user?.city || '...',
-      email: user?.email || '...',
-      phoneNumber: user?.phoneNumber || '...',
-      proofOfIdentity: user?.proofOfIdentity || '...',
-      workCertificate: user?.workCertificate || '...',
+      lastName: user?.lastName,
+      firstName: user?.firstName,
+      location: user?.city,
+      email: user?.email,
+      phoneNumber: user?.phone,
+      proofOfIdentity: user?.proofOfIdentity,
+      workCertificate: user?.workCertificate,
     },
   })
 
-  const onSubmit: SubmitHandler<IPersonalSettingsForm> = data => {
+  const onSubmit: SubmitHandler<IPersonalSettingsForm> = async data => {
     console.log(data)
+    const { error } = await api.updateMe(Cookies.get('token'), {
+      email: data.email,
+      phone: toInternationalFormat(data.phoneNumber),
+    })
+
+    if (error) {
+      return toast.error(error)
+    }
+
     toast.success('Les modifications ont bien été prises en compte.')
   }
+
+  console.log(user)
 
   return (
     <form
@@ -61,7 +56,12 @@ const PersonalInformation = ({ user }) => {
       className="flex flex-col gap-6"
     >
       <div className="mb-8 flex items-end justify-between">
-        <div className="h-28 w-28 rounded-full bg-[url(https://thispersondoesnotexist.com/image)] bg-cover"></div>
+        <div
+          className="h-28 w-28 rounded-full bg-cover"
+          style={{
+            backgroundImage: `url(https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName})`,
+          }}
+        ></div>
         <Button variant="tertiary" isSubmit>
           Enregistrer les modifications
         </Button>
@@ -74,6 +74,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="lastName"
+        isDisabled
       />
       <Input
         placeholder="Prénom"
@@ -83,6 +84,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="firstName"
+        isDisabled
       />
       <Input
         placeholder="Localisation"
@@ -92,6 +94,7 @@ const PersonalInformation = ({ user }) => {
           required: true,
         }}
         name="location"
+        isDisabled
       />
       <Input
         placeholder="Email"
@@ -106,6 +109,7 @@ const PersonalInformation = ({ user }) => {
           },
         }}
         name="email"
+        canBeModified
       />
       <Input
         placeholder="Numéro de téléphone"
@@ -119,6 +123,7 @@ const PersonalInformation = ({ user }) => {
           },
         }}
         name="phoneNumber"
+        canBeModified
       />
       <div>
         <h3 className="text-lg font-bold text-black">Identité vérifiée</h3>
@@ -131,28 +136,30 @@ const PersonalInformation = ({ user }) => {
         control={control}
         setValue={setValue}
         rules={{
-          required: true,
+          required: false,
         }}
         name="proofOfIdentity"
+        canBeModified
       />
       <Input
         placeholder="Justificatif de travail"
         control={control}
         setValue={setValue}
         rules={{
-          required: true,
+          required: false,
         }}
         name="workCertificate"
+        canBeModified
       />
-      {/* {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.email?.type === 'pattern'
-              ? errors.email.message
-              : errors.password?.type === 'minLength'
-              ? errors.password.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )} */}
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : errors.phoneNumber?.type === 'pattern'
+            ? errors.phoneNumber.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
     </form>
   )
 }

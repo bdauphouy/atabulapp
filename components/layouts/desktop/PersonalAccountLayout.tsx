@@ -5,12 +5,17 @@ import api from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
 
-  const handleLogout = () => {
-    api.logout()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleLogout = async () => {
+    setIsLoading(true)
+    await api.logout()
+    setIsLoading(false)
     router.push('/')
   }
 
@@ -36,7 +41,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
       </header>
       <div className="mx-auto mt-10 flex w-full max-w-5xl flex-1">
         {withSideMenu && (
-          <aside className="border-right sticky top-0 h-full w-96 border-r-[1px] border-solid border-alto/60 py-10 pr-6">
+          <aside className="border-right sticky top-0 w-96 border-r-[1px] border-solid border-alto/60 py-10 pr-6">
             <ArrowCta
               variant="lg"
               onClick={() =>
@@ -68,7 +73,12 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
             >
               Politique de confidentialité
             </ArrowCta>
-            <Button variant="tertiary" className="mt-6" onClick={handleLogout}>
+            <Button
+              isLoading={isLoading}
+              variant="tertiary"
+              className="mt-6"
+              onClick={handleLogout}
+            >
               Déconnexion
             </Button>
           </aside>

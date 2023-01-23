@@ -31,7 +31,7 @@ const Footer = () => {
       <nav className="flex flex-wrap gap-10 font-medium text-black-rose md:gap-20">
         <ul className="flex flex-col gap-2">
           <li>
-            <h3 className="font-bold">A propos</h3>
+            <h3 className="font-bold">À propos</h3>
           </li>
           <li>
             <Link href="/cgv">CGV</Link>

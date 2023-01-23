@@ -1,7 +1,8 @@
 import api from '@/lib/api'
 import Cookie from 'js-cookie'
 import { divIcon, DragEndEvent, icon, Map } from 'leaflet'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { RiFullscreenExitFill, RiFullscreenFill } from 'react-icons/ri'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import useSupercluster from 'use-supercluster'
 
@@ -160,14 +161,42 @@ const MapControls = () => {
 const SearchResultMap = ({
   center = [48.8566, 2.3522],
 }: SearchResultMapProps) => {
+  const mapRef = useRef(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const handleFullscreen = () => {
+    if (isFullscreen) {
+      document.exitFullscreen()
+    } else {
+      mapRef.current._container.requestFullscreen()
+    }
+    setIsFullscreen(!isFullscreen)
+  }
+
   return (
     <>
-      <MapContainer center={center} zoom={13} scrollWheelZoom minZoom={6}>
+      <MapContainer
+        ref={mapRef}
+        center={center}
+        zoom={13}
+        scrollWheelZoom
+        minZoom={6}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={process.env.NEXT_PUBLIC_MAPBOX_URL}
         />
         <MapControls />
+        <button
+          onClick={handleFullscreen}
+          className="absolute right-0 top-0 mt-2 mr-2 grid h-10 w-10 cursor-pointer place-items-center rounded-md bg-white"
+        >
+          {isFullscreen ? (
+            <RiFullscreenExitFill size={24} className="text-black" />
+          ) : (
+            <RiFullscreenFill size={24} className="text-black" />
+          )}
+        </button>
       </MapContainer>
     </>
   )
