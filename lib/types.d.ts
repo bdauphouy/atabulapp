@@ -85,8 +85,9 @@ type ApiPostParams = {
 
 type ApiDeleteParams = {
   route: string
-  queries: Record<string, string | number>
+  queries?: Record<string, string | number>
   token?: string
+  body?: string
 }
 
 type ApiPutParams = {
@@ -162,6 +163,18 @@ type ApiLoginData = {
   password: string
 }
 
+type CalendarOffer = {
+  date: string
+}
+
 type Offer = {
-  startDate: string
+  id?: number
+  date: Date
+  meal: 'lunch' | 'dinner'
+  discount: number
+  unit: 'percent'
+  type: 'regular' | 'lastMinute'
+  maxRecipients: number
+  offer: 'foodWithDrink' | 'onlyFood'
+  restaurantId?: number
 }

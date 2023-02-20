@@ -19,7 +19,7 @@ const AddOfferSecondStep = () => {
     defaultValues: {
       concernedMeal: previousData.concernedMeal,
       numberOfBeneficiaries: previousData.numberOfBeneficiaries,
-      withDrinks: previousData.withDrinks,
+      withDrink: previousData.withDrink,
     },
   })
 
@@ -67,15 +67,15 @@ const AddOfferSecondStep = () => {
           rules={{
             required: 'Veuillez cocher une des cases.',
           }}
-          value="withDrinks"
-          name="withDrinks"
+          value="withDrink"
+          name="withDrink"
           label="Réduction sur l'addition avec boissons"
           withUnderline
         />
         <Radio
           control={control}
-          value="withoutDrinks"
-          name="withDrinks"
+          value="withoutDrink"
+          name="withDrink"
           label="Réduction sur l'addition hors boissons"
         />
       </div>

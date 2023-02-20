@@ -8,7 +8,7 @@ export const AddLastMinuteOfferFormContextProvider = ({ children }) => {
   const [data, setData] = useState({
     offerDay: null,
     concernedMeal: null,
-    withDrinks: null,
+    withDrink: null,
     numberOfBeneficiaries: [],
     discount: null,
     hasReachedConfirmation: false,

@@ -5,10 +5,14 @@ import api from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 
 const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
+
+  const [regularOffersNumber, setRegularOffersNumber] = useState(0)
+  const [lastMinuteOffersNumber, setLastMinuteOffersNumber] = useState(0)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -18,6 +22,31 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
     setIsLoading(false)
     router.push('/')
   }
+
+  useEffect(() => {
+    const getOffers = async () => {
+      const { restaurant } = await api.getRestaurantById(
+        api.getRestaurantId(Cookies.get('token')),
+      )
+
+      if (restaurant.discounts) {
+        setRegularOffersNumber(
+          restaurant.discounts.filter(
+            (discount: { type: 'lastMinute' | 'regular' }) =>
+              discount.type === 'regular',
+          ).length,
+        )
+        setLastMinuteOffersNumber(
+          restaurant.discounts.filter(
+            (discount: { type: 'lastMinute' | 'regular' }) =>
+              discount.type === 'lastMinute',
+          ).length,
+        )
+      }
+      console.log(restaurant)
+    }
+    getOffers()
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -69,7 +98,7 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
               >
                 Offres régulières
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-scarlet text-white">
-                  4
+                  {regularOffersNumber}
                 </div>
               </ArrowCta>
               <ArrowCta
@@ -80,6 +109,9 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                 withUnderline={false}
               >
                 Offres last minute
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-scarlet text-white">
+                  {lastMinuteOffersNumber}
+                </div>
               </ArrowCta>
             </div>
             <Button

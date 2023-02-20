@@ -19,6 +19,7 @@ const AddLastMinuteOfferThirdModal = ({
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
   } = useForm<IAddLastMinuteOfferThirdForm>({
     defaultValues: {
       discount: previousData.discount?.split('.')[0] || previousData.discount,
@@ -34,6 +35,17 @@ const AddLastMinuteOfferThirdModal = ({
   const onSubmit: SubmitHandler<IAddLastMinuteOfferThirdForm> = ({
     discount,
   }) => {
+    if (
+      discount === 'other' &&
+      (!otherDiscountValue || otherDiscountValue === NaN)
+    ) {
+      setError('discount', {
+        type: 'manual',
+        message: 'Veuillez renseigner une valeur',
+      })
+      return
+    }
+
     setData({
       ...previousData,
       discount: discount === 'other' ? `other.${otherDiscountValue}` : discount,
@@ -82,7 +94,9 @@ const AddLastMinuteOfferThirdModal = ({
           name="discount"
           value="other"
           isEditable
-          defaultEditableValue={otherDiscountValue}
+          defaultEditableValue={
+            otherDiscountValue === NaN ? 0 : otherDiscountValue
+          }
           onInput={value => setOtherDiscountValue(parseInt(value))}
           onFocus={() => setValue('discount', 'other')}
         />

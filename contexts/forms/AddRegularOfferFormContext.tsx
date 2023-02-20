@@ -8,7 +8,7 @@ export const AddRegularOfferFormContextProvider = ({ children }) => {
   const [data, setData] = useState({
     offerDays: [],
     concernedMeal: null,
-    withDrinks: null,
+    withDrink: null,
     numberOfBeneficiaries: [],
     discount: null,
     hasReachedConfirmation: false,

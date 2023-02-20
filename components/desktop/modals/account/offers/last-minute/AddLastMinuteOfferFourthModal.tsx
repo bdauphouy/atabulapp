@@ -2,12 +2,14 @@ import Button from '@/components/shared/Button'
 import FormFooter from '@/components/shared/FormFooter'
 import Modal from '@/components/shared/Modal'
 import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
+import api from '@/lib/api'
 import { ModalProps } from '@/lib/types'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
 const AddLastMinuteOfferFourthModal = ({
   isOpen,
@@ -48,9 +50,33 @@ const AddLastMinuteOfferFourthModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onSubmit = () => {
-    // Add last minute offer
-    toast.success('Offre ajoutée avec succès !')
+  const onSubmit = async () => {
+    const response = await api.addOffer(
+      api.getRestaurantId(Cookies.get('token')),
+      {
+        date: previousData.offerDay,
+        meal: previousData.concernedMeal,
+        discount: previousData.discount.includes('other')
+          ? parseInt(previousData.discount.split('.')[1])
+          : parseInt(previousData.discount),
+        unit: 'percent',
+        type: 'lastMinute',
+        maxRecipients: Math.max(
+          ...previousData.numberOfBeneficiaries
+            .filter(Boolean)
+            .map(i => parseInt(i)),
+        ),
+        offer:
+          previousData.withDrink === 'withDrink' ? 'foodWithDrink' : 'onlyFood',
+      },
+    )
+
+    if (response.success) {
+      toast.success('Offre ajoutée avec succès !')
+      onClose()
+    } else {
+      toast.error('Un problème est survenu, veuillez réessayer.')
+    }
   }
 
   return (
@@ -94,8 +120,7 @@ const AddLastMinuteOfferFourthModal = ({
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
             Réduction sur l'addition{' '}
-            {previousData.withDrinks === 'withDrinks' ? 'avec' : 'hors'}{' '}
-            boissons
+            {previousData.withDrink === 'withDrink' ? 'avec' : 'hors'} boissons
           </span>
           <Button
             variant="tertiary"

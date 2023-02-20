@@ -30,31 +30,12 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const { error: regularError, discounts: regularDiscounts } =
-    await api.getRegularDiscounts({
-      limit: 20,
-      skip: 0,
-      latitude: 48.856614,
-      longitude: 2.3522219,
-    })
-
-  const { error: lastMinuteError, discounts: lastMinuteDiscounts } =
-    await api.getLastMinuteDiscounts({
-      limit: 20,
-      skip: 0,
-      latitude: 48.856614,
-      longitude: 2.3522219,
-    })
-
   return {
-    props: {
-      regularDiscounts: regularError ? [] : regularDiscounts,
-      lastMinuteDiscounts: lastMinuteError ? [] : lastMinuteDiscounts,
-    },
+    props: {},
   }
 }
 
-const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
+const Home = () => {
   const coords = useContext(GeolocationContext)
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -62,6 +43,9 @@ const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
   const [filterDropdownValue, setFilterDropdownValue] = useState('Filtres')
+  const [regularDiscounts, setRegularDiscounts] = useState([])
+  const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState([])
+  const [nearbyRestaurants, setNearbyRestaurants] = useState([])
 
   const { Modal, changeModal } = useModal('LoginModal')
 
@@ -86,6 +70,21 @@ const Home = ({ regularDiscounts, lastMinuteDiscounts }) => {
     showLoginModal && changeModal('AskToLoginModal')
     setIsLoginModalOpen(showLoginModal)
   }, [showLoginModal, changeModal])
+
+  useEffect(() => {
+    const getRegularDiscounts = async () => {
+      const { discounts } = await api.getRegularDiscounts({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      console.log(discounts)
+    }
+
+    getRegularDiscounts()
+  }, [])
 
   return (
     <div>

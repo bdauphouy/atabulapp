@@ -1,4 +1,4 @@
-import { Offer } from '@/lib/types'
+import { CalendarOffer } from '@/lib/types'
 import {
   add,
   eachDayOfInterval,
@@ -33,7 +33,7 @@ const colStartClasses = [
 type CalendarProps = {
   selectedDay: Date
   setSelectedDay: Dispatch<SetStateAction<Date>>
-  offers: Offer[]
+  offers: CalendarOffer[]
 }
 
 const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
@@ -104,7 +104,7 @@ const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
               className={classNames(
                 isEqual(day, selectedDay) && 'bg-scarlet text-white',
                 !isEqual(day, selectedDay) && isToday(day) && 'text-scarlet',
-                offers.some(offer => isSameDay(parseISO(offer.startDate), day))
+                offers.some(offer => isSameDay(parseISO(offer.date), day))
                   ? 'font-bold text-scarlet'
                   : !isEqual(day, selectedDay) &&
                       !isToday(day) &&
@@ -124,9 +124,7 @@ const Calendar = ({ selectedDay, setSelectedDay, offers }: CalendarProps) => {
               </time>
             </button>
             <div className="mx-auto mt-1 h-1 w-1">
-              {offers.some(offer =>
-                isSameDay(parseISO(offer.startDate), day),
-              ) && (
+              {offers.some(offer => isSameDay(parseISO(offer.date), day)) && (
                 <div className="-mt-1 h-1 w-1 rounded-full bg-scarlet"></div>
               )}
             </div>

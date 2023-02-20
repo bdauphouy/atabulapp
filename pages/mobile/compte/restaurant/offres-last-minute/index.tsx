@@ -34,10 +34,10 @@ const LastMinuteOffers = () => {
       </header>
       <ul>
         <li>
-          <Offer concernedMeal="lunch" promotion={30} />
+          <Offer concernedMeal="lunch" promotion={30} onDelete={() => {}} />
         </li>
         <li>
-          <Offer concernedMeal="lunch" promotion={30} />
+          <Offer concernedMeal="lunch" promotion={30} onDelete={() => {}} />
         </li>
       </ul>
       <button

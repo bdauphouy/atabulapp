@@ -3,7 +3,7 @@ import FormFooter from '@/components/shared/FormFooter'
 import Modal from '@/components/shared/Modal'
 import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
 import { ModalProps } from '@/lib/types'
-import { startOfToday } from 'date-fns'
+import { startOfToday, add } from 'date-fns'
 import { useRouter } from 'next/router'
 import { FormEvent, useContext, useState } from 'react'
 
@@ -13,7 +13,6 @@ const AddLastMinuteOfferFirstModal = ({
   changeModal,
 }: ModalProps) => {
   const { setData, ...previousData } = useContext(AddLastMinuteOfferFormContext)
-
   const [selectedDay, setSelectedDay] = useState(
     previousData.offerDay ?? startOfToday(),
   )
@@ -22,8 +21,7 @@ const AddLastMinuteOfferFirstModal = ({
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-
-    setData({ ...previousData, offerDay: selectedDay })
+    setData({ ...previousData, offerDay: add(selectedDay, { hours: 12 }) })
 
     changeModal(
       previousData.hasReachedConfirmation
@@ -53,11 +51,7 @@ const AddLastMinuteOfferFirstModal = ({
         <Calendar
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
-          offers={[
-            {
-              startDate: '2022-11-07',
-            },
-          ]}
+          offers={[]}
         />
         <FormFooter
           formId="add-offer-first-form"

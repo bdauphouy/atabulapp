@@ -1,12 +1,55 @@
-import { useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { SwiperEvents } from 'swiper/types'
 import FilterTag from '../shared/FilterTag'
 import FormFooter from '../shared/FormFooter'
 import BookingModal from './BookingModal'
 import BookingOffer from './BookingOffer'
 
+const daysOfTheWeek = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.']
+
+const Day = ({ date }: { date: Date }) => {
+  return (
+    <div className="flex flex-1 select-none flex-col items-center gap-2 rounded-md bg-scarlet/10 p-2">
+      <h3 className="flex flex-col text-center text-base text-black/80">
+        {daysOfTheWeek[date.getDay()]}
+        <span className="font-bold">{date.getDate()}</span>
+      </h3>
+      <span className="text-center text-lg font-bold text-scarlet/80">
+        -50%
+      </span>
+    </div>
+  )
+}
+
 const Booking = () => {
   const [isLastMinute, setIsLastMinute] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    console.log((e.target as HTMLFormElement).elements['booking-offer'].value)
+  }
+
+  const handleSlideChange = (e: { activeIndex: number }) => {
+    setActiveIndex(e.activeIndex)
+  }
+
+  const days = useMemo(() => {
+    const today = new Date()
+    today.setDate(today.getDate() - activeIndex)
+    const week = []
+
+    for (let i = -3; i <= 3; i++) {
+      const day = new Date()
+      day.setDate(today.getDate() + i)
+      week.push(day)
+    }
+
+    return week
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex])
 
   return (
     <>
@@ -18,7 +61,7 @@ const Booking = () => {
         <form
           className="flex w-full flex-col px-8 py-5"
           id="search-booking-form"
-          onSubmit={e => e.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <div className="flex gap-4">
             <FilterTag
@@ -45,6 +88,22 @@ const Booking = () => {
             </div>
           </div>
           <div className="mt-8">
+            <h3 className="mb-2 text-lg font-bold text-black">Lundi 16 mars</h3>
+            <Swiper
+              slidesPerView={7}
+              spaceBetween={6}
+              loop={true}
+              className="cursor-grab active:cursor-grabbing"
+              onSlideChange={handleSlideChange}
+            >
+              {days.map((day, index) => (
+                <SwiperSlide key={index}>
+                  <Day date={day} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className="mt-8">
             <h3 className="text-lg font-bold text-black">Offres</h3>
             <ul>
               <li>
@@ -52,6 +111,7 @@ const Booking = () => {
                   promotion={30}
                   concernedMeal="dinner"
                   numberOfPersons={2}
+                  id={1}
                 />
               </li>
               <li>
@@ -59,6 +119,7 @@ const Booking = () => {
                   promotion={30}
                   concernedMeal="dinner"
                   numberOfPersons={2}
+                  id={2}
                 />
               </li>
               <li>
@@ -66,6 +127,7 @@ const Booking = () => {
                   promotion={30}
                   concernedMeal="dinner"
                   numberOfPersons={2}
+                  id={3}
                 />
               </li>
               <li>
@@ -74,6 +136,7 @@ const Booking = () => {
                   concernedMeal="dinner"
                   numberOfPersons={2}
                   withUnderline={false}
+                  id={4}
                 />
               </li>
             </ul>

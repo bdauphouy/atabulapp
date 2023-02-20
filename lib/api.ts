@@ -9,10 +9,12 @@ import {
   ApiSignupUserData,
   ApiUpdateRestaurantData,
   ApiUpdateUserData,
+  Offer,
 } from '@/lib/types'
 import Cookie from 'js-cookie'
 import { LatLngBounds } from 'leaflet'
 import serialize from './functions/serialize'
+import jwtDecode from 'jwt-decode'
 
 class Api {
   baseUrl: string
@@ -63,12 +65,24 @@ class Api {
     }
   }
 
-  private async delete({ route, queries, token }: ApiDeleteParams) {
+  private async delete({
+    route,
+    queries,
+    token,
+    body = '{}',
+  }: ApiDeleteParams) {
+    const headers = {
+      Authorization: token ? 'Bearer ' + token : null,
+    }
+
+    if (body) {
+      headers['Content-Type'] = 'application/json'
+    }
+
     const response = await fetch(this.baseUrl + route + serialize(queries), {
       method: 'DELETE',
-      headers: {
-        Authorization: token ? 'Bearer ' + token : null,
-      },
+      headers,
+      body,
     })
 
     return {
@@ -229,6 +243,10 @@ class Api {
     }
 
     return responseObject
+  }
+
+  getRestaurantId(token: string) {
+    return (jwtDecode(token) as { id?: number })?.id
   }
 
   async updateMe(token: string, data: ApiUpdateUserData) {
@@ -519,6 +537,52 @@ class Api {
 
     if (response.status === 200) {
       responseObject.restaurants = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async addOffer(restaurantId: number, offer: Offer) {
+    const responseObject = {
+      error: null,
+      success: false,
+    }
+
+    const response = await this.post({
+      route: '/restaurants/' + restaurantId + '/offers',
+      body: JSON.stringify(offer),
+    })
+
+    console.log(response)
+
+    if (response.status === 204) {
+      responseObject.success = true
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async deleteOffer(restaurantId: number, id: number) {
+    const responseObject = {
+      error: null,
+      success: false,
+    }
+
+    const response = await this.delete({
+      route: '/restaurants/' + restaurantId + '/offers',
+      body: JSON.stringify({
+        id,
+      }),
+    })
+
+    console.log(response)
+
+    if (response.status === 204) {
+      responseObject.success = true
     } else {
       responseObject.error = "Une erreur s'est produite."
     }

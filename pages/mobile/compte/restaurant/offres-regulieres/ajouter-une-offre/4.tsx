@@ -89,8 +89,7 @@ const AddOfferFourthStep = () => {
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
             Réduction sur l'addition{' '}
-            {previousData.withDrinks === 'withDrinks' ? 'avec' : 'hors'}{' '}
-            boissons
+            {previousData.withDrink === 'withDrink' ? 'avec' : 'hors'} boissons
           </span>
           <Button
             variant="tertiary"

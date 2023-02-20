@@ -9,11 +9,7 @@ import { FormEvent, ReactElement, useContext, useState } from 'react'
 export const getServerSideProps = () => {
   return {
     props: {
-      offers: [
-        {
-          startDate: '2022-11-07',
-        },
-      ],
+      offers: [],
     },
   }
 }

@@ -114,12 +114,12 @@ export interface IRestaurantPicturesForm {
 }
 
 export interface IAddRegularOfferFirstForm {
-  offerDays: (Date | undefined)[]
+  offerDays: (string | undefined)[]
 }
 
 export interface IAddRegularOfferSecondForm {
   concernedMeal: 'lunch' | 'dinner'
-  withDrinks: 'withDrinks' | 'withoutDrinks'
+  withDrink: 'withDrink' | 'withoutDrink'
   numberOfBeneficiaries: string[]
 }
 
@@ -133,7 +133,7 @@ export interface IAddLastMinuteOfferFirstForm {
 
 export interface IAddLastMinuteOfferSecondForm {
   concernedMeal: 'lunch' | 'dinner'
-  withDrinks: 'withDrinks' | 'withoutDrinks'
+  withDrink: 'withDrink' | 'withoutDrink'
   numberOfBeneficiaries: string[]
 }
 

@@ -16,6 +16,7 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
     setIsLoading(true)
     await api.logout()
     setIsLoading(false)
+    router.reload()
     router.push('/')
   }
 

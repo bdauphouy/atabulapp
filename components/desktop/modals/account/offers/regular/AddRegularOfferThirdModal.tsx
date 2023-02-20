@@ -18,6 +18,7 @@ const AddRegularOfferThirdModal = ({
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
   } = useForm<IAddRegularOfferThirdForm>({
     defaultValues: {
       discount: previousData.discount?.split('.')[0] || previousData.discount,
@@ -31,6 +32,17 @@ const AddRegularOfferThirdModal = ({
   )
 
   const onSubmit: SubmitHandler<IAddRegularOfferThirdForm> = ({ discount }) => {
+    if (
+      discount === 'other' &&
+      (!otherDiscountValue || otherDiscountValue === NaN)
+    ) {
+      setError('discount', {
+        type: 'manual',
+        message: 'Veuillez renseigner une valeur',
+      })
+      return
+    }
+
     setData({
       ...previousData,
       discount: discount === 'other' ? `other.${otherDiscountValue}` : discount,

@@ -49,16 +49,16 @@ const RegularOffers = () => {
       </h3>
       <ul>
         <li>
-          <Offer promotion={30} concernedMeal="dinner" />
+          <Offer promotion={30} concernedMeal="dinner" onDelete={() => {}} />
         </li>
         <li>
-          <Offer promotion={30} concernedMeal="dinner" />
+          <Offer promotion={30} concernedMeal="dinner" onDelete={() => {}} />
         </li>
         <li>
-          <Offer promotion={30} concernedMeal="dinner" />
+          <Offer promotion={30} concernedMeal="dinner" onDelete={() => {}} />
         </li>
         <li>
-          <Offer promotion={30} concernedMeal="dinner" />
+          <Offer promotion={30} concernedMeal="dinner" onDelete={() => {}} />
         </li>
       </ul>
       <button

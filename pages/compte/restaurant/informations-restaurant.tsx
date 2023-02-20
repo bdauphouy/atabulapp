@@ -12,8 +12,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 export const getServerSideProps = requireAuth(async ({ req }) => {
-  const { error, restaurant } = await api.getRestaurantById(7)
-  const { pictures } = await api.getRestaurantPictures(7)
+  const { token } = req.cookies
+  const restaurantId = api.getRestaurantId(token)
+
+  const { error, restaurant } = await api.getRestaurantById(restaurantId)
+  const { pictures } = await api.getRestaurantPictures(restaurantId)
 
   if (error) {
     return {
@@ -79,8 +82,6 @@ const RestaurantInformation = ({ restaurant, pictures }) => {
 
     toast.success('Les modifications ont bien été prises en compte.')
   }
-
-  console.log(pictures)
 
   return (
     <>
