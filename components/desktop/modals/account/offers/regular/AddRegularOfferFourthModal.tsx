@@ -18,20 +18,20 @@ const AddRegularOfferFourthModal = ({
   const router = useRouter()
 
   const formattedOfferDays = useMemo(() => {
-    const filteredOfferDays = previousData.offerDays.filter(Boolean)
+    const filteredOfferDays = previousData.offerDays?.filter(Boolean)
 
     return filteredOfferDays
-      .map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
+      ?.map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
       .join(', ')
   }, [previousData.offerDays])
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
     const filterdNumberOfBeneficiaries =
-      previousData.numberOfBeneficiaries.filter(Boolean)
+      previousData.numberOfBeneficiaries?.filter(Boolean) || []
 
     return (
       filterdNumberOfBeneficiaries
-        .map(
+        ?.map(
           (number, i) =>
             number +
             (i === filterdNumberOfBeneficiaries.length - 2 ? ' ou ' : ', '),
@@ -92,6 +92,7 @@ const AddRegularOfferFourthModal = ({
     if (response.success) {
       toast.success('Offre ajoutée avec succès !')
       onClose()
+      setData({})
     } else {
       toast.error('Un problème est survenu, veuillez réessayer.')
     }

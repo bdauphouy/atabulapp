@@ -63,7 +63,7 @@ const Login = () => {
       className="flex flex-col gap-6"
     >
       <h2 className="text-2xl font-extrabold text-black">Connexion</h2>
-      <h3 className="text-base text-black">Choisissez votre type de compte.</h3>
+      <h3 className="text-base text-gray">Choisissez votre type de compte.</h3>
       <Radio
         control={control}
         name="accountType"

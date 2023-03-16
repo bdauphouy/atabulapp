@@ -77,7 +77,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
-        <h3 className="text-base text-black">
+        <h3 className="text-base text-gray">
           Choisissez votre type de compte.
         </h3>
         <Radio

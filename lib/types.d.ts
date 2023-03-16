@@ -72,8 +72,9 @@ export type WorkStatus = 'student' | 'employee'
 
 export type ApiGetParams = {
   route: string
-  queries?: Record<string, string | number>
+  queries?: Record<string, string | number | string[] | number[]>
   token?: string
+  external?: boolean
 }
 
 type ApiPostParams = {

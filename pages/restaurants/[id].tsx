@@ -90,6 +90,8 @@ const Restaurant = ({ restaurant }) => {
     )
   }
 
+  console.log(restaurant.distinctions)
+
   return (
     <main className="px-5 py-10 lg:px-32">
       <Toaster />
@@ -159,7 +161,11 @@ const Restaurant = ({ restaurant }) => {
                 withText
                 key={distinction.id}
                 type={distinction.slug.split('_')[0]}
-                number={parseInt(distinction.slug.split('_')[1])}
+                number={
+                  distinction.slug.includes('_')
+                    ? parseInt(distinction.slug.split('_')[1])
+                    : 1
+                }
               />
             ))}
           </div>

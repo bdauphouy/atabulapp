@@ -10,6 +10,8 @@ import { ShowLoginModal } from '@/contexts/ShowLoginModal'
 import { UserContext } from '@/contexts/UserContext'
 import api from '@/lib/api'
 import useModal from '@/lib/hooks/useModal'
+import { ISignupRestaurantFormContext } from '@/lib/interfaces'
+import { Offer } from '@/lib/types'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useEffect, useState } from 'react'
@@ -43,8 +45,8 @@ const Home = () => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState('')
   const [filterDropdownValue, setFilterDropdownValue] = useState('Filtres')
-  const [regularDiscounts, setRegularDiscounts] = useState([])
   const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState([])
+  const [regularDiscounts, setRegularDiscounts] = useState([])
   const [nearbyRestaurants, setNearbyRestaurants] = useState([])
 
   const { Modal, changeModal } = useModal('LoginModal')
@@ -80,10 +82,40 @@ const Home = () => {
         longitude: 2.3311,
       })
 
-      console.log(discounts)
+      console.log({
+        discounts,
+      })
+
+      setRegularDiscounts(discounts)
+    }
+
+    const getLastMinuteDiscounts = async () => {
+      const { discounts } = await api.getLastMinuteDiscounts({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      setLastMinuteDiscounts(discounts)
+    }
+
+    const getNearbyRestaurants = async () => {
+      const { restaurants } = await api.getNearbyRestaurants({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      console.log(restaurants)
+
+      setNearbyRestaurants(restaurants)
     }
 
     getRegularDiscounts()
+    getLastMinuteDiscounts()
+    getNearbyRestaurants()
   }, [])
 
   return (
@@ -166,32 +198,34 @@ const Home = () => {
       </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
-          {regularDiscounts.length === 0 ? (
+          {nearbyRestaurants.length === 0 ? (
             <div className="flex h-48 items-center justify-center">
               <p className="text-xl text-gray">Aucune offre pour le moment</p>
             </div>
           ) : (
-            regularDiscounts.map((regularDiscount, i) => {
-              console.log(regularDiscount)
-              return (
-                <SwiperSlide key={i}>
-                  <RestaurantCard
-                    id={1}
-                    key={i}
-                    thumbnail="/images/restaurant-card-thumbnail.png"
-                    name="La Meurice Alain Ducasse"
-                    typesOfCooking={['Cuisine créative']}
-                    location="PARIS (75001)"
-                    tags={[
-                      { name: 'michelin', level: 2 },
-                      { name: 'etoile-verte', level: 1 },
-                    ]}
-                    isCertified
-                    promotion={30}
-                  />
-                </SwiperSlide>
-              )
-            })
+            nearbyRestaurants.map(
+              (
+                restaurant: ISignupRestaurantFormContext & {
+                  id: number
+                  isEmailConfirmed: boolean
+                },
+              ) => {
+                return (
+                  <SwiperSlide key={restaurant.id}>
+                    <RestaurantCard
+                      id={restaurant.id}
+                      thumbnail="/images/restaurant-card-thumbnail.png"
+                      name={restaurant.name}
+                      typesOfCooking={[]}
+                      location={`${restaurant.city} (${restaurant.zipCode})`}
+                      tags={[]}
+                      isCertified={restaurant.isEmailConfirmed}
+                      promotion={25}
+                    />
+                  </SwiperSlide>
+                )
+              },
+            )
           )}
         </Section>
         <Section title="Last minute" isSwiper>
@@ -200,25 +234,31 @@ const Home = () => {
               <p className="text-xl text-gray">Aucune offre pour le moment</p>
             </div>
           ) : (
-            lastMinuteDiscounts.map((_, i) => {
-              return (
-                <SwiperSlide key={i}>
-                  <RestaurantCard
-                    id={1}
-                    thumbnail="/images/restaurant-card-thumbnail.png"
-                    name="La Meurice Alain Ducasse"
-                    typesOfCooking={['Cuisine créative']}
-                    location="PARIS (75001)"
-                    tags={[
-                      { name: 'michelin', level: 2 },
-                      { name: 'etoile-verte', level: 1 },
-                    ]}
-                    isCertified
-                    promotion={50}
-                  />
-                </SwiperSlide>
-              )
-            })
+            lastMinuteDiscounts.map(
+              (
+                discount: Offer & {
+                  restaurant: ISignupRestaurantFormContext & {
+                    id: number
+                    isEmailConfirmed: boolean
+                  }
+                },
+              ) => {
+                return (
+                  <SwiperSlide key={discount.id}>
+                    <RestaurantCard
+                      id={discount.restaurant.id}
+                      thumbnail="/images/restaurant-card-thumbnail.png"
+                      name={discount.restaurant.name}
+                      typesOfCooking={[]}
+                      location={`${discount.restaurant.city} (${discount.restaurant.zipCode})`}
+                      tags={[]}
+                      isCertified={discount.restaurant.isEmailConfirmed}
+                      promotion={discount.discount}
+                    />
+                  </SwiperSlide>
+                )
+              },
+            )
           )}
         </Section>
         <div className="px-5 xl:px-32">
@@ -246,30 +286,32 @@ const Home = () => {
           })}
         </Section>
         <Section title="Offres disponibles" isGrid>
-          {lastMinuteDiscounts.length === 0 ? (
+          {regularDiscounts.length === 0 ? (
             <div className="col-span-2 flex h-48 items-center justify-center">
               <p className="text-xl text-gray">Aucune offre pour le moment</p>
             </div>
           ) : (
-            lastMinuteDiscounts.slice(0, 4).map((_, i) => {
-              return (
-                <RestaurantCard
-                  id={1}
-                  key={i}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  size="lg"
-                  promotion={50}
-                />
-              )
-            })
+            regularDiscounts
+              .slice(0, 4)
+              .map(({ restaurant, ...discount }, i) => {
+                return (
+                  <RestaurantCard
+                    id={1}
+                    key={i}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name={restaurant.name}
+                    typesOfCooking={['Cuisine créative']}
+                    location="PARIS (75001)"
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    size="lg"
+                    promotion={50}
+                  />
+                )
+              })
           )}
         </Section>
       </main>

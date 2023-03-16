@@ -23,13 +23,16 @@ class Api {
     this.baseUrl = baseUrl
   }
 
-  private async get({ route, queries, token }: ApiGetParams) {
-    const response = await fetch(this.baseUrl + route + serialize(queries), {
-      method: 'GET',
-      headers: {
-        Authorization: token ? 'Bearer ' + token : null,
+  private async get({ route, queries, token, external = false }: ApiGetParams) {
+    const response = await fetch(
+      (!external ? this.baseUrl : '') + route + serialize(queries),
+      {
+        method: 'GET',
+        headers: {
+          Authorization: token ? 'Bearer ' + token : null,
+        },
       },
-    })
+    )
 
     return {
       data:
@@ -329,6 +332,27 @@ class Api {
     return responseObject
   }
 
+  async getCoordsFromAddress(address: string) {
+    const responseObject = {
+      error: null,
+      coords: [],
+    }
+
+    const response = await this.get({
+      route: 'http://api.openweathermap.org/geo/1.0/direct',
+      queries: {
+        q: '12 rue du porte diner 94000 creteil',
+        appid: process.env.NEXT_PUBLIC_OW_KEY,
+      },
+
+      external: true,
+    })
+
+    console.log(response)
+
+    return responseObject
+  }
+
   async getRestaurantsIntoBounds(bounds: LatLngBounds) {
     const responseObject = {
       error: null,
@@ -340,25 +364,21 @@ class Api {
       sw: bounds.getSouthWest(),
     }
 
-    const response = await fetch(
-      'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-emplacement-des-stations&q=&rows=1000',
-    )
-    const data = await response.json()
+    const response = await this.get({
+      route: '/restaurants',
+      queries: {
+        ne: [formattedBoundaries.ne.lat, formattedBoundaries.ne.lng],
+        so: [formattedBoundaries.sw.lat, formattedBoundaries.sw.lng],
+      },
+    })
 
-    if (data) {
-      responseObject.restaurants = data.records
+    if (response.status === 200) {
+      responseObject.restaurants = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
     }
 
-    // const response = await this.get({
-    //   route: '/restaurants',
-    //   queries: {
-    //     boundaries: JSON.stringify(formattedBoundaries),
-    //   },
-    // })
-
-    // if (response.data.length) {
-    //   responseObject.restaurants = response.data
-    // }
+    return responseObject
 
     return responseObject
   }
@@ -417,6 +437,8 @@ class Api {
       },
     })
 
+    console.log(response)
+
     if (response.status === 200) {
       responseObject.discounts = response.data
     } else {
@@ -442,6 +464,28 @@ class Api {
 
     if (response.status === 200) {
       responseObject.discounts = response.data
+    } else {
+      responseObject.error = "Une erreur s'est produite."
+    }
+
+    return responseObject
+  }
+
+  async getNearbyRestaurants(queries: ApiGetDiscountsParams) {
+    const responseObject = {
+      error: null,
+      restaurants: null,
+    }
+
+    const response = await this.get({
+      route: '/restaurants/nearby',
+      queries: {
+        ...queries,
+      },
+    })
+
+    if (response.status === 200) {
+      responseObject.restaurants = response.data
     } else {
       responseObject.error = "Une erreur s'est produite."
     }

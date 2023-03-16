@@ -8,9 +8,11 @@ import { SearchContext } from '@/contexts/SearchContext'
 import api from '@/lib/api'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
+import { ISignupRestaurantFormContext } from '@/lib/interfaces'
 import { requireAuth } from '@/lib/middlewares/requireAuth'
+import { Offer } from '@/lib/types'
 import dynamic from 'next/dynamic'
-import { ReactElement, useContext, useState } from 'react'
+import { ReactElement, useContext, useEffect, useState } from 'react'
 import { SwiperSlide } from 'swiper/react'
 
 const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
@@ -18,31 +20,12 @@ const SearchResultMap = dynamic(import('@/components/search/SearchResultMap'), {
 })
 
 export const getServerSideProps = requireAuth(async () => {
-  const { error: regularError, discounts: regularDiscounts } =
-    await api.getRegularDiscounts({
-      limit: 20,
-      skip: 0,
-      latitude: 48.856614,
-      longitude: 2.3522219,
-    })
-
-  const { error: lastMinuteError, discounts: lastMinuteDiscounts } =
-    await api.getLastMinuteDiscounts({
-      limit: 20,
-      skip: 0,
-      latitude: 48.856614,
-      longitude: 2.3522219,
-    })
-
   return {
-    props: {
-      regularDiscounts: regularError ? [] : regularDiscounts,
-      lastMinuteDiscounts: lastMinuteError ? [] : lastMinuteDiscounts,
-    },
+    props: {},
   }
 })
 
-const Home = ({ lastMinuteDiscounts, regularDiscounts }) => {
+const Home = () => {
   const { hasSearched, ...searchData } = useContext(SearchContext)
   const { restaurants } = useContext(RestaurantsContext)
 
@@ -58,6 +41,50 @@ const Home = ({ lastMinuteDiscounts, regularDiscounts }) => {
   const { Modal } = useModal('SettingsModal')
 
   const [settings, setSettings] = useLocalstorage('settings', false)
+
+  const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState([])
+  const [regularDiscounts, setRegularDiscounts] = useState([])
+  const [nearbyRestaurants, setNearbyRestaurants] = useState([])
+
+  useEffect(() => {
+    const getRegularDiscounts = async () => {
+      const { discounts } = await api.getRegularDiscounts({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      setRegularDiscounts(discounts)
+    }
+
+    const getLastMinuteDiscounts = async () => {
+      const { discounts } = await api.getLastMinuteDiscounts({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      setLastMinuteDiscounts(discounts)
+    }
+
+    const getNearbyRestaurants = async () => {
+      const { restaurants } = await api.getNearbyRestaurants({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      console.log(restaurants)
+      setNearbyRestaurants(restaurants)
+    }
+
+    getRegularDiscounts()
+    getLastMinuteDiscounts()
+    getNearbyRestaurants()
+  }, [])
 
   return (
     <>
@@ -158,33 +185,36 @@ const Home = ({ lastMinuteDiscounts, regularDiscounts }) => {
         ) : (
           <>
             <Section title="A proximité" isSwiper>
-              {regularDiscounts.length === 0 ? (
+              {nearbyRestaurants.length === 0 ? (
                 <div className="flex h-48 items-center justify-center">
                   <p className="text-xl text-gray">
                     Aucune offre pour le moment
                   </p>
                 </div>
               ) : (
-                regularDiscounts.map((_, i) => {
-                  return (
-                    <SwiperSlide key={i}>
-                      <RestaurantCard
-                        id={1}
-                        key={i}
-                        thumbnail="/images/restaurant-card-thumbnail.png"
-                        name="La Meurice Alain Ducasse"
-                        typesOfCooking={['Cuisine créative']}
-                        location="PARIS (75001)"
-                        tags={[
-                          { name: 'michelin', level: 2 },
-                          { name: 'etoile-verte', level: 1 },
-                        ]}
-                        isCertified
-                        promotion={30}
-                      />
-                    </SwiperSlide>
-                  )
-                })
+                nearbyRestaurants.map(
+                  (
+                    restaurant: ISignupRestaurantFormContext & {
+                      id: number
+                      isEmailConfirmed: boolean
+                    },
+                  ) => {
+                    return (
+                      <SwiperSlide key={restaurant.id}>
+                        <RestaurantCard
+                          id={restaurant.id}
+                          thumbnail="/images/restaurant-card-thumbnail.png"
+                          name={restaurant.name}
+                          typesOfCooking={[]}
+                          location={`${restaurant.city} (${restaurant.zipCode})`}
+                          tags={[]}
+                          isCertified={restaurant.isEmailConfirmed}
+                          promotion={25}
+                        />
+                      </SwiperSlide>
+                    )
+                  },
+                )
               )}
             </Section>
             <Section title="Last minute" isSwiper>
@@ -195,25 +225,31 @@ const Home = ({ lastMinuteDiscounts, regularDiscounts }) => {
                   </p>
                 </div>
               ) : (
-                lastMinuteDiscounts.map((_, i) => {
-                  return (
-                    <SwiperSlide key={i}>
-                      <RestaurantCard
-                        id={1}
-                        thumbnail="/images/restaurant-card-thumbnail.png"
-                        name="La Meurice Alain Ducasse"
-                        typesOfCooking={['Cuisine créative']}
-                        location="PARIS (75001)"
-                        tags={[
-                          { name: 'michelin', level: 2 },
-                          { name: 'etoile-verte', level: 1 },
-                        ]}
-                        isCertified
-                        promotion={50}
-                      />
-                    </SwiperSlide>
-                  )
-                })
+                lastMinuteDiscounts.map(
+                  (
+                    discount: Offer & {
+                      restaurant: ISignupRestaurantFormContext & {
+                        id: number
+                        isEmailConfirmed: boolean
+                      }
+                    },
+                  ) => {
+                    return (
+                      <SwiperSlide key={discount.id}>
+                        <RestaurantCard
+                          id={discount.restaurant.id}
+                          thumbnail="/images/restaurant-card-thumbnail.png"
+                          name={discount.restaurant.name}
+                          typesOfCooking={[]}
+                          location={`${discount.restaurant.city} (${discount.restaurant.zipCode})`}
+                          tags={[]}
+                          isCertified={discount.restaurant.isEmailConfirmed}
+                          promotion={discount.discount}
+                        />
+                      </SwiperSlide>
+                    )
+                  },
+                )
               )}
             </Section>
             <div className="px-5 xl:px-32">

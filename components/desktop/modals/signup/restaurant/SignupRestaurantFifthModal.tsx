@@ -62,7 +62,7 @@ const SignupRestaurantFifthModal = ({
       phone: toInternationalFormat(previousData.phoneNumber),
       email: previousData.email,
       password: previousData.password,
-      coordinates: '+90.0, -127.554334', // wip
+      coordinates: '+48.784439, +2.465592', // wip
       preferredContact: {
         fullName: previousData.privilegedFullName,
         phone: toInternationalFormat(previousData.privilegedPhoneNumber),

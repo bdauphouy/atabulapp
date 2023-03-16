@@ -21,7 +21,7 @@ const SignupPersonalFirstModal = ({
       onClose={onClose}
     >
       <div className="flex flex-col gap-6">
-        <p className="border-b-2 border-solid border-alto/30 pb-6 text-base text-black">
+        <p className="border-b-2 border-solid border-alto/30 pb-6 text-base text-gray">
           Le coût annuel de l'inscription pour profiter des offres et avantages
           d'Atabulapp est de 30€ TTC
         </p>

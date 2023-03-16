@@ -76,7 +76,7 @@ const SignupPersonalFourthModal = ({
       onClose={onClose}
     >
       <div className="flex flex-col gap-6">
-        <p className="text-base text-black">
+        <p className="text-base text-gray">
           Le justificatif étudiant doit être un certificat de scolarité.
         </p>
         <form

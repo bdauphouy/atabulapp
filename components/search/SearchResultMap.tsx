@@ -38,6 +38,8 @@ const MapControls = () => {
 
   const loadRestaurants = async (e: DragEndEvent | { target: Map }) => {
     console.log('load restaurants')
+    const response = await api.getRestaurantsIntoBounds(e.target.getBounds())
+    console.log(response)
 
     const bounds = map.getBounds()
     setBounds([

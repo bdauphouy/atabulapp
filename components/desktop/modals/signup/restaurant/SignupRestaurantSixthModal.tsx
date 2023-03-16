@@ -34,7 +34,6 @@ const SignupRestaurantSixthModal = ({
           </div>
           Inscription en cours de validation
         </h2>
-
         <p className="mt-1 text-center text-base text-black">
           Votre restaurant a été correctement enregistré. L'équipe d'Atabulapp
           va étudier votre demande et vous recevrez une réponse dans les

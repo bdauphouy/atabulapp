@@ -17,6 +17,9 @@ module.exports = {
         white: '#FFFFFF',
         black: '#000000',
       },
+      fontSize: {
+        base: ['1rem', '1.25rem'],
+      },
     },
   },
   plugins: [

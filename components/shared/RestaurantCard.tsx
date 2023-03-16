@@ -142,7 +142,7 @@ const RestaurantCard = ({
               variant === 'horizontal' ? 'p-2 pl-0' : ''
             }`}
           >
-            {variant === 'vertical' && tags && (
+            {variant === 'vertical' && tags.length > 0 && (
               <div className={`flex gap-2 ${isResult ? 'px-2' : ''}`}>
                 {tags.map((tag, i) => (
                   <Tag key={i} type={tag.name} number={tag.level ?? 1} />
@@ -164,14 +164,16 @@ const RestaurantCard = ({
                 } flex flex-wrap justify-between gap-2`}
               >
                 <div>
-                  <h4 className="text-base text-gray">
-                    Cuisine{' '}
-                    {typesOfCooking
-                      .map(typeOfCooking =>
-                        typeOfCooking.replace('Cuisine', ''),
-                      )
-                      .join(', ')}
-                  </h4>
+                  {typesOfCooking.length > 0 && (
+                    <h4 className="text-base text-gray">
+                      Cuisine{' '}
+                      {typesOfCooking
+                        .map(typeOfCooking =>
+                          typeOfCooking.replace('Cuisine', ''),
+                        )
+                        .join(', ')}
+                    </h4>
+                  )}
                   {!isResult && (
                     <h4 className="text=base text-gray">{location}</h4>
                   )}

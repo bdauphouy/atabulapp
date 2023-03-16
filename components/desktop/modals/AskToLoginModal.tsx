@@ -20,7 +20,7 @@ const AskToLoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
       isOpen={isOpen}
       onClose={handleClose}
     >
-      <h3 className="text-base text-black">
+      <h3 className="text-base text-gray">
         Pour accéder à ces pages, vous devez être connecté à votre compte
         Atabulapp.
       </h3>

@@ -49,7 +49,7 @@ const SettingsModal = ({ isOpen, onClose }: ModalProps) => {
           <h3 className="text-lg font-bold text-black">
             Activer les newletters
           </h3>
-          <p className="mt-2 mb-6 text-base text-black">
+          <p className="mt-2 mb-6 text-base text-gray">
             Ne rater aucun message important tel que les rappels et détails de
             vos réservations.
           </p>
@@ -63,7 +63,7 @@ const SettingsModal = ({ isOpen, onClose }: ModalProps) => {
           <h3 className="text-lg font-bold text-black">
             Activer la localisation
           </h3>
-          <p className="mt-2 mb-6 text-base text-black">
+          <p className="mt-2 mb-6 text-base text-gray">
             Pour vous proposer une expérience plus personnelle, activez la
             localisation.
           </p>
