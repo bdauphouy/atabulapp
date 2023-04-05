@@ -9,17 +9,21 @@ import { ReactElement, useEffect, useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { RiAddLine } from 'react-icons/ri'
 
-export const getServerSideProps = requireAuth(async () => {
-  const { error, pictures } = await api.getRestaurantPictures(7)
+export const getServerSideProps = requireAuth(async ({ req }) => {
+  const { token } = req.cookies
+  const restaurantId = api.getRestaurantId(token)
+
+  const { pictures } = await api.getRestaurantPictures(restaurantId)
 
   return {
     props: {
       pictures,
+      restaurantId,
     },
   }
 })
 
-const Pictures = ({ pictures }) => {
+const Pictures = ({ pictures, restaurantId }) => {
   const { handleSubmit, control, watch, setValue } =
     useForm<IRestaurantPicturesForm>({
       defaultValues: {
@@ -35,10 +39,7 @@ const Pictures = ({ pictures }) => {
   const handleCoverEdit = () => {}
 
   const onSubmit: SubmitHandler<IRestaurantPicturesForm> = async data => {
-    console.log(data)
-    const res = await api.addRestaurantPicture(7, data.coverPicture)
-
-    console.log(res)
+    await api.addRestaurantPicture(restaurantId, data.coverPicture)
   }
 
   const handleAddPictureClick = () => {
@@ -51,8 +52,6 @@ const Pictures = ({ pictures }) => {
         .click()
     })
   }
-
-  console.log(pictures)
 
   return (
     <div>

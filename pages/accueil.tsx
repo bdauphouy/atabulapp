@@ -43,21 +43,11 @@ const Home = () => {
   const [settings, setSettings] = useLocalstorage('settings', false)
 
   const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState([])
+  const [nearbyDiscounts, setNearbyDiscounts] = useState([])
+  const [restaurantsSelection, setRestaurantsSelection] = useState([])
   const [regularDiscounts, setRegularDiscounts] = useState([])
-  const [nearbyRestaurants, setNearbyRestaurants] = useState([])
 
   useEffect(() => {
-    const getRegularDiscounts = async () => {
-      const { discounts } = await api.getRegularDiscounts({
-        limit: 20,
-        skip: 0,
-        latitude: 48.864,
-        longitude: 2.3311,
-      })
-
-      setRegularDiscounts(discounts)
-    }
-
     const getLastMinuteDiscounts = async () => {
       const { discounts } = await api.getLastMinuteDiscounts({
         limit: 20,
@@ -69,21 +59,38 @@ const Home = () => {
       setLastMinuteDiscounts(discounts)
     }
 
-    const getNearbyRestaurants = async () => {
-      const { restaurants } = await api.getNearbyRestaurants({
+    const getNearbyDiscounts = async () => {
+      const { discounts } = await api.getNearbyRestaurants({
         limit: 20,
         skip: 0,
         latitude: 48.864,
         longitude: 2.3311,
       })
 
-      console.log(restaurants)
-      setNearbyRestaurants(restaurants)
+      setNearbyDiscounts(discounts)
     }
 
-    getRegularDiscounts()
+    const getRestaurantsSelection = async () => {
+      const { selection } = await api.getRestaurantsSelection()
+
+      setRestaurantsSelection(selection)
+    }
+
+    const getRegularDiscounts = async () => {
+      const { discounts } = await api.getRegularDiscounts({
+        limit: 20,
+        skip: 0,
+        latitude: 48.864,
+        longitude: 2.3311,
+      })
+
+      setRegularDiscounts(discounts)
+    }
+
     getLastMinuteDiscounts()
-    getNearbyRestaurants()
+    getNearbyDiscounts()
+    getRestaurantsSelection()
+    getRegularDiscounts()
   }, [])
 
   return (
@@ -185,31 +192,38 @@ const Home = () => {
         ) : (
           <>
             <Section title="A proximité" isSwiper>
-              {nearbyRestaurants.length === 0 ? (
+              {nearbyDiscounts.length === 0 ? (
                 <div className="flex h-48 items-center justify-center">
                   <p className="text-xl text-gray">
                     Aucune offre pour le moment
                   </p>
                 </div>
               ) : (
-                nearbyRestaurants.map(
+                nearbyDiscounts.map(
                   (
-                    restaurant: ISignupRestaurantFormContext & {
+                    discount: ISignupRestaurantFormContext & {
                       id: number
-                      isEmailConfirmed: boolean
+                      discount: number
+                      restaurant: {
+                        id: number
+                        name: string
+                        city: string
+                        zipCode: string
+                        isEmailConfirmed: boolean
+                      }
                     },
                   ) => {
                     return (
-                      <SwiperSlide key={restaurant.id}>
+                      <SwiperSlide key={discount.id}>
                         <RestaurantCard
-                          id={restaurant.id}
+                          id={discount.restaurant?.id}
                           thumbnail="/images/restaurant-card-thumbnail.png"
-                          name={restaurant.name}
+                          name={discount.restaurant?.name}
                           typesOfCooking={[]}
-                          location={`${restaurant.city} (${restaurant.zipCode})`}
+                          location={`${discount.restaurant?.city} (${discount.restaurant?.zipCode})`}
                           tags={[]}
-                          isCertified={restaurant.isEmailConfirmed}
-                          promotion={25}
+                          isCertified={discount.restaurant?.isEmailConfirmed}
+                          promotion={discount.discount}
                         />
                       </SwiperSlide>
                     )
@@ -256,53 +270,63 @@ const Home = () => {
               <Mea />
             </div>
             <Section title="Sélection Atabulapp" isSwiper>
-              {[...Array(5)].map((_, i) => {
-                return (
-                  <SwiperSlide key={i}>
-                    <RestaurantCard
-                      id={1}
-                      thumbnail="/images/restaurant-card-thumbnail.png"
-                      name="La Meurice Alain Ducasse"
-                      typesOfCooking={['Cuisine créative']}
-                      location="PARIS (75001)"
-                      tags={[
-                        { name: 'michelin', level: 2 },
-                        { name: 'etoile-verte', level: 1 },
-                      ]}
-                      isCertified
-                      promotion={50}
-                    />
-                  </SwiperSlide>
-                )
-              })}
+              {restaurantsSelection.length === 0 ? (
+                <div className="flex h-48 items-center justify-center">
+                  <p className="text-xl text-gray">
+                    Aucune offre pour le moment
+                  </p>
+                </div>
+              ) : (
+                restaurantsSelection.map(restaurant => {
+                  return (
+                    <SwiperSlide key={restaurant.id}>
+                      <RestaurantCard
+                        id={1}
+                        thumbnail="/images/restaurant-card-thumbnail.png"
+                        name={restaurant.name}
+                        typesOfCooking={['Cuisine créative']}
+                        location={`${restaurant.city} (${restaurant.zipCode})`}
+                        tags={[
+                          { name: 'michelin', level: 2 },
+                          { name: 'etoile-verte', level: 1 },
+                        ]}
+                        isCertified
+                        promotion={50}
+                      />
+                    </SwiperSlide>
+                  )
+                })
+              )}
             </Section>
             <Section title="Offres disponibles" isGrid>
-              {lastMinuteDiscounts.length === 0 ? (
+              {regularDiscounts.length === 0 ? (
                 <div className="col-span-2 flex h-48 items-center justify-center">
                   <p className="text-xl text-gray">
                     Aucune offre pour le moment
                   </p>
                 </div>
               ) : (
-                lastMinuteDiscounts.slice(0, 4).map((_, i) => {
-                  return (
-                    <RestaurantCard
-                      id={1}
-                      key={i}
-                      thumbnail="/images/restaurant-card-thumbnail.png"
-                      name="La Meurice Alain Ducasse"
-                      typesOfCooking={['Cuisine créative']}
-                      location="PARIS (75001)"
-                      tags={[
-                        { name: 'michelin', level: 2 },
-                        { name: 'etoile-verte', level: 1 },
-                      ]}
-                      isCertified
-                      size="lg"
-                      promotion={50}
-                    />
-                  )
-                })
+                regularDiscounts
+                  .slice(0, 4)
+                  .map(({ restaurant, ...discount }, i) => {
+                    return (
+                      <RestaurantCard
+                        id={1}
+                        key={i}
+                        thumbnail="/images/restaurant-card-thumbnail.png"
+                        name={restaurant.name}
+                        typesOfCooking={['Cuisine créative']}
+                        location="PARIS (75001)"
+                        tags={[
+                          { name: 'michelin', level: 2 },
+                          { name: 'etoile-verte', level: 1 },
+                        ]}
+                        isCertified
+                        size="lg"
+                        promotion={50}
+                      />
+                    )
+                  })
               )}
             </Section>
           </>

@@ -2,20 +2,16 @@ import MobileLayout from '@/components/layouts/mobile/MobileLayout'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
 import api from '@/lib/api'
+import { requireAuth } from '@/lib/middlewares/requireAuth'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = requireAuth(async ({ req }) => {
   const { token } = req.cookies
+  const restaurantId = api.getRestaurantId(token)
 
-  if (!token) {
-    return {
-      notFound: true,
-    }
-  }
-
-  const { error, user } = await api.me(token)
+  const { error, restaurant } = await api.getRestaurantById(restaurantId)
 
   if (error) {
     return {
@@ -25,12 +21,12 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      user,
+      restaurant,
     },
   }
-}
+})
 
-const AccountIndex = ({ user }) => {
+const AccountIndex = ({ restaurant }) => {
   const router = useRouter()
 
   const handleLogout = async () => {
@@ -50,12 +46,12 @@ const AccountIndex = ({ user }) => {
           />
         </div>
         <div className="px-5 pt-6">
-          <h2 className="text-2xl text-black">
-            {user.firstName} {user.lastName}
-          </h2>
-          <p className="mt-2 text-base text-black">
-            Restaurant certifié Atabulapp
-          </p>
+          <h2 className="text-2xl text-black">{restaurant.name}</h2>
+          {restaurant.isEmailConfirmed && (
+            <p className="mt-2 text-base text-black">
+              Restaurant certifié Atabulapp
+            </p>
+          )}
         </div>
       </header>
       <div className="px-5">

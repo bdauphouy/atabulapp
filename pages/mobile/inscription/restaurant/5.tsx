@@ -75,6 +75,12 @@ const RestaurantFive = () => {
         message: response.error,
       })
     } else {
+      for (const picture of data.additionalPictures.filter(Boolean)) {
+        await api.addRestaurantPicture(response.user.id, picture)
+      }
+
+      setData(null)
+
       router.push('/mobile/inscription/restaurant/6')
     }
   }

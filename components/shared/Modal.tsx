@@ -1,6 +1,7 @@
 import FormFooter from '@/components/shared/FormFooter'
+import { ShowLoginModal } from '@/contexts/ShowLoginModal'
 import { FormFooterActionsProps, ModalProps as MP } from '@/lib/types'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useContext, useEffect } from 'react'
 import { RiArrowLeftSLine, RiCloseLine } from 'react-icons/ri'
 
 type ModalProps = {
@@ -29,6 +30,8 @@ const Modal = ({
   useEffect(() => {
     document.body.style.overflowY = isOpen ? 'hidden' : null
   }, [isOpen])
+
+  const { setShowLoginModal } = useContext(ShowLoginModal)
 
   return (
     isOpen && (
@@ -63,7 +66,10 @@ const Modal = ({
           )}
         </div>
         <div
-          onClick={onClose}
+          onClick={() => {
+            setShowLoginModal(false)
+            onClose()
+          }}
           className="fixed left-0 top-0 -z-10 h-screen w-full bg-black/40"
         ></div>
       </div>

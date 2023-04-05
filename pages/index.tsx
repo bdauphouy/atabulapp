@@ -43,16 +43,16 @@ const Home = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
   const [isLastMinute, setIsLastMinute] = useState(false)
-  const [searchInputValue, setSearchInputValue] = useState('')
   const [filterDropdownValue, setFilterDropdownValue] = useState('Filtres')
   const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState([])
   const [regularDiscounts, setRegularDiscounts] = useState([])
-  const [nearbyRestaurants, setNearbyRestaurants] = useState([])
+  const [nearbyDiscounts, setNearbyDiscounts] = useState([])
+  const [restaurantsSelection, setRestaurantsSelection] = useState([])
 
   const { Modal, changeModal } = useModal('LoginModal')
 
   const { user } = useContext(UserContext)
-  const { showLoginModal } = useContext(ShowLoginModal)
+  const { showLoginModal, setShowLoginModal } = useContext(ShowLoginModal)
 
   const router = useRouter()
 
@@ -100,22 +100,27 @@ const Home = () => {
       setLastMinuteDiscounts(discounts)
     }
 
-    const getNearbyRestaurants = async () => {
-      const { restaurants } = await api.getNearbyRestaurants({
+    const getNearbyDiscounts = async () => {
+      const { discounts } = await api.getNearbyRestaurants({
         limit: 20,
         skip: 0,
         latitude: 48.864,
         longitude: 2.3311,
       })
 
-      console.log(restaurants)
+      setNearbyDiscounts(discounts)
+    }
 
-      setNearbyRestaurants(restaurants)
+    const getRestaurantsSelection = async () => {
+      const { selection } = await api.getRestaurantsSelection()
+
+      setRestaurantsSelection(selection)
     }
 
     getRegularDiscounts()
     getLastMinuteDiscounts()
-    getNearbyRestaurants()
+    getNearbyDiscounts()
+    getRestaurantsSelection()
   }, [])
 
   return (
@@ -159,16 +164,22 @@ const Home = () => {
         </div>
       </header>
       <div className="flex flex-col gap-6 px-5 pt-5 md:flex-row xl:px-32">
-        <label className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6">
+        <label
+          onClick={() => setShowLoginModal(true)}
+          className="flex max-w-3xl flex-1 items-center gap-6 overflow-hidden rounded-full bg-alto/30 pl-6"
+        >
           <RiSearchLine className="text-gray" size={20} />
           <input
             type="text"
             placeholder="Recherche"
             className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
-            onChange={e => setSearchInputValue(e.target.value)}
+            disabled
           />
         </label>
-        <div className="flex flex-wrap gap-6">
+        <div
+          className="flex flex-wrap gap-6"
+          onClick={() => setShowLoginModal(true)}
+        >
           <FiltersDropdown
             size="lg"
             isOpen={isFiltersDropdownOpen}
@@ -198,29 +209,36 @@ const Home = () => {
       </div>
       <main className="flex flex-col gap-11 py-10">
         <Section title="A proximité" isSwiper>
-          {nearbyRestaurants.length === 0 ? (
+          {nearbyDiscounts.length === 0 ? (
             <div className="flex h-48 items-center justify-center">
               <p className="text-xl text-gray">Aucune offre pour le moment</p>
             </div>
           ) : (
-            nearbyRestaurants.map(
+            nearbyDiscounts.map(
               (
-                restaurant: ISignupRestaurantFormContext & {
+                discount: ISignupRestaurantFormContext & {
                   id: number
-                  isEmailConfirmed: boolean
+                  discount: number
+                  restaurant: {
+                    id: number
+                    name: string
+                    city: string
+                    zipCode: string
+                    isEmailConfirmed: boolean
+                  }
                 },
               ) => {
                 return (
-                  <SwiperSlide key={restaurant.id}>
+                  <SwiperSlide key={discount.id}>
                     <RestaurantCard
-                      id={restaurant.id}
+                      id={discount.restaurant?.id}
                       thumbnail="/images/restaurant-card-thumbnail.png"
-                      name={restaurant.name}
+                      name={discount.restaurant?.name}
                       typesOfCooking={[]}
-                      location={`${restaurant.city} (${restaurant.zipCode})`}
+                      location={`${discount.restaurant?.city} (${discount.restaurant?.zipCode})`}
                       tags={[]}
-                      isCertified={restaurant.isEmailConfirmed}
-                      promotion={25}
+                      isCertified={discount.restaurant?.isEmailConfirmed}
+                      promotion={discount.discount}
                     />
                   </SwiperSlide>
                 )
@@ -265,25 +283,31 @@ const Home = () => {
           <Mea />
         </div>
         <Section title="Sélection Atabulapp" isSwiper>
-          {[...Array(5)].map((_, i) => {
-            return (
-              <SwiperSlide key={i}>
-                <RestaurantCard
-                  id={1}
-                  thumbnail="/images/restaurant-card-thumbnail.png"
-                  name="La Meurice Alain Ducasse"
-                  typesOfCooking={['Cuisine créative']}
-                  location="PARIS (75001)"
-                  tags={[
-                    { name: 'michelin', level: 2 },
-                    { name: 'etoile-verte', level: 1 },
-                  ]}
-                  isCertified
-                  promotion={50}
-                />
-              </SwiperSlide>
-            )
-          })}
+          {restaurantsSelection.length === 0 ? (
+            <div className="flex h-48 items-center justify-center">
+              <p className="text-xl text-gray">Aucune offre pour le moment</p>
+            </div>
+          ) : (
+            restaurantsSelection.map(restaurant => {
+              return (
+                <SwiperSlide key={restaurant.id}>
+                  <RestaurantCard
+                    id={1}
+                    thumbnail="/images/restaurant-card-thumbnail.png"
+                    name={restaurant.name}
+                    typesOfCooking={['Cuisine créative']}
+                    location={`${restaurant.city} (${restaurant.zipCode})`}
+                    tags={[
+                      { name: 'michelin', level: 2 },
+                      { name: 'etoile-verte', level: 1 },
+                    ]}
+                    isCertified
+                    promotion={50}
+                  />
+                </SwiperSlide>
+              )
+            })
+          )}
         </Section>
         <Section title="Offres disponibles" isGrid>
           {regularDiscounts.length === 0 ? (

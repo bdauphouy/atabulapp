@@ -13,7 +13,7 @@ import DesktopHeaderSearchDropdown from './DesktopHeaderSearchDropdown'
 import api from '@/lib/api'
 import { RestaurantsContext } from '@/contexts/RestaurantsContext'
 
-const DesktopHeader = () => {
+const DesktopHeader = ({ isFocused = false, onExit = () => {} }) => {
   const {
     setLocation,
     setPeriod,
@@ -81,10 +81,6 @@ const DesktopHeader = () => {
     setHasSearched(true)
   }
 
-  // const onSubmit: SubmitHandler<ISearchForm> = async data => {
-  //   console.log(data)
-  // }
-
   const router = useRouter()
 
   return (
@@ -121,6 +117,7 @@ const DesktopHeader = () => {
               onClick={() => setIsRecentSearchesOpen(true)}
               onFocus={handleLocationFocus}
               onInput={handleAutocomplete}
+              autoFocus={isFocused}
             />
             <input
               type="text"
@@ -145,24 +142,33 @@ const DesktopHeader = () => {
             Chercher
           </Button>
         </form>
-        <Button
-          variant="primary"
-          onClick={() =>
-            router.push(
-              `/compte/${
-                Cookie.get('accountType') === 'personal'
-                  ? 'personnel/informations-personnelles'
-                  : 'restaurant/informations-restaurant'
-              }`,
-            )
-          }
-        >
-          <RiUser6Line />
-          Profil
-        </Button>
+        {Cookie.get('token') ? (
+          <Button
+            variant="primary"
+            onClick={() =>
+              router.push(
+                `/compte/${
+                  Cookie.get('accountType') === 'personal'
+                    ? 'personnel/informations-personnelles'
+                    : 'restaurant/informations-restaurant'
+                }`,
+              )
+            }
+          >
+            <RiUser6Line />
+            Profil
+          </Button>
+        ) : (
+          <div></div>
+        )}
       </header>
       {isRecentSearchesOpen && (
-        <RecentSearches onClickOutside={() => setIsRecentSearchesOpen(false)} />
+        <RecentSearches
+          onClickOutside={() => {
+            onExit()
+            setIsRecentSearchesOpen(false)
+          }}
+        />
       )}
     </div>
   )

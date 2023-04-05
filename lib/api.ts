@@ -180,8 +180,6 @@ class Api {
       }),
     })
 
-    console.log(response)
-
     switch (response.status) {
       case 401:
         responseObject.error = 'Votre email ou mot de passe est incorrect.'
@@ -402,6 +400,29 @@ class Api {
     return responseObject
   }
 
+  async getRestaurantsSelection() {
+    const responseObject = {
+      error: null,
+      selection: null,
+    }
+
+    const response = await this.get({
+      route: '/restaurants',
+      queries: {
+        isFeatured: 'true',
+      },
+    })
+
+    if (response.status === 200) {
+      responseObject.selection = response.data
+    } else {
+      responseObject.error =
+        'Un problème est survenu lors de la récupération de la sélection.'
+    }
+
+    return responseObject
+  }
+
   async updateRestaurant(id: number, data: ApiUpdateRestaurantData) {
     const responseObject = {
       error: null,
@@ -457,8 +478,8 @@ class Api {
     const response = await this.get({
       route: '/restaurants/discounts',
       queries: {
-        type: 'lastMinute',
         ...queries,
+        type: 'lastMinute',
       },
     })
 
@@ -474,18 +495,19 @@ class Api {
   async getNearbyRestaurants(queries: ApiGetDiscountsParams) {
     const responseObject = {
       error: null,
-      restaurants: null,
+      discounts: null,
     }
 
     const response = await this.get({
       route: '/restaurants/nearby',
       queries: {
         ...queries,
+        type: 'regular',
       },
     })
 
     if (response.status === 200) {
-      responseObject.restaurants = response.data
+      responseObject.discounts = response.data
     } else {
       responseObject.error = "Une erreur s'est produite."
     }
