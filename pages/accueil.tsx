@@ -3,8 +3,10 @@ import DesktopLayout from '@/components/layouts/desktop/DesktopLayout'
 import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import Mea from '@/components/shared/Mea'
 import RestaurantCard from '@/components/shared/RestaurantCard'
+import { HonorsContext } from '@/contexts/HonorsContext'
 import { RestaurantsContext } from '@/contexts/RestaurantsContext'
 import { SearchContext } from '@/contexts/SearchContext'
+import { TypesOfCuisineContext } from '@/contexts/TypesOfCuisineContext'
 import api from '@/lib/api'
 import useLocalstorage from '@/lib/hooks/useLocalStorage'
 import useModal from '@/lib/hooks/useModal'
@@ -28,6 +30,8 @@ export const getServerSideProps = requireAuth(async () => {
 const Home = () => {
   const { hasSearched, ...searchData } = useContext(SearchContext)
   const { restaurants } = useContext(RestaurantsContext)
+  const honors = useContext(HonorsContext)
+  const typesOfCuisine = useContext(TypesOfCuisineContext)
 
   const [isHonorsFiltersDropdownOpen, setIsHonorsFiltersDropdownOpen] =
     useState(false)
@@ -46,6 +50,18 @@ const Home = () => {
   const [nearbyDiscounts, setNearbyDiscounts] = useState([])
   const [restaurantsSelection, setRestaurantsSelection] = useState([])
   const [regularDiscounts, setRegularDiscounts] = useState([])
+  const [activeRestaurant, setActiveRestaurant] = useState(null)
+
+  const [filters, setFilters] = useState({
+    honor: '',
+    meal: '',
+    typeOfCuisine: '',
+  })
+
+  const handleMarkerClick = async (restaurantId: number) => {
+    const { restaurant } = await api.getRestaurantById(restaurantId)
+    setActiveRestaurant(restaurant)
+  }
 
   useEffect(() => {
     const getLastMinuteDiscounts = async () => {
@@ -93,6 +109,10 @@ const Home = () => {
     getRegularDiscounts()
   }, [])
 
+  useEffect(() => {
+    console.log(filters)
+  }, [filters])
+
   return (
     <>
       {!settings && (
@@ -114,7 +134,15 @@ const Home = () => {
               isHonorsFiltersDropdownOpen => !isHonorsFiltersDropdownOpen,
             )
           }
-          value="Distinctions"
+          value={filters.honor || 'Distinctions'}
+          options={[
+            { label: 'Distinctions', value: 'Distinctions' },
+            ...honors.map(honor => ({
+              label: honor.title,
+              value: honor.title,
+            })),
+          ]}
+          onChange={value => setFilters({ ...filters, honor: value })}
         />
         <FiltersDropdown
           size="lg"
@@ -124,7 +152,13 @@ const Home = () => {
               isMealFiltersDropdownOpen => !isMealFiltersDropdownOpen,
             )
           }}
-          value="Repas"
+          value={filters.meal || 'Repas'}
+          options={[
+            { label: 'Repas', value: 'Repas' },
+            { label: 'Déjeuner', value: 'Déjeuner' },
+            { label: 'Dîner', value: 'Dîner' },
+          ]}
+          onChange={value => setFilters({ ...filters, meal: value })}
         />
         <FiltersDropdown
           size="lg"
@@ -135,7 +169,15 @@ const Home = () => {
                 !isTypeOfCuisineFiltersDropdownOpen,
             )
           }}
-          value="Type de cuisine"
+          value={filters.typeOfCuisine || 'Type de cuisine'}
+          options={[
+            { label: 'Type de cuisine', value: 'Type de cuisine' },
+            ...typesOfCuisine.map(typeOfCuisine => ({
+              label: typeOfCuisine,
+              value: typeOfCuisine,
+            })),
+          ]}
+          onChange={value => setFilters({ ...filters, typeOfCuisine: value })}
         />
       </div>
       <main className="flex flex-col gap-11 py-10">
@@ -144,11 +186,14 @@ const Home = () => {
           <div className="mt-4 flex flex-col-reverse gap-2 rounded-lg border-[1px] border-solid border-alto/60 p-2 md:flex-row">
             <div className="md:flex-[1]">
               <RestaurantCard
-                id={1}
-                thumbnail="/images/restaurant-card-thumbnail.png"
-                name="La Meurice Alain Ducasse"
+                id={activeRestaurant?.id || 1}
+                thumbnail={
+                  activeRestaurant?.thumbnail ||
+                  '/images/restaurant-card-thumbnail.png'
+                }
+                name={activeRestaurant?.name || 'La Meurice Alain Ducasse'}
                 typesOfCooking={['Cuisine créative']}
-                location="PARIS (75001)"
+                location={`${activeRestaurant?.city} (${activeRestaurant?.zipCode})`}
                 tags={[
                   { name: 'michelin', level: 2 },
                   { name: 'etoile-verte', level: 1 },
@@ -159,7 +204,7 @@ const Home = () => {
               />
             </div>
             <div className="h-60 overflow-hidden rounded-md md:h-auto md:flex-[3]">
-              <SearchResultMap />
+              <SearchResultMap onMarkerClick={handleMarkerClick} />
             </div>
           </div>
         </div>

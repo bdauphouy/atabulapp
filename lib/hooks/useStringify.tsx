@@ -3,18 +3,14 @@ import { UseFormSetValue } from 'react-hook-form'
 
 const useStringify = (
   name: string,
-  watchValue: [(boolean | string)[]],
+  watchValue: (boolean | string)[],
   setValue?: UseFormSetValue<any>,
   callback?: (value: number) => void,
 ) => {
   const [stringifiedValue, setStringifiedValue] = useState('')
 
   useEffect(() => {
-    if (!watchValue[0]) return
-
-    const filteredFields = watchValue[0].filter(
-      field => typeof field === 'string',
-    )
+    const filteredFields = watchValue.filter(field => typeof field === 'string')
 
     const formatedFields = filteredFields.slice(0, 2).join(', ')
 

@@ -57,6 +57,9 @@ export type FilterCategory =
 
 export type SelectedFilters = {
   honorsString: string
+  mealsString: string
+  typesOfCuisineString: string
+  datesString: string
 }
 
 export type Day =

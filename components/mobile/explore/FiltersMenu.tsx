@@ -24,20 +24,31 @@ const FiltersMenu = ({
           </div>
         </ArrowCta>
         <ArrowCta onClick={() => setCurrentCategory('Repas')} variant="lg">
-          Repas
+          <div>
+            Repas
+            <p className="text-sm text-gray">{selectedFilters.mealsString}</p>
+          </div>
         </ArrowCta>
         <ArrowCta
           onClick={() => setCurrentCategory('Type de cuisine')}
           variant="lg"
         >
-          Type de cuisine
+          <div>
+            Types de cuisine
+            <p className="text-sm text-gray">
+              {selectedFilters.typesOfCuisineString}
+            </p>
+          </div>
         </ArrowCta>
         <ArrowCta
           onClick={() => setCurrentCategory('Date')}
           variant="lg"
           withUnderline={false}
         >
-          Date
+          <div>
+            Dates
+            <p className="text-sm text-gray">{selectedFilters.datesString}</p>
+          </div>
         </ArrowCta>
       </div>
     </div>

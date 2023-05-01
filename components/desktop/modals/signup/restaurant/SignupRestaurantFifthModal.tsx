@@ -62,7 +62,7 @@ const SignupRestaurantFifthModal = ({
       phone: toInternationalFormat(previousData.phoneNumber),
       email: previousData.email,
       password: previousData.password,
-      coordinates: '+48.784439, +2.465592', // wip
+      coordinates: '+48.784439, +2.465592',
       preferredContact: {
         fullName: previousData.privilegedFullName,
         phone: toInternationalFormat(previousData.privilegedPhoneNumber),
@@ -131,7 +131,7 @@ const SignupRestaurantFifthModal = ({
           </h4>
         </header>
         <div className="grid grid-cols-2 gap-4" ref={picturesGridRef}>
-          {additionalPictures[0].map((_, i) => {
+          {additionalPictures[0]?.map((_, i) => {
             return (
               <ImportImageArea
                 key={i}

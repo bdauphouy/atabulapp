@@ -189,12 +189,7 @@ const Home = () => {
               )
             }
             onChange={value => setFilterDropdownValue(value)}
-            value={
-              filterDropdownOptions.find(
-                option => option.value === filterDropdownValue,
-              )?.label || filterDropdownValue
-            }
-            options={filterDropdownOptions}
+            value="Filtres"
           />
           <FilterTag
             isSelected={isLastMinute}

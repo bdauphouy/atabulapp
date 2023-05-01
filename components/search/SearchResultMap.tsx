@@ -1,7 +1,7 @@
 import api from '@/lib/api'
 import Cookie from 'js-cookie'
 import { divIcon, DragEndEvent, icon, Map } from 'leaflet'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { RiFullscreenExitFill, RiFullscreenFill } from 'react-icons/ri'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import useSupercluster from 'use-supercluster'
@@ -9,9 +9,14 @@ import useSupercluster from 'use-supercluster'
 type SearchResultMapProps = {
   center?: [number, number]
   centerDelta?: number
+  onMarkerClick: (restaurantId: number) => void
 }
 
-const MapControls = () => {
+type MapControlsProps = {
+  onMarkerClick: (restaurantId: number) => void
+}
+
+const MapControls = ({ onMarkerClick }: MapControlsProps) => {
   const [bounds, setBounds] = useState(null)
   const [zoom, setZoom] = useState(12)
   const [restaurants, setRestaurants] = useState([])
@@ -37,9 +42,11 @@ const MapControls = () => {
   }
 
   const loadRestaurants = async (e: DragEndEvent | { target: Map }) => {
-    console.log('load restaurants')
     const response = await api.getRestaurantsIntoBounds(e.target.getBounds())
-    console.log(response)
+
+    if (!response.error) {
+      setRestaurants(response.restaurants)
+    }
 
     const bounds = map.getBounds()
     setBounds([
@@ -68,17 +75,18 @@ const MapControls = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const points = restaurants.map((restaurant, i) => ({
-    type: 'Feature',
-    properties: { cluster: false, restaurantId: i },
-    geometry: {
-      type: 'Point',
-      coordinates: [
-        restaurant.fields.coordonnees_geo[1],
-        restaurant.fields.coordonnees_geo[0],
-      ],
-    },
-  }))
+  const points = useMemo(
+    () =>
+      restaurants.map((restaurant, i) => ({
+        type: 'Feature',
+        properties: { cluster: false, restaurantId: restaurant.id },
+        geometry: {
+          type: 'Point',
+          coordinates: [restaurant.longitude, restaurant.latitude],
+        },
+      })),
+    [restaurants],
+  )
 
   const { clusters } = useSupercluster({
     points,
@@ -151,6 +159,7 @@ const MapControls = () => {
               click: () => {
                 handleMarkerClick([latitude, longitude])
                 setActiveMarker(restaurantId)
+                onMarkerClick(restaurantId)
               },
             }}
           />
@@ -162,6 +171,7 @@ const MapControls = () => {
 
 const SearchResultMap = ({
   center = [48.8566, 2.3522],
+  onMarkerClick,
 }: SearchResultMapProps) => {
   const mapRef = useRef(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -188,7 +198,7 @@ const SearchResultMap = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={process.env.NEXT_PUBLIC_MAPBOX_URL}
         />
-        <MapControls />
+        <MapControls onMarkerClick={onMarkerClick} />
         <button
           onClick={handleFullscreen}
           className="absolute right-0 top-0 mt-2 mr-2 grid h-10 w-10 cursor-pointer place-items-center rounded-md bg-white"

@@ -18,7 +18,7 @@ const FiltersDropdown = ({
   value,
   isOpen,
   onToggle,
-  onChange,
+  onChange = () => {},
   className = '',
   size,
   options = [],

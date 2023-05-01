@@ -1,6 +1,7 @@
 import Button from '@/components/shared/Button'
 import SearchTag from '@/components/shared/SearchTag'
 import { SearchContext } from '@/contexts/SearchContext'
+import api from '@/lib/api'
 import { useRouter } from 'next/router'
 import {
   Dispatch,
@@ -9,20 +10,24 @@ import {
   useContext,
   useEffect,
   useRef,
+  useState,
 } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 import Result from './Result'
 
 type SearchPage = {
   setSearchPageOpen: Dispatch<SetStateAction<boolean>>
+  onSearch?: () => void
 }
 
-const SearchPage = ({ setSearchPageOpen }) => {
+const SearchPage = ({ setSearchPageOpen, onSearch = () => {} }) => {
   const inputRef = useRef<HTMLInputElement>()
 
   const { setLocation, location } = useContext(SearchContext)
 
   const router = useRouter()
+
+  const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
     inputRef.current.focus()
@@ -32,11 +37,28 @@ const SearchPage = ({ setSearchPageOpen }) => {
     e.preventDefault()
     router.push('/mobile/resultats')
     setLocation(inputRef.current.value)
+    setSearchPageOpen(false)
+    onSearch()
   }
 
   const handleCancel = () => {
-    setSearchPageOpen(false)
     setLocation('')
+    setSearchPageOpen(false)
+  }
+
+  const handleAutocomplete = async (e: FormEvent) => {
+    const query = (e.target as HTMLInputElement).value
+    if (query?.length > 2) {
+      const data = await api.getAutocompleteSuggestions(query)
+      setSuggestions(data.suggestions)
+    } else {
+      setSuggestions([])
+    }
+  }
+
+  const handleSuggestionClick = (suggestion: string) => {
+    inputRef.current.value = suggestion
+    setSuggestions([suggestion])
   }
 
   return (
@@ -51,6 +73,7 @@ const SearchPage = ({ setSearchPageOpen }) => {
               title="Search"
               placeholder="Recherche"
               defaultValue={location}
+              onInput={handleAutocomplete}
               className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
             />
           </label>
@@ -62,9 +85,19 @@ const SearchPage = ({ setSearchPageOpen }) => {
       <SearchTag type="near">A proximité</SearchTag>
       <div className="mt-6">
         <h3 className="text-lg font-bold text-black">Résultats</h3>
-        <Result withUnderline>Paris, 11eme</Result>
-        <Result withUnderline>Paris, 12eme</Result>
-        <Result>Paris, 13eme</Result>
+        {suggestions.length > 0 ? (
+          <ul>
+            {suggestions.map((suggestion, i) => {
+              return (
+                <li key={i} onClick={() => handleSuggestionClick(suggestion)}>
+                  <Result withUnderline>{suggestion}</Result>
+                </li>
+              )
+            })}
+          </ul>
+        ) : (
+          <Result withUnderline>Aucun résultat</Result>
+        )}
       </div>
     </div>
   )

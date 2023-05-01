@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useContext, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { RiCompassDiscoverLine, RiUser6Line } from 'react-icons/ri'
+import { RiUser6Line } from 'react-icons/ri'
 import Button from '../shared/Button'
 import RecentSearches from './RecentSearches'
 import DesktopHeaderSearchDropdown from './DesktopHeaderSearchDropdown'
@@ -84,7 +84,7 @@ const DesktopHeader = ({ isFocused = false, onExit = () => {} }) => {
   const router = useRouter()
 
   return (
-    <div className="fixed z-50 w-full">
+    <div className="sticky top-0 z-50 w-full">
       <header className="flex flex-col flex-wrap items-start justify-between gap-6 border-b-[1px] border-solid border-alto/60 bg-white p-6 pb-3 md:flex-row md:items-center xl:px-32">
         <Link href="/">
           <div className="bg relative h-14 w-24">

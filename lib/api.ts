@@ -12,9 +12,9 @@ import {
   Offer,
 } from '@/lib/types'
 import Cookie from 'js-cookie'
+import jwtDecode from 'jwt-decode'
 import { LatLngBounds } from 'leaflet'
 import serialize from './functions/serialize'
-import jwtDecode from 'jwt-decode'
 
 class Api {
   baseUrl: string
@@ -375,8 +375,6 @@ class Api {
     } else {
       responseObject.error = "Une erreur s'est produite."
     }
-
-    return responseObject
 
     return responseObject
   }

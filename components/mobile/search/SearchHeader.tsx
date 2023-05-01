@@ -9,31 +9,34 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import FiltersBottomSheet from '../explore/FiltersBottomSheet'
 
 const SearchHeader = ({ children }) => {
-  const { setHonors, setIsLastMinute, ...searchData } =
+  const { setFilters, filters, setIsLastMinute, ...searchData } =
     useContext(SearchContext)
 
   const { control, handleSubmit, watch, setValue } =
     useForm<IExploreFiltersForm>({
       defaultValues: {
-        honors: searchData.honors,
+        honors: filters.honors,
+        meals: filters.meals,
+        typesOfCuisine: filters.typesOfCuisine,
+        dates: filters.dates,
       },
     })
 
   const [isFiltersDropdownOpen, setIsFiltersDropdownOpen] = useState(false)
 
-  const watchHonors = watch(['honors'])
+  const watchFilters = watch(['honors', 'meals', 'typesOfCuisine', 'dates'])
 
-  const honorsString = useStringify('honorsString', watchHonors)
-
-  const filterDropdownOptions = [
-    { label: 'Tous', value: 'all' },
-    { label: 'Restaurant', value: 'restaurant' },
-    { label: 'Bar', value: 'bar' },
-  ]
+  const honorsString = useStringify('honorsString', watchFilters[0])
+  const mealsString = useStringify('mealsString', watchFilters[1])
+  const typesOfCuisineString = useStringify(
+    'typesOfCuisineString',
+    watchFilters[2],
+  )
+  const datesString = useStringify('datesString', watchFilters[3])
 
   useEffect(() => {
-    setHonors(watchHonors[0])
-  }, [watchHonors, setHonors])
+    console.log(watchFilters)
+  }, [watchFilters])
 
   const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {
     console.log('Search...')
@@ -61,7 +64,12 @@ const SearchHeader = ({ children }) => {
           control={control}
           isOpen={isFiltersDropdownOpen}
           setIsOpen={setIsFiltersDropdownOpen}
-          selectedFilters={{ honorsString }}
+          selectedFilters={{
+            honorsString,
+            mealsString,
+            typesOfCuisineString,
+            datesString,
+          }}
         >
           {isFiltersDropdownOpen && (
             <FormFooter
@@ -75,6 +83,7 @@ const SearchHeader = ({ children }) => {
                 customAction: () => setIsFiltersDropdownOpen(false),
               }}
               isInTheForeground
+              isFixed
             />
           )}
         </FiltersBottomSheet>

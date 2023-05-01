@@ -8,6 +8,15 @@ export interface ILoginForm {
   stayLoggedIn: boolean
 }
 
+export interface IForgotPasswordForm {
+  email: string
+}
+
+export interface IChangePasswordForm {
+  password: string
+  confirmPassword: string
+}
+
 export interface ISignupForm {
   person: 'personal' | 'restaurant'
 }
@@ -75,7 +84,10 @@ export interface ISearchForm {
 
 export interface IExploreFiltersForm {
   search: string
-  honors: (boolean | string)[]
+  honors: string[]
+  meals: string[]
+  typesOfCuisine: string[]
+  dates: string[]
 }
 
 export interface ISettingsForm {

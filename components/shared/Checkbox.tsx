@@ -41,7 +41,7 @@ const Checkbox = ({
       rules={rules}
       render={({ field: { onChange, name } }) => (
         <div
-          className={`flex gap-3 ${className} ${
+          className={`flex items-center gap-3 ${className} ${
             withUnderline
               ? 'border-b-[1px] border-solid border-alto/30 pb-4'
               : ''

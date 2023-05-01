@@ -3,8 +3,11 @@ import { FilterCategory, SelectedFilters } from '@/lib/types'
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { Control } from 'react-hook-form'
 import { RiArrowLeftSLine } from 'react-icons/ri'
+import FiltersDate from './FiltersDate'
 import FiltersHonors from './FiltersHonors'
+import FiltersMeal from './FiltersMeal'
 import FiltersMenu from './FiltersMenu'
+import FiltersTypeOfCuisine from './FiltersTypeOfCuisine'
 
 export type FiltersBottomSheetProps = {
   control: Control<any>
@@ -50,9 +53,15 @@ const FiltersBottomSheet = ({
           selectedFilters={selectedFilters}
           setCurrentCategory={setCurrentCategory}
         />
-      ) : (
+      ) : currentCategory === 'Distinctions' ? (
         <FiltersHonors control={control} />
-      )}
+      ) : currentCategory === 'Repas' ? (
+        <FiltersMeal control={control} />
+      ) : currentCategory === 'Type de cuisine' ? (
+        <FiltersTypeOfCuisine control={control} />
+      ) : currentCategory === 'Date' ? (
+        <FiltersDate control={control} />
+      ) : null}
       {children}
     </BottomSheet>
   )

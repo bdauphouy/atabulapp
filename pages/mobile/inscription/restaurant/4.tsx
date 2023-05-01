@@ -38,14 +38,14 @@ const RestaurantFour = () => {
 
   useStringify(
     'typesOfCuisineString',
-    watchTypesOfCuisine,
+    watchTypesOfCuisine[0],
     setValue,
     length => {
       setTypesOfCuisineCheckedCount(length)
     },
   )
 
-  useStringify('honorsString', watchHonors, setValue)
+  useStringify('honorsString', watchHonors[0], setValue)
 
   const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
     useState(false)
