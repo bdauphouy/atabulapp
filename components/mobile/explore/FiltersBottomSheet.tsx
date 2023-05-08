@@ -5,9 +5,9 @@ import { Control } from 'react-hook-form'
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import FiltersDate from './FiltersDate'
 import FiltersHonors from './FiltersHonors'
-import FiltersMeal from './FiltersMeal'
+import FiltersMeals from './FiltersMeals'
 import FiltersMenu from './FiltersMenu'
-import FiltersTypeOfCuisine from './FiltersTypeOfCuisine'
+import FiltersTypesOfCuisine from './FiltersTypesOfCuisine'
 
 export type FiltersBottomSheetProps = {
   control: Control<any>
@@ -56,9 +56,9 @@ const FiltersBottomSheet = ({
       ) : currentCategory === 'Distinctions' ? (
         <FiltersHonors control={control} />
       ) : currentCategory === 'Repas' ? (
-        <FiltersMeal control={control} />
+        <FiltersMeals control={control} />
       ) : currentCategory === 'Type de cuisine' ? (
-        <FiltersTypeOfCuisine control={control} />
+        <FiltersTypesOfCuisine control={control} />
       ) : currentCategory === 'Date' ? (
         <FiltersDate control={control} />
       ) : null}

@@ -2,9 +2,8 @@ import FiltersDropdown from '@/components/shared/FiltersDropdown'
 import FilterTag from '@/components/shared/FilterTag'
 import FormFooter from '@/components/shared/FormFooter'
 import { SearchContext } from '@/contexts/SearchContext'
-import useStringify from '@/lib/hooks/useStringify'
 import { IExploreFiltersForm } from '@/lib/interfaces'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import FiltersBottomSheet from '../explore/FiltersBottomSheet'
 
@@ -26,16 +25,48 @@ const SearchHeader = ({ children }) => {
 
   const watchFilters = watch(['honors', 'meals', 'typesOfCuisine', 'dates'])
 
-  const honorsString = useStringify('honorsString', watchFilters[0])
-  const mealsString = useStringify('mealsString', watchFilters[1])
-  const typesOfCuisineString = useStringify(
-    'typesOfCuisineString',
-    watchFilters[2],
-  )
-  const datesString = useStringify('datesString', watchFilters[3])
+  const honorsString = useMemo(() => {
+    const filters = watchFilters[0].filter(Boolean)
+    const firstItems = filters.slice(0, 2)
 
-  useEffect(() => {
-    console.log(watchFilters)
+    if (filters.length > 2) {
+      return `${firstItems.join(', ')}...`
+    }
+
+    return firstItems.join(', ')
+  }, [watchFilters])
+
+  const mealsString = useMemo(() => {
+    const filters = watchFilters[1].filter(Boolean)
+    const firstItems = filters.slice(0, 2)
+
+    if (filters.length > 2) {
+      return `${firstItems.join(', ')}...`
+    }
+
+    return firstItems.join(', ')
+  }, [watchFilters])
+
+  const typesOfCuisineString = useMemo(() => {
+    const filters = watchFilters[2].filter(Boolean)
+    const firstItems = filters.slice(0, 2)
+
+    if (filters.length > 2) {
+      return `${firstItems.join(', ')}...`
+    }
+
+    return firstItems.join(', ')
+  }, [watchFilters])
+
+  const datesString = useMemo(() => {
+    const filters = watchFilters[3].filter(Boolean)
+    const firstItems = filters.slice(0, 2)
+
+    if (filters.length > 2) {
+      return `${firstItems.join(', ')}...`
+    }
+
+    return firstItems.join(', ')
   }, [watchFilters])
 
   const onSubmit: SubmitHandler<IExploreFiltersForm> = data => {

@@ -1,15 +1,13 @@
 import Checkbox from '@/components/shared/Checkbox'
-import Tag from '@/components/shared/Tag'
 import { TypesOfCuisineContext } from '@/contexts/TypesOfCuisineContext'
-import { Honor } from '@/lib/types'
 import { useContext } from 'react'
 import { Control } from 'react-hook-form'
 
-type FiltersTypeOfCuisineProps = {
+type FiltersTypesOfCuisineProps = {
   control: Control
 }
 
-const FiltersTypeOfCuisine = ({ control }: FiltersTypeOfCuisineProps) => {
+const FiltersTypesOfCuisine = ({ control }: FiltersTypesOfCuisineProps) => {
   const typesOfCuisine = useContext(TypesOfCuisineContext)
 
   return (
@@ -26,7 +24,7 @@ const FiltersTypeOfCuisine = ({ control }: FiltersTypeOfCuisineProps) => {
                 label={typeOfCuisine}
                 control={control}
                 name={`typesOfCuisine.${i}`}
-                isChecked={control._formValues.typeOfCuisine?.includes(
+                isChecked={control._formValues.typesOfCuisine?.includes(
                   typeOfCuisine,
                 )}
               />
@@ -38,4 +36,4 @@ const FiltersTypeOfCuisine = ({ control }: FiltersTypeOfCuisineProps) => {
   )
 }
 
-export default FiltersTypeOfCuisine
+export default FiltersTypesOfCuisine
