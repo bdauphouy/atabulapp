@@ -91,6 +91,13 @@ const RestaurantFive = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.coverPicture?.type === 'server'
+            ? errors.coverPicture?.message
+            : 'Veuillez remplir tous les champs'}
+        </Message>
+      )}
       <header className="flex flex-col gap-1">
         <div className="mb-2 flex flex-col gap-1">
           <h2 className="text-2xl font-extrabold text-black">Photos</h2>
@@ -137,13 +144,6 @@ const RestaurantFive = () => {
           </div>
         </div>
       </div>
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.coverPicture?.type === 'server'
-            ? errors.coverPicture?.message
-            : 'Veuillez remplir tous les champs'}
-        </Message>
-      )}
     </form>
   )
 }

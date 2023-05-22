@@ -1,7 +1,7 @@
 import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import { IForgotPasswordForm, ILoginForm } from '@/lib/interfaces'
+import { IForgotPasswordForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -31,6 +31,13 @@ const ForgotPassword = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : 'Veuillez renseigner votre email.'}
+        </Message>
+      )}
       <h2 className="text-2xl font-extrabold text-black">
         Mot de passe oublié
       </h2>
@@ -52,13 +59,6 @@ const ForgotPassword = () => {
         }}
         name="email"
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.email?.type === 'pattern'
-            ? errors.email.message
-            : 'Veuillez renseigner votre email.'}
-        </Message>
-      )}
     </form>
   )
 }

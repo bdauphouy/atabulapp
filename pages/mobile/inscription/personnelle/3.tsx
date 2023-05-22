@@ -3,12 +3,12 @@ import Message from '@/components/shared/Message'
 import SupportingDocument from '@/components/shared/SupportingDocument'
 import { SignupPersonalFormContext } from '@/contexts/forms/SignupPersonalFormContext'
 import api from '@/lib/api'
+import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IPersonalThreeForm } from '@/lib/interfaces'
+import Cookie from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Cookie from 'js-cookie'
-import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 
 const PersonalThree = () => {
   const { setData, ...previousData } = useContext(SignupPersonalFormContext)
@@ -71,6 +71,13 @@ const PersonalThree = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.workCertificate?.type === 'server'
+            ? errors.workCertificate?.message
+            : 'Veuillez importer tous les documents.'}
+        </Message>
+      )}
       <h2 className="mb-2 text-2xl font-extrabold text-black">Justificatifs</h2>
       <ul className="flex flex-col gap-10">
         {previousData.workStatus === 'student' ? (
@@ -94,13 +101,6 @@ const PersonalThree = () => {
           </>
         )}
       </ul>
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.workCertificate?.type === 'server'
-            ? errors.workCertificate?.message
-            : 'Veuillez importer tous les documents.'}
-        </Message>
-      )}
     </form>
   )
 }

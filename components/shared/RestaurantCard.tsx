@@ -130,7 +130,9 @@ const RestaurantCard = ({
             src={thumbnail}
             alt={`Image du restaurant ${name}`}
           />
-          <Like isLiked={isLiked} onClick={handleLike} />
+          <div className="absolute right-10 bottom-10">
+            <Like isLiked={isLiked} onClick={handleLike} />
+          </div>
         </header>{' '}
         <Link
           href={`${

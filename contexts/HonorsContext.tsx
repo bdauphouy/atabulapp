@@ -2,10 +2,10 @@ import { createContext } from 'react'
 
 const honors = [
   {
-    title: 'Cité au Michelin',
+    title: 'Sélection Michelin',
     tag: {
       type: 'michelin',
-      number: 1,
+      number: 0,
     },
   },
   {
@@ -37,7 +37,7 @@ const honors = [
     },
   },
   {
-    title: 'Big Gourmand',
+    title: 'Bib Gourmand',
     tag: {
       type: 'bib-gourmand',
       number: 1,

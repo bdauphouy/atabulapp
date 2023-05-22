@@ -48,12 +48,17 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
               onClick={() =>
                 router.push('/compte/personnel/informations-personnelles')
               }
+              isActive={
+                router.pathname ===
+                '/compte/personnel/informations-personnelles'
+              }
             >
               Informations personnelles
             </ArrowCta>
             <ArrowCta
               variant="lg"
               onClick={() => router.push('/compte/personnel/favoris')}
+              isActive={router.pathname === '/compte/personnel/favoris'}
             >
               Favoris
             </ArrowCta>
@@ -62,6 +67,9 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
               onClick={() =>
                 router.push('/compte/personnel/conditions-de-service')
               }
+              isActive={
+                router.pathname === '/compte/personnel/conditions-de-service'
+              }
             >
               Conditions de service
             </ArrowCta>
@@ -69,6 +77,10 @@ const PersonalAccountLayout = ({ children, withSideMenu = true }) => {
               variant="lg"
               onClick={() =>
                 router.push('/compte/personnel/politique-de-confidentialite')
+              }
+              isActive={
+                router.pathname ===
+                '/compte/personnel/politique-de-confidentialite'
               }
               withUnderline={false}
             >

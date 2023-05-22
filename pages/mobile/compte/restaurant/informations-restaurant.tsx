@@ -88,6 +88,15 @@ const RestaurantInformation = ({ restaurant }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 pb-32"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.phoneNumber?.type === 'pattern'
+              ? errors.phoneNumber.message
+              : errors.zipCode?.type === 'pattern'
+              ? errors.zipCode.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <header className="flex justify-end">
           <Button variant="tertiary" isSubmit>
             Enregistrer
@@ -187,15 +196,6 @@ const RestaurantInformation = ({ restaurant }) => {
           }}
           name="roomManagerFullName"
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.phoneNumber?.type === 'pattern'
-              ? errors.phoneNumber.message
-              : errors.zipCode?.type === 'pattern'
-              ? errors.zipCode.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
       </form>
     </>
   )

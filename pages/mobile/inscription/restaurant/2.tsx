@@ -40,6 +40,15 @@ const RestaurantTwo = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.phoneNumber?.type === 'pattern'
+            ? errors.phoneNumber.message
+            : errors.zipCode?.type === 'pattern'
+            ? errors.zipCode.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
       <h2 className="mb-2 text-2xl font-extrabold text-black">
         Inscription établissement
       </h2>
@@ -96,15 +105,7 @@ const RestaurantTwo = () => {
         }}
         name="phoneNumber"
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.phoneNumber?.type === 'pattern'
-            ? errors.phoneNumber.message
-            : errors.zipCode?.type === 'pattern'
-            ? errors.zipCode.message
-            : 'Veuillez remplir tous les champs.'}
-        </Message>
-      )}
+
       <p className="text-sm text-black">
         En selectionnant Accepter et continuer, j'accepte les{' '}
         <Link href="/conditions-generales" className="text-scarlet">

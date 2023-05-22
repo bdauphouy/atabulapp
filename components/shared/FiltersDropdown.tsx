@@ -51,7 +51,7 @@ const FiltersDropdown = ({
                 opacity: 1,
                 y: 0,
               }}
-              className="absolute z-50 w-max min-w-full cursor-pointer rounded-b-xl border-[1px] border-t-0 border-solid border-alto/60 bg-white text-lg"
+              className="absolute z-50 max-h-96 w-max min-w-full cursor-pointer overflow-auto rounded-b-xl border-[1px] border-t-0 border-solid border-alto/60 bg-white text-lg"
             >
               {options.map(option => (
                 <li

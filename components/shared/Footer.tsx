@@ -58,14 +58,14 @@ const Footer = () => {
           <li>
             <Link href="/atabula">Atabula</Link>
           </li>
-          <li className="flex items-center gap-4 text-black">
-            <Link href="https://facebook.com">
+          <li className="flex items-center gap-4 text-black-rose">
+            <Link href="https://facebook.com" target="_blank">
               <RiFacebookFill size={20} />
             </Link>
-            <Link href="https://linkedin.com">
+            <Link href="https://linkedin.com" target="_blank">
               <RiLinkedinFill size={20} />
             </Link>
-            <Link href="https://instagram.com">
+            <Link href="https://instagram.com" target="_blank">
               <RiInstagramLine size={20} />
             </Link>
           </li>

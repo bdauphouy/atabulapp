@@ -36,6 +36,11 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-8"
       >
+        {errors.person && (
+          <Message className="-mt-2" type="error">
+            {errors.person.message}
+          </Message>
+        )}
         <Radio
           control={control}
           rules={{
@@ -51,11 +56,6 @@ const SignupFirstModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
           name="person"
           label="Inscrire son établissement de restauration pour proposer des offres sur Atabulapp"
         />
-        {errors.person && (
-          <Message className="-mt-2" type="error">
-            {errors.person.message}
-          </Message>
-        )}
       </form>
     </Modal>
   )

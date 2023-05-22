@@ -36,6 +36,15 @@ const RestaurantOne = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : errors.password?.type === 'minLength'
+            ? errors.password.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
       <h2 className="mb-2 text-2xl font-extrabold text-black">
         Inscription établissement
       </h2>
@@ -67,15 +76,6 @@ const RestaurantOne = () => {
         name="password"
         isPasswordInput
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.email?.type === 'pattern'
-            ? errors.email.message
-            : errors.password?.type === 'minLength'
-            ? errors.password.message
-            : 'Veuillez remplir tous les champs.'}
-        </Message>
-      )}
     </form>
   )
 }

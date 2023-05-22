@@ -51,6 +51,15 @@ const SignupRestaurantFirstModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.email?.type === 'pattern'
+              ? errors.email.message
+              : errors.password?.type === 'minLength'
+              ? errors.password.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <Input
           placeholder="Email"
           control={control}
@@ -80,15 +89,6 @@ const SignupRestaurantFirstModal = ({
           name="password"
           isPasswordInput
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.email?.type === 'pattern'
-              ? errors.email.message
-              : errors.password?.type === 'minLength'
-              ? errors.password.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
       </form>
     </Modal>
   )

@@ -77,6 +77,16 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.email?.type === 'pattern'
+              ? errors.email.message
+              : errors.password?.type === 'server'
+              ? errors.password.message
+              : errors.accountType?.message ||
+                'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <h3 className="text-base text-gray">
           Choisissez votre type de compte.
         </h3>
@@ -123,16 +133,7 @@ const LoginModal = ({ isOpen, onClose, changeModal }: ModalProps) => {
           }}
           isPasswordInput
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.email?.type === 'pattern'
-              ? errors.email.message
-              : errors.password?.type === 'server'
-              ? errors.password.message
-              : errors.accountType?.message ||
-                'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
+
         <Link href="/mobile/mot-de-passe-oublie" className="self-end">
           <Button variant="tertiary">Mot de passe oublié ?</Button>
         </Link>

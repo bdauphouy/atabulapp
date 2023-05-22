@@ -53,6 +53,15 @@ const SignupRestaurantThirdModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.privilegedPhoneNumber?.type === 'pattern'
+              ? errors.privilegedPhoneNumber.message
+              : errors.privilegedEmail?.type === 'pattern'
+              ? errors.privilegedEmail.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <p className="mb-2 text-sm text-gray">
           La personne enregistrée sera la personne à contacter en cas de besoin
           et la référente du dossier de l'établissement
@@ -102,15 +111,6 @@ const SignupRestaurantThirdModal = ({
           }}
           name="privilegedPhoneNumber"
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.privilegedPhoneNumber?.type === 'pattern'
-              ? errors.privilegedPhoneNumber.message
-              : errors.privilegedEmail?.type === 'pattern'
-              ? errors.privilegedEmail.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
       </form>
     </Modal>
   )

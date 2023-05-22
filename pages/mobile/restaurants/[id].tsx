@@ -1,12 +1,16 @@
 import MobileLayout from '@/components/layouts/mobile/MobileLayout'
+import Like from '@/components/restaurant/Like'
 import Role from '@/components/restaurant/Role'
 import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
+import { ShowLoginModal } from '@/contexts/ShowLoginModal'
 import api from '@/lib/api'
+import Cookie from 'js-cookie'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactElement, useMemo, useState } from 'react'
+import { ReactElement, useContext, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RiFileCopyLine, RiNavigationLine } from 'react-icons/ri'
 import { Pagination } from 'swiper'
@@ -42,6 +46,40 @@ export const getServerSideProps = async ({ params }) => {
 }
 
 const Restaurant = ({ restaurant }) => {
+  const [isLiked, setIsLiked] = useState(restaurant.isLiked)
+
+  const { setShowLoginModal } = useContext(ShowLoginModal)
+
+  const handleLike = async (id: number) => {
+    const response = await api[isLiked ? 'removeFavorite' : 'addFavorite'](
+      id,
+      Cookie.get('token'),
+    )
+
+    const device = Cookie.get('deviceType')
+
+    if (!response.success) {
+      if (device !== 'desktop') {
+        return toast(t => (
+          <span className="">
+            Vous devez être connecté pour ajouter un restaurant à vos favoris.{' '}
+            <Link
+              href={device === 'desktop' ? '/' : '/mobile/connexion'}
+              className="text-scarlet underline"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Se connecter
+            </Link>
+          </span>
+        ))
+      }
+
+      return setShowLoginModal(true)
+    }
+
+    setIsLiked(!isLiked)
+  }
+
   const handleCopyAddressClick = () => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
       toast.success("L'adresse a bien été copiée.")
@@ -68,6 +106,8 @@ const Restaurant = ({ restaurant }) => {
     )
   }
 
+  console.log(restaurant)
+
   return (
     <>
       {image && (
@@ -87,6 +127,7 @@ const Restaurant = ({ restaurant }) => {
           </div>
         </div>
       )}
+
       <Swiper
         modules={[Pagination]}
         spaceBetween={0}
@@ -142,7 +183,14 @@ const Restaurant = ({ restaurant }) => {
           />
         </SwiperSlide>
       </Swiper>
-      <main className="mt-6 gap-6 px-5 pb-10">
+      <main className="relative mt-6 gap-6 px-5 pb-10">
+        <div className="absolute -top-12 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white">
+          <Like
+            variant="scarlet"
+            isLiked={isLiked}
+            onClick={() => handleLike(restaurant.id)}
+          />
+        </div>
         <div>
           <div className="flex gap-2">
             {restaurant.distinctions.map((distinction: any) => (

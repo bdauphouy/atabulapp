@@ -39,7 +39,7 @@ const Section = ({
         </Swiper>
       ) : (
         <div
-          className={`mt-4 gap-6 px-5 xl:px-32 ${
+          className={`mt-4 gap-x-6 gap-y-12 px-5 xl:px-32 ${
             isGrid ? 'grid grid-cols-1 lg:grid-cols-2' : 'flex overflow-auto'
           }`}
         >

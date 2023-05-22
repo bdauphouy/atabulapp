@@ -6,6 +6,7 @@ type ArrowCtaProps = {
   onClick: () => void
   withUnderline?: boolean
   variant: 'md' | 'lg'
+  isActive?: boolean
 }
 
 const ArrowCta = ({
@@ -13,6 +14,7 @@ const ArrowCta = ({
   onClick,
   withUnderline = true,
   variant,
+  isActive = true,
 }: ArrowCtaProps) => {
   return (
     <div
@@ -22,9 +24,9 @@ const ArrowCta = ({
       onClick={onClick}
     >
       <div
-        className={`flex items-center gap-4 text-black ${
-          variant === 'md' ? 'text-base' : 'text-lg font-medium'
-        }`}
+        className={`flex items-center gap-4 ${
+          isActive ? 'text-black' : 'text-gray'
+        } ${variant === 'md' ? 'text-base' : 'text-lg font-medium'}`}
       >
         {children}
       </div>

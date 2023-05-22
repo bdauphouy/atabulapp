@@ -61,13 +61,14 @@ const Tag = ({ className = '', type, number, withText = false }: TagProps) => {
           : 'bg-[#FFF5CE] text-[#BB980E]'
       } flex w-max items-center gap-1 rounded-[4px] px-1.5 py-1 leading-5`}
     >
-      {[...Array(number)].map((_, i) => {
-        return (
-          <li key={i} className="flex items-center">
-            <TagIcon />
-          </li>
-        )
-      })}
+      {number > 0 &&
+        [...Array(number)].map((_, i) => {
+          return (
+            <li key={i} className="flex items-center">
+              <TagIcon />
+            </li>
+          )
+        })}
       {withText && (
         <li className="ml-1 mt-0.5">
           {type.replaceAll('-', ' ').toUpperCase()}

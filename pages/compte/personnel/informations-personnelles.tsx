@@ -6,10 +6,10 @@ import api from '@/lib/api'
 import toInternationalFormat from '@/lib/functions/toInternationalFormat'
 import { IPersonalSettingsForm } from '@/lib/interfaces'
 import { requireAuth } from '@/lib/middlewares/requireAuth'
+import Cookies from 'js-cookie'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import Cookies from 'js-cookie'
 
 export const getServerSideProps = requireAuth(async (_, user) => ({
   props: { user },
@@ -55,6 +55,15 @@ const PersonalInformation = ({ user }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.email?.type === 'pattern'
+            ? errors.email.message
+            : errors.phoneNumber?.type === 'pattern'
+            ? errors.phoneNumber.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
       <div className="mb-8 flex items-end justify-between">
         <div
           className="h-28 w-28 rounded-full bg-cover"
@@ -151,15 +160,6 @@ const PersonalInformation = ({ user }) => {
         name="workCertificate"
         canBeModified
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.email?.type === 'pattern'
-            ? errors.email.message
-            : errors.phoneNumber?.type === 'pattern'
-            ? errors.phoneNumber.message
-            : 'Veuillez remplir tous les champs.'}
-        </Message>
-      )}
     </form>
   )
 }

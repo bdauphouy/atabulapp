@@ -68,8 +68,8 @@ const Home = () => {
       const { discounts } = await api.getLastMinuteDiscounts({
         limit: 20,
         skip: 0,
-        latitude: 48.864,
-        longitude: 2.3311,
+        latitude: 47.44388961791992,
+        longitude: -2.191819667816162,
       })
 
       setLastMinuteDiscounts(discounts)
@@ -79,8 +79,8 @@ const Home = () => {
       const { discounts } = await api.getNearbyRestaurants({
         limit: 20,
         skip: 0,
-        latitude: 48.864,
-        longitude: 2.3311,
+        latitude: 47.44388961791992,
+        longitude: -2.191819667816162,
       })
 
       setNearbyDiscounts(discounts)
@@ -125,7 +125,7 @@ const Home = () => {
           />
         </div>
       )}
-      <div className="flex flex-wrap gap-6 px-5 pt-5 xl:px-32">
+      <div className="flex flex-wrap gap-3 px-5 pt-5 xl:px-32">
         <FiltersDropdown
           size="lg"
           isOpen={isHonorsFiltersDropdownOpen}

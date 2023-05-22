@@ -172,12 +172,12 @@ const Home = () => {
           <input
             type="text"
             placeholder="Recherche"
-            className="h-full w-full bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
+            className="h-full w-full cursor-pointer bg-[transparent] py-3.5 pr-6 text-lg text-black outline-none"
             disabled
           />
         </label>
         <div
-          className="flex flex-wrap gap-6"
+          className="flex flex-wrap gap-3"
           onClick={() => setShowLoginModal(true)}
         >
           <FiltersDropdown

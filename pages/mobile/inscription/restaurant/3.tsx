@@ -38,6 +38,15 @@ const RestaurantThree = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.privilegedPhoneNumber?.type === 'pattern'
+            ? errors.privilegedPhoneNumber.message
+            : errors.privilegedEmail?.type === 'pattern'
+            ? errors.privilegedEmail.message
+            : 'Veuillez remplir tous les champs.'}
+        </Message>
+      )}
       <header className="flex flex-col gap-1">
         <h2 className="text-2xl font-extrabold text-black">
           Contact privilégié
@@ -92,15 +101,6 @@ const RestaurantThree = () => {
         }}
         name="privilegedPhoneNumber"
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.privilegedPhoneNumber?.type === 'pattern'
-            ? errors.privilegedPhoneNumber.message
-            : errors.privilegedEmail?.type === 'pattern'
-            ? errors.privilegedEmail.message
-            : 'Veuillez remplir tous les champs.'}
-        </Message>
-      )}
     </form>
   )
 }

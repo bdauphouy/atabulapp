@@ -2,11 +2,11 @@ import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
 import Footer from '@/components/shared/Footer'
 import api from '@/lib/api'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
 
 const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
   const router = useRouter()
@@ -78,12 +78,17 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                 onClick={() =>
                   router.push('/compte/restaurant/informations-restaurant')
                 }
+                isActive={
+                  router.pathname ===
+                  '/compte/restaurant/informations-restaurant'
+                }
               >
                 Informations restaurant
               </ArrowCta>
               <ArrowCta
                 variant="lg"
                 onClick={() => router.push('/compte/restaurant/photos')}
+                isActive={router.pathname === '/compte/restaurant/photos'}
               >
                 Photos
               </ArrowCta>
@@ -94,6 +99,9 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                 variant="lg"
                 onClick={() =>
                   router.push('/compte/restaurant/offres-regulieres')
+                }
+                isActive={
+                  router.pathname === '/compte/restaurant/offres-regulieres'
                 }
               >
                 Offres régulières
@@ -107,6 +115,9 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                   router.push('/compte/restaurant/offres-last-minute')
                 }
                 withUnderline={false}
+                isActive={
+                  router.pathname === '/compte/restaurant/offres-last-minute'
+                }
               >
                 Offres last minute
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-scarlet text-white">

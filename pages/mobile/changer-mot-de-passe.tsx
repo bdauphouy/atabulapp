@@ -1,11 +1,7 @@
 import LaunchLayout from '@/components/layouts/mobile/LaunchLayout'
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
-import {
-  IChangePasswordForm,
-  IForgotPasswordForm,
-  ILoginForm,
-} from '@/lib/interfaces'
+import { IChangePasswordForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -40,6 +36,15 @@ const ChangePassword = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">
+          {errors.password?.type === 'pattern'
+            ? errors.password.message
+            : errors.confirmPassword?.type === 'validate'
+            ? 'Les mots de passe ne correspondent pas.'
+            : 'Veuillez renseigner tous les champs.'}
+        </Message>
+      )}
       <h2 className="text-2xl font-extrabold text-black">
         Changer mon mot de passe
       </h2>
@@ -67,15 +72,6 @@ const ChangePassword = () => {
         }}
         isPasswordInput
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">
-          {errors.password?.type === 'pattern'
-            ? errors.password.message
-            : errors.confirmPassword?.type === 'validate'
-            ? 'Les mots de passe ne correspondent pas.'
-            : 'Veuillez renseigner tous les champs.'}
-        </Message>
-      )}
     </form>
   )
 }

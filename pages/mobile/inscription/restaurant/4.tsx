@@ -4,7 +4,6 @@ import TypeOfCuisineBottomSheet from '@/components/mobile/additional-information
 import Input from '@/components/shared/Input'
 import Message from '@/components/shared/Message'
 import { SignupRestaurantFormContext } from '@/contexts/forms/SignupRestaurantFormContext'
-import useStringify from '@/lib/hooks/useStringify'
 import { IRestaurantFourForm } from '@/lib/interfaces'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useState } from 'react'
@@ -36,17 +35,6 @@ const RestaurantFour = () => {
   const watchTypesOfCuisine = watch(['typesOfCuisine'])
   const watchHonors = watch(['honors'])
 
-  useStringify(
-    'typesOfCuisineString',
-    watchTypesOfCuisine[0],
-    setValue,
-    length => {
-      setTypesOfCuisineCheckedCount(length)
-    },
-  )
-
-  useStringify('honorsString', watchHonors[0], setValue)
-
   const [isTypeOfCuisineSheetOpen, setIsTypeOfCuisineSheetOpen] =
     useState(false)
   const [typesOfCuisineCheckedCount, setTypesOfCuisineCheckedCount] =
@@ -67,6 +55,9 @@ const RestaurantFour = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
+      {Object.keys(errors).length > 0 && (
+        <Message type="error">Veuillez renseigner les champs requis.</Message>
+      )}
       <header className="flex flex-col gap-1">
         <div className="mb-2 flex flex-col gap-1">
           <h2 className="text-2xl font-extrabold text-black">
@@ -155,9 +146,6 @@ const RestaurantFour = () => {
         }}
         name="roomManagerFullName"
       />
-      {Object.keys(errors).length > 0 && (
-        <Message type="error">Veuillez renseigner les champs requis.</Message>
-      )}
     </form>
   )
 }

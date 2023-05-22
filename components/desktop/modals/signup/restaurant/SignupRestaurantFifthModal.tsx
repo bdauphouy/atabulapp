@@ -110,6 +110,13 @@ const SignupRestaurantFifthModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.coverPicture?.type === 'server'
+              ? errors.coverPicture?.message
+              : 'Veuillez remplir tous les champs'}
+          </Message>
+        )}
         <p className="text-sm text-gray">
           Les photos sont obligatoires pour inscrire votre établissement. Vous
           pourrez en ajouter plus tard sur la gestion de votre profil.
@@ -151,13 +158,6 @@ const SignupRestaurantFifthModal = ({
             </div>
           </div>
         </div>
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.coverPicture?.type === 'server'
-              ? errors.coverPicture?.message
-              : 'Veuillez remplir tous les champs'}
-          </Message>
-        )}
       </form>
     </Modal>
   )

@@ -55,6 +55,15 @@ const SignupRestaurantSecondModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.phoneNumber?.type === 'pattern'
+              ? errors.phoneNumber.message
+              : errors.zipCode?.type === 'pattern'
+              ? errors.zipCode.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <Input
           placeholder="Nom du restaurant"
           control={control}
@@ -108,15 +117,7 @@ const SignupRestaurantSecondModal = ({
           }}
           name="phoneNumber"
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.phoneNumber?.type === 'pattern'
-              ? errors.phoneNumber.message
-              : errors.zipCode?.type === 'pattern'
-              ? errors.zipCode.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
+
         <p className="text-sm text-black">
           En selectionnant Accepter et continuer, j'accepte les{' '}
           <Link href="/conditions-generales" className="text-scarlet">

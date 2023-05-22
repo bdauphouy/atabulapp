@@ -108,6 +108,9 @@ const SignupRestaurantFourthModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">Veuillez renseigner les champs requis.</Message>
+        )}
         <header className="flex flex-col gap-1">
           <div className="mb-2 flex flex-col gap-1">
             <p className="text-sm text-gray">
@@ -193,9 +196,6 @@ const SignupRestaurantFourthModal = ({
           }}
           name="roomManagerFullName"
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">Veuillez renseigner les champs requis.</Message>
-        )}
       </form>
     </Modal>
   )

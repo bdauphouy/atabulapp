@@ -59,6 +59,17 @@ const SignupPersonalThirdModal = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
       >
+        {Object.keys(errors).length > 0 && (
+          <Message type="error">
+            {errors.birthDate?.type === 'pattern'
+              ? errors.birthDate.message
+              : ['pattern', 'server'].includes(errors.email?.type)
+              ? errors.email.message
+              : errors.password?.type === 'minLength'
+              ? errors.password.message
+              : 'Veuillez remplir tous les champs.'}
+          </Message>
+        )}
         <Input
           placeholder="Email"
           control={control}
@@ -161,17 +172,7 @@ const SignupPersonalThirdModal = ({
           name="workStatus"
           label="Employé.e en restauration et hôtellerie"
         />
-        {Object.keys(errors).length > 0 && (
-          <Message type="error">
-            {errors.birthDate?.type === 'pattern'
-              ? errors.birthDate.message
-              : ['pattern', 'server'].includes(errors.email?.type)
-              ? errors.email.message
-              : errors.password?.type === 'minLength'
-              ? errors.password.message
-              : 'Veuillez remplir tous les champs.'}
-          </Message>
-        )}
+
         <p className="text-sm text-black">
           En selectionnant Accepter et continuer, j'accepte les{' '}
           <Link href="/conditions-generales" className="text-scarlet">
