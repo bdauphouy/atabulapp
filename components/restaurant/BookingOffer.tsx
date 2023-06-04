@@ -1,11 +1,10 @@
-import { RiMore2Fill } from 'react-icons/ri'
-
 type BookingOfferProps = {
   promotion: number
   concernedMeal: 'dinner' | 'lunch'
   numberOfPersons: number
   withUnderline?: boolean
   id: number
+  onChange: () => void
 }
 
 const BookingOffer = ({
@@ -14,6 +13,7 @@ const BookingOffer = ({
   numberOfPersons,
   withUnderline = true,
   id,
+  onChange,
 }: BookingOfferProps) => {
   return (
     <div
@@ -27,6 +27,7 @@ const BookingOffer = ({
         name="booking-offer"
         className="hidden"
         id={`offer-${id}`}
+        onChange={onChange}
       />
       <label
         htmlFor={`offer-${id}`}

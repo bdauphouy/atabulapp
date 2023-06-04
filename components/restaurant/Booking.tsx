@@ -1,6 +1,5 @@
+import { Offer } from '@/lib/types'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
-import { SwiperEvents } from 'swiper/types'
 import FilterTag from '../shared/FilterTag'
 import FormFooter from '../shared/FormFooter'
 import BookingModal from './BookingModal'
@@ -22,14 +21,19 @@ const Day = ({ date }: { date: Date }) => {
   )
 }
 
-const Booking = () => {
+type BookingProps = {
+  offers: Offer[]
+}
+
+const Booking = ({ offers: o }: BookingProps) => {
   const [isLastMinute, setIsLastMinute] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [offers, setOffers] = useState<Offer[]>(o)
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    console.log((e.target as HTMLFormElement).elements['booking-offer'].value)
   }
 
   const handleSlideChange = (e: { activeIndex: number }) => {
@@ -51,11 +55,18 @@ const Booking = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex])
 
+  useEffect(() => {
+    if (!isLastMinute) return setOffers(o)
+
+    setOffers(o.filter(offer => offer.type === 'lastMinute'))
+  }, [isLastMinute, o])
+
   return (
     <>
       <BookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        offer={selectedOffer}
       />
       <div className="relative h-max w-full rounded-md border-[1px] border-alto/60">
         <form
@@ -87,7 +98,7 @@ const Booking = () => {
               />
             </div>
           </div>
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <h3 className="mb-2 text-lg font-bold text-black">Lundi 16 mars</h3>
             <Swiper
               slidesPerView={7}
@@ -102,43 +113,22 @@ const Booking = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-          </div>
+          </div> */}
           <div className="mt-8">
             <h3 className="text-lg font-bold text-black">Offres</h3>
             <ul>
-              <li>
-                <BookingOffer
-                  promotion={30}
-                  concernedMeal="dinner"
-                  numberOfPersons={2}
-                  id={1}
-                />
-              </li>
-              <li>
-                <BookingOffer
-                  promotion={30}
-                  concernedMeal="dinner"
-                  numberOfPersons={2}
-                  id={2}
-                />
-              </li>
-              <li>
-                <BookingOffer
-                  promotion={30}
-                  concernedMeal="dinner"
-                  numberOfPersons={2}
-                  id={3}
-                />
-              </li>
-              <li>
-                <BookingOffer
-                  promotion={30}
-                  concernedMeal="dinner"
-                  numberOfPersons={2}
-                  withUnderline={false}
-                  id={4}
-                />
-              </li>
+              {offers.map((offer, i) => (
+                <li key={offer.id}>
+                  <BookingOffer
+                    promotion={offer.discount}
+                    concernedMeal={offer.meal}
+                    numberOfPersons={offer.maxRecipients}
+                    id={offer.id}
+                    withUnderline={i !== offers.length - 1}
+                    onChange={() => setSelectedOffer(offer)}
+                  />
+                </li>
+              ))}
             </ul>
           </div>
         </form>
@@ -148,6 +138,7 @@ const Booking = () => {
           footerRightButton={{
             text: 'Réserver une table',
             customAction: () => setIsModalOpen(true),
+            isDisabled: !selectedOffer,
           }}
         />
       </div>

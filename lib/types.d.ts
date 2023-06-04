@@ -40,6 +40,7 @@ type FooterButton = {
   action?: 'go-back' | `go-to-[/${string}]`
   customAction?: () => void
   isLoading?: boolean
+  isDisabled?: boolean
 }
 
 export type FormFooterActionsProps = {

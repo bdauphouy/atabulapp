@@ -5,6 +5,7 @@ import ArrowCta from '@/components/shared/ArrowCta'
 import Tag from '@/components/shared/Tag'
 import Toaster from '@/components/shared/Toaster'
 import api from '@/lib/api'
+import { Offer } from '@/lib/types'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -63,6 +64,7 @@ const Restaurant = ({ restaurant }) => {
     [restaurant],
   )
 
+  const [offers, setOffers] = useState<Offer[]>(restaurant.discounts || [])
   const [images, setImages] = useState([
     '/images/restaurant-card-thumbnail.png',
     '/images/restaurant-card-thumbnail.png',
@@ -250,7 +252,7 @@ const Restaurant = ({ restaurant }) => {
             </div>
           </div>
         </div>
-        <Booking />
+        <Booking offers={offers} />
       </div>
     </main>
   )

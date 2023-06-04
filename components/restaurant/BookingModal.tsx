@@ -1,12 +1,20 @@
+import { Offer } from '@/lib/types'
+import { format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import Button from '../shared/Button'
 import Modal from '../shared/Modal'
 
 type BookingModalProps = {
   isOpen: boolean
   onClose: () => void
+  offer: Offer
 }
 
-const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, offer }: BookingModalProps) => {
+  if (!offer) return null
+
+  console.log(offer.date)
+
   return (
     <Modal
       title="Réserver une table"
@@ -14,7 +22,9 @@ const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
       hasFooter={false}
       onClose={onClose}
     >
-      <h3 className="text-lg font-bold text-black">Lundi 16 mars</h3>
+      <h3 className="text-lg font-bold text-black">
+        {format(new Date(offer.date), 'EEEE d MMMM', { locale: fr })}
+      </h3>
       <div className="mb-2 flex items-center gap-6 py-4">
         <div className="rounded bg-white-rock py-1 px-2 text-xl font-medium text-scarlet">
           -30%

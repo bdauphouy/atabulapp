@@ -55,6 +55,7 @@ const FormFooter = ({
           onClick={() => handleClick('left')}
           variant="tertiary"
           isLoading={footerLeftButton.isLoading}
+          isDisabled={footerRightButton.isDisabled}
         >
           {footerLeftButton.text}
         </Button>
@@ -68,6 +69,7 @@ const FormFooter = ({
           isSubmit
           variant="secondary"
           isLoading={footerRightButton.isLoading}
+          isDisabled={footerRightButton.isDisabled}
         >
           {footerRightButton.text}
         </Button>
