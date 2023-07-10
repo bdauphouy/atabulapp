@@ -1,12 +1,11 @@
 import Offer from '@/components/account/Offer'
 import RestaurantAccountLayout from '@/components/layouts/desktop/RestaurantAccountLayout'
 import FilterTag from '@/components/shared/FilterTag'
-import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import api from '@/lib/api'
 import useModal from '@/lib/hooks/useModal'
 import { requireAuth } from '@/lib/middlewares/requireAuth'
 import { Offer as OfferType } from '@/lib/types'
-import { ReactElement, useContext, useMemo, useState } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
 import { RiAddCircleLine } from 'react-icons/ri'
 
 export const getServerSideProps = requireAuth(async ({ req }) => {
@@ -54,8 +53,6 @@ const RegularOffers = ({ offers: o, restaurantId }) => {
   const handleAddRegularOfferClick = () => {
     setIsAddRegularOfferModalOpen(true)
   }
-
-  const { setData } = useContext(AddRegularOfferFormContext)
 
   const { Modal, changeModal } = useModal('AddRegularOfferFirstModal')
 

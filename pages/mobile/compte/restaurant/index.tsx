@@ -3,9 +3,10 @@ import ArrowCta from '@/components/shared/ArrowCta'
 import Button from '@/components/shared/Button'
 import api from '@/lib/api'
 import { requireAuth } from '@/lib/middlewares/requireAuth'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 export const getServerSideProps = requireAuth(async ({ req }) => {
   const { token } = req.cookies
@@ -33,6 +34,34 @@ const AccountIndex = ({ restaurant }) => {
     await api.logout()
     router.push('/mobile/connexion')
   }
+
+  const [regularOffersNumber, setRegularOffersNumber] = useState(0)
+  const [lastMinuteOffersNumber, setLastMinuteOffersNumber] = useState(0)
+
+  useEffect(() => {
+    const getOffers = async () => {
+      const { restaurant } = await api.getRestaurantById(
+        api.getRestaurantId(Cookies.get('token')),
+      )
+
+      if (restaurant.discounts) {
+        setRegularOffersNumber(
+          restaurant.discounts.filter(
+            (discount: { type: 'lastMinute' | 'regular' }) =>
+              discount.type === 'regular',
+          ).length,
+        )
+        setLastMinuteOffersNumber(
+          restaurant.discounts.filter(
+            (discount: { type: 'lastMinute' | 'regular' }) =>
+              discount.type === 'lastMinute',
+          ).length,
+        )
+      }
+      console.log(restaurant)
+    }
+    getOffers()
+  }, [])
 
   return (
     <div className="">
@@ -84,6 +113,9 @@ const AccountIndex = ({ restaurant }) => {
             }
           >
             Offres régulières
+            <div className="flex h-7 items-center justify-center rounded-full bg-scarlet px-3 text-white">
+              {regularOffersNumber}
+            </div>
           </ArrowCta>
           <ArrowCta
             variant="md"
@@ -92,6 +124,9 @@ const AccountIndex = ({ restaurant }) => {
             }}
           >
             Offres last minute
+            <div className="flex h-7 items-center justify-center rounded-full bg-scarlet px-3 text-white">
+              {lastMinuteOffersNumber}
+            </div>
           </ArrowCta>
           <ArrowCta
             withUnderline={false}

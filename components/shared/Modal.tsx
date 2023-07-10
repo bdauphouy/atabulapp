@@ -56,7 +56,7 @@ const Modal = ({
               </div>
             </header>
           )}
-          <div className="h-full overflow-auto p-8 pt-4">{children}</div>
+          <div className="h-full overflow-auto px-8 pt-4 pb-12">{children}</div>
           {hasFooter && (
             <FormFooter
               formId={formId}

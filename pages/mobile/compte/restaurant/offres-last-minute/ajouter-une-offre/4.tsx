@@ -2,8 +2,10 @@ import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import Button from '@/components/shared/Button'
 import FormFooter from '@/components/shared/FormFooter'
 import { AddLastMinuteOfferFormContext } from '@/contexts/forms/AddLastMinuteOfferFormContext'
+import api from '@/lib/api'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
@@ -43,9 +45,33 @@ const AddOfferFourthStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onSubmit = () => {
-    // Add last minute offer
-    toast.success('Offre ajoutée avec succès !')
+  const onSubmit = async () => {
+    const response = await api.addOffer(
+      api.getRestaurantId(Cookies.get('token')),
+      {
+        date: previousData.offerDay,
+        meal: previousData.concernedMeal,
+        discount: previousData.discount.includes('other')
+          ? parseInt(previousData.discount.split('.')[1])
+          : parseInt(previousData.discount),
+        unit: 'percent',
+        type: 'lastMinute',
+        maxRecipients: Math.max(
+          ...previousData.numberOfBeneficiaries
+            .filter(Boolean)
+            .map(i => parseInt(i)),
+        ),
+        offer:
+          previousData.withDrink === 'withDrink' ? 'foodWithDrink' : 'onlyFood',
+      },
+    )
+
+    if (response.success) {
+      toast.success('Offre ajoutée avec succès !')
+      router.push('/mobile/compte/restaurant/offres-last-minute')
+    } else {
+      toast.error('Un problème est survenu, veuillez réessayer.')
+    }
   }
 
   return (
@@ -103,7 +129,8 @@ const AddOfferFourthStep = () => {
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
-            {previousData.discount?.split('.')[1] || previousData.discount}%
+            {previousData.discount?.split('.')[1] || previousData.discount || 0}
+            %
           </span>
           <Button
             variant="tertiary"

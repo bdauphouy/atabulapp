@@ -3,10 +3,9 @@ import Modal from '@/components/shared/Modal'
 import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
 import api from '@/lib/api'
 import { ModalProps } from '@/lib/types'
-import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 import { useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
-import Cookies from 'js-cookie'
 
 const AddRegularOfferFourthModal = ({
   isOpen,
@@ -14,8 +13,6 @@ const AddRegularOfferFourthModal = ({
   changeModal,
 }: ModalProps) => {
   const { setData, ...previousData } = useContext(AddRegularOfferFormContext)
-
-  const router = useRouter()
 
   const formattedOfferDays = useMemo(() => {
     const filteredOfferDays = previousData.offerDays?.filter(Boolean)
@@ -145,7 +142,8 @@ const AddRegularOfferFourthModal = ({
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
-            {previousData.discount?.split('.')[1] || previousData.discount}%
+            {previousData.discount?.split('.')[1] || previousData.discount || 0}
+            %
           </span>
           <Button
             variant="tertiary"

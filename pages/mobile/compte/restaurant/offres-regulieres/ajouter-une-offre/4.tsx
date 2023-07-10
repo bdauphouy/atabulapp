@@ -2,6 +2,8 @@ import AccountLayout from '@/components/layouts/mobile/AccountLayout'
 import Button from '@/components/shared/Button'
 import FormFooter from '@/components/shared/FormFooter'
 import { AddRegularOfferFormContext } from '@/contexts/forms/AddRegularOfferFormContext'
+import api from '@/lib/api'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { ReactElement, useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
@@ -12,20 +14,20 @@ const AddOfferFourthStep = () => {
   const router = useRouter()
 
   const formattedOfferDays = useMemo(() => {
-    const filteredOfferDays = previousData.offerDays.filter(Boolean)
+    const filteredOfferDays = previousData.offerDays?.filter(Boolean)
 
     return filteredOfferDays
-      .map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
+      ?.map((day, i) => (i > 0 ? day.toString().toLowerCase() : day))
       .join(', ')
   }, [previousData.offerDays])
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
     const filterdNumberOfBeneficiaries =
-      previousData.numberOfBeneficiaries.filter(Boolean)
+      previousData.numberOfBeneficiaries?.filter(Boolean) || []
 
     return (
       filterdNumberOfBeneficiaries
-        .map(
+        ?.map(
           (number, i) =>
             number +
             (i === filterdNumberOfBeneficiaries.length - 2 ? ' ou ' : ', '),
@@ -49,9 +51,48 @@ const AddOfferFourthStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // Add regular offer
-    toast.success('Offre ajoutée avec succès !')
+    const week = [
+      'Lundi',
+      'Mardi',
+      'Mercredi',
+      'Jeudi',
+      'Vendredi',
+      'Samedi',
+      'Dimanche',
+    ]
+    const response = await api.addOffer(
+      api.getRestaurantId(Cookies.get('token')),
+      {
+        date: new Date(
+          `1970-01-0${
+            week.indexOf(previousData.offerDays.filter(Boolean)[0]) + 1
+          }T00:00:00.000Z`,
+        ),
+        meal: previousData.concernedMeal,
+        discount: previousData.discount.includes('other')
+          ? parseInt(previousData.discount.split('.')[1])
+          : parseInt(previousData.discount),
+        unit: 'percent',
+        type: 'regular',
+        maxRecipients: Math.max(
+          ...previousData.numberOfBeneficiaries
+            .filter(Boolean)
+            .map(i => parseInt(i)),
+        ),
+        offer:
+          previousData.withDrink === 'withDrink' ? 'foodWithDrink' : 'onlyFood',
+      },
+    )
+
+    if (response.success) {
+      toast.success('Offre ajoutée avec succès !')
+      router.push('/mobile/compte/restaurant/offres-regulieres')
+      setData({})
+    } else {
+      toast.error('Un problème est survenu, veuillez réessayer.')
+    }
   }
 
   return (
@@ -104,7 +145,8 @@ const AddOfferFourthStep = () => {
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
-            {previousData.discount?.split('.')[1] || previousData.discount}%
+            {previousData.discount?.split('.')[1] || previousData.discount || 0}
+            %
           </span>
           <Button
             variant="tertiary"

@@ -19,7 +19,7 @@ const AccountLayout = ({ children, title, isTransparent = false }) => {
           }`}
         />
         <h2
-          className={`text-3xl font-bold ${
+          className={`text-xl font-bold md:text-3xl ${
             isTransparent ? 'text-white' : 'text-black'
           }`}
         >

@@ -105,7 +105,7 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                 }
               >
                 Offres régulières
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-scarlet text-white">
+                <div className="flex h-7 items-center justify-center rounded-full bg-scarlet px-3 text-white">
                   {regularOffersNumber}
                 </div>
               </ArrowCta>
@@ -120,7 +120,7 @@ const RestaurantAccountLayout = ({ children, withSideMenu = true }) => {
                 }
               >
                 Offres last minute
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-scarlet text-white">
+                <div className="flex h-7 items-center justify-center rounded-full bg-scarlet px-3 text-white">
                   {lastMinuteOffersNumber}
                 </div>
               </ArrowCta>

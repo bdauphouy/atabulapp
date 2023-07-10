@@ -6,10 +6,9 @@ import api from '@/lib/api'
 import { ModalProps } from '@/lib/types'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 import { useContext, useEffect, useMemo } from 'react'
 import toast from 'react-hot-toast'
-import Cookies from 'js-cookie'
 
 const AddLastMinuteOfferFourthModal = ({
   isOpen,
@@ -17,8 +16,6 @@ const AddLastMinuteOfferFourthModal = ({
   changeModal,
 }: ModalProps) => {
   const { setData, ...previousData } = useContext(AddLastMinuteOfferFormContext)
-
-  const router = useRouter()
 
   const formattedNumberOfBeneficiaries = useMemo(() => {
     const filterdNumberOfBeneficiaries =
@@ -131,7 +128,8 @@ const AddLastMinuteOfferFourthModal = ({
         </li>
         <li className="flex justify-between border-b-[1px] border-solid border-alto/30 pb-4">
           <span>
-            {previousData.discount?.split('.')[1] || previousData.discount}%
+            {previousData.discount?.split('.')[1] || previousData.discount || 0}
+            %
           </span>
           <Button
             variant="tertiary"
